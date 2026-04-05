@@ -16,16 +16,6 @@ Each strategy is located in its own dedicated folder. This ensures a clean works
 
 ---
 
-## 💎 Project Highlights: Standard Gold Quality
-
-All strategies in this repository (starting with the Trend Pullback v3.1) adhere to the **Standard Gold** implementation criteria:
-*   **Structure-Aware:** Filters trends based on actual High/Low market structure.
-*   **Execution Control:** New Bar processing to avoid noise and redundant triggers.
-*   **Broker Safety:** Automatic validation and adjustment for `STOPS_LEVEL` and `FREEZE_LEVEL`.
-*   **Dynamic Precision:** Lot sizes and prices are normalized dynamically based on broker-specific symbols.
-
----
-
 ## Getting Started
 
 1. Download the strategy folder and place it in your MetaTrader 5 MQL5/Experts directory.
