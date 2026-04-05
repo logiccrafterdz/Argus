@@ -4,11 +4,11 @@
 //|                                             https://example.com |
 //|                                                                  |
 //|  WARNING: FOR EDUCATIONAL PURPOSES ONLY. NO WARRANTY PROVIDED.   |
-//|  USE AT YOUR OWN RISK. VERSION 2.00 (Production Optimized)        |
+//|  USE AT YOUR OWN RISK. VERSION 3.00 (Production Elite)           |
 //+------------------------------------------------------------------+
 #property copyright "Copyright 2026, Trading Studio"
 #property link      "https://example.com"
-#property version   "2.00"
+#property version   "3.00"
 #property strict
 
 //--- Include necessary libraries
@@ -31,6 +31,7 @@ int            slow_ema_handle;
 double         fast_ema_buffer[];
 double         slow_ema_buffer[];
 datetime       last_bar_time = 0;
+int            vol_precision = 0;
 
 //+------------------------------------------------------------------+
 //| Expert initialization function                                   |
@@ -45,6 +46,10 @@ int OnInit()
       Print("Error: Failed to create indicator handles.");
       return(INIT_FAILED);
    }
+   
+   // Calculate Volume Precision dynamically
+   double step_vol = SymbolInfoDouble(_Symbol, SYMBOL_VOLUME_STEP);
+   vol_precision = (int)MathMax(0, MathCeil(MathLog10(1.0 / step_vol)));
    
    trade.SetExpertMagicNumber(MagicNumber);
    return(INIT_SUCCEEDED);
@@ -72,101 +77,139 @@ void OnTick()
       last_bar_time = current_bar_time;
    }
 
-   // 2. Spread Filter
-   if(SymbolInfoInteger(_Symbol, SYMBOL_SPREAD) > MaxSpread) return;
+   // 2. Data Readiness Check
+   if(BarsCalculated(fast_ema_handle) < SlowEMA_Period || 
+      BarsCalculated(slow_ema_handle) < SlowEMA_Period) return;
 
-   // 3. Position Filter (Symbol + Magic)
+   // 3. Operational Filters
+   if(SymbolInfoInteger(_Symbol, SYMBOL_SPREAD) > MaxSpread) return;
    if(HasOpenPosition()) return;
 
-   // 4. Indicator Buffers
+   // 4. Update Indicators
    ArraySetAsSeries(fast_ema_buffer, true);
    ArraySetAsSeries(slow_ema_buffer, true);
    
-   if(CopyBuffer(fast_ema_handle, 0, 0, 3, fast_ema_buffer) < 3 ||
-      CopyBuffer(slow_ema_handle, 0, 0, 3, slow_ema_buffer) < 3) return;
+   if(CopyBuffer(fast_ema_handle, 0, 0, 4, fast_ema_buffer) < 4 ||
+      CopyBuffer(slow_ema_handle, 0, 0, 4, slow_ema_buffer) < 4) return;
 
-   // 5. Market Analysis
-   double last_close = iClose(_Symbol, _Period, 1);
-   double prev_close = iClose(_Symbol, _Period, 2);
-   double last_high = iHigh(_Symbol, _Period, 1);
-   double last_low = iLow(_Symbol, _Period, 1);
-   double prev_high = iHigh(_Symbol, _Period, 2);
-   double prev_low = iLow(_Symbol, _Period, 2);
+   // 5. Market Analysis (2-Bar Logic)
+   // Bar 0: Current (Incomplete)
+   // Bar 1: Previous (Confirmation)
+   // Bar 2: Pullback (Touch)
+   // Bar 3: Pre-Pullback (Reference)
 
-   // A. Advanced Trend Filter (Relationship + Slope)
+   double bar1_close = iClose(_Symbol, _Period, 1);
+   double bar2_high  = iHigh(_Symbol, _Period, 2);
+   double bar2_low   = iLow(_Symbol, _Period, 2);
+   double bar2_open  = iOpen(_Symbol, _Period, 2);
+
+   // A. Elite Trend Filter
    bool is_uptrend = (fast_ema_buffer[1] > slow_ema_buffer[1]) && (slow_ema_buffer[1] > slow_ema_buffer[2]);
    bool is_downtrend = (fast_ema_buffer[1] < slow_ema_buffer[1]) && (slow_ema_buffer[1] < slow_ema_buffer[2]);
 
-   // B. Pullback Detection (Touch EMA 50)
-   bool bull_pullback = is_uptrend && (iLow(_Symbol, _Period, 1) <= fast_ema_buffer[1]);
-   bool bear_pullback = is_downtrend && (iHigh(_Symbol, _Period, 1) >= fast_ema_buffer[1]);
+   // B. 2-Phase Trigger (Bar 2 touches EMA50, Bar 1 breaks Bar 2)
+   bool bull_pullback = is_uptrend && (iLow(_Symbol, _Period, 2) <= fast_ema_buffer[2]);
+   bool bear_pullback = is_downtrend && (iHigh(_Symbol, _Period, 2) >= fast_ema_buffer[2]);
 
-   // C. Entry Trigger (Momentum Resumption: Break of Prev Candle)
-   // We check if the current completed candle (index 1) broke the momentum after touching EMA50
-   bool bull_trigger = bull_pullback && (last_close > prev_high); 
-   bool bear_trigger = bear_pullback && (last_close < prev_low);
+   bool bull_trigger = bull_pullback && (bar1_close > bar2_high); 
+   bool bear_trigger = bear_pullback && (bar1_close < bar2_low);
 
-   // 6. Execution
+   // 6. Execution Parameters
    double bid = SymbolInfoDouble(_Symbol, SYMBOL_BID);
    double ask = SymbolInfoDouble(_Symbol, SYMBOL_ASK);
    double point = SymbolInfoDouble(_Symbol, SYMBOL_POINT);
 
    if(bull_trigger)
    {
-      double sl = last_low - (PipsToPoints(5)); // 5 pips below local low
+      double sl = iLow(_Symbol, _Period, 1) - PipsToPriceDelta(5); // SL below confirmation candle
+      sl = ValidateStopsLevel(ask, sl, true);
+      
       double risk_dist = ask - sl;
       if(risk_dist <= 0) return;
       
       double tp = ask + (risk_dist * TP_Multiplier);
-      double lot = CalculateLotSize(risk_dist);
+      tp = ValidateStopsLevel(ask, tp, false);
       
-      if(lot > 0) trade.Buy(lot, _Symbol, ask, sl, tp, "TP Pullback V2 Buy");
+      double lot = CalculateLotSize(risk_dist);
+      ExecuteTrade(ORDER_TYPE_BUY, lot, ask, sl, tp, "Elite Pullback Buy");
    }
    else if(bear_trigger)
    {
-      double sl = last_high + (PipsToPoints(5)); // 5 pips above local high
+      double sl = iHigh(_Symbol, _Period, 1) + PipsToPriceDelta(5);
+      sl = ValidateStopsLevel(bid, sl, true);
+      
       double risk_dist = sl - bid;
       if(risk_dist <= 0) return;
       
       double tp = bid - (risk_dist * TP_Multiplier);
-      double lot = CalculateLotSize(risk_dist);
+      tp = ValidateStopsLevel(bid, tp, false);
       
-      if(lot > 0) trade.Sell(lot, _Symbol, bid, sl, tp, "TP Pullback V2 Sell");
+      double lot = CalculateLotSize(risk_dist);
+      ExecuteTrade(ORDER_TYPE_SELL, lot, bid, sl, tp, "Elite Pullback Sell");
    }
 }
 
 //+------------------------------------------------------------------+
-//| Proper Lot Size Calculation with Symbol Volume Step              |
+//| Execute and Log Result                                           |
+//+------------------------------------------------------------------+
+void ExecuteTrade(ENUM_ORDER_TYPE type, double lot, double price, double sl, double tp, string comment)
+{
+   bool success = false;
+   if(type == ORDER_TYPE_BUY) success = trade.Buy(lot, _Symbol, price, sl, tp, comment);
+   else success = trade.Sell(lot, _Symbol, price, sl, tp, comment);
+   
+   if(!success)
+      PrintFormat("Trade Failed: %s. Error: %d (%s)", comment, trade.ResultRetcode(), trade.ResultRetcodeDescription());
+   else
+      PrintFormat("Trade Opened: %s. Ticket: %d", comment, trade.ResultOrder());
+}
+
+//+------------------------------------------------------------------+
+//| Robust Lot Size Calculation                                      |
 //+------------------------------------------------------------------+
 double CalculateLotSize(double risk_dist_points)
 {
    double balance = AccountInfoDouble(ACCOUNT_BALANCE);
    double risk_amount = balance * (RiskPercent / 100.0);
-   
    double tick_value = SymbolInfoDouble(_Symbol, SYMBOL_TRADE_TICK_VALUE);
    double tick_size = SymbolInfoDouble(_Symbol, SYMBOL_TRADE_TICK_SIZE);
    
    if(risk_dist_points <= 0 || tick_value <= 0) return 0;
    
-   // Calculate ideal lot
    double lot = risk_amount / (risk_dist_points / tick_size * tick_value);
    
-   // Volume constraints
    double min_vol = SymbolInfoDouble(_Symbol, SYMBOL_VOLUME_MIN);
    double max_vol = SymbolInfoDouble(_Symbol, SYMBOL_VOLUME_MAX);
    double step_vol = SymbolInfoDouble(_Symbol, SYMBOL_VOLUME_STEP);
    
-   // Round to nearest step
    lot = MathFloor(lot / step_vol) * step_vol;
-   
-   // Clamp
    lot = MathMax(min_vol, MathMin(max_vol, lot));
    
-   return NormalizeDouble(lot, 2);
+   return NormalizeDouble(lot, vol_precision);
 }
 
 //+------------------------------------------------------------------+
-//| Check for open positions by Magic and Symbol                     |
+//| Validate SL/TP against Broker Stops Level                        |
+//+------------------------------------------------------------------+
+double ValidateStopsLevel(double price, double target, bool is_sl)
+{
+   int stops_level = (int)SymbolInfoInteger(_Symbol, SYMBOL_TRADE_STOPS_LEVEL);
+   if(stops_level == 0) return target; // No restriction
+   
+   double min_dist = stops_level * _Point;
+   double actual_dist = MathAbs(price - target);
+   
+   if(actual_dist < min_dist)
+   {
+      // Shift target to exactly the minimum distance
+      if(target > price) return price + min_dist + _Point; // Move further up
+      else return price - min_dist - _Point; // Move further down
+   }
+   return target;
+}
+
+//+------------------------------------------------------------------+
+//| Helpers                                                          |
 //+------------------------------------------------------------------+
 bool HasOpenPosition()
 {
@@ -182,10 +225,7 @@ bool HasOpenPosition()
    return false;
 }
 
-//+------------------------------------------------------------------+
-//| convert pips to points (Detects 4/5 digits)                      |
-//+------------------------------------------------------------------+
-double PipsToPoints(double pips)
+double PipsToPriceDelta(double pips)
 {
    int digits = (int)SymbolInfoInteger(_Symbol, SYMBOL_DIGITS);
    if(digits == 3 || digits == 5) return pips * 10 * _Point;
