@@ -155,7 +155,7 @@ void ExecuteTrade(ENUM_ORDER_TYPE type, double lot, double price, double sl, dou
    if(!success)
       PrintFormat("Trade Failed: %s. Code: %d (%s)", comment, trade.ResultRetcode(), trade.ResultRetcodeDescription());
    else
-      PrintFormat("Trade Opened: %s. Ticket: %d. Lot: %.2f", comment, trade.ResultOrder(), lot);
+      PrintFormat("Trade Opened: %s. Ticket: %d. Lot: %.*f", comment, trade.ResultOrder(), vol_precision, lot);
 }
 
 //+------------------------------------------------------------------+
