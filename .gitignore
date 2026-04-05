@@ -1,0 +1,19 @@
+# MQL5 Compiled files
+*.ex5
+*.ex4
+
+# Resource files (if you want to ignore them)
+# *.ico
+# *.bmp
+# *.wav
+
+# Logs and temporary files
+*.log
+*.txt
+MQL5/Logs/*
+MQL5/Files/*
+MQL5/Tester/*
+
+# OS generated files
+.DS_Store
+Thumbs.db
