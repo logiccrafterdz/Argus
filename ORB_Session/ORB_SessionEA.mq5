@@ -134,6 +134,10 @@ void ManageStates(datetime now)
                DrawRangeLines();
                PrintFormat("ORB: Range Built. High: %.5f | Low: %.5f", range_high, range_low);
             }
+            else {
+               Print("Error: Failed to build ORB range. No bars found in the specified window. Check TimeZone/Data.");
+               current_state = STATE_TRADED; // Stop for today to avoid errors
+            }
          }
          break;
 
@@ -265,4 +269,4 @@ bool HasOpenPosition() {
    return false;
 }
 double NormalizePrice(double p, double t) { return MathRound(p / t) * t; }
-int TimeDay(datetime dt) { MqlDateTime s; TimeToStruct(dt, s); return s.day; }
+//+------------------------------------------------------------------+
