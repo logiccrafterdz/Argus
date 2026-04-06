@@ -14,7 +14,8 @@ Each strategy is located in its own dedicated folder. This ensures a clean works
 | :--- | :--- | :--- | :--- |
 | **Trend Pullback** | ./TrendPullback/ | **Production Elite** | A structure-aware trend following system. Uses 2-bar momentum confirmation and EMA confluence. |
 | **S/R Break & Retest** | ./SR_Breakout_Retest/ | **Production Elite** | A multi-timeframe breakout system. Tracks S/R levels, breakouts, and retests. |
-| **ORB Session** | ./ORB_Session/ | **Production Elite** | Opening Range Breakout strategy. Captures morning volatility with EMA trend filters. |
+| **ORB Session** | ./ORB_Session/ | **Production Elite** | Opening Range Breakout strategy. Captures morning volatility. |
+| **Bollinger Mean Rev** | ./Bollinger_MeanReversion/ | **Production Elite** | Mean reversion system using Bollinger Bands and RSI filters. |
 
 ---
 
@@ -40,6 +41,15 @@ Each strategy is located in its own dedicated folder. This ensures a clean works
     *   **Trend Filter**: EMA 200 on the current timeframe ensures alignment with the day's bias.
     *   **Discipline**: Strict "One Trade Per Session" rule to avoid overtrading and whipsaws.
 *   **Visual Support**: Draws session range lines on the chart for transparency.
+
+---
+
+### 4. Bollinger Mean Reversion
+*   **Confluence Stack**: 
+    *   **Volatility Bands**: Bollinger Bands (20, 2.0) identify statistical extremes.
+    *   **Confirmation**: Price must touch/break the band and **close back inside** for a valid signal.
+    *   **RSI Filter**: Optional RSI (Overbought/Oversold) confirmation to ensure high-probability entries.
+*   **Dynamic Exit**: Take Profit targets the **Bollinger Middle Band** (The Mean), adapting to market conditions.
 
 ---
 
