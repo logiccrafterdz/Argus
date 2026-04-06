@@ -4,11 +4,11 @@
 //|                                             https://example.com |
 //|                                                                  |
 //|  WARNING: FOR EDUCATIONAL PURPOSES ONLY. NO WARRANTY PROVIDED.   |
-//|  USE AT YOUR OWN RISK. VERSION 1.00 (Standard Gold Design)       |
+//|  USE AT YOUR OWN RISK. VERSION 1.10 (Standard Gold Design)       |
 //+------------------------------------------------------------------+
 #property copyright "Copyright 2026, Trading Studio"
 #property link      "https://example.com"
-#property version   "1.00"
+#property version   "1.10"
 #property strict
 
 //--- Include necessary libraries
@@ -47,7 +47,7 @@ double         range_low = 0;
 datetime       range_start_dt = 0;
 datetime       range_end_dt = 0;
 datetime       session_finish_dt = 0;
-int            last_traded_day = -1;
+int            last_sync_day = -1;
 
 //+------------------------------------------------------------------+
 //| Expert initialization function                                   |
@@ -83,9 +83,18 @@ void OnTick()
    MqlDateTime struct_now;
    TimeToStruct(now, struct_now);
 
-   // 2. Daily Reset
-   if(struct_now.day != last_traded_day && current_state == STATE_TRADED) {
+   // 2. Daily Sync & Cycle Reset
+   if(struct_now.day != last_sync_day) {
       current_state = STATE_WAIT_START;
+      last_sync_day = struct_now.day;
+      ObjectsDeleteAll(0, "ORB_");
+      Print("ORB: New day detected, system reset.");
+   }
+
+   if(OnlyNewBar) {
+      datetime current_bar_time = iTime(_Symbol, _Period, 0);
+      if(current_bar_time == last_bar_time) return;
+      last_bar_time = current_bar_time;
    }
 
    // 3. Update Session Windows
@@ -112,13 +121,19 @@ void ManageStates(datetime now)
          break;
 
       case STATE_BUILD_RANGE:
-         range_high = MathMax(range_high, iHigh(_Symbol, _Period, 0));
-         range_low  = MathMin(range_low, iLow(_Symbol, _Period, 0));
-         
          if(now >= range_end_dt) {
-            current_state = STATE_MONITOR_BREAK;
-            DrawRangeLines();
-            PrintFormat("ORB: Range Built. High: %.5f | Low: %.5f", range_high, range_low);
+            // High-precision Range Calculation using completed bars
+            int bars_in_range = iBarShift(_Symbol, _Period, range_start_dt) - iBarShift(_Symbol, _Period, range_end_dt);
+            if(bars_in_range > 0) {
+               int high_idx = iHighest(_Symbol, _Period, MODE_HIGH, bars_in_range, iBarShift(_Symbol, _Period, range_end_dt));
+               int low_idx  = iLowest(_Symbol, _Period, MODE_LOW, bars_in_range, iBarShift(_Symbol, _Period, range_end_dt));
+               range_high = iHigh(_Symbol, _Period, high_idx);
+               range_low  = iLow(_Symbol, _Period, low_idx);
+               
+               current_state = STATE_MONITOR_BREAK;
+               DrawRangeLines();
+               PrintFormat("ORB: Range Built. High: %.5f | Low: %.5f", range_high, range_low);
+            }
          }
          break;
 
@@ -171,7 +186,6 @@ void CheckBreakout()
       double lot = CalculateLotSize(risk_dist);
       ExecuteTrade(ORDER_TYPE_BUY, lot, ask, sl, tp, "ORB Session Buy");
       current_state = STATE_TRADED;
-      last_traded_day = TimeDay(TimeCurrent());
    }
    // 2. Short Breakout
    else if(last_close < range_low && last_close < ema_buffer[0])
@@ -187,7 +201,6 @@ void CheckBreakout()
       double lot = CalculateLotSize(risk_dist);
       ExecuteTrade(ORDER_TYPE_SELL, lot, bid, sl, tp, "ORB Session Sell");
       current_state = STATE_TRADED;
-      last_traded_day = TimeDay(TimeCurrent());
    }
 }
 
