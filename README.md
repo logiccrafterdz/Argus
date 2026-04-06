@@ -13,7 +13,23 @@ Each strategy is located in its own dedicated folder. This ensures a clean works
 | Strategy | Path | Technical Grade | Description |
 | :--- | :--- | :--- | :--- |
 | **Trend Pullback** | ./TrendPullback/ | **Production Elite** | A structure-aware trend following system. Uses 2-bar momentum confirmation and EMA confluence. |
-| **S/R Break & Retest** | ./SR_Breakout_Retest/ | **Production Elite** | A multi-timeframe breakout system. Tracks S/R levels, breakouts, and retests with H4 trend confirmation. |
+| **S/R Break & Retest** | ./SR_Breakout_Retest/ | **Production Elite** | A multi-timeframe breakout system. Tracks S/R levels, breakouts, and retests with H4 trend confirmation (H4 EMA 200). |
+
+---
+
+## 📈 Strategy Details
+
+### 1. Trend Pullback (EMA)
+*   **Logic**: EMA 200 trend filter + EMA 50 pullback zone.
+*   **Confirmation**: 2-bar momentum sequence (Touch -> Break).
+*   **Safety**: OnlyNewBar execution + Spread filter.
+
+### 2. S/R Break & Retest
+*   **Confluence Stack**: 
+    *   **HTF Filter**: H4 EMA 200 determines the global bias.
+    *   **Level Detection**: Radius (N bars) and Lookback parameters to identify significant local peaks/valleys.
+    *   **Validation**: `MaxWaitBars` limits the wait time, and `MaxBreakDistance` tracks deviation to invalidate "tired" breakouts.
+*   **Confirmation**: Price touch of the broken level followed by a directional candle close.
 
 ---
 
