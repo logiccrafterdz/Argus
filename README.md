@@ -13,7 +13,8 @@ Each strategy is located in its own dedicated folder. This ensures a clean works
 | Strategy | Path | Technical Grade | Description |
 | :--- | :--- | :--- | :--- |
 | **Trend Pullback** | ./TrendPullback/ | **Production Elite** | A structure-aware trend following system. Uses 2-bar momentum confirmation and EMA confluence. |
-| **S/R Break & Retest** | ./SR_Breakout_Retest/ | **Production Elite** | A multi-timeframe breakout system. Tracks S/R levels, breakouts, and retests with H4 trend confirmation (H4 EMA 200). |
+| **S/R Break & Retest** | ./SR_Breakout_Retest/ | **Production Elite** | A multi-timeframe breakout system. Tracks S/R levels, breakouts, and retests. |
+| **ORB Session** | ./ORB_Session/ | **Production Elite** | Opening Range Breakout strategy. Captures morning volatility with EMA trend filters. |
 
 ---
 
@@ -30,6 +31,15 @@ Each strategy is located in its own dedicated folder. This ensures a clean works
     *   **Level Detection**: Radius (N bars) and Lookback parameters to identify significant local peaks/valleys.
     *   **Validation**: `MaxWaitBars` limits the wait time, and `MaxBreakDistance` tracks deviation to invalidate "tired" breakouts.
 *   **Confirmation**: Price touch of the broken level followed by a directional candle close.
+
+---
+
+### 3. ORB Session (Opening Range Breakout)
+*   **Confluence Stack**: 
+    *   **Range Detection**: Automated high/low detection for a specified session window (e.g., first 30 mins).
+    *   **Trend Filter**: EMA 200 on the current timeframe ensures alignment with the day's bias.
+    *   **Discipline**: Strict "One Trade Per Session" rule to avoid overtrading and whipsaws.
+*   **Visual Support**: Draws session range lines on the chart for transparency.
 
 ---
 
