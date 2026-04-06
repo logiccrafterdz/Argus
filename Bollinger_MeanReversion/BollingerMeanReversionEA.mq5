@@ -29,6 +29,9 @@ input bool     UseRSIFilter   = true;          // Enable RSI Confirmation
 input int      RSI_Period     = 14;            // RSI Period
 input double   RSI_Overbought = 70.0;          // RSI Overbought Level
 input double   RSI_Oversold   = 30.0;          // RSI Oversold Level
+input bool     UseTrendFilter = false;         // Enable EMA Trend Filter
+input int      Trend_EMA_Period = 200;         // Trend Filter Period
+input int      MaxBarsOutside = 15;            // Max candles allowed outside band
 input int      MaxSpread      = 30;            // Max Allowed Spread (Points)
 input double   RiskPercent    = 1.0;           // Risk % per Trade
 input int      MagicNumber    = 887766;        // Magic Number
@@ -38,12 +41,14 @@ input bool     OnlyNewBar     = true;          // Execute on New Bar Only
 CTrade         trade;
 int            bb_handle;
 int            rsi_handle;
+int            ema_handle;
 int            vol_precision = 0;
 datetime       last_bar_time = 0;
 
 //--- State tracking
 ENUM_BB_STATE  current_state = STATE_IDLE;
-double         limit_price = 0; // Tracks the extreme price reached outside
+double         limit_price = 0; 
+int            bars_since_outside = 0;
 
 //+------------------------------------------------------------------+
 //| Expert initialization function                                   |
@@ -52,8 +57,9 @@ int OnInit()
 {
    bb_handle = iBands(_Symbol, _Period, BB_Period, 0, BB_Deviation, PRICE_CLOSE);
    rsi_handle = iRSI(_Symbol, _Period, RSI_Period, PRICE_CLOSE);
+   ema_handle = iMA(_Symbol, _Period, Trend_EMA_Period, 0, MODE_EMA, PRICE_CLOSE);
    
-   if(bb_handle == INVALID_HANDLE || rsi_handle == INVALID_HANDLE)
+   if(bb_handle == INVALID_HANDLE || rsi_handle == INVALID_HANDLE || ema_handle == INVALID_HANDLE)
    {
       Print("Error: Failed to create indicator handles.");
       return(INIT_FAILED);
@@ -73,6 +79,7 @@ void OnDeinit(const int reason)
 {
    IndicatorRelease(bb_handle);
    IndicatorRelease(rsi_handle);
+   IndicatorRelease(ema_handle);
 }
 
 //+------------------------------------------------------------------+
@@ -111,19 +118,30 @@ void OnTick()
          if(high1 > bb_up[1]) { 
             current_state = STATE_OUTSIDE_UPPER; 
             limit_price = high1;
+            bars_since_outside = 0;
          }
          else if(low1 < bb_low[1]) { 
             current_state = STATE_OUTSIDE_LOWER; 
             limit_price = low1;
+            bars_since_outside = 0;
          }
          break;
 
       case STATE_OUTSIDE_UPPER:
+         bars_since_outside++;
+         if(bars_since_outside > MaxBarsOutside) { current_state = STATE_IDLE; return; }
+         
          limit_price = MathMax(limit_price, high1);
-         // Confirmation: Close inside BB + Optional RSI
+         // Confirmation: Close inside BB + Optional RSI + Optional Trend
          if(close1 < bb_up[1]) {
             bool rsi_ok = !UseRSIFilter || (rsi[1] > RSI_Overbought);
-            if(rsi_ok) {
+            bool trend_ok = true;
+            if(UseTrendFilter) {
+               double ema_buffer[];
+               if(CopyBuffer(ema_handle, 0, 0, 1, ema_buffer) > 0) trend_ok = (close1 < ema_buffer[0]);
+            }
+
+            if(rsi_ok && trend_ok) {
                OpenPosition(ORDER_TYPE_SELL, bb_mid[1], limit_price);
             }
             current_state = STATE_IDLE;
@@ -131,11 +149,20 @@ void OnTick()
          break;
 
       case STATE_OUTSIDE_LOWER:
+         bars_since_outside++;
+         if(bars_since_outside > MaxBarsOutside) { current_state = STATE_IDLE; return; }
+
          limit_price = MathMin(limit_price, low1);
-         // Confirmation: Close inside BB + Optional RSI
+         // Confirmation: Close inside BB + Optional RSI + Optional Trend
          if(close1 > bb_low[1]) {
             bool rsi_ok = !UseRSIFilter || (rsi[1] < RSI_Oversold);
-            if(rsi_ok) {
+            bool trend_ok = true;
+            if(UseTrendFilter) {
+               double ema_buffer[];
+               if(CopyBuffer(ema_handle, 0, 0, 1, ema_buffer) > 0) trend_ok = (close1 > ema_buffer[0]);
+            }
+
+            if(rsi_ok && trend_ok) {
                OpenPosition(ORDER_TYPE_BUY, bb_mid[1], limit_price);
             }
             current_state = STATE_IDLE;

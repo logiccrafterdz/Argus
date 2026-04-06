@@ -47,8 +47,9 @@ Each strategy is located in its own dedicated folder. This ensures a clean works
 ### 4. Bollinger Mean Reversion
 *   **Confluence Stack**: 
     *   **Volatility Bands**: Bollinger Bands (20, 2.0) identify statistical extremes.
-    *   **Confirmation**: Price must touch/break the band and **close back inside** for a valid signal.
-    *   **RSI Filter**: Optional RSI (Overbought/Oversold) confirmation to ensure high-probability entries.
+    *   **Trend Filter**: Optional EMA 200 confirmation to align mean reversion with the major trend.
+    *   **Safety**: `MaxBarsOutside` limit to prevent catching a "falling knife" during parabolic trends.
+    *   **RSI Filter**: Optional RSI confirmation for extreme overbought/oversold conditions.
 *   **Dynamic Exit**: Take Profit targets the **Bollinger Middle Band** (The Mean), adapting to market conditions.
 
 ---
