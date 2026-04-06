@@ -198,24 +198,24 @@ void OpenPosition(ENUM_ORDER_TYPE type)
 
    if(type == ORDER_TYPE_BUY) {
       double sl = NormalizePrice(last_low - PipsToPriceDelta(5), tick_size);
-      sl = ValidateStopsLevel(ask, sl, true);
+      sl = ValidateStopsLevel(ask, sl);
       double risk_dist = ask - sl;
       if(risk_dist <= 0) return;
       
       double tp = NormalizePrice(ask + (risk_dist * TP_Multiplier), tick_size);
-      tp = ValidateStopsLevel(ask, tp, false);
+      tp = ValidateStopsLevel(ask, tp);
       
       double lot = CalculateLotSize(risk_dist);
       ExecuteTrade(ORDER_TYPE_BUY, lot, ask, sl, tp, "Gold SR Breakout Buy");
    }
    else {
       double sl = NormalizePrice(last_high + PipsToPriceDelta(5), tick_size);
-      sl = ValidateStopsLevel(bid, sl, true);
+      sl = ValidateStopsLevel(bid, sl);
       double risk_dist = sl - bid;
       if(risk_dist <= 0) return;
       
       double tp = NormalizePrice(bid - (risk_dist * TP_Multiplier), tick_size);
-      tp = ValidateStopsLevel(bid, tp, false);
+      tp = ValidateStopsLevel(bid, tp);
       
       double lot = CalculateLotSize(risk_dist);
       ExecuteTrade(ORDER_TYPE_SELL, lot, bid, sl, tp, "Gold SR Breakout Sell");
@@ -243,7 +243,7 @@ double CalculateLotSize(double d) {
    return NormalizeDouble(MathMax(min, MathMin(max, l)), vol_precision);
 }
 
-double ValidateStopsLevel(double p, double t, bool sl) {
+double ValidateStopsLevel(double p, double t) {
    int s = (int)SymbolInfoInteger(_Symbol, SYMBOL_TRADE_STOPS_LEVEL), f = (int)SymbolInfoInteger(_Symbol, SYMBOL_TRADE_FREEZE_LEVEL);
    double m = MathMax(s, f) * _Point, d = MathAbs(p - t);
    if(d < m) {

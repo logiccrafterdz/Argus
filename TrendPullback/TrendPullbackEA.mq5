@@ -118,13 +118,13 @@ void OnTick()
    if(bull_trigger)
    {
       double sl = NormalizePrice(iLow(_Symbol, _Period, 1) - PipsToPriceDelta(5), tick_size);
-      sl = ValidateStopsLevel(ask, sl, true);
+      sl = ValidateStopsLevel(ask, sl);
       
       double risk_dist = ask - sl;
       if(risk_dist <= 0) return;
       
       double tp = NormalizePrice(ask + (risk_dist * TP_Multiplier), tick_size);
-      tp = ValidateStopsLevel(ask, tp, false);
+      tp = ValidateStopsLevel(ask, tp);
       
       double lot = CalculateLotSize(risk_dist);
       ExecuteTrade(ORDER_TYPE_BUY, lot, ask, sl, tp, "Gold Pullback Buy");
@@ -132,13 +132,13 @@ void OnTick()
    else if(bear_trigger)
    {
       double sl = NormalizePrice(iHigh(_Symbol, _Period, 1) + PipsToPriceDelta(5), tick_size);
-      sl = ValidateStopsLevel(bid, sl, true);
+      sl = ValidateStopsLevel(bid, sl);
       
       double risk_dist = sl - bid;
       if(risk_dist <= 0) return;
       
       double tp = NormalizePrice(bid - (risk_dist * TP_Multiplier), tick_size);
-      tp = ValidateStopsLevel(bid, tp, false);
+      tp = ValidateStopsLevel(bid, tp);
       
       double lot = CalculateLotSize(risk_dist);
       ExecuteTrade(ORDER_TYPE_SELL, lot, bid, sl, tp, "Gold Pullback Sell");
@@ -182,7 +182,7 @@ double CalculateLotSize(double risk_dist_points)
 //+------------------------------------------------------------------+
 //| Logic for Validating Stops against BOTH Stops and Freeze levels  |
 //+------------------------------------------------------------------+
-double ValidateStopsLevel(double price, double target, bool is_sl)
+double ValidateStopsLevel(double price, double target)
 {
    int stops_level = (int)SymbolInfoInteger(_Symbol, SYMBOL_TRADE_STOPS_LEVEL);
    int freeze_level = (int)SymbolInfoInteger(_Symbol, SYMBOL_TRADE_FREEZE_LEVEL);
