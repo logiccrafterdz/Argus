@@ -12,7 +12,8 @@ Each strategy is located in its own dedicated folder. This ensures a clean works
 
 | Strategy | Path | Technical Grade | Description |
 | :--- | :--- | :--- | :--- |
-| **Trend Pullback (Standard Gold)** | ./TrendPullback/ | **Production Elite** | A structure-aware trend following system. Uses 2-bar momentum confirmation, EMA confluence, and HH/HL detection. |
+| **Trend Pullback** | ./TrendPullback/ | **Production Elite** | A structure-aware trend following system. Uses 2-bar momentum confirmation and EMA confluence. |
+| **S/R Break & Retest** | ./SR_Breakout_Retest/ | **Production Elite** | A multi-timeframe breakout system. Tracks S/R levels, breakouts, and retests with H4 trend confirmation. |
 
 ---
 
