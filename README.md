@@ -77,6 +77,9 @@ Each strategy is located in its own dedicated folder. This ensures a clean works
     *   **Thick Levels (MTF)**: Identifies high-probability zones where Daily, Weekly, and Monthly VWAP levels converge within 5 pips.
     *   **Mean Reversion logic**: Primarily executes mean reversion trades towards the VWAP during low-volatility "Balanced" regimes.
 *   **Execution**: Automated TP at the VWAP mean, with safety SL beyond the outer bands.
+*   **Operational Notes**:
+    *   **Timezone Sync**: Daily resets and trade limits are synced to the **Broker Platform Time**. Ensure your session settings align with your target market (e.g., London/New York).
+    *   **Dynamic SL Tuning**: Recommended `SL_AtrMultiplier` is between **1.0 – 2.0**. For tighter "Balanced" regimes, use smaller multipliers to maintain a positive R:R relative to the `BandMult`.
 
 ---
 
