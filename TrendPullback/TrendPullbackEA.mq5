@@ -1,12 +1,12 @@
 //+------------------------------------------------------------------+
 //|                                           TrendPullbackEA.mq5    |
-//|                                  Copyright 2026, Trading Studio |
+//|                                  Copyright 2026, LogicCrafterDz |
 //|                                             https://example.com |
 //|                                                                  |
 //|  WARNING: FOR EDUCATIONAL PURPOSES ONLY. NO WARRANTY PROVIDED.   |
 //|  USE AT YOUR OWN RISK. VERSION 3.10 (Standard Gold Refined)      |
 //+------------------------------------------------------------------+
-#property copyright "Copyright 2026, Trading Studio"
+#property copyright "Copyright 2026, LogicCrafterDz"
 #property link      "https://example.com"
 #property version   "3.10"
 #property strict

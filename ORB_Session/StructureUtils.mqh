@@ -1,12 +1,12 @@
 //+------------------------------------------------------------------+
 //|                                              StructureUtils.mqh |
-//|                                  Copyright 2026, Trading Studio |
+//|                                  Copyright 2026, LogicCrafterDz |
 //|                                             https://example.com |
 //|                                                                  |
 //|  WARNING: FOR EDUCATIONAL PURPOSES ONLY. NO WARRANTY PROVIDED.   |
 //|  USE AT YOUR OWN RISK.                                           |
 //+------------------------------------------------------------------+
-#property copyright "Copyright 2026, Trading Studio"
+#property copyright "Copyright 2026, LogicCrafterDz"
 #property link      "https://example.com"
 #property strict
 
