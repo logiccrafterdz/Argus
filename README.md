@@ -18,6 +18,7 @@ Each strategy is located in its own dedicated folder. This ensures a clean works
 | **Bollinger Mean Rev** | ./Bollinger_MeanReversion/ | **Production Elite** | Mean reversion system using Bollinger Bands. |
 | **Price Action S/R** | ./PriceAction_SR/ | **Production Elite** | Price Action rejection patterns (Pin Bar/Engulfing) at S/R levels. |
 | **Liquidity Sweep** | ./Liquidity_Sweep_Breakout/ | **Production Elite** | Institutional liquidity grab system. Detects EQH/EQL and enters on MSB. |
+| **VWAP Regime** | ./VWAP_MultiBand_Regime/ | **Production Elite** | Multi-VWAP Band system with ATR-based regime detection. |
 
 ---
 
@@ -68,6 +69,14 @@ Each strategy is located in its own dedicated folder. This ensures a clean works
     *   **Conservative Confirmation**: Implements a mandatory wait for a close beyond the sweep candle's range or a Market Structure Break (MSB) to avoid caught in extensions.
     *   **Trend Alignment**: Integrated EMA 200 filter to synchronize liquidity grabs with the major trend direction.
 *   **Execution**: Precision "Sniper" entries with SL placed behind the sweep wick and a fixed 2.0 R:R target.
+
+### 7. VWAP Multi-Band Regime
+*   **Confluence Stack**: 
+    *   **Regime Filter**: Uses the ratio `ATR / SMA(ATR)` to distinguish between "Balanced" (Range) and "Trending" (Expansion) market cycles.
+    *   **Dynamic VWAP Bands**: Calculates ±1σ and ±2σ Standard Deviation bands around the Daily VWAP mean.
+    *   **Thick Levels (MTF)**: Identifies high-probability zones where Daily, Weekly, and Monthly VWAP levels converge within 5 pips.
+    *   **Mean Reversion logic**: Primarily executes mean reversion trades towards the VWAP during low-volatility "Balanced" regimes.
+*   **Execution**: Automated TP at the VWAP mean, with safety SL beyond the outer bands.
 
 ---
 
