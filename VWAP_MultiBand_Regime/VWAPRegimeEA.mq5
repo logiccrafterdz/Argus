@@ -16,6 +16,11 @@
 #include "VWAPUtils.mqh"
 
 //--- Input parameters
+enum ENUM_SL_TYPE {
+   SL_FIXED_PIPS,    // Fixed Pips from Entry
+   SL_ATR_MULT       // ATR Multiplier (Dynamic)
+};
+
 input string   _RegimeSettings      = "------ Regime Settings ------";
 input double   AtrRatioThreshold    = 0.8;           // Balanced < x | Trending > y
 input int      AtrPeriod            = 14;            // ATR base period
@@ -28,6 +33,10 @@ input bool     UseMonthlyVWAP       = true;          // Use Monthly VWAP for con
 
 input string   _RiskSettings        = "------ Risk Settings ------";
 input double   RiskPercent          = 1.0;           // Risk % per trade
+input ENUM_SL_TYPE SL_Mode          = SL_ATR_MULT;   // Stop Loss Mode
+input double   SL_FixedPips         = 15.0;          // SL Pips (if Fixed)
+input double   SL_AtrMultiplier     = 1.5;           // SL ATR Mult (if ATR)
+input int      MaxTradesPerDay      = 2;             // Max Trades Per Day
 input int      MaxSpread            = 30;            // Max Allowed Spread (Points)
 input int      MagicNumber          = 554433;        // Magic Number
 
@@ -36,6 +45,8 @@ CTrade         trade;
 int            atr_handle;
 int            vol_precision = 0;
 datetime       last_bar_time = 0;
+int            trades_today = 0;
+datetime       today_reset = 0;
 
 //+------------------------------------------------------------------+
 //| Expert initialization function                                   |
@@ -73,7 +84,15 @@ void OnTick()
    if(SymbolInfoInteger(_Symbol, SYMBOL_SPREAD) > MaxSpread) return;
    if(HasOpenPosition()) return;
 
-   // 1. Determine Market Regime
+   // 1. Daily Trade Limit Logic
+   datetime current_day = iTime(_Symbol, PERIOD_D1, 0);
+   if(current_day > today_reset) {
+      today_reset = current_day;
+      trades_today = 0;
+   }
+   if(trades_today >= MaxTradesPerDay) return;
+
+   // 2. Determine Market Regime
    bool balanced = CVWAPUtils::IsBalancedRegime(atr_handle, AtrRatioThreshold);
    if(!balanced) {
       // Commenting out for cleaner logs, but we could add a "Trending - Skipping" print here
@@ -127,9 +146,20 @@ void ExecuteVWAPTrade(ENUM_ORDER_TYPE type, double entry_extreme, double target_
    double bid = SymbolInfoDouble(_Symbol, SYMBOL_BID);
    double ask = SymbolInfoDouble(_Symbol, SYMBOL_ASK);
    double tick_size = SymbolInfoDouble(_Symbol, SYMBOL_TRADE_TICK_SIZE);
+   
+   // Calculate Dynamic SL
+   double sl_dist = 0;
+   if(SL_Mode == SL_FIXED_PIPS) {
+      sl_dist = SL_FixedPips * PipsToPointsMultiplier();
+   } else {
+      double atr[];
+      if(CopyBuffer(atr_handle, 0, 0, 1, atr) > 0) {
+         sl_dist = atr[0] * SL_AtrMultiplier;
+      }
+   }
 
    if(type == ORDER_TYPE_BUY) {
-      double sl = NormalizePrice(entry_extreme - (10 * _Point), tick_size); 
+      double sl = NormalizePrice(ask - sl_dist, tick_size); 
       sl = ValidateStopsLevel(ask, sl);
       double risk_dist = ask - sl;
       if(risk_dist <= 0) return;
@@ -138,10 +168,10 @@ void ExecuteVWAPTrade(ENUM_ORDER_TYPE type, double entry_extreme, double target_
       tp = ValidateStopsLevel(ask, tp);
       
       double lot = CalculateLotSize(risk_dist);
-      SendTrade(ORDER_TYPE_BUY, lot, ask, sl, tp, comment);
+      if(SendTrade(ORDER_TYPE_BUY, lot, ask, sl, tp, comment)) trades_today++;
    }
    else {
-      double sl = NormalizePrice(entry_extreme + (10 * _Point), tick_size);
+      double sl = NormalizePrice(bid + sl_dist, tick_size);
       sl = ValidateStopsLevel(bid, sl);
       double risk_dist = sl - bid;
       if(risk_dist <= 0) return;
@@ -150,15 +180,20 @@ void ExecuteVWAPTrade(ENUM_ORDER_TYPE type, double entry_extreme, double target_
       tp = ValidateStopsLevel(bid, tp);
       
       double lot = CalculateLotSize(risk_dist);
-      SendTrade(ORDER_TYPE_SELL, lot, bid, sl, tp, comment);
+      if(SendTrade(ORDER_TYPE_SELL, lot, bid, sl, tp, comment)) trades_today++;
    }
 }
 
-void SendTrade(ENUM_ORDER_TYPE type, double lot, double price, double sl, double tp, string comment)
+bool SendTrade(ENUM_ORDER_TYPE type, double lot, double price, double sl, double tp, string comment)
 {
    bool s = (type == ORDER_TYPE_BUY) ? trade.Buy(lot, _Symbol, price, sl, tp, comment) : trade.Sell(lot, _Symbol, price, sl, tp, comment);
-   if(!s) PrintFormat("Trade Error: %d (%s)", trade.ResultRetcode(), trade.ResultRetcodeDescription());
-   else PrintFormat("Trade Success: %s | Lot: %.*f | TP: %.5f", comment, vol_precision, lot, tp);
+   if(!s) {
+      PrintFormat("Trade Error: %d (%s)", trade.ResultRetcode(), trade.ResultRetcodeDescription());
+      return false;
+   }
+   
+   PrintFormat("Trade Success: %s | Lot: %.*f | TP: %.5f", comment, vol_precision, lot, tp);
+   return true;
 }
 
 //+------------------------------------------------------------------+
@@ -188,3 +223,4 @@ bool HasOpenPosition() {
 }
 
 double NormalizePrice(double p, double t) { return MathRound(p / t) * t; }
+double PipsToPointsMultiplier() { int d = (int)SymbolInfoInteger(_Symbol, SYMBOL_DIGITS); return (d == 3 || d == 5) ? 10.0 * _Point : _Point; }
