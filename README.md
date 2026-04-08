@@ -17,6 +17,7 @@ Each strategy is located in its own dedicated folder. This ensures a clean works
 | **ORB Session** | ./ORB_Session/ | **Production Elite** | Opening Range Breakout strategy. Captures morning volatility. |
 | **Bollinger Mean Rev** | ./Bollinger_MeanReversion/ | **Production Elite** | Mean reversion system using Bollinger Bands. |
 | **Price Action S/R** | ./PriceAction_SR/ | **Production Elite** | Price Action rejection patterns (Pin Bar/Engulfing) at S/R levels. |
+| **Liquidity Sweep** | ./Liquidity_Sweep_Breakout/ | **Production Elite** | Institutional liquidity grab system. Detects EQH/EQL and enters on MSB. |
 
 ---
 
@@ -59,6 +60,14 @@ Each strategy is located in its own dedicated folder. This ensures a clean works
     *   **Candlestick Patterns**: Specialized detection for Pin Bars (long wick rejection) and Engulfing candles.
     *   **Trend Context**: Optional EMA 200 filter to prioritize trades in the direction of market flow.
 *   **Disciplined Exit**: Uses a fixed 2.0 Risk-Reward ratio targeting the next structural pivot.
+
+### 6. Liquidity Sweep & Breakout
+*   **Confluence Stack**: 
+    *   **Liquidity Detection**: Groups multiple swing points within a 3-pip threshold to identify EQH/EQL zones (Liquidity Pools).
+    *   **Sweep Signature**: Tracks price piercing these levels and closing back within the range, identifying a "Stop Hunt" or "False Breakout".
+    *   **Conservative Confirmation**: Implements a mandatory wait for a close beyond the sweep candle's range or a Market Structure Break (MSB) to avoid caught in extensions.
+    *   **Trend Alignment**: Integrated EMA 200 filter to synchronize liquidity grabs with the major trend direction.
+*   **Execution**: Precision "Sniper" entries with SL placed behind the sweep wick and a fixed 2.0 R:R target.
 
 ---
 
