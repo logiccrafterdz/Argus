@@ -20,6 +20,7 @@ Each strategy is located in its own dedicated folder. This ensures a clean works
 | **Liquidity Sweep** | ./Liquidity_Sweep_Breakout/ | **Production Elite** | Institutional liquidity grab system. Detects EQH/EQL and enters on MSB. |
 | **VWAP Regime** | ./VWAP_MultiBand_Regime/ | **Production Elite** | Multi-VWAP Band system with ATR-based regime detection. |
 | **Asian Fakeout** | ./Asian_Range_Fakeout/ | **Production Elite** | London fakeout strategy (Judas Swing) using Asian range liquidity. |
+| **NY Reversal** | ./NY_Session_Reversal/ | **Production Elite** | New York session reversal strategy following London expansion. |
 
 ---
 
@@ -89,6 +90,14 @@ Each strategy is located in its own dedicated folder. This ensures a clean works
     *   **Fakeout Detection**: Identifies price piercing Asian extremes and closing back inside (Standard Judas Swing).
     *   **Structure Confirmation**: Optional Market Structure Break (MSB) to filter false reversals.
 *   **Execution**: Multi-target setup: Mid-range, Opposite side, or fixed 2.0 RR target.
+
+### 9. New York Session Reversal (NY-Fade)
+*   **Confluence Stack**: 
+    *   **London Expansion Filter**: Validates that the London session (08:00 - 12:00) had a significant move (> 1.5x ATR).
+    *   **NY Killzone Monitoring**: Watches the NY open window (13:00 - 15:30) for exhaustion.
+    *   **Liquidity Sweep (OHLC)**: Detects price sweeping the London High/Low and closing back inside.
+    *   **Market Structure Shift**: Confirms the reversal with a minor structure break (MSB) before entry.
+*   **Execution**: Targets the London session midpoint (50% retracement) as a high-probability "Fair Value" return.
 
 ---
 
