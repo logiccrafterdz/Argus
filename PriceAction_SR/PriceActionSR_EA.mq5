@@ -86,6 +86,10 @@ void OnTick()
    }
 
    // 3. Pattern Detection (Bar 1 is the completed pattern)
+   double body1  = MathAbs(iOpen(_Symbol, _Period, 1) - iClose(_Symbol, _Period, 1));
+   double range1 = iHigh(_Symbol, _Period, 1) - iLow(_Symbol, _Period, 1);
+   if(range1 < 1.0 * _Point) return; // Ignore tiny noise bars
+
    bool is_bullish_pin = IsPinBar(1, true);
    bool is_bearish_pin = IsPinBar(1, false);
    bool is_bullish_eng = IsEngulfing(1, true);
@@ -132,11 +136,11 @@ bool IsPinBar(int idx, bool bullish)
    double lower_wick = MathMin(open, close) - low;
 
    if(bullish) {
-      // Long lower wick, small body in upper half
-      return (lower_wick >= body * 2.5 && close > (low + range * 0.5));
+      // Long lower wick, small body in upper half, body size check
+      return (lower_wick >= body * 2.5 && close > (low + range * 0.5) && body <= range * 0.33);
    } else {
-      // Long upper wick, small body in lower half
-      return (upper_wick >= body * 2.5 && close < (low + range * 0.5));
+      // Long upper wick, small body in lower half, body size check
+      return (upper_wick >= body * 2.5 && close < (low + range * 0.5) && body <= range * 0.33);
    }
 }
 

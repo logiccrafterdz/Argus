@@ -68,6 +68,9 @@ Each strategy is located in its own dedicated folder. This ensures a clean works
 2. Ensure you have the necessary libraries (`StructureUtils.mqh`) included.
 3. Always test the strategy on a Demo account before moving to a Live environment.
 
+> [!NOTE]
+> **Pips Definition**: All distance parameters (e.g., `MaxSR_DistancePips`) are based on the standard 5/3 digit broker logic. If your broker uses 5 digits, 1.0 Pip = 10 Points.
+
 ---
 
 ## LEGAL DISCLAIMER - PLEASE READ CAREFULLY
