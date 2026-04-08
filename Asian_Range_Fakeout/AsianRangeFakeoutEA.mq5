@@ -34,6 +34,8 @@ enum ENUM_CONFIRM_TYPE {
 input string   _AsianSettings       = "------ Asian Session ------";
 input string   AsianStart           = "00:00";       // Start Time (Broker)
 input int      AsianDurationMins    = 360;           // Duration (Minutes)
+input double   MinAsiaRangePips     = 10.0;          // Min Range Width (Pips)
+input double   MaxAsiaRangePips     = 60.0;          // Max Range Width (Pips)
 
 input string   _LondonSettings      = "------ London Killzone ------";
 input string   LondonStart          = "08:00";       // Start Monitoring (Broker)
@@ -134,9 +136,17 @@ void ManageStrategy(datetime now)
       case STATE_BUILDING_ASIA:
          if(now >= asia_end_dt) {
             if(CStructureUtils::GetSessionRange(asia_start_dt, asia_end_dt, asia_high, asia_low)) {
+               double range_pips = (asia_high - asia_low) / CStructureUtils::PipsToPoints();
+               
+               if(range_pips < MinAsiaRangePips || range_pips > MaxAsiaRangePips) {
+                  PrintFormat("ARF: Range invalidated (Width: %.1f pips). Skipping today.", range_pips);
+                  current_state = STATE_TRADED_OR_EXPIRED;
+                  return;
+               }
+
                DrawRangeBox();
                current_state = STATE_WAITING_LONDON;
-               PrintFormat("ARF: Asian Range Built. H: %.5f | L: %.5f", asia_high, asia_low);
+               PrintFormat("ARF: Asian Range Built. H: %.5f | L: %.5f | Width: %.1f", asia_high, asia_low, range_pips);
             }
          }
          break;
