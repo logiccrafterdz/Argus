@@ -15,7 +15,8 @@ Each strategy is located in its own dedicated folder. This ensures a clean works
 | **Trend Pullback** | ./TrendPullback/ | **Production Elite** | A structure-aware trend following system. Uses 2-bar momentum confirmation and EMA confluence. |
 | **S/R Break & Retest** | ./SR_Breakout_Retest/ | **Production Elite** | A multi-timeframe breakout system. Tracks S/R levels, breakouts, and retests. |
 | **ORB Session** | ./ORB_Session/ | **Production Elite** | Opening Range Breakout strategy. Captures morning volatility. |
-| **Bollinger Mean Rev** | ./Bollinger_MeanReversion/ | **Production Elite** | Mean reversion system using Bollinger Bands and RSI filters. |
+| **Bollinger Mean Rev** | ./Bollinger_MeanReversion/ | **Production Elite** | Mean reversion system using Bollinger Bands. |
+| **Price Action S/R** | ./PriceAction_SR/ | **Production Elite** | Price Action rejection patterns (Pin Bar/Engulfing) at S/R levels. |
 
 ---
 
@@ -51,6 +52,13 @@ Each strategy is located in its own dedicated folder. This ensures a clean works
     *   **Safety**: `MaxBarsOutside` limit to prevent catching a "falling knife" during parabolic trends.
     *   **RSI Filter**: Optional RSI confirmation for extreme overbought/oversold conditions.
 *   **Dynamic Exit**: Take Profit targets the **Bollinger Middle Band** (The Mean), adapting to market conditions.
+
+### 5. Price Action S/R Rejections
+*   **Confluence Stack**: 
+    *   **Level Synergy**: Rejections must occur within a proximity zone (5 pips) of a structural S/R level.
+    *   **Candlestick Patterns**: Specialized detection for Pin Bars (long wick rejection) and Engulfing candles.
+    *   **Trend Context**: Optional EMA 200 filter to prioritize trades in the direction of market flow.
+*   **Disciplined Exit**: Uses a fixed 2.0 Risk-Reward ratio targeting the next structural pivot.
 
 ---
 
