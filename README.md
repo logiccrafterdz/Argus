@@ -19,6 +19,7 @@ Each strategy is located in its own dedicated folder. This ensures a clean works
 | **Price Action S/R** | ./PriceAction_SR/ | **Production Elite** | Price Action rejection patterns (Pin Bar/Engulfing) at S/R levels. |
 | **Liquidity Sweep** | ./Liquidity_Sweep_Breakout/ | **Production Elite** | Institutional liquidity grab system. Detects EQH/EQL and enters on MSB. |
 | **VWAP Regime** | ./VWAP_MultiBand_Regime/ | **Production Elite** | Multi-VWAP Band system with ATR-based regime detection. |
+| **Asian Fakeout** | ./Asian_Range_Fakeout/ | **Production Elite** | London fakeout strategy (Judas Swing) using Asian range liquidity. |
 
 ---
 
@@ -80,6 +81,14 @@ Each strategy is located in its own dedicated folder. This ensures a clean works
 *   **Operational Notes**:
     *   **Timezone Sync**: Daily resets and trade limits are synced to the **Broker Platform Time**. Ensure your session settings align with your target market (e.g., London/New York).
     *   **Dynamic SL Tuning**: Recommended `SL_AtrMultiplier` is between **1.0 – 2.0**. For tighter "Balanced" regimes, use smaller multipliers to maintain a positive R:R relative to the `BandMult`.
+
+### 8. Asian Range → London Fakeout & Expansion
+*   **Confluence Stack**: 
+    *   **Asian Range Accumulation**: Defines the high/low context during the low-volatility Asian session (00:00 - 06:00).
+    *   **London Killzone Monitoring**: Watches start of London session (08:00 - 11:00) for a liquidity grab (Fakeout).
+    *   **Fakeout Detection**: Identifies price piercing Asian extremes and closing back inside (Standard Judas Swing).
+    *   **Structure Confirmation**: Optional Market Structure Break (MSB) to filter false reversals.
+*   **Execution**: Multi-target setup: Mid-range, Opposite side, or fixed 2.0 RR target.
 
 ---
 
