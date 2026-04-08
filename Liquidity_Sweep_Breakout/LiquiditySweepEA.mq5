@@ -47,6 +47,7 @@ bool           pending_buy = false;
 bool           pending_sell = false;
 double         sweep_high = 0;
 double         sweep_low = 0;
+datetime       sweep_bar_time = 0;
 double         liquidity_level = 0;
 
 //+------------------------------------------------------------------+
@@ -127,6 +128,7 @@ void CheckForSweeps()
       pending_sell = true;
       sweep_high = h1;
       sweep_low = l1;
+      sweep_bar_time = iTime(_Symbol, _Period, 1);
       liquidity_level = eqh;
       Print("Strategy 6: High Liquidity Sweep detected (Candle 1). Waiting for confirmation...");
    }
@@ -136,6 +138,7 @@ void CheckForSweeps()
       pending_buy = true;
       sweep_low = l1;
       sweep_high = h1;
+      sweep_bar_time = iTime(_Symbol, _Period, 1);
       liquidity_level = eql;
       Print("Strategy 6: Low Liquidity Sweep detected (Candle 1). Waiting for confirmation...");
    }
@@ -150,21 +153,13 @@ void CheckForConfirmation()
 
    // -- SELL CONFIRMATION --
    if(pending_sell) {
-      // We are at the start of Bar 0. Candle 1 is the 'confirmation candidate'. 
-      // If candle 1 just finished and we detect the sweep on candle 1, 
-      // then we must wait for at least candle 0 (the current one) to finish.
-      // But CheckForSweeps was just called on candle 1. 
-      // So if pending_sell was set JUST NOW, we can't confirm yet.
-      
-      // Check if current Low is actually the 'sweep_low' (meaning the sweep was candle 1)
-      if(iHigh(_Symbol, _Period, 1) == sweep_high && iLow(_Symbol, _Period, 1) == sweep_low) {
-         // This is the sweep candle itself that just closed. Wait for next bar.
+      // Check if we are still on the sweep candle bar
+      if(iTime(_Symbol, _Period, 1) == sweep_bar_time) {
          return; 
       }
 
       bool confirmed = false;
       if(ConfType == CONFIRM_CANDLE_BREAK) {
-         // Close below the sweep candle's low
          confirmed = (c1 < sweep_low); 
       } else {
          confirmed = CStructureUtils::IsBearishMSB(LookbackBars, SwingRadius);
@@ -175,16 +170,15 @@ void CheckForConfirmation()
          ResetPending();
       }
       
-      // Cancel if price closes back above sweep high (Failed Sweep)
       if(c1 > sweep_high) {
-         PrintFormat("Strategy 6: Sweep Failed (Price broke high %). Resetting.", sweep_high);
+         PrintFormat("Strategy 6: Sweep Failed (Price broke high %.5f). Resetting.", sweep_high);
          ResetPending();
       }
    }
 
    // -- BUY CONFIRMATION --
    if(pending_buy) {
-      if(iLow(_Symbol, _Period, 1) == sweep_low && iHigh(_Symbol, _Period, 1) == sweep_high) return;
+      if(iTime(_Symbol, _Period, 1) == sweep_bar_time) return;
 
       bool confirmed = false;
       if(ConfType == CONFIRM_CANDLE_BREAK) {
@@ -199,7 +193,7 @@ void CheckForConfirmation()
       }
 
       if(c1 < sweep_low) {
-         PrintFormat("Strategy 6: Sweep Failed (Price broke low %). Resetting.", sweep_low);
+         PrintFormat("Strategy 6: Sweep Failed (Price broke low %.5f). Resetting.", sweep_low);
          ResetPending();
       }
    }
@@ -252,6 +246,7 @@ void ResetPending() {
    pending_sell = false;
    sweep_high = 0;
    sweep_low = 0;
+   sweep_bar_time = 0;
    liquidity_level = 0;
 }
 
