@@ -22,6 +22,7 @@ Each strategy is located in its own dedicated folder. This ensures a clean works
 | **Asian Fakeout** | ./Asian_Range_Fakeout/ | **Production Elite** | London fakeout strategy (Judas Swing) using Asian range liquidity. |
 | **NY Reversal** | ./NY_Session_Reversal/ | **Production Elite** | New York session reversal strategy following London expansion. |
 | **Vol Squeeze** | ./Volatility_Squeeze/ | **Production Elite** | TTM-style squeeze breakout strategy with momentum confirmation. |
+| **ORB Hybrid** | ./ORB_Hybrid/ | **Production Elite** | Modern ORB system with trend bias and failure (trap) detection. |
 
 ---
 
@@ -107,6 +108,14 @@ Each strategy is located in its own dedicated folder. This ensures a clean works
     *   **Trend Alignment**: EMA 100 filter ensures breakouts occur in the direction of the dominant trend.
     *   **Compression Filter**: Validates that the "Squeeze" has been sustained for at least 5 consecutive bars.
 *   **Execution**: Targets 1:2 Risk-Reward or measured move, with SL placed at the opposite extreme of the compression zone.
+
+### 11. ORB Hybrid / Failure EA
+*   **Confluence Stack**: 
+    *   **Opening Range Definition**: Capture high/low of the first 30 minutes of a session.
+    *   **Trend Bias (EMA 200)**: Breakouts are only taken if they align with the higher timeframe trend.
+    *   **Momentum Expansion**: Uses `ExpansionMult` to ensure the breakout candle is significant.
+    *   **Failure Logic (Liquidity Sweep)**: Detects "Fakeouts" where price pierces the OR but closes back inside, triggering a reversal.
+*   **Execution**: Multi-mode execution (Breakout vs Failure). TP targets 2.0x RR or the opposite OR boundary.
 
 ---
 
