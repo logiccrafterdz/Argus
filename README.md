@@ -21,6 +21,7 @@ Each strategy is located in its own dedicated folder. This ensures a clean works
 | **VWAP Regime** | ./VWAP_MultiBand_Regime/ | **Production Elite** | Multi-VWAP Band system with ATR-based regime detection. |
 | **Asian Fakeout** | ./Asian_Range_Fakeout/ | **Production Elite** | London fakeout strategy (Judas Swing) using Asian range liquidity. |
 | **NY Reversal** | ./NY_Session_Reversal/ | **Production Elite** | New York session reversal strategy following London expansion. |
+| **Vol Squeeze** | ./Volatility_Squeeze/ | **Production Elite** | TTM-style squeeze breakout strategy with momentum confirmation. |
 
 ---
 
@@ -98,6 +99,14 @@ Each strategy is located in its own dedicated folder. This ensures a clean works
     *   **Liquidity Sweep (OHLC)**: Detects price sweeping the London High/Low and closing back inside.
     *   **Market Structure Shift**: Confirms the reversal with a minor structure break (MSB) before entry.
 *   **Execution**: Targets the London session midpoint (50% retracement) as a high-probability "Fair Value" return.
+
+### 10. Volatility Squeeze Breakout
+*   **Confluence Stack**: 
+    *   **TTM Squeeze Engine**: Monitors Bollinger Bands (20, 2.0) coiling within Keltner Channels (20, 1.5).
+    *   **Expansion Confirmation**: Requires a breakout candle to have 1.5x the average range/body size (momentum spike).
+    *   **Trend Alignment**: EMA 100 filter ensures breakouts occur in the direction of the dominant trend.
+    *   **Compression Filter**: Validates that the "Squeeze" has been sustained for at least 5 consecutive bars.
+*   **Execution**: Targets 1:2 Risk-Reward or measured move, with SL placed at the opposite extreme of the compression zone.
 
 ---
 
