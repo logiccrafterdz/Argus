@@ -163,7 +163,9 @@ void ExecuteTrade(ENUM_ORDER_TYPE type, double sl_extreme)
       
       double lot = CalculateLotSize(risk_dist);
       if(trade.Buy(lot, _Symbol, ask, sl, tp, "Squeeze Breakout Long")) {
-         Print("Breakout Success: Long confirmed with expansion.");
+         squeeze_counter = 0;
+         is_squeezed = false;
+         Print("Breakout Success: Long confirmed with expansion. Resetting Squeeze.");
       }
    }
    else {
@@ -177,7 +179,9 @@ void ExecuteTrade(ENUM_ORDER_TYPE type, double sl_extreme)
       
       double lot = CalculateLotSize(risk_dist);
       if(trade.Sell(lot, _Symbol, bid, sl, tp, "Squeeze Breakout Short")) {
-         Print("Breakout Success: Short confirmed with expansion.");
+         squeeze_counter = 0;
+         is_squeezed = false;
+         Print("Breakout Success: Short confirmed with expansion. Resetting Squeeze.");
       }
    }
 }
