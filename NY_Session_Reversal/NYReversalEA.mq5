@@ -34,6 +34,8 @@ input string   _SetupFilters        = "------ Setup Filters ------";
 input double   MinExpansionAtrMult  = 1.5;           // London Range > X * ATR
 input double   MinSweepPips         = 1.0;           // Min pierce of London High/Low
 input bool     RequireMSB           = true;          // Require Market Structure Break
+input bool     UseBiasFilter        = true;          // Only reverse AGAINST HTF trend
+input int      HTF_EMA_Period       = 200;           // HTF Trend (EMA 200)
 
 input string   _RiskSettings        = "------ Risk & Trade ------";
 input double   RiskPercent          = 1.0;           // Risk % per trade
@@ -43,6 +45,7 @@ input int      MagicNumber          = 776655;        // Magic Number
 //--- Global variables
 CTrade         trade;
 int            atr_handle;
+int            ema_handle; // HTF trend filter
 int            vol_precision = 0;
 datetime       last_bar_time = 0;
 
@@ -60,6 +63,9 @@ int OnInit()
 {
    atr_handle = iATR(_Symbol, _Period, 14);
    if(atr_handle == INVALID_HANDLE) return(INIT_FAILED);
+
+   ema_handle = iMA(_Symbol, _Period, HTF_EMA_Period, 0, MODE_EMA, PRICE_CLOSE);
+   if(ema_handle == INVALID_HANDLE) return(INIT_FAILED);
    
    double step_vol = SymbolInfoDouble(_Symbol, SYMBOL_VOLUME_STEP);
    vol_precision = (int)MathMax(0, MathCeil(MathLog10(1.0 / step_vol)));
@@ -74,6 +80,7 @@ int OnInit()
 void OnDeinit(const int reason)
 {
    IndicatorRelease(atr_handle);
+   IndicatorRelease(ema_handle);
    ObjectsDeleteAll(0, "NYR_");
 }
 
@@ -167,15 +174,31 @@ void CheckForReversalEntry()
    double c1 = iClose(_Symbol, _Period, 1);
    double sweep_lvl = MinSweepPips * CStructureUtils::PipsToPoints();
 
+   // -- Bias Check --
+   bool bias_ok_sell = true;
+   bool bias_ok_buy = true;
+   if(UseBiasFilter) {
+      double ema[];
+      ArraySetAsSeries(ema, true);
+      if(CopyBuffer(ema_handle, 0, 0, 1, ema) > 0) {
+         // To REVERSE, we want the London move to have gone TOO FAR against the trend or 
+         // we are playing a mean reversion back to the EMA.
+         // Common logic: Reversal works best if London moved far from EMA or is rejected by a trend line.
+         // Here we'll use a simple: Only Sell if Price is arguably overextended (above EMA)
+         bias_ok_sell = (c1 > ema[0]); 
+         bias_ok_buy  = (c1 < ema[0]);
+      }
+   }
+
    // -- SELL REVERSAL (London was up, NY sweeps high) --
-   if(h1 > london_high + sweep_lvl && c1 < london_high)
+   if(h1 > london_high + sweep_lvl && c1 < london_high && bias_ok_sell)
    {
       bool msb = RequireMSB ? CStructureUtils::IsStructureBreak(ORDER_TYPE_SELL, 20, 5) : true;
       if(msb) ExecuteTrade(ORDER_TYPE_SELL, h1);
    }
 
    // -- BUY REVERSAL (London was down, NY sweeps low) --
-   else if(l1 < london_low - sweep_lvl && c1 > london_low)
+   else if(l1 < london_low - sweep_lvl && c1 > london_low && bias_ok_buy)
    {
       bool msb = RequireMSB ? CStructureUtils::IsStructureBreak(ORDER_TYPE_BUY, 20, 5) : true;
       if(msb) ExecuteTrade(ORDER_TYPE_BUY, l1);
@@ -185,34 +208,38 @@ void CheckForReversalEntry()
 //+------------------------------------------------------------------+
 //| Execution and Targets                                            |
 //+------------------------------------------------------------------+
-void ExecuteTrade(ENUM_ORDER_TYPE type, double stop_high_low)
+void ExecuteTrade(ENUM_ORDER_TYPE type, double extreme)
 {
    double bid = SymbolInfoDouble(_Symbol, SYMBOL_BID);
    double ask = SymbolInfoDouble(_Symbol, SYMBOL_ASK);
-   double tick_sz = SymbolInfoDouble(_Symbol, SYMBOL_TRADE_TICK_SIZE);
+   double tick_size = SymbolInfoDouble(_Symbol, SYMBOL_TRADE_TICK_SIZE);
 
    double tp_target = (london_high + london_low) / 2.0; // Primary Target: London Midpoint
 
    if(type == ORDER_TYPE_BUY) {
-      double sl = stop_high_low - (2 * _Point);
+      double sl = NormalizePrice(extreme - (2 * _Point), tick_size);
+      sl = ValidateStopsLevel(ask, sl);
       double risk_dist = ask - sl;
       if(risk_dist <= 0) return;
       
-      double tp = NormalizePrice(tp_target, tick_sz);
-      if(tp <= ask) tp = ask + (risk_dist * 2.0); // Fallback to 1:2 RR if mid is too close
-
+      double tp = NormalizePrice(tp_target, tick_size);
+      tp = ValidateStopsLevel(ask, tp);
+      if(tp <= ask) tp = NormalizePrice(ask + (risk_dist * 2.0), tick_size); // Fallback to 1:2 RR
+      
       double lot = CalculateLotSize(risk_dist);
       if(trade.Buy(lot, _Symbol, ask, sl, tp, "NY Reversal Long")) {
          current_state = STATE_TRADED_FOR_DAY;
       }
    }
    else {
-      double sl = stop_high_low + (2 * _Point);
+      double sl = NormalizePrice(extreme + (2 * _Point), tick_size);
+      sl = ValidateStopsLevel(bid, sl);
       double risk_dist = sl - bid;
       if(risk_dist <= 0) return;
       
-      double tp = NormalizePrice(tp_target, tick_sz);
-      if(tp >= bid) tp = bid - (risk_dist * 2.0);
+      double tp = NormalizePrice(tp_target, tick_size);
+      tp = ValidateStopsLevel(bid, tp);
+      if(tp >= bid) tp = NormalizePrice(bid - (risk_dist * 2.0), tick_size); 
 
       double lot = CalculateLotSize(risk_dist);
       if(trade.Sell(lot, _Symbol, bid, sl, tp, "NY Reversal Short")) {
