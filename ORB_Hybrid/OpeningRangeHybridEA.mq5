@@ -33,10 +33,12 @@ input string   _Hybrid_Logic        = "------ Hybrid & Failure ------";
 input bool     UseBiasFilter        = true;          // Use EMA 200 filter
 input double   ExpansionMult        = 1.2;           // Breakout Momentum factor
 input bool     AllowFailureTrade    = true;          // Enable False Breakout logic
+input bool     UseBiasForFailure    = false;         // Apply bias filter to failure trades
 
 input string   _Risk_Trade          = "------ Risk & Trade ------";
 input double   RiskPercent          = 1.0;           // Risk % per trade
 input int      TP_Ratio             = 2;             // Risk-Reward
+input int      MaxTradesPerDay      = 1;             // Max Trades allowed daily
 input int      MaxSpread            = 30;            // Max Allowed Spread
 input int      MagicNumber          = 998877;        // Magic Number
 
@@ -51,6 +53,7 @@ ENUM_ORB_STATE current_state = STATE_WAITING_OR;
 double         or_high = 0, or_low = 0;
 datetime       or_start_dt, or_end_dt, monitor_end_dt;
 int            last_sync_day = -1;
+int            trades_today = 0;
 
 //+------------------------------------------------------------------+
 //| Expert initialization function                                   |
@@ -142,7 +145,7 @@ void ManageStrategy(datetime now)
 //+------------------------------------------------------------------+
 void CheckForSignals()
 {
-   if(HasOpenPosition()) return;
+   if(HasOpenPosition() || trades_today >= MaxTradesPerDay) return;
 
    double h1 = iHigh(_Symbol, _Period, 1);
    double l1 = iLow(_Symbol, _Period, 1);
@@ -171,13 +174,17 @@ void CheckForSignals()
    if(AllowFailureTrade) {
       // Fakeout High (Short opportunity)
       if(h1 > or_high && c1 < or_high) {
-         ExecuteTrade(ORDER_TYPE_SELL, h1, "ORH Failure Short");
-         return;
+         if(!UseBiasForFailure || CORUtils::IsTrendAligned(ORDER_TYPE_SELL, ema_handle)) {
+            ExecuteTrade(ORDER_TYPE_SELL, h1, "ORH Failure Short");
+            return;
+         }
       }
       // Fakeout Low (Long opportunity)
       if(l1 < or_low && c1 > or_low) {
-         ExecuteTrade(ORDER_TYPE_BUY, l1, "ORH Failure Long");
-         return;
+         if(!UseBiasForFailure || CORUtils::IsTrendAligned(ORDER_TYPE_BUY, ema_handle)) {
+            ExecuteTrade(ORDER_TYPE_BUY, l1, "ORH Failure Long");
+            return;
+         }
       }
    }
 }
@@ -201,7 +208,10 @@ void ExecuteTrade(ENUM_ORDER_TYPE type, double sl_extreme, string comment)
       tp = ValidateStopsLevel(ask, tp);
       
       double lot = CalculateLotSize(risk_dist);
-      if(trade.Buy(lot, _Symbol, ask, sl, tp, comment)) current_state = STATE_TRADED_OR_EXPIRED;
+      if(trade.Buy(lot, _Symbol, ask, sl, tp, comment)) {
+         trades_today++;
+         current_state = STATE_TRADED_OR_EXPIRED;
+      }
    }
    else {
       double sl = NormalizePrice(sl_extreme + (2 * _Point), tick_sz);
@@ -213,7 +223,10 @@ void ExecuteTrade(ENUM_ORDER_TYPE type, double sl_extreme, string comment)
       tp = ValidateStopsLevel(bid, tp);
       
       double lot = CalculateLotSize(risk_dist);
-      if(trade.Sell(lot, _Symbol, bid, sl, tp, comment)) current_state = STATE_TRADED_OR_EXPIRED;
+      if(trade.Sell(lot, _Symbol, bid, sl, tp, comment)) {
+         trades_today++;
+         current_state = STATE_TRADED_OR_EXPIRED;
+      }
    }
 }
 
@@ -223,6 +236,7 @@ void ExecuteTrade(ENUM_ORDER_TYPE type, double sl_extreme, string comment)
 void ResetDailyState() {
    current_state = STATE_WAITING_OR;
    or_high = 0; or_low = 0;
+   trades_today = 0;
    ObjectsDeleteAll(0, "ORH_");
 }
 
