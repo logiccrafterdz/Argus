@@ -23,11 +23,13 @@ input int      HTF_EMA_Fast         = 50;            // Trend Momentum
 
 input string   _LTF_Settings        = "------ LTF Setup (Live) ------";
 input int      Swing_Radius         = 3;             // Radius for swing detection
+input int      MinLegRangePips      = 30;            // Min range of valid swing leg
 input double   Discount_Start       = 0.5;           // Entry Zone Start (0.5 = 50%)
 input double   Discount_End         = 0.75;          // Entry Zone End
 
 input string   _Risk_Settings        = "------ Risk & Trade ------";
 input double   RiskPercent          = 1.0;           // Risk % per trade
+input int      MaxTradesPerDay      = 1;             // Daily Trade Limit
 input int      TP_Ratio             = 2;             // Fixed RR Target
 input int      MaxSpread            = 25;            // Max Allowed Spread
 input int      MagicNumber          = 445566;        // Magic Number
@@ -37,6 +39,8 @@ CTrade         trade;
 int            ema_slow_htf, ema_fast_htf;
 int            vol_precision = 0;
 datetime       last_bar_time = 0;
+int            trades_today = 0;
+int            last_sync_day = -1;
 
 //+------------------------------------------------------------------+
 //| Expert initialization function                                   |
@@ -70,13 +74,23 @@ void OnDeinit(const int reason)
 //+------------------------------------------------------------------+
 void OnTick()
 {
+   datetime now = TimeCurrent();
+   MqlDateTime dt;
+   TimeToStruct(now, dt);
+   
+   // Daily Reset
+   if(dt.day != last_sync_day) {
+      trades_today = 0;
+      last_sync_day = dt.day;
+   }
+
    // Check on New Bar
    datetime current_bar_time = iTime(_Symbol, _Period, 0);
    if(current_bar_time == last_bar_time) return;
    last_bar_time = current_bar_time;
 
    if(SymbolInfoInteger(_Symbol, SYMBOL_SPREAD) > MaxSpread) return;
-   if(HasOpenPosition()) return;
+   if(HasOpenPosition() || trades_today >= MaxTradesPerDay) return;
 
    // 1. Check HTF Bias
    int bias = CStructureUtils::GetHTFBias(HTF_Period, ema_slow_htf, ema_fast_htf);
@@ -86,6 +100,10 @@ void OnTick()
    double leg_h, leg_l;
    int h_idx, l_idx;
    if(!CStructureUtils::FindLatestSwingLeg(300, Swing_Radius, leg_h, leg_l, h_idx, l_idx)) return;
+
+   // Leg Range Filter
+   double leg_pips = (leg_h - leg_l) / CStructureUtils::PipsToPoints();
+   if(leg_pips < MinLegRangePips) return;
 
    // 3. Check for Entry Opportunity
    ProcessSignals(bias, leg_h, leg_l, h_idx, l_idx);
@@ -169,7 +187,7 @@ void ExecuteTrade(ENUM_ORDER_TYPE type, double sl_price)
       tp = ValidateStopsLevel(ask, tp);
       
       double lot = CalculateLotSize(risk_dist);
-      trade.Buy(lot, _Symbol, ask, sl, tp, "SmartSwing Long");
+      if(trade.Buy(lot, _Symbol, ask, sl, tp, "SmartSwing Long")) trades_today++;
    }
    else {
       double sl = NormalizePrice(sl_price + (2 * _Point), tick_sz);
@@ -181,7 +199,7 @@ void ExecuteTrade(ENUM_ORDER_TYPE type, double sl_price)
       tp = ValidateStopsLevel(bid, tp);
       
       double lot = CalculateLotSize(risk_dist);
-      trade.Sell(lot, _Symbol, bid, sl, tp, "SmartSwing Short");
+      if(trade.Sell(lot, _Symbol, bid, sl, tp, "SmartSwing Short")) trades_today++;
    }
 }
 
