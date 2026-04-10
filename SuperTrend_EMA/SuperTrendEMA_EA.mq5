@@ -19,6 +19,7 @@
 input string   _ST_Settings         = "------ SuperTrend ------";
 input int      ST_Period            = 10;            // ATR Period
 input double   ST_Multiplier        = 3.0;           // ATR Multiplier
+input int      ST_Warmup            = 50;            // Bars for state warmup
 
 input string   _EMA_Settings        = "------ EMA Confluence ------";
 input int      EMA_Trend            = 200;           // Trend Filter
@@ -116,7 +117,7 @@ int GetSuperTrendState(int bar_idx, double &value)
    int trend = 0;
    
    // Initialize state from a safe lookback
-   int start_idx = bar_idx + 50; 
+   int start_idx = bar_idx + ST_Warmup; 
    for(int i = start_idx; i >= bar_idx; i--) {
       trend = CSuperTrendUtils::Calculate(i, ST_Period, ST_Multiplier, value, upper, lower, trend);
    }
@@ -142,7 +143,7 @@ void HandleTrailingStop()
       }
    }
    else if(type == POSITION_TYPE_SELL && trend == -1) {
-      if(st_val < current_sl - _Point || current_sl == 0) {
+      if(st_val < current_sl - _Point) {
          trade.PositionModify(ticket, NormalizePrice(st_val, _Point), 0);
       }
    }
