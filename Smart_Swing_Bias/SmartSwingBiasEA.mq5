@@ -97,18 +97,20 @@ void OnTick()
 void ProcessSignals(int bias, double high, double low, int h_idx, int l_idx)
 {
    double range = high - low;
-   double current_price = SymbolInfoDouble(_Symbol, SYMBOL_BID);
+   double bid = SymbolInfoDouble(_Symbol, SYMBOL_BID);
+   double ask = SymbolInfoDouble(_Symbol, SYMBOL_ASK);
    
    // --- BULLISH BIAS: Buy in DISCOUNT ---
    if(bias == 1 && h_idx < l_idx) // We identified a leg where high is more recent (uptrend pull)
    {
-      double zone_top = low + (range * Discount_Start);
-      double zone_bottom = low; 
+      // Zone 0.5 - 0.75 (from top)
+      double zone_top    = low + (range * (1.0 - Discount_Start));
+      double zone_bottom = low + (range * (1.0 - Discount_End));
       
       DrawZoneBox(zone_top, zone_bottom);
       
-      // Entry: Price is in discount AND we see a bullish rejection
-      if(current_price <= zone_top && current_price >= zone_bottom)
+      // Entry: Ask price is in discount AND we see a bullish rejection
+      if(ask <= zone_top && ask >= zone_bottom)
       {
          if(IsRejectionCandle(ORDER_TYPE_BUY)) ExecuteTrade(ORDER_TYPE_BUY, low);
       }
@@ -117,12 +119,12 @@ void ProcessSignals(int bias, double high, double low, int h_idx, int l_idx)
    // --- BEARISH BIAS: Sell in PREMIUM ---
    else if(bias == -1 && l_idx < h_idx) // Low is more recent (downtrend pull)
    {
-      double zone_bottom = high - (range * Discount_Start);
-      double zone_top = high;
+      double zone_bottom = low + (range * Discount_Start);
+      double zone_top    = low + (range * Discount_End);
       
       DrawZoneBox(zone_top, zone_bottom);
       
-      if(current_price >= zone_bottom && current_price <= zone_top)
+      if(bid >= zone_bottom && bid <= zone_top)
       {
          if(IsRejectionCandle(ORDER_TYPE_SELL)) ExecuteTrade(ORDER_TYPE_SELL, high);
       }
@@ -187,9 +189,17 @@ void ExecuteTrade(ENUM_ORDER_TYPE type, double sl_price)
 //| Utilities                                                        |
 //+------------------------------------------------------------------+
 void DrawZoneBox(double top, double bottom) {
-   ObjectCreate(0, "SSB_Zone", OBJ_RECTANGLE, 0, iTime(_Symbol, _Period, 50), top, iTime(_Symbol, _Period, 0), bottom);
-   ObjectSetInteger(0, "SSB_Zone", OBJPROP_COLOR, clrRoyalBlue);
-   ObjectSetInteger(0, "SSB_Zone", OBJPROP_BACK, true);
+   string name = "SSB_Zone";
+   if(ObjectFind(0, name) < 0) {
+      ObjectCreate(0, name, OBJ_RECTANGLE, 0, iTime(_Symbol, _Period, 20), top, iTime(_Symbol, _Period, 0), bottom);
+      ObjectSetInteger(0, name, OBJPROP_COLOR, clrRoyalBlue);
+      ObjectSetInteger(0, name, OBJPROP_BACK, true);
+      ObjectSetInteger(0, name, OBJPROP_FILL, true);
+   } else {
+      ObjectSetDouble(0, name, OBJPROP_PRICE, 0, top);
+      ObjectSetDouble(0, name, OBJPROP_PRICE, 1, bottom);
+      ObjectSetInteger(0, name, OBJPROP_TIME, 1, iTime(_Symbol, _Period, 0));
+   }
 }
 
 double CalculateLotSize(double d) {
