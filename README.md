@@ -25,6 +25,7 @@ Each strategy is located in its own dedicated folder. This ensures a clean works
 | **ORB Hybrid** | ./ORB_Hybrid/ | **Production Elite** | Modern ORB system with trend bias and failure (trap) detection. |
 | **Smart-Swing** | ./Smart_Swing_Bias/ | **Production Elite** | Multi-TF SMC-inspired strategy focusing on Discount/Premium zones. |
 | **SuperTrend EMA** | ./SuperTrend_EMA/ | **Production Elite** | Classic SuperTrend flip strategy with 200 EMA and ATR chop filter. |
+| **Hidden Div** | ./Hidden_Divergence/ | **Production Elite** | Trend continuation strategy using Hidden RSI Divergence and EMA bias. |
 
 ---
 
@@ -134,6 +135,14 @@ Each strategy is located in its own dedicated folder. This ensures a clean works
     *   **Chop Filter (ATR Regime)**: Prevents entry during low-volatility "dead zones" where trend-following fails.
     *   **Dynamic Trailing SL**: Automatically lock in profits by moving the stop loss along the SuperTrend line.
 *   **Execution**: Enters at close of the flip candle. Exit via Trailing SL or optional 1:2 RR.
+
+### 14. Hidden Divergence + Trend Confluence
+*   **Confluence Stack**: 
+    *   **Institutional Bias (EMA 200)**: Operates strictly in the direction of the higher timeframe trend.
+    *   **Hidden Bullish Div**: Detects Price Higher-Low vs RSI Lower-Low (Springboard setup).
+    *   **Hidden Bearish Div**: Detects Price Lower-High vs RSI Higher-High (Exhaustion setup).
+    *   **Swing Logic**: Uses structural peaks and troughs to ensure high-fidelity signal mapping.
+*   **Execution**: Triggered upon confirmation of the second swing point. SL placed at the structural extreme.
 
 ---
 
