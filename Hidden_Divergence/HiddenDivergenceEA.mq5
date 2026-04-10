@@ -20,6 +20,7 @@ input string   _DivSettings         = "------ Divergence (RSI) ------";
 input int      RSI_Period           = 14;            // RSI Period
 input int      Swing_Radius         = 3;             // Swing lookaround strength
 input int      Lookback_Bars        = 60;            // Max bars to look back for swings
+input int      MinDivPips           = 10;            // Min price distance between swings
 
 input string   _BiasSettings        = "------ Trend Bias ------";
 input int      EMA_Trend            = 200;           // Trend Baseline
@@ -112,11 +113,15 @@ void CheckForHiddenDivergence(int bias)
    {
       if(CDivergenceUtils::FindSwingLows(Swing_Radius, Lookback_Bars, s1, s2))
       {
-         // Confirmed Swing Low at s1 (usually index Swing_Radius+1)
-         if(s1 == Swing_Radius + 1)
+         // Confirmed Swing Low within valid window
+         if(s1 <= Swing_Radius + 3)
          {
             double p1 = iLow(_Symbol, _Period, s1);
             double p2 = iLow(_Symbol, _Period, s2);
+            
+            // Distance Filter
+            if(MathAbs(p1 - p2) < MinDivPips * _Point * (SymbolInfoInteger(_Symbol, SYMBOL_DIGITS) == 3 || SymbolInfoInteger(_Symbol, SYMBOL_DIGITS) == 5 ? 10 : 1)) return;
+
             double r1 = CDivergenceUtils::GetRSIAt(rsi_handle, s1);
             double r2 = CDivergenceUtils::GetRSIAt(rsi_handle, s2);
             
@@ -133,10 +138,14 @@ void CheckForHiddenDivergence(int bias)
    {
       if(CDivergenceUtils::FindSwingHighs(Swing_Radius, Lookback_Bars, s1, s2))
       {
-         if(s1 == Swing_Radius + 1)
+         if(s1 <= Swing_Radius + 3)
          {
             double p1 = iHigh(_Symbol, _Period, s1);
             double p2 = iHigh(_Symbol, _Period, s2);
+            
+            // Distance Filter
+            if(MathAbs(p1 - p2) < MinDivPips * _Point * (SymbolInfoInteger(_Symbol, SYMBOL_DIGITS) == 3 || SymbolInfoInteger(_Symbol, SYMBOL_DIGITS) == 5 ? 10 : 1)) return;
+
             double r1 = CDivergenceUtils::GetRSIAt(rsi_handle, s1);
             double r2 = CDivergenceUtils::GetRSIAt(rsi_handle, s2);
             
