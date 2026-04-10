@@ -23,6 +23,7 @@ Each strategy is located in its own dedicated folder. This ensures a clean works
 | **NY Reversal** | ./NY_Session_Reversal/ | **Production Elite** | New York session reversal strategy following London expansion. |
 | **Vol Squeeze** | ./Volatility_Squeeze/ | **Production Elite** | TTM-style squeeze breakout strategy with momentum confirmation. |
 | **ORB Hybrid** | ./ORB_Hybrid/ | **Production Elite** | Modern ORB system with trend bias and failure (trap) detection. |
+| **Smart-Swing** | ./Smart_Swing_Bias/ | **Production Elite** | Multi-TF SMC-inspired strategy focusing on Discount/Premium zones. |
 
 ---
 
@@ -116,6 +117,14 @@ Each strategy is located in its own dedicated folder. This ensures a clean works
     *   **Momentum Expansion**: Uses `ExpansionMult` to ensure the breakout candle is significant.
     *   **Failure Logic (Liquidity Sweep)**: Detects "Fakeouts" where price pierces the OR but closes back inside, triggering a reversal.
 *   **Execution**: Multi-mode execution (Breakout vs Failure). TP targets 2.0x RR or the opposite OR boundary.
+
+### 12. Multi-Timeframe Smart-Swing Bias
+*   **Confluence Stack**: 
+    *   **HTF Bias (PERIOD_D1)**: Enforces directional alignment with long-term trend (EMA 200/50).
+    *   **Swing Leg Analysis**: Identifies the current structural high/low range on the execution timeframe.
+    *   **Discount/Premium Zones**: Targets entries in the "Value Zones" (Retracements of 50%-75% of the leg).
+    *   **Rejection Triggers**: Uses Price Action confirmations (Long wicks/Engulfing) for precision entry.
+*   **Execution**: Aim for High Reward:Risk setups by targeting external liquidity (Swing Extremes) with a fixed 2.0+ RR.
 
 ---
 
