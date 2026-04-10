@@ -24,6 +24,7 @@ Each strategy is located in its own dedicated folder. This ensures a clean works
 | **Vol Squeeze** | ./Volatility_Squeeze/ | **Production Elite** | TTM-style squeeze breakout strategy with momentum confirmation. |
 | **ORB Hybrid** | ./ORB_Hybrid/ | **Production Elite** | Modern ORB system with trend bias and failure (trap) detection. |
 | **Smart-Swing** | ./Smart_Swing_Bias/ | **Production Elite** | Multi-TF SMC-inspired strategy focusing on Discount/Premium zones. |
+| **SuperTrend EMA** | ./SuperTrend_EMA/ | **Production Elite** | Classic SuperTrend flip strategy with 200 EMA and ATR chop filter. |
 
 ---
 
@@ -125,6 +126,14 @@ Each strategy is located in its own dedicated folder. This ensures a clean works
     *   **Discount/Premium Zones**: Targets entries in the "Value Zones" (Retracements of 50%-75% of the leg).
     *   **Rejection Triggers**: Uses Price Action confirmations (Long wicks/Engulfing) for precision entry.
 *   **Execution**: Aim for High Reward:Risk setups by targeting external liquidity (Swing Extremes) with a fixed 2.0+ RR.
+
+### 13. SuperTrend + EMA Confluence
+*   **Confluence Stack**: 
+    *   **Institutional Bias (EMA 200)**: Ensures all trades occur within the major market regime.
+    *   **SuperTrend Adaptive Engine**: Detects trend flips using ATR-adjusted price bands for dynamic S/R.
+    *   **Chop Filter (ATR Regime)**: Prevents entry during low-volatility "dead zones" where trend-following fails.
+    *   **Dynamic Trailing SL**: Automatically lock in profits by moving the stop loss along the SuperTrend line.
+*   **Execution**: Enters at close of the flip candle. Exit via Trailing SL or optional 1:2 RR.
 
 ---
 
