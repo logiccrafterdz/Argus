@@ -23,6 +23,7 @@ input string   _Filter_Settings     = "------ Filters ------";
 input int      EMA_Fast             = 50;            // Fast Trend
 input int      EMA_Slow             = 200;           // Slow Trend
 input int      ADX_MinStrength      = 20;            // Min Volatility Filter
+input bool     RequireRisingADX     = true;          // Must be accelerating
 
 input string   _Risk_Settings        = "------ Risk & Trade ------";
 input double   RiskPercent          = 1.0;           // Risk % per trade
@@ -90,6 +91,14 @@ void OnTick()
    if(CopyBuffer(adx_h, 0, 1, 1, adx) <= 0) return;
    if(adx[0] < ADX_MinStrength) return;
 
+   // Rising ADX Filter
+   if(RequireRisingADX) {
+      double adx_prev[];
+      if(CopyBuffer(adx_h, 0, 2, 1, adx_prev) > 0) {
+         if(adx[0] <= adx_prev[0]) return;
+      }
+   }
+
    // 2. Trend Filter: Faster/Slower EMA
    double ema50[], ema200[];
    if(CopyBuffer(ema_fast_h, 0, 1, 1, ema50) <= 0) return;
@@ -134,7 +143,7 @@ void HandleTrailingStop()
    }
    else if(type == POSITION_TYPE_SELL) {
       double new_sl = CDonchianUtils::GetUpper(Donchian_Period, 1);
-      if(new_sl < current_sl - _Point || current_sl == 0) {
+      if(new_sl < current_sl - _Point) {
          trade.PositionModify(ticket, NormalizePrice(new_sl, _Point), 0);
       }
    }
@@ -155,8 +164,8 @@ void ExecuteTrade(ENUM_ORDER_TYPE type, double sl_ref)
       double risk_dist = ask - sl;
       if(risk_dist <= 0) return;
       
-      double tp = NormalizePrice(ask + (risk_dist * 2.5), tick_sz); // 2.5 RR Target
-      tp = ValidateStopsLevel(ask, tp);
+      double tp = NormalizePrice(ask + (risk_dist * 2.5), tick_sz);
+      // Removed ValidateStopsLevel for TP (usually far enough)
       
       double lot = CalculateLotSize(risk_dist);
       trade.Buy(lot, _Symbol, ask, sl, tp, "Donchian Breakout Long");
@@ -168,7 +177,7 @@ void ExecuteTrade(ENUM_ORDER_TYPE type, double sl_ref)
       if(risk_dist <= 0) return;
       
       double tp = NormalizePrice(bid - (risk_dist * 2.5), tick_sz);
-      tp = ValidateStopsLevel(bid, tp);
+      // Removed ValidateStopsLevel for TP
       
       double lot = CalculateLotSize(risk_dist);
       trade.Sell(lot, _Symbol, bid, sl, tp, "Donchian Breakout Short");
