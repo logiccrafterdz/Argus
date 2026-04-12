@@ -27,6 +27,7 @@ Each strategy is located in its own dedicated folder. This ensures a clean works
 | **SuperTrend EMA** | ./SuperTrend_EMA/ | **Production Elite** | Classic SuperTrend flip strategy with 200 EMA and ATR chop filter. |
 | **Hidden Div** | ./Hidden_Divergence/ | **Production Elite** | Trend continuation strategy using Hidden RSI Divergence and EMA bias. |
 | **ADX Strength** | ./ADX_TrendStrength/ | **Production Elite** | Trend intensity strategy using ADX regime filtering and DMI crossovers. |
+| **Donchian Break** | ./Donchian_Breakout/ | **Production Elite** | Classic Donchian Channel breakout system with trend and ADX filters. |
 
 ---
 
@@ -152,6 +153,14 @@ Each strategy is located in its own dedicated folder. This ensures a clean works
     *   **Directional Alignment**: Combines DMI (+DI/-DI) for short-term entry with 200 EMA for macro-trend synchronization.
     *   **Adaptive Risk**: Uses 1.5x ATR for safety, as optimized by community backtesting.
 *   **Execution**: Triggered when ADX crosses 25 while DI/EMA are aligned. Exit on TP or ADX slope reversal.
+
+### 16. Donchian Channel Breakout
+*   **Confluence Stack**: 
+    *   **Price Action Breakout**: Triggered by closure outside the 20-period Highest High or Lowest Low.
+    *   **Dual Trend Alignment**: Requires price to be above (Long) or below (Short) both 50 and 200 EMAs.
+    *   **Volatility Filter (ADX > 20)**: Ensures breakouts happen during active market cycles to avoid false signals.
+    *   **Turtle Trailing Exit**: Dynamic Stop Loss that follows the opposite Donchian band (The "opposite wall").
+*   **Execution**: Enters at bar close. Exits via trailing opposite band or a 2.5:1 fixed RR target.
 
 ---
 
