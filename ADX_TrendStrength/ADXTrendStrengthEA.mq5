@@ -30,6 +30,7 @@ input double   RiskPercent          = 1.0;           // Risk % per trade
 input double   ATR_Multiplier       = 1.5;           // Stop Loss ATR Multiplier
 input double   RR_Target            = 2.5;           // Fixed RR Goal
 input bool     UseExhaustionExit    = true;          // Exit if Trend Fades
+input int      MaxSpread            = 30;            // Max Allowed Spread
 input int      MagicNumber          = 112244;        // Magic Number
 
 //--- Global variables
@@ -75,7 +76,12 @@ void OnTick()
    // 1. Manage Active Trades (Exhaustion Logic)
    if(UseExhaustionExit && PositionSelectByMagic(MagicNumber)) {
       if(CADXUtils::IsFalling(adx_handle, 2)) {
-         trade.PositionClose(PositionGetTicket(0), -1);
+         for(int i = PositionsTotal() - 1; i >= 0; i--) {
+            ulong ticket = PositionGetTicket(i);
+            if(PositionSelectByTicket(ticket) && PositionGetInteger(POSITION_MAGIC) == MagicNumber && PositionGetString(POSITION_SYMBOL) == _Symbol) {
+               trade.PositionClose(ticket, -1);
+            }
+         }
       }
    }
 
@@ -84,6 +90,7 @@ void OnTick()
    if(current_bar_time == last_bar_time) return;
    last_bar_time = current_bar_time;
 
+   if(SymbolInfoInteger(_Symbol, SYMBOL_SPREAD) > MaxSpread) return;
    if(HasOpenPosition()) return;
 
    // 3. Regime Check: ADX Strength
@@ -130,19 +137,25 @@ void ExecuteTrade(ENUM_ORDER_TYPE type)
    if(type == ORDER_TYPE_BUY) {
       double sl = NormalizePrice(ask - sl_dist, tick_sz);
       sl = ValidateStopsLevel(ask, sl);
-      double tp = NormalizePrice(ask + (sl_dist / ATR_Multiplier * RR_Target * ATR_Multiplier), tick_sz); // Simplified: risk * target
+      double risk_dist = ask - sl;
+      if(risk_dist <= 0) return;
+      
+      double tp = NormalizePrice(ask + (risk_dist * RR_Target), tick_sz);
       tp = ValidateStopsLevel(ask, tp);
       
-      double lot = CalculateLotSize(ask - sl);
+      double lot = CalculateLotSize(risk_dist);
       trade.Buy(lot, _Symbol, ask, sl, tp, "ADX Strong Trend Long");
    }
    else {
       double sl = NormalizePrice(bid + sl_dist, tick_sz);
       sl = ValidateStopsLevel(bid, sl);
-      double tp = NormalizePrice(bid - (sl_dist / ATR_Multiplier * RR_Target * ATR_Multiplier), tick_sz);
+      double risk_dist = sl - bid;
+      if(risk_dist <= 0) return;
+      
+      double tp = NormalizePrice(bid - (risk_dist * RR_Target), tick_sz);
       tp = ValidateStopsLevel(bid, tp);
       
-      double lot = CalculateLotSize(sl - bid);
+      double lot = CalculateLotSize(risk_dist);
       trade.Sell(lot, _Symbol, bid, sl, tp, "ADX Strong Trend Short");
    }
 }
