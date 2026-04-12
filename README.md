@@ -28,6 +28,7 @@ Each strategy is located in its own dedicated folder. This ensures a clean works
 | **Hidden Div** | ./Hidden_Divergence/ | **Production Elite** | Trend continuation strategy using Hidden RSI Divergence and EMA bias. |
 | **ADX Strength** | ./ADX_TrendStrength/ | **Production Elite** | Trend intensity strategy using ADX regime filtering and DMI crossovers. |
 | **Donchian Break** | ./Donchian_Breakout/ | **Production Elite** | Classic Donchian Channel breakout system with trend and ADX filters. |
+| **ICT Killzone** | ./ICT_Killzone_Macro/ | **Production Elite** | Institutional liquidity sweep strategy inside precise Macro Windows. |
 
 ---
 
@@ -161,6 +162,15 @@ Each strategy is located in its own dedicated folder. This ensures a clean works
     *   **Volatility Filter (ADX > 20)**: Ensures breakouts happen during active market cycles to avoid false signals.
     *   **Turtle Trailing Exit**: Dynamic Stop Loss that follows the opposite Donchian band (The "opposite wall").
 *   **Execution**: Enters at bar close. Exits via trailing opposite band or a 2.5:1 fixed RR target.
+
+### 17. ICT Killzone Macro
+*   **Confluence Stack**: 
+    *   **Time-Regime Gate**: Operates strictly within precise Macro Windows (e.g., London/NY Killzones).
+    *   **Institutional Liquidity Reference**: Targets the highest/lowest prices of the preceding 4-hour block.
+    *   **Sweep & Rejection Logic**: Detects price piercing liquidity levels and closing back inside (Manipulation detection).
+    *   **Dual-Target Management**: Uses Mid-Range (50%) and Range-Extremes for high-probability exits.
+    *   **Temporal Protection**: Forced exit at window end to minimize exposure to non-institutional liquidity.
+*   **Execution**: Automated calculation 15m prior to window. Triggered on M5/M15 rejection close.
 
 ---
 
