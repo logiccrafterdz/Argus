@@ -166,10 +166,11 @@ void ExecuteTrade(ENUM_ORDER_TYPE type, double stop_ref)
    double bid = SymbolInfoDouble(_Symbol, SYMBOL_BID);
    double ask = SymbolInfoDouble(_Symbol, SYMBOL_ASK);
    double tick_sz = SymbolInfoDouble(_Symbol, SYMBOL_TRADE_TICK_SIZE);
-   double mid = (liq_high + li_low) / 2.0;
+   double mid = (liq_high + liq_low) / 2.0;
 
    // Base lot calculation
-   double base_lot = CalculateLotSize(MathAbs(ask - (type == ORDER_TYPE_BUY ? stop_ref : bid)));
+   double risk_amt = (type == ORDER_TYPE_BUY) ? (ask - (stop_ref - 2 * _Point)) : ((stop_ref + 2 * _Point) - bid);
+   double base_lot = CalculateLotSize(MathMax(risk_amt, 10 * _Point));
    if(base_lot <= 0) return;
 
    double min_lot = SymbolInfoDouble(_Symbol, SYMBOL_VOLUME_MIN);
