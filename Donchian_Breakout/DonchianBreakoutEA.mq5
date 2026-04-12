@@ -133,18 +133,19 @@ void HandleTrailingStop()
    
    ulong ticket = PositionGetInteger(POSITION_TICKET);
    double current_sl = PositionGetDouble(POSITION_SL);
+   double tick_sz = SymbolInfoDouble(_Symbol, SYMBOL_TRADE_TICK_SIZE);
    ENUM_POSITION_TYPE type = (ENUM_POSITION_TYPE)PositionGetInteger(POSITION_TYPE);
    
    if(type == POSITION_TYPE_BUY) {
       double new_sl = CDonchianUtils::GetLower(Donchian_Period, 1);
       if(new_sl > current_sl + _Point) {
-         trade.PositionModify(ticket, NormalizePrice(new_sl, _Point), 0);
+         trade.PositionModify(ticket, NormalizePrice(new_sl, tick_sz), 0);
       }
    }
    else if(type == POSITION_TYPE_SELL) {
       double new_sl = CDonchianUtils::GetUpper(Donchian_Period, 1);
       if(new_sl < current_sl - _Point) {
-         trade.PositionModify(ticket, NormalizePrice(new_sl, _Point), 0);
+         trade.PositionModify(ticket, NormalizePrice(new_sl, tick_sz), 0);
       }
    }
 }
