@@ -31,7 +31,6 @@ input int      RefLookbackHours     = 4;            // Hours for High/Low Ref
 
 input string   _Signal_Settings     = "------ Sweep Logic ------";
 input double   SweepBufferPips      = 5.0;          // Buffer to confirm Sweep
-input int      ConfirmationBars     = 1;            // Wait for N-bar rejection
 
 input string   _Risk_Settings        = "------ Risk & Trade ------";
 input double   RiskPercent          = 1.0;           // Risk % per trade
@@ -45,6 +44,7 @@ CTrade         trade;
 ENUM_EA_STATE  current_state = STATE_IDLE;
 double         liq_high = 0, liq_low = 0;
 bool           sweep_buy_triggered = false, sweep_sell_triggered = false;
+bool           trade_taken_today = false;
 int            vol_precision = 0;
 datetime       last_calc_date = 0;
 
@@ -76,8 +76,8 @@ void OnTick()
    if(calc_start < 0) calc_start += 1440;
 
    // 1. Force Close at End
-   if(ForceCloseAtEnd && now_min == kz_end) {
-      if(PositionSelectByMagic(MagicNumber)) {
+   if(ForceCloseAtEnd && now_min >= kz_end && (now_min < kz_start || kz_start > kz_end)) {
+      if(HasOpenPosition()) {
          CloseAllPositions();
          current_state = STATE_IDLE;
          return;
@@ -100,6 +100,7 @@ void OnTick()
             current_state = STATE_WATCH_SWEEP;
             sweep_buy_triggered = false;
             sweep_sell_triggered = false;
+            trade_taken_today = false;
          }
          break;
 
@@ -110,6 +111,7 @@ void OnTick()
          }
          
          if(SymbolInfoInteger(_Symbol, SYMBOL_SPREAD) > MaxSpread) return;
+         if(trade_taken_today) return;
          if(HasOpenPosition()) {
             current_state = STATE_IN_TRADE;
             return;
@@ -164,7 +166,14 @@ void ExecuteTrade(ENUM_ORDER_TYPE type, double stop_ref)
    double bid = SymbolInfoDouble(_Symbol, SYMBOL_BID);
    double ask = SymbolInfoDouble(_Symbol, SYMBOL_ASK);
    double tick_sz = SymbolInfoDouble(_Symbol, SYMBOL_TRADE_TICK_SIZE);
-   double mid = (liq_high + liq_low) / 2.0;
+   double mid = (liq_high + li_low) / 2.0;
+
+   // Base lot calculation
+   double base_lot = CalculateLotSize(MathAbs(ask - (type == ORDER_TYPE_BUY ? stop_ref : bid)));
+   if(base_lot <= 0) return;
+
+   double min_lot = SymbolInfoDouble(_Symbol, SYMBOL_VOLUME_MIN);
+   double step_lot = SymbolInfoDouble(_Symbol, SYMBOL_VOLUME_STEP);
 
    if(type == ORDER_TYPE_BUY) {
       double sl = NormalizePrice(stop_ref - (2 * _Point), tick_sz);
@@ -172,9 +181,14 @@ void ExecuteTrade(ENUM_ORDER_TYPE type, double stop_ref)
       double tp1 = NormalizePrice(mid, tick_sz);
       double tp2 = NormalizePrice(liq_high, tick_sz);
       
-      double lot = CalculateLotSize(ask - sl);
-      trade.Buy(lot, _Symbol, ask, sl, tp1, "ICT Macro Buy TP1");
-      if(UseTP2) trade.Buy(lot/2.0, _Symbol, ask, sl, tp2, "ICT Macro Buy TP2");
+      if(UseTP2) {
+         double lot1 = NormalizeDouble(MathMax(min_lot, MathFloor((base_lot/2.0)/step_lot)*step_lot), vol_precision);
+         double lot2 = NormalizeDouble(MathMax(min_lot, MathFloor((base_lot/2.0)/step_lot)*step_lot), vol_precision);
+         trade.Buy(lot1, _Symbol, ask, sl, tp1, "ICT Macro Buy TP1");
+         trade.Buy(lot2, _Symbol, ask, sl, tp2, "ICT Macro Buy TP2");
+      } else {
+         trade.Buy(base_lot, _Symbol, ask, sl, tp1, "ICT Macro Buy Full");
+      }
    }
    else {
       double sl = NormalizePrice(stop_ref + (2 * _Point), tick_sz);
@@ -182,10 +196,16 @@ void ExecuteTrade(ENUM_ORDER_TYPE type, double stop_ref)
       double tp1 = NormalizePrice(mid, tick_sz);
       double tp2 = NormalizePrice(liq_low, tick_sz);
       
-      double lot = CalculateLotSize(sl - bid);
-      trade.Sell(lot, _Symbol, bid, sl, tp1, "ICT Macro Sell TP1");
-      if(UseTP2) trade.Sell(lot/2.0, _Symbol, bid, sl, tp2, "ICT Macro Sell TP2");
+      if(UseTP2) {
+         double lot1 = NormalizeDouble(MathMax(min_lot, MathFloor((base_lot/2.0)/step_lot)*step_lot), vol_precision);
+         double lot2 = NormalizeDouble(MathMax(min_lot, MathFloor((base_lot/2.0)/step_lot)*step_lot), vol_precision);
+         trade.Sell(lot1, _Symbol, bid, sl, tp1, "ICT Macro Sell TP1");
+         trade.Sell(lot2, _Symbol, bid, sl, tp2, "ICT Macro Sell TP2");
+      } else {
+         trade.Sell(base_lot, _Symbol, bid, sl, tp1, "ICT Macro Sell Full");
+      }
    }
+   trade_taken_today = true;
    current_state = STATE_IN_TRADE;
 }
 
