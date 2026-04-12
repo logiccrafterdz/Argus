@@ -26,6 +26,7 @@ Each strategy is located in its own dedicated folder. This ensures a clean works
 | **Smart-Swing** | ./Smart_Swing_Bias/ | **Production Elite** | Multi-TF SMC-inspired strategy focusing on Discount/Premium zones. |
 | **SuperTrend EMA** | ./SuperTrend_EMA/ | **Production Elite** | Classic SuperTrend flip strategy with 200 EMA and ATR chop filter. |
 | **Hidden Div** | ./Hidden_Divergence/ | **Production Elite** | Trend continuation strategy using Hidden RSI Divergence and EMA bias. |
+| **ADX Strength** | ./ADX_TrendStrength/ | **Production Elite** | Trend intensity strategy using ADX regime filtering and DMI crossovers. |
 
 ---
 
@@ -143,6 +144,14 @@ Each strategy is located in its own dedicated folder. This ensures a clean works
     *   **Hidden Bearish Div**: Detects Price Lower-High vs RSI Higher-High (Exhaustion setup).
     *   **Swing Logic**: Uses structural peaks and troughs to ensure high-fidelity signal mapping.
 *   **Execution**: Triggered upon confirmation of the second swing point. SL placed at the structural extreme.
+
+### 15. ADX Trend Strength + DMI Crossover
+*   **Confluence Stack**: 
+    *   **Regime Gate (ADX > 25)**: Ensures trades are only placed during high-intensity trending environments.
+    *   **Momentum Slope Filter**: Logic to detect trend acceleration (Entry) and exhaustion (Exit).
+    *   **Directional Alignment**: Combines DMI (+DI/-DI) for short-term entry with 200 EMA for macro-trend synchronization.
+    *   **Adaptive Risk**: Uses 1.5x ATR for safety, as optimized by community backtesting.
+*   **Execution**: Triggered when ADX crosses 25 while DI/EMA are aligned. Exit on TP or ADX slope reversal.
 
 ---
 

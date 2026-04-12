@@ -1,0 +1,184 @@
+//+------------------------------------------------------------------+
+//|                                         ADXTrendStrengthEA.mq5 |
+//|                                  Copyright 2026, LogicCrafterDz |
+//|                                             https://example.com |
+//|                                                                  |
+//|  WARNING: FOR EDUCATIONAL PURPOSES ONLY. NO WARRANTY PROVIDED.   |
+//|  USE AT YOUR OWN RISK. VERSION 1.00 (Regime Filter Based)        |
+//+------------------------------------------------------------------+
+#property copyright "Copyright 2026, LogicCrafterDz"
+#property link      "https://example.com"
+#property version   "1.00"
+#property strict
+
+//--- Include necessary libraries
+#include <Trade\Trade.mqh>
+#include "ADXUtils.mqh"
+
+//--- Input parameters
+input string   _ADX_Settings        = "------ ADX Regime ------";
+input int      ADX_Period           = 14;            // ADX Period
+input double   ADX_Threshold        = 25.0;          // Min Strength to enter
+input bool     RequireRisingADX     = true;          // Must be accelerating
+
+input string   _Direction_Settings = "------ Direction ------";
+input int      EMA_Trend            = 200;           // Trend Baseline
+input int      DI_Filter_Period     = 14;            // DMI Period
+
+input string   _Risk_Settings        = "------ Risk & Trade ------";
+input double   RiskPercent          = 1.0;           // Risk % per trade
+input double   ATR_Multiplier       = 1.5;           // Stop Loss ATR Multiplier
+input double   RR_Target            = 2.5;           // Fixed RR Goal
+input bool     UseExhaustionExit    = true;          // Exit if Trend Fades
+input int      MagicNumber          = 112244;        // Magic Number
+
+//--- Global variables
+CTrade         trade;
+int            adx_handle, ema_handle, atr_handle;
+int            vol_precision = 0;
+datetime       last_bar_time = 0;
+
+//+------------------------------------------------------------------+
+//| Expert initialization function                                   |
+//+------------------------------------------------------------------+
+int OnInit()
+{
+   adx_handle = iADX(_Symbol, _Period, ADX_Period);
+   ema_handle = iMA(_Symbol, _Period, EMA_Trend, 0, MODE_EMA, PRICE_CLOSE);
+   atr_handle = iATR(_Symbol, _Period, 14);
+   
+   if(adx_handle == INVALID_HANDLE || ema_handle == INVALID_HANDLE || atr_handle == INVALID_HANDLE) 
+      return(INIT_FAILED);
+   
+   double step_vol = SymbolInfoDouble(_Symbol, SYMBOL_VOLUME_STEP);
+   vol_precision = (int)MathMax(0, MathCeil(MathLog10(1.0 / step_vol)));
+   
+   trade.SetExpertMagicNumber(MagicNumber);
+   return(INIT_SUCCEEDED);
+}
+
+//+------------------------------------------------------------------+
+//| Expert deinitialization function                                 |
+//+------------------------------------------------------------------+
+void OnDeinit(const int reason)
+{
+   IndicatorRelease(adx_handle);
+   IndicatorRelease(ema_handle);
+   IndicatorRelease(atr_handle);
+}
+
+//+------------------------------------------------------------------+
+//| Expert tick function                                             |
+//+------------------------------------------------------------------+
+void OnTick()
+{
+   // 1. Manage Active Trades (Exhaustion Logic)
+   if(UseExhaustionExit && PositionSelectByMagic(MagicNumber)) {
+      if(CADXUtils::IsFalling(adx_handle, 2)) {
+         trade.PositionClose(PositionGetTicket(0), -1);
+      }
+   }
+
+   // 2. Signal Check on New Bar
+   datetime current_bar_time = iTime(_Symbol, _Period, 0);
+   if(current_bar_time == last_bar_time) return;
+   last_bar_time = current_bar_time;
+
+   if(HasOpenPosition()) return;
+
+   // 3. Regime Check: ADX Strength
+   double adx_main[];
+   if(CopyBuffer(adx_handle, 0, 1, 1, adx_main) <= 0) return;
+   
+   if(adx_main[0] < ADX_Threshold) return; // Trend too weak
+   if(RequireRisingADX && !CADXUtils::IsRising(adx_handle, 1)) return; // Fading momentum
+
+   // 4. Direction Check: DMI + EMA
+   double plus_di[], minus_di[], ema[];
+   if(CopyBuffer(adx_handle, 1, 1, 1, plus_di) <= 0) return;
+   if(CopyBuffer(adx_handle, 2, 1, 1, minus_di) <= 0) return;
+   if(CopyBuffer(ema_handle, 0, 1, 1, ema) <= 0) return;
+   
+   double close1 = iClose(_Symbol, _Period, 1);
+   double ask = SymbolInfoDouble(_Symbol, SYMBOL_ASK);
+   double bid = SymbolInfoDouble(_Symbol, SYMBOL_BID);
+
+   // Buy Setup
+   if(close1 > ema[0] && plus_di[0] > minus_di[0])
+   {
+      ExecuteTrade(ORDER_TYPE_BUY);
+   }
+   // Sell Setup
+   else if(close1 < ema[0] && minus_di[0] > plus_di[0])
+   {
+      ExecuteTrade(ORDER_TYPE_SELL);
+   }
+}
+
+//+------------------------------------------------------------------+
+//| Execution Engine                                                 |
+//+------------------------------------------------------------------+
+void ExecuteTrade(ENUM_ORDER_TYPE type)
+{
+   double bid = SymbolInfoDouble(_Symbol, SYMBOL_BID);
+   double ask = SymbolInfoDouble(_Symbol, SYMBOL_ASK);
+   double tick_sz = SymbolInfoDouble(_Symbol, SYMBOL_TRADE_TICK_SIZE);
+
+   double sl_dist = CADXUtils::GetATRDistance(atr_handle, ATR_Multiplier);
+   if(sl_dist <= 0) return;
+
+   if(type == ORDER_TYPE_BUY) {
+      double sl = NormalizePrice(ask - sl_dist, tick_sz);
+      sl = ValidateStopsLevel(ask, sl);
+      double tp = NormalizePrice(ask + (sl_dist / ATR_Multiplier * RR_Target * ATR_Multiplier), tick_sz); // Simplified: risk * target
+      tp = ValidateStopsLevel(ask, tp);
+      
+      double lot = CalculateLotSize(ask - sl);
+      trade.Buy(lot, _Symbol, ask, sl, tp, "ADX Strong Trend Long");
+   }
+   else {
+      double sl = NormalizePrice(bid + sl_dist, tick_sz);
+      sl = ValidateStopsLevel(bid, sl);
+      double tp = NormalizePrice(bid - (sl_dist / ATR_Multiplier * RR_Target * ATR_Multiplier), tick_sz);
+      tp = ValidateStopsLevel(bid, tp);
+      
+      double lot = CalculateLotSize(sl - bid);
+      trade.Sell(lot, _Symbol, bid, sl, tp, "ADX Strong Trend Short");
+   }
+}
+
+//+------------------------------------------------------------------+
+//| Utilities                                                        |
+//+------------------------------------------------------------------+
+double CalculateLotSize(double d) {
+   double b = AccountInfoDouble(ACCOUNT_BALANCE), r = b * (RiskPercent / 100.0);
+   double tv = SymbolInfoDouble(_Symbol, SYMBOL_TRADE_TICK_VALUE), ts = SymbolInfoDouble(_Symbol, SYMBOL_TRADE_TICK_SIZE);
+   if(d <= 0 || tv <= 0) return 0;
+   double l = r / (d / ts * tv), min = SymbolInfoDouble(_Symbol, SYMBOL_VOLUME_MIN), max = SymbolInfoDouble(_Symbol, SYMBOL_VOLUME_MAX), st = SymbolInfoDouble(_Symbol, SYMBOL_VOLUME_STEP);
+   l = MathFloor(l / st) * st;
+   return NormalizeDouble(MathMax(min, MathMin(max, l)), vol_precision);
+}
+
+double ValidateStopsLevel(double p, double t) {
+   int s = (int)SymbolInfoInteger(_Symbol, SYMBOL_TRADE_STOPS_LEVEL), f = (int)SymbolInfoInteger(_Symbol, SYMBOL_TRADE_FREEZE_LEVEL);
+   double m = MathMax(s, f) * _Point, d = MathAbs(p - t);
+   if(d < m) return (t > p) ? p + m + _Point : p - m - _Point;
+   return t;
+}
+
+bool HasOpenPosition() {
+   for(int i = PositionsTotal() - 1; i >= 0; i--) {
+      if(PositionSelectByTicket(PositionGetTicket(i)) && PositionGetInteger(POSITION_MAGIC) == MagicNumber && PositionGetString(POSITION_SYMBOL) == _Symbol) return true;
+   }
+   return false;
+}
+
+bool PositionSelectByMagic(long magic) {
+   for(int i = PositionsTotal() - 1; i >= 0; i--) {
+      ulong t = PositionGetTicket(i);
+      if(PositionSelectByTicket(t) && PositionGetInteger(POSITION_MAGIC) == magic && PositionGetString(POSITION_SYMBOL) == _Symbol) return true;
+   }
+   return false;
+}
+
+double NormalizePrice(double p, double t) { return MathRound(p / t) * t; }
