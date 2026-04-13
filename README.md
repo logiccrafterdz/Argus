@@ -31,6 +31,7 @@ Each strategy is located in its own dedicated folder. This ensures a clean works
 | **ICT Killzone** | ./ICT_Killzone_Macro/ | **Production Elite** | Institutional liquidity sweep strategy inside precise Macro Windows. |
 | **PDH/PDL Break** | ./PDH_PDL_BreakReversal/ | **Production Elite** | PDH/PDL level strategy with dynamic Expansion/Balance regime switching. |
 | **SMC Sweep FVG** | ./Liquidity_Sweep_FVG/ | **Production Elite** | Smart Money Concepts strategy using Liquidity Sweeps and Fair Value Gaps. |
+| **AVWAP Confluence** | ./AVWAP_Confluence/ | **Production Elite** | Institutional Anchored VWAP bouncing strategy with HTF EMA alignment. |
 
 ---
 
@@ -190,6 +191,14 @@ Each strategy is located in its own dedicated folder. This ensures a clean works
     *   **Fair Value Gap (FVG)**: Pinpoints price imbalances as high-probability entry zones.
     *   **Structural RR Management**: Uses the sweep extreme for highly optimized risk:reward targeting.
 *   **Execution**: Logic-based state machine. Automatically draws Sweep levels and FVG rectangles on the chart.
+
+### 20. Anchored VWAP + EMA Confluence
+*   **Confluence Stack**: 
+    *   **Institutional "Fair Value" (AVWAP)**: Calculates the Volume Weighted Average Price from a specific anchor (London Open or Swing).
+    *   **HTF Trend Filter**: Uses H1 EMA 50 to ensure trades are aligned with professional order flow.
+    *   **Volume-Weighted Reversion**: Targets entries when price returns to the "Value Area" and shows rejection.
+    *   **Momentum Confirmation**: ATR-based body filter ensures the bounce is significant.
+*   **Execution**: Multi-mode anchoring (Session/Swing). Visual VWAP trendline drawing and logic-based entry.
 
 ---
 
