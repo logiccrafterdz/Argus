@@ -36,6 +36,7 @@ input int      MaxTradesPerSession  = 2;              // Max Session Trades
 input string   _Meta_Settings       = "------ Risk & Meta ------";
 input double   RiskPercent          = 1.0;            // Risk % per trade
 input double   RR_Target            = 2.0;            // Reward:Risk Ratio
+input double   SL_ATR_Buffer        = 0.2;            // SL buffer (ATR ratio)
 input int      MaxSpread            = 15;             // Institutional Spread
 input int      MagicNumber          = 778899;         // Magic Number
 
@@ -92,11 +93,13 @@ void OnTick()
    if(HasOpenPosition()) return;
 
    // 1. Update Core Data
-   if(AnchorMode == ANCHOR_SWING || anchor_time == 0) 
-      anchor_time = CAVWAPUtils::GetAnchorTime(AnchorMode, SessionAnchorHour, SwingLookback);
+   if(is_new_bar) {
+      if(AnchorMode == ANCHOR_SWING || anchor_time == 0) 
+         anchor_time = CAVWAPUtils::GetAnchorTime(AnchorMode, SessionAnchorHour, SwingLookback);
+      DrawAVWAPLine();
+   }
       
    current_avwap = CAVWAPUtils::CalculateAVWAP(anchor_time);
-   if(is_new_bar) DrawAVWAPLine();
 
    // 2. HTF Bias Check
    double ema[];
@@ -111,7 +114,8 @@ void OnTick()
    switch(current_state)
    {
       case STATE_IDLE:
-         // Validate price position relative to bias
+         if(!is_new_bar) break;
+         
          double ask = SymbolInfoDouble(_Symbol, SYMBOL_ASK);
          double bid = SymbolInfoDouble(_Symbol, SYMBOL_BID);
          
@@ -181,7 +185,7 @@ void HandleBounceConfirmation()
    if(bias == ORDER_TYPE_BUY) {
       double ask = SymbolInfoDouble(_Symbol, SYMBOL_ASK);
       if(close1 > current_avwap && CAVWAPUtils::IsBounceConfirmed(1, current_avwap, min_bounce)) {
-         double sl = NormalizePrice(low1 - (0.2 * atr[0]), tick_sz);
+         double sl = NormalizePrice(low1 - (SL_ATR_Buffer * atr[0]), tick_sz);
          sl = ValidateStopsLevel(ask, sl);
          double risk = ask - sl;
          if(risk <= 0) return;
@@ -192,12 +196,13 @@ void HandleBounceConfirmation()
          if(trade.Buy(lot, _Symbol, ask, sl, tp, "AVWAP Bounce Buy")) {
             trades_today++;
             current_state = STATE_IDLE;
+            return;
          }
       }
    } else {
       double bid = SymbolInfoDouble(_Symbol, SYMBOL_BID);
       if(close1 < current_avwap && CAVWAPUtils::IsBounceConfirmed(1, current_avwap, min_bounce)) {
-         double sl = NormalizePrice(high1 + (0.2 * atr[0]), tick_sz);
+         double sl = NormalizePrice(high1 + (SL_ATR_Buffer * atr[0]), tick_sz);
          sl = ValidateStopsLevel(bid, sl);
          double risk = sl - bid;
          if(risk <= 0) return;
@@ -208,6 +213,7 @@ void HandleBounceConfirmation()
          if(trade.Sell(lot, _Symbol, bid, sl, tp, "AVWAP Bounce Sell")) {
             trades_today++;
             current_state = STATE_IDLE;
+            return;
          }
       }
    }
