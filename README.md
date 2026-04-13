@@ -30,6 +30,7 @@ Each strategy is located in its own dedicated folder. This ensures a clean works
 | **Donchian Break** | ./Donchian_Breakout/ | **Production Elite** | Classic Donchian Channel breakout system with trend and ADX filters. |
 | **ICT Killzone** | ./ICT_Killzone_Macro/ | **Production Elite** | Institutional liquidity sweep strategy inside precise Macro Windows. |
 | **PDH/PDL Break** | ./PDH_PDL_BreakReversal/ | **Production Elite** | PDH/PDL level strategy with dynamic Expansion/Balance regime switching. |
+| **SMC Sweep FVG** | ./Liquidity_Sweep_FVG/ | **Production Elite** | Smart Money Concepts strategy using Liquidity Sweeps and Fair Value Gaps. |
 
 ---
 
@@ -180,6 +181,15 @@ Each strategy is located in its own dedicated folder. This ensures a clean works
     *   **Breakout + Retest Logic**: Ensures momentum is confirmed before entering on a structural pullback.
     *   **Rejection PA Confirmation**: Detects Pinbars and institutional rejections at sensitive price levels.
 *   **Execution**: Level-based trigger with state-machine tracking. Exit via fixed 2.0x RR.
+
+### 19. Liquidity Sweep + Fair Value Gap (SMC)
+*   **Confluence Stack**: 
+    *   **HTF Bias Alignment**: Ensures trades are taken in the direction of institutional order flow (H1/H4).
+    *   **Liquidity Sweep Detection**: Identifies "Stop Hunt" manipulation at previous structural highs/lows.
+    *   **Impulsive Displacement**: Validates institutional entry via high-momentum candles.
+    *   **Fair Value Gap (FVG)**: Pinpoints price imbalances as high-probability entry zones.
+    *   **Structural RR Management**: Uses the sweep extreme for highly optimized risk:reward targeting.
+*   **Execution**: Logic-based state machine. Automatically draws Sweep levels and FVG rectangles on the chart.
 
 ---
 
