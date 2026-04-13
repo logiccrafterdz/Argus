@@ -123,10 +123,37 @@ public:
          string time_str = TimeToString(TimeCurrent(), TIME_DATE|TIME_MINUTES|TIME_SECONDS);
          FileWrite(handle, time_str, ticket, symbol, magic_number, t_type, lot, price, sl, tp, comment);
          FileClose(handle);
+         
+         // Telegram Dispatch
+         int tg_handle = FileOpen("Argus_TelegramConfig.txt", FILE_READ|FILE_TXT|FILE_ANSI);
+         if(tg_handle != INVALID_HANDLE) {
+            string token = FileReadString(tg_handle);
+            string chat  = FileReadString(tg_handle);
+            FileClose(tg_handle);
+            
+            if(token != "" && chat != "") {
+               string msg = StringFormat("🔔 <b>Argus Trade Opened</b>\n\n%s <b>%s</b>\nPrice: %.5f\nSL: %.5f\nTP: %.5f\nLot: %.2f\nStrategy: %s (%d)", 
+                                          symbol, t_type, price, sl, tp, lot, comment, magic_number);
+               SendTelegramAlert(token, chat, msg);
+            }
+         }
       }
       else
       {
          PrintFormat("ArgusCore: Failed to write to journal %s. Error: %d", filename, GetLastError());
       }
+   }
+
+   //+------------------------------------------------------------------+
+   //| Telegram Integration                                             |
+   //+------------------------------------------------------------------+
+   static void SendTelegramAlert(string bot_token, string chat_id, string message)
+   {
+      string url = "https://api.telegram.org/bot" + bot_token + "/sendMessage?chat_id=" + chat_id + "&text=" + message + "&parse_mode=HTML";
+      char post[], result[];
+      string headers;
+      ResetLastError();
+      int res = WebRequest("GET", url, NULL, NULL, 5000, post, 0, result, headers);
+      if(res != 200 && res != -1) PrintFormat("Telegram Alert Failed. Code: %d", res);
    }
 };
