@@ -72,6 +72,8 @@ int OnInit()
 //+------------------------------------------------------------------+
 void OnTick()
 {
+   if(CArgusCore::IsHalted()) return;
+
    // 1. New Day/Bar Check
    datetime current_bar_time = iTime(_Symbol, _Period, 0);
    if(current_bar_time == last_bar_time) return;
@@ -209,3 +211,17 @@ void DrawPDH_PDL() {
 }
 
 void OnDeinit(const int reason) { ObjectDelete(0, "Argus_PDH"); ObjectDelete(0, "Argus_PDL"); IndicatorRelease(atr_h); }
+
+//+------------------------------------------------------------------+
+//| Trade Analytics Event                                            |
+//+------------------------------------------------------------------+
+void OnTradeTransaction(const MqlTradeTransaction& trans, const MqlTradeRequest& request, const MqlTradeResult& result)
+{
+   if(trans.type == TRADE_TRANSACTION_DEAL_ADD) {
+      if(HistoryDealSelect(trans.deal)) {
+         if(HistoryDealGetInteger(DEAL_MAGIC) == MagicNumber && HistoryDealGetInteger(DEAL_ENTRY) == DEAL_ENTRY_IN) {
+            CArgusCore::LogTradeData(_Symbol, MagicNumber, (ENUM_ORDER_TYPE)HistoryDealGetInteger(DEAL_TYPE), HistoryDealGetDouble(DEAL_VOLUME), HistoryDealGetDouble(DEAL_PRICE), HistoryDealGetDouble(DEAL_SL), HistoryDealGetDouble(DEAL_TP), HistoryDealGetString(DEAL_COMMENT), trans.order);
+         }
+      }
+   }
+}

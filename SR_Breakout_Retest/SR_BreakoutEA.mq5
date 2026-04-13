@@ -85,6 +85,8 @@ void OnDeinit(const int reason)
 //+------------------------------------------------------------------+
 void OnTick()
 {
+   if(CArgusCore::IsHalted()) return;
+
    if(OnlyNewBar) {
       datetime current_bar_time = iTime(_Symbol, _Period, 0);
       if(current_bar_time == last_bar_time) return;
@@ -235,3 +237,17 @@ void ExecuteTrade(ENUM_ORDER_TYPE type, double lot, double price, double sl, dou
 
 void ResetState() { current_state = STATE_IDLE; intended_signal = SIGNAL_NONE; active_level = 0; break_bar_index = 0; max_deviation_pips = 0; }
 
+
+//+------------------------------------------------------------------+
+//| Trade Analytics Event                                            |
+//+------------------------------------------------------------------+
+void OnTradeTransaction(const MqlTradeTransaction& trans, const MqlTradeRequest& request, const MqlTradeResult& result)
+{
+   if(trans.type == TRADE_TRANSACTION_DEAL_ADD) {
+      if(HistoryDealSelect(trans.deal)) {
+         if(HistoryDealGetInteger(DEAL_MAGIC) == MagicNumber && HistoryDealGetInteger(DEAL_ENTRY) == DEAL_ENTRY_IN) {
+            CArgusCore::LogTradeData(_Symbol, MagicNumber, (ENUM_ORDER_TYPE)HistoryDealGetInteger(DEAL_TYPE), HistoryDealGetDouble(DEAL_VOLUME), HistoryDealGetDouble(DEAL_PRICE), HistoryDealGetDouble(DEAL_SL), HistoryDealGetDouble(DEAL_TP), HistoryDealGetString(DEAL_COMMENT), trans.order);
+         }
+      }
+   }
+}

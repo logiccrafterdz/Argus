@@ -66,6 +66,8 @@ int OnInit()
 //+------------------------------------------------------------------+
 void OnTick()
 {
+   if(CArgusCore::IsHalted()) return;
+
    datetime now = TimeCurrent();
    MqlDateTime dt;
    TimeToStruct(now, dt);
@@ -245,3 +247,17 @@ bool PositionSelectByMagic(long magic) {
 }
 
 void OnDeinit(const int reason) { ObjectDelete(0, "ICT_RefHigh"); ObjectDelete(0, "ICT_RefLow"); }
+
+//+------------------------------------------------------------------+
+//| Trade Analytics Event                                            |
+//+------------------------------------------------------------------+
+void OnTradeTransaction(const MqlTradeTransaction& trans, const MqlTradeRequest& request, const MqlTradeResult& result)
+{
+   if(trans.type == TRADE_TRANSACTION_DEAL_ADD) {
+      if(HistoryDealSelect(trans.deal)) {
+         if(HistoryDealGetInteger(DEAL_MAGIC) == MagicNumber && HistoryDealGetInteger(DEAL_ENTRY) == DEAL_ENTRY_IN) {
+            CArgusCore::LogTradeData(_Symbol, MagicNumber, (ENUM_ORDER_TYPE)HistoryDealGetInteger(DEAL_TYPE), HistoryDealGetDouble(DEAL_VOLUME), HistoryDealGetDouble(DEAL_PRICE), HistoryDealGetDouble(DEAL_SL), HistoryDealGetDouble(DEAL_TP), HistoryDealGetString(DEAL_COMMENT), trans.order);
+         }
+      }
+   }
+}

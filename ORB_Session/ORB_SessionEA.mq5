@@ -77,6 +77,8 @@ void OnDeinit(const int reason)
 //+------------------------------------------------------------------+
 void OnTick()
 {
+   if(CArgusCore::IsHalted()) return;
+
    // 1. Time Synchronization
    datetime now = TimeCurrent();
    MqlDateTime struct_now;
@@ -246,3 +248,17 @@ void ExecuteTrade(ENUM_ORDER_TYPE type, double lot, double price, double sl, dou
 }
 
 //+------------------------------------------------------------------+
+
+//+------------------------------------------------------------------+
+//| Trade Analytics Event                                            |
+//+------------------------------------------------------------------+
+void OnTradeTransaction(const MqlTradeTransaction& trans, const MqlTradeRequest& request, const MqlTradeResult& result)
+{
+   if(trans.type == TRADE_TRANSACTION_DEAL_ADD) {
+      if(HistoryDealSelect(trans.deal)) {
+         if(HistoryDealGetInteger(DEAL_MAGIC) == MagicNumber && HistoryDealGetInteger(DEAL_ENTRY) == DEAL_ENTRY_IN) {
+            CArgusCore::LogTradeData(_Symbol, MagicNumber, (ENUM_ORDER_TYPE)HistoryDealGetInteger(DEAL_TYPE), HistoryDealGetDouble(DEAL_VOLUME), HistoryDealGetDouble(DEAL_PRICE), HistoryDealGetDouble(DEAL_SL), HistoryDealGetDouble(DEAL_TP), HistoryDealGetString(DEAL_COMMENT), trans.order);
+         }
+      }
+   }
+}

@@ -93,4 +93,40 @@ public:
        double step_vol = SymbolInfoDouble(symbol, SYMBOL_VOLUME_STEP);
        return (int)MathMax(0, MathCeil(MathLog10(1.0 / step_vol)));
    }
+   
+   //+------------------------------------------------------------------+
+   //| Global Orchestrator Checks                                       |
+   //+------------------------------------------------------------------+
+   static bool IsHalted()
+   {
+       if(GlobalVariableCheck("Argus_Halt") && GlobalVariableGet("Argus_Halt") == 1) return true;
+       return false;
+   }
+   //+------------------------------------------------------------------+
+   //| Trade Journaling & Analytics                                     |
+   //+------------------------------------------------------------------+
+   static void LogTradeData(string symbol, int magic_number, ENUM_ORDER_TYPE type, double lot, double price, double sl, double tp, string comment, ulong ticket)
+   {
+      string date_str = TimeToString(TimeCurrent(), TIME_DATE);
+      StringReplace(date_str, ".", "-"); // Format: YYYY-MM-DD
+      string filename = "ArgusJournal_" + date_str + ".csv";
+      
+      int handle = FileOpen(filename, FILE_CSV|FILE_READ|FILE_WRITE|FILE_ANSI, ",");
+      if(handle != INVALID_HANDLE)
+      {
+         // If file is empty, write header
+         if(FileSize(handle) == 0) {
+            FileWrite(handle, "Time", "Ticket", "Symbol", "Magic", "Type", "Lot", "EntryPrice", "SL", "TP", "Comment");
+         }
+         FileSeek(handle, 0, SEEK_END);
+         string t_type = (type == ORDER_TYPE_BUY) ? "BUY" : "SELL";
+         string time_str = TimeToString(TimeCurrent(), TIME_DATE|TIME_MINUTES|TIME_SECONDS);
+         FileWrite(handle, time_str, ticket, symbol, magic_number, t_type, lot, price, sl, tp, comment);
+         FileClose(handle);
+      }
+      else
+      {
+         PrintFormat("ArgusCore: Failed to write to journal %s. Error: %d", filename, GetLastError());
+      }
+   }
 };
