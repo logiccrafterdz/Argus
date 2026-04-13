@@ -13,6 +13,8 @@
 
 //--- Include necessary libraries
 #include <Trade\Trade.mqh>
+#include "..\Shared\ArgusCore.mqh"
+#include "..\Shared\ArgusStructure.mqh"
 #include "SuperTrendUtils.mqh"
 
 //--- Input parameters
@@ -49,8 +51,7 @@ int OnInit()
    
    if(ema_handle == INVALID_HANDLE || atr_handle == INVALID_HANDLE) return(INIT_FAILED);
    
-   double step_vol = SymbolInfoDouble(_Symbol, SYMBOL_VOLUME_STEP);
-   vol_precision = (int)MathMax(0, MathCeil(MathLog10(1.0 / step_vol)));
+   vol_precision = CArgusCore::GetVolumePrecision(_Symbol);
    
    trade.SetExpertMagicNumber(MagicNumber);
    return(INIT_SUCCEEDED);
@@ -80,7 +81,7 @@ void OnTick()
    if(current_bar_time == last_bar_time) return;
    last_bar_time = current_bar_time;
 
-   if(HasOpenPosition()) return;
+   if(CArgusCore::HasOpenPosition(_Symbol, MagicNumber)) return;
 
    // 1. Check EMA Bias
    double ema[];
@@ -139,12 +140,12 @@ void HandleTrailingStop()
 
    if(type == POSITION_TYPE_BUY && trend == 1) {
       if(st_val > current_sl + _Point) {
-         trade.PositionModify(ticket, NormalizePrice(st_val, _Point), 0);
+         trade.PositionModify(ticket, CArgusCore::NormalizePrice(_Symbol, st_val, _Point), 0);
       }
    }
    else if(type == POSITION_TYPE_SELL && trend == -1) {
       if(st_val < current_sl - _Point) {
-         trade.PositionModify(ticket, NormalizePrice(st_val, _Point), 0);
+         trade.PositionModify(ticket, CArgusCore::NormalizePrice(_Symbol, st_val, _Point), 0);
       }
    }
 }
@@ -159,48 +160,25 @@ void ExecuteTrade(ENUM_ORDER_TYPE type, double sl_start)
    double tick_sz = SymbolInfoDouble(_Symbol, SYMBOL_TRADE_TICK_SIZE);
 
    if(type == ORDER_TYPE_BUY) {
-      double sl = NormalizePrice(sl_start - (5 * _Point), tick_sz);
-      sl = ValidateStopsLevel(ask, sl);
+      double sl = CArgusCore::NormalizePrice(_Symbol, sl_start - (5 * _Point), tick_sz);
+      sl = CArgusCore::ValidateStopsLevel(_Symbol, ask, sl);
       double risk_dist = ask - sl;
       if(risk_dist <= 0) return;
-      double lot = CalculateLotSize(risk_dist);
+      double lot = CArgusCore::CalculateLotSize(_Symbol, RiskPercent, risk_dist, vol_precision);
       trade.Buy(lot, _Symbol, ask, sl, 0, "SuperTrend Breakout Long");
    }
    else {
-      double sl = NormalizePrice(sl_start + (5 * _Point), tick_sz);
-      sl = ValidateStopsLevel(bid, sl);
+      double sl = CArgusCore::NormalizePrice(_Symbol, sl_start + (5 * _Point), tick_sz);
+      sl = CArgusCore::ValidateStopsLevel(_Symbol, bid, sl);
       double risk_dist = sl - bid;
       if(risk_dist <= 0) return;
-      double lot = CalculateLotSize(risk_dist);
+      double lot = CArgusCore::CalculateLotSize(_Symbol, RiskPercent, risk_dist, vol_precision);
       trade.Sell(lot, _Symbol, bid, sl, 0, "SuperTrend Breakout Short");
    }
 }
 
 //+------------------------------------------------------------------+
 //| Support Utilities                                                |
-//+------------------------------------------------------------------+
-double CalculateLotSize(double d) {
-   double b = AccountInfoDouble(ACCOUNT_BALANCE), r = b * (RiskPercent / 100.0);
-   double tv = SymbolInfoDouble(_Symbol, SYMBOL_TRADE_TICK_VALUE), ts = SymbolInfoDouble(_Symbol, SYMBOL_TRADE_TICK_SIZE);
-   if(d <= 0 || tv <= 0) return 0;
-   double l = r / (d / ts * tv), min = SymbolInfoDouble(_Symbol, SYMBOL_VOLUME_MIN), max = SymbolInfoDouble(_Symbol, SYMBOL_VOLUME_MAX), st = SymbolInfoDouble(_Symbol, SYMBOL_VOLUME_STEP);
-   l = MathFloor(l / st) * st;
-   return NormalizeDouble(MathMax(min, MathMin(max, l)), vol_precision);
-}
-
-double ValidateStopsLevel(double p, double t) {
-   int s = (int)SymbolInfoInteger(_Symbol, SYMBOL_TRADE_STOPS_LEVEL), f = (int)SymbolInfoInteger(_Symbol, SYMBOL_TRADE_FREEZE_LEVEL);
-   double m = MathMax(s, f) * _Point, d = MathAbs(p - t);
-   if(d < m) return (t > p) ? p + m + _Point : p - m - _Point;
-   return t;
-}
-
-bool HasOpenPosition() {
-   for(int i = PositionsTotal() - 1; i >= 0; i--) {
-      if(PositionSelectByTicket(PositionGetTicket(i)) && PositionGetInteger(POSITION_MAGIC) == MagicNumber && PositionGetString(POSITION_SYMBOL) == _Symbol) return true;
-   }
-   return false;
-}
 
 bool PositionSelectByMagic(long magic) {
    for(int i = PositionsTotal() - 1; i >= 0; i--) {
@@ -210,4 +188,3 @@ bool PositionSelectByMagic(long magic) {
    return false;
 }
 
-double NormalizePrice(double p, double t) { return MathRound(p / t) * t; }

@@ -13,8 +13,8 @@
 
 //--- Include necessary libraries
 #include <Trade\Trade.mqh>
-#include "StructureUtils.mqh"
-
+#include "..\Shared\ArgusCore.mqh"
+#include "..\Shared\ArgusStructure.mqh"
 //--- Input parameters
 input string   _HTF_Settings        = "------ HTF Bias (D1) ------";
 input ENUM_TIMEFRAMES HTF_Period    = PERIOD_D1;     // High Timeframe
@@ -52,8 +52,7 @@ int OnInit()
    
    if(ema_slow_htf == INVALID_HANDLE || ema_fast_htf == INVALID_HANDLE) return(INIT_FAILED);
    
-   double step_vol = SymbolInfoDouble(_Symbol, SYMBOL_VOLUME_STEP);
-   vol_precision = (int)MathMax(0, MathCeil(MathLog10(1.0 / step_vol)));
+   vol_precision = CArgusCore::GetVolumePrecision(_Symbol);
    
    trade.SetExpertMagicNumber(MagicNumber);
    return(INIT_SUCCEEDED);
@@ -90,19 +89,19 @@ void OnTick()
    last_bar_time = current_bar_time;
 
    if(SymbolInfoInteger(_Symbol, SYMBOL_SPREAD) > MaxSpread) return;
-   if(HasOpenPosition() || trades_today >= MaxTradesPerDay) return;
+   if(CArgusCore::HasOpenPosition(_Symbol, MagicNumber) || trades_today >= MaxTradesPerDay) return;
 
    // 1. Check HTF Bias
-   int bias = CStructureUtils::GetHTFBias(HTF_Period, ema_slow_htf, ema_fast_htf);
+   int bias = CArgusStructure::GetHTFBias(_Symbol, HTF_Period, ema_slow_htf, ema_fast_htf);
    if(bias == 0) return;
 
    // 2. Identify Current Swing Leg
    double leg_h, leg_l;
    int h_idx, l_idx;
-   if(!CStructureUtils::FindLatestSwingLeg(300, Swing_Radius, leg_h, leg_l, h_idx, l_idx)) return;
+   if(!CArgusStructure::FindLatestSwingLeg(_Symbol, _Period, 300, Swing_Radius, leg_h, leg_l, h_idx, l_idx)) return;
 
    // Leg Range Filter
-   double leg_pips = (leg_h - leg_l) / CStructureUtils::PipsToPoints();
+   double leg_pips = (leg_h - leg_l) / CArgusStructure::PipsToPoints(_Symbol);
    if(leg_pips < MinLegRangePips) return;
 
    // 3. Check for Entry Opportunity
@@ -178,27 +177,27 @@ void ExecuteTrade(ENUM_ORDER_TYPE type, double sl_price)
    double tick_sz = SymbolInfoDouble(_Symbol, SYMBOL_TRADE_TICK_SIZE);
 
    if(type == ORDER_TYPE_BUY) {
-      double sl = NormalizePrice(sl_price - (2 * _Point), tick_sz);
-      sl = ValidateStopsLevel(ask, sl);
+      double sl = CArgusCore::NormalizePrice(_Symbol, sl_price - (2 * _Point), tick_sz);
+      sl = CArgusCore::ValidateStopsLevel(_Symbol, ask, sl);
       double risk_dist = ask - sl;
       if(risk_dist <= 0) return;
       
-      double tp = NormalizePrice(ask + (risk_dist * TP_Ratio), tick_sz);
-      tp = ValidateStopsLevel(ask, tp);
+      double tp = CArgusCore::NormalizePrice(_Symbol, ask + (risk_dist * TP_Ratio), tick_sz);
+      tp = CArgusCore::ValidateStopsLevel(_Symbol, ask, tp);
       
-      double lot = CalculateLotSize(risk_dist);
+      double lot = CArgusCore::CalculateLotSize(_Symbol, RiskPercent, risk_dist, vol_precision);
       if(trade.Buy(lot, _Symbol, ask, sl, tp, "SmartSwing Long")) trades_today++;
    }
    else {
-      double sl = NormalizePrice(sl_price + (2 * _Point), tick_sz);
-      sl = ValidateStopsLevel(bid, sl);
+      double sl = CArgusCore::NormalizePrice(_Symbol, sl_price + (2 * _Point), tick_sz);
+      sl = CArgusCore::ValidateStopsLevel(_Symbol, bid, sl);
       double risk_dist = sl - bid;
       if(risk_dist <= 0) return;
       
-      double tp = NormalizePrice(bid - (risk_dist * TP_Ratio), tick_sz);
-      tp = ValidateStopsLevel(bid, tp);
+      double tp = CArgusCore::NormalizePrice(_Symbol, bid - (risk_dist * TP_Ratio), tick_sz);
+      tp = CArgusCore::ValidateStopsLevel(_Symbol, bid, tp);
       
-      double lot = CalculateLotSize(risk_dist);
+      double lot = CArgusCore::CalculateLotSize(_Symbol, RiskPercent, risk_dist, vol_precision);
       if(trade.Sell(lot, _Symbol, bid, sl, tp, "SmartSwing Short")) trades_today++;
    }
 }
@@ -220,27 +219,3 @@ void DrawZoneBox(double top, double bottom) {
    }
 }
 
-double CalculateLotSize(double d) {
-   double b = AccountInfoDouble(ACCOUNT_BALANCE), r = b * (RiskPercent / 100.0);
-   double tv = SymbolInfoDouble(_Symbol, SYMBOL_TRADE_TICK_VALUE), ts = SymbolInfoDouble(_Symbol, SYMBOL_TRADE_TICK_SIZE);
-   if(d <= 0 || tv <= 0) return 0;
-   double l = r / (d / ts * tv), min = SymbolInfoDouble(_Symbol, SYMBOL_VOLUME_MIN), max = SymbolInfoDouble(_Symbol, SYMBOL_VOLUME_MAX), st = SymbolInfoDouble(_Symbol, SYMBOL_VOLUME_STEP);
-   l = MathFloor(l / st) * st;
-   return NormalizeDouble(MathMax(min, MathMin(max, l)), vol_precision);
-}
-
-double ValidateStopsLevel(double p, double t) {
-   int s = (int)SymbolInfoInteger(_Symbol, SYMBOL_TRADE_STOPS_LEVEL), f = (int)SymbolInfoInteger(_Symbol, SYMBOL_TRADE_FREEZE_LEVEL);
-   double m = MathMax(s, f) * _Point, d = MathAbs(p - t);
-   if(d < m) return (t > p) ? p + m + _Point : p - m - _Point;
-   return t;
-}
-
-bool HasOpenPosition() {
-   for(int i = PositionsTotal() - 1; i >= 0; i--) {
-      if(PositionSelectByTicket(PositionGetTicket(i)) && PositionGetInteger(POSITION_MAGIC) == MagicNumber && PositionGetString(POSITION_SYMBOL) == _Symbol) return true;
-   }
-   return false;
-}
-
-double NormalizePrice(double p, double t) { return MathRound(p / t) * t; }

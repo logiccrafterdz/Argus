@@ -13,8 +13,8 @@
 
 //--- Include necessary libraries
 #include <Trade\Trade.mqh>
-#include "StructureUtils.mqh"
-
+#include "..\Shared\ArgusCore.mqh"
+#include "..\Shared\ArgusStructure.mqh"
 //--- Enums
 enum ENUM_BB_STATE {
    STATE_IDLE,
@@ -65,8 +65,7 @@ int OnInit()
       return(INIT_FAILED);
    }
    
-   double step_vol = SymbolInfoDouble(_Symbol, SYMBOL_VOLUME_STEP);
-   vol_precision = (int)MathMax(0, MathCeil(MathLog10(1.0 / step_vol)));
+   vol_precision = CArgusCore::GetVolumePrecision(_Symbol);
    
    trade.SetExpertMagicNumber(MagicNumber);
    return(INIT_SUCCEEDED);
@@ -94,7 +93,7 @@ void OnTick()
    }
 
    if(SymbolInfoInteger(_Symbol, SYMBOL_SPREAD) > MaxSpread) return;
-   if(HasOpenPosition()) { current_state = STATE_IDLE; return; }
+   if(CArgusCore::HasOpenPosition(_Symbol, MagicNumber)) { current_state = STATE_IDLE; return; }
 
    double bb_mid[], bb_up[], bb_low[], rsi[];
    ArraySetAsSeries(bb_mid, true);
@@ -178,27 +177,27 @@ void OpenPosition(ENUM_ORDER_TYPE type, double target_mean, double extreme_price
    double tick_size = SymbolInfoDouble(_Symbol, SYMBOL_TRADE_TICK_SIZE);
 
    if(type == ORDER_TYPE_BUY) {
-      double sl = NormalizePrice(extreme_price - _Point, tick_size);
-      sl = ValidateStopsLevel(ask, sl);
-      double tp = NormalizePrice(target_mean, tick_size);
-      tp = ValidateStopsLevel(ask, tp);
+      double sl = CArgusCore::NormalizePrice(_Symbol, extreme_price - _Point, tick_size);
+      sl = CArgusCore::ValidateStopsLevel(_Symbol, ask, sl);
+      double tp = CArgusCore::NormalizePrice(_Symbol, target_mean, tick_size);
+      tp = CArgusCore::ValidateStopsLevel(_Symbol, ask, tp);
       
       double risk_dist = ask - sl;
       if(risk_dist <= 0) return;
       
-      double lot = CalculateLotSize(risk_dist);
+      double lot = CArgusCore::CalculateLotSize(_Symbol, RiskPercent, risk_dist, vol_precision);
       ExecuteTrade(ORDER_TYPE_BUY, lot, ask, sl, tp, "BB Mean Reversion Buy");
    }
    else {
-      double sl = NormalizePrice(extreme_price + _Point, tick_size);
-      sl = ValidateStopsLevel(bid, sl);
-      double tp = NormalizePrice(target_mean, tick_size);
-      tp = ValidateStopsLevel(bid, tp);
+      double sl = CArgusCore::NormalizePrice(_Symbol, extreme_price + _Point, tick_size);
+      sl = CArgusCore::ValidateStopsLevel(_Symbol, bid, sl);
+      double tp = CArgusCore::NormalizePrice(_Symbol, target_mean, tick_size);
+      tp = CArgusCore::ValidateStopsLevel(_Symbol, bid, tp);
       
       double risk_dist = sl - bid;
       if(risk_dist <= 0) return;
       
-      double lot = CalculateLotSize(risk_dist);
+      double lot = CArgusCore::CalculateLotSize(_Symbol, RiskPercent, risk_dist, vol_precision);
       ExecuteTrade(ORDER_TYPE_SELL, lot, bid, sl, tp, "BB Mean Reversion Sell");
    }
 }
@@ -215,26 +214,3 @@ void ExecuteTrade(ENUM_ORDER_TYPE type, double lot, double price, double sl, dou
    }
 }
 
-double CalculateLotSize(double d) {
-   double b = AccountInfoDouble(ACCOUNT_BALANCE), r = b * (RiskPercent / 100.0);
-   double tv = SymbolInfoDouble(_Symbol, SYMBOL_TRADE_TICK_VALUE), ts = SymbolInfoDouble(_Symbol, SYMBOL_TRADE_TICK_SIZE);
-   if(d <= 0 || tv <= 0) return 0;
-   double l = r / (d / ts * tv), min = SymbolInfoDouble(_Symbol, SYMBOL_VOLUME_MIN), max = SymbolInfoDouble(_Symbol, SYMBOL_VOLUME_MAX), st = SymbolInfoDouble(_Symbol, SYMBOL_VOLUME_STEP);
-   l = MathFloor(l / st) * st;
-   return NormalizeDouble(MathMax(min, MathMin(max, l)), vol_precision);
-}
-
-double ValidateStopsLevel(double p, double t) {
-   int s = (int)SymbolInfoInteger(_Symbol, SYMBOL_TRADE_STOPS_LEVEL), f = (int)SymbolInfoInteger(_Symbol, SYMBOL_TRADE_FREEZE_LEVEL);
-   double m = MathMax(s, f) * _Point, d = MathAbs(p - t);
-   if(d < m) return (t > p) ? p + m + _Point : p - m - _Point;
-   return t;
-}
-
-bool HasOpenPosition() {
-   for(int i = PositionsTotal() - 1; i >= 0; i--) {
-      if(PositionSelectByTicket(PositionGetTicket(i)) && PositionGetInteger(POSITION_MAGIC) == MagicNumber && PositionGetString(POSITION_SYMBOL) == _Symbol) return true;
-   }
-   return false;
-}
-double NormalizePrice(double p, double t) { return MathRound(p / t) * t; }

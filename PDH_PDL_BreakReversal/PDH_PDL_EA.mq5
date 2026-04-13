@@ -13,6 +13,8 @@
 
 //--- Include necessary libraries
 #include <Trade\Trade.mqh>
+#include "..\Shared\ArgusCore.mqh"
+#include "..\Shared\ArgusStructure.mqh"
 #include "PDHUtils.mqh"
 
 //--- Enums
@@ -54,8 +56,7 @@ int OnInit()
    atr_h = iATR(_Symbol, PERIOD_D1, 14);
    if(atr_h == INVALID_HANDLE) return(INIT_FAILED);
    
-   double step_vol = SymbolInfoDouble(_Symbol, SYMBOL_VOLUME_STEP);
-   vol_precision = (int)MathMax(0, MathCeil(MathLog10(1.0 / step_vol)));
+   vol_precision = CArgusCore::GetVolumePrecision(_Symbol);
    
    trade.SetExpertMagicNumber(MagicNumber);
    
@@ -87,7 +88,7 @@ void OnTick()
    }
 
    if(SymbolInfoInteger(_Symbol, SYMBOL_SPREAD) > MaxSpread) return;
-   if(HasOpenPosition()) return;
+   if(CArgusCore::HasOpenPosition(_Symbol, MagicNumber)) return;
 
    // 2. Regime Detection
    double ratio = CPDHUtils::GetATRRatio(atr_h, 14);
@@ -172,23 +173,23 @@ void ExecuteTrade(ENUM_ORDER_TYPE type, double sl_ref)
    double tick_sz = SymbolInfoDouble(_Symbol, SYMBOL_TRADE_TICK_SIZE);
 
    if(type == ORDER_TYPE_BUY) {
-      double sl = NormalizePrice(sl_ref - (2 * _Point), tick_sz);
-      sl = ValidateStopsLevel(ask, sl);
+      double sl = CArgusCore::NormalizePrice(_Symbol, sl_ref - (2 * _Point), tick_sz);
+      sl = CArgusCore::ValidateStopsLevel(_Symbol, ask, sl);
       double risk = ask - sl;
       if(risk <= 0) return;
-      double tp = NormalizePrice(ask + (risk * RR_Target), tick_sz);
+      double tp = CArgusCore::NormalizePrice(_Symbol, ask + (risk * RR_Target), tick_sz);
       
-      double lot = CalculateLotSize(risk);
+      double lot = CArgusCore::CalculateLotSize(_Symbol, RiskPercent, risk, vol_precision);
       trade.Buy(lot, _Symbol, ask, sl, tp, "PDH/PDL Entry");
    }
    else {
-      double sl = NormalizePrice(sl_ref + (2 * _Point), tick_sz);
-      sl = ValidateStopsLevel(bid, sl);
+      double sl = CArgusCore::NormalizePrice(_Symbol, sl_ref + (2 * _Point), tick_sz);
+      sl = CArgusCore::ValidateStopsLevel(_Symbol, bid, sl);
       double risk = sl - bid;
       if(risk <= 0) return;
-      double tp = NormalizePrice(bid - (risk * RR_Target), tick_sz);
+      double tp = CArgusCore::NormalizePrice(_Symbol, bid - (risk * RR_Target), tick_sz);
       
-      double lot = CalculateLotSize(risk);
+      double lot = CArgusCore::CalculateLotSize(_Symbol, RiskPercent, risk, vol_precision);
       trade.Sell(lot, _Symbol, bid, sl, tp, "PDH/PDL Entry");
    }
 }
@@ -207,28 +208,4 @@ void DrawPDH_PDL() {
    ObjectSetInteger(0, "Argus_PDL", OBJPROP_STYLE, STYLE_DASH);
 }
 
-double CalculateLotSize(double d) {
-   double b = AccountInfoDouble(ACCOUNT_BALANCE), r = b * (RiskPercent / 100.0);
-   double tv = SymbolInfoDouble(_Symbol, SYMBOL_TRADE_TICK_VALUE), ts = SymbolInfoDouble(_Symbol, SYMBOL_TRADE_TICK_SIZE);
-   if(d <= 0 || tv <= 0) return 0;
-   double l = r / (d / ts * tv), min = SymbolInfoDouble(_Symbol, SYMBOL_VOLUME_MIN), max = SymbolInfoDouble(_Symbol, SYMBOL_VOLUME_MAX), st = SymbolInfoDouble(_Symbol, SYMBOL_VOLUME_STEP);
-   l = MathFloor(l / st) * st;
-   return NormalizeDouble(MathMax(min, MathMin(max, l)), vol_precision);
-}
-
-double ValidateStopsLevel(double p, double t) {
-   int s = (int)SymbolInfoInteger(_Symbol, SYMBOL_TRADE_STOPS_LEVEL), f = (int)SymbolInfoInteger(_Symbol, SYMBOL_TRADE_FREEZE_LEVEL);
-   double m = MathMax(s, f) * _Point, d = MathAbs(p - t);
-   if(d < m) return (t > p) ? p + m + _Point : p - m - _Point;
-   return t;
-}
-
-bool HasOpenPosition() {
-   for(int i = PositionsTotal() - 1; i >= 0; i--) {
-      if(PositionSelectByTicket(PositionGetTicket(i)) && PositionGetInteger(POSITION_MAGIC) == MagicNumber && PositionGetString(POSITION_SYMBOL) == _Symbol) return true;
-   }
-   return false;
-}
-
-double NormalizePrice(double p, double t) { return MathRound(p / t) * t; }
 void OnDeinit(const int reason) { ObjectDelete(0, "Argus_PDH"); ObjectDelete(0, "Argus_PDL"); IndicatorRelease(atr_h); }

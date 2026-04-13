@@ -13,6 +13,8 @@
 
 //--- Include necessary libraries
 #include <Trade\Trade.mqh>
+#include "..\Shared\ArgusCore.mqh"
+#include "..\Shared\ArgusStructure.mqh"
 #include "ICTUtils.mqh"
 
 //--- States
@@ -53,8 +55,7 @@ datetime       last_calc_date = 0;
 //+------------------------------------------------------------------+
 int OnInit()
 {
-   double step_vol = SymbolInfoDouble(_Symbol, SYMBOL_VOLUME_STEP);
-   vol_precision = (int)MathMax(0, MathCeil(MathLog10(1.0 / step_vol)));
+   vol_precision = CArgusCore::GetVolumePrecision(_Symbol);
    
    trade.SetExpertMagicNumber(MagicNumber);
    return(INIT_SUCCEEDED);
@@ -77,7 +78,7 @@ void OnTick()
 
    // 1. Force Close at End
    if(ForceCloseAtEnd && now_min >= kz_end && (now_min < kz_start || kz_start > kz_end)) {
-      if(HasOpenPosition()) {
+      if(CArgusCore::HasOpenPosition(_Symbol, MagicNumber)) {
          CloseAllPositions();
          current_state = STATE_IDLE;
          return;
@@ -112,7 +113,7 @@ void OnTick()
          
          if(SymbolInfoInteger(_Symbol, SYMBOL_SPREAD) > MaxSpread) return;
          if(trade_taken_today) return;
-         if(HasOpenPosition()) {
+         if(CArgusCore::HasOpenPosition(_Symbol, MagicNumber)) {
             current_state = STATE_IN_TRADE;
             return;
          }
@@ -121,7 +122,7 @@ void OnTick()
          break;
 
       case STATE_IN_TRADE:
-         if(!HasOpenPosition()) {
+         if(!CArgusCore::HasOpenPosition(_Symbol, MagicNumber)) {
             current_state = (now_min < kz_end) ? STATE_WATCH_SWEEP : STATE_IDLE;
          }
          break;
@@ -170,17 +171,17 @@ void ExecuteTrade(ENUM_ORDER_TYPE type, double stop_ref)
 
    // Base lot calculation
    double risk_amt = (type == ORDER_TYPE_BUY) ? (ask - (stop_ref - 2 * _Point)) : ((stop_ref + 2 * _Point) - bid);
-   double base_lot = CalculateLotSize(MathMax(risk_amt, 10 * _Point));
+   double base_lot = CArgusCore::CalculateLotSize(_Symbol, RiskPercent, MathMax(risk_amt, 10 * _Point, vol_precision));
    if(base_lot <= 0) return;
 
    double min_lot = SymbolInfoDouble(_Symbol, SYMBOL_VOLUME_MIN);
    double step_lot = SymbolInfoDouble(_Symbol, SYMBOL_VOLUME_STEP);
 
    if(type == ORDER_TYPE_BUY) {
-      double sl = NormalizePrice(stop_ref - (2 * _Point), tick_sz);
-      sl = ValidateStopsLevel(ask, sl);
-      double tp1 = NormalizePrice(mid, tick_sz);
-      double tp2 = NormalizePrice(liq_high, tick_sz);
+      double sl = CArgusCore::NormalizePrice(_Symbol, stop_ref - (2 * _Point), tick_sz);
+      sl = CArgusCore::ValidateStopsLevel(_Symbol, ask, sl);
+      double tp1 = CArgusCore::NormalizePrice(_Symbol, mid, tick_sz);
+      double tp2 = CArgusCore::NormalizePrice(_Symbol, liq_high, tick_sz);
       
       if(UseTP2) {
          double lot1 = NormalizeDouble(MathMax(min_lot, MathFloor((base_lot/2.0)/step_lot)*step_lot), vol_precision);
@@ -192,10 +193,10 @@ void ExecuteTrade(ENUM_ORDER_TYPE type, double stop_ref)
       }
    }
    else {
-      double sl = NormalizePrice(stop_ref + (2 * _Point), tick_sz);
-      sl = ValidateStopsLevel(bid, sl);
-      double tp1 = NormalizePrice(mid, tick_sz);
-      double tp2 = NormalizePrice(liq_low, tick_sz);
+      double sl = CArgusCore::NormalizePrice(_Symbol, stop_ref + (2 * _Point), tick_sz);
+      sl = CArgusCore::ValidateStopsLevel(_Symbol, bid, sl);
+      double tp1 = CArgusCore::NormalizePrice(_Symbol, mid, tick_sz);
+      double tp2 = CArgusCore::NormalizePrice(_Symbol, liq_low, tick_sz);
       
       if(UseTP2) {
          double lot1 = NormalizeDouble(MathMax(min_lot, MathFloor((base_lot/2.0)/step_lot)*step_lot), vol_precision);
@@ -235,29 +236,6 @@ void CloseAllPositions()
    }
 }
 
-double CalculateLotSize(double d) {
-   double b = AccountInfoDouble(ACCOUNT_BALANCE), r = b * (RiskPercent / 100.0);
-   double tv = SymbolInfoDouble(_Symbol, SYMBOL_TRADE_TICK_VALUE), ts = SymbolInfoDouble(_Symbol, SYMBOL_TRADE_TICK_SIZE);
-   if(d <= 0 || tv <= 0) return 0;
-   double l = r / (d / ts * tv), min = SymbolInfoDouble(_Symbol, SYMBOL_VOLUME_MIN), max = SymbolInfoDouble(_Symbol, SYMBOL_VOLUME_MAX), st = SymbolInfoDouble(_Symbol, SYMBOL_VOLUME_STEP);
-   l = MathFloor(l / st) * st;
-   return NormalizeDouble(MathMax(min, MathMin(max, l)), vol_precision);
-}
-
-double ValidateStopsLevel(double p, double t) {
-   int s = (int)SymbolInfoInteger(_Symbol, SYMBOL_TRADE_STOPS_LEVEL), f = (int)SymbolInfoInteger(_Symbol, SYMBOL_TRADE_FREEZE_LEVEL);
-   double m = MathMax(s, f) * _Point, d = MathAbs(p - t);
-   if(d < m) return (t > p) ? p + m + _Point : p - m - _Point;
-   return t;
-}
-
-bool HasOpenPosition() {
-   for(int i = PositionsTotal() - 1; i >= 0; i--) {
-      if(PositionSelectByTicket(PositionGetTicket(i)) && PositionGetInteger(POSITION_MAGIC) == MagicNumber && PositionGetString(POSITION_SYMBOL) == _Symbol) return true;
-   }
-   return false;
-}
-
 bool PositionSelectByMagic(long magic) {
    for(int i = PositionsTotal() - 1; i >= 0; i--) {
       ulong t = PositionGetTicket(i);
@@ -266,5 +244,4 @@ bool PositionSelectByMagic(long magic) {
    return false;
 }
 
-double NormalizePrice(double p, double t) { return MathRound(p / t) * t; }
 void OnDeinit(const int reason) { ObjectDelete(0, "ICT_RefHigh"); ObjectDelete(0, "ICT_RefLow"); }

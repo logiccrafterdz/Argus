@@ -12,6 +12,8 @@
 #property strict
 
 #include <Trade\Trade.mqh>
+#include "..\Shared\ArgusCore.mqh"
+#include "..\Shared\ArgusStructure.mqh"
 #include "AVWAPUtils.mqh"
 
 //--- States
@@ -63,8 +65,7 @@ int OnInit()
    
    if(ema_h == INVALID_HANDLE || atr_h == INVALID_HANDLE) return(INIT_FAILED);
    
-   double step_vol = SymbolInfoDouble(_Symbol, SYMBOL_VOLUME_STEP);
-   vol_precision = (int)MathMax(0, MathCeil(MathLog10(1.0 / step_vol)));
+   vol_precision = CArgusCore::GetVolumePrecision(_Symbol);
    
    trade.SetExpertMagicNumber(MagicNumber);
    return(INIT_SUCCEEDED);
@@ -90,7 +91,7 @@ void OnTick()
 
    if(SymbolInfoInteger(_Symbol, SYMBOL_SPREAD) > MaxSpread) return;
    if(trades_today >= MaxTradesPerSession) return;
-   if(HasOpenPosition()) return;
+   if(CArgusCore::HasOpenPosition(_Symbol, MagicNumber)) return;
 
    // 1. Update Core Data
    if(is_new_bar) {
@@ -185,13 +186,13 @@ void HandleBounceConfirmation()
    if(bias == ORDER_TYPE_BUY) {
       double ask = SymbolInfoDouble(_Symbol, SYMBOL_ASK);
       if(close1 > current_avwap && CAVWAPUtils::IsBounceConfirmed(1, current_avwap, min_bounce)) {
-         double sl = NormalizePrice(low1 - (SL_ATR_Buffer * atr[0]), tick_sz);
-         sl = ValidateStopsLevel(ask, sl);
+         double sl = CArgusCore::NormalizePrice(_Symbol, low1 - (SL_ATR_Buffer * atr[0]), tick_sz);
+         sl = CArgusCore::ValidateStopsLevel(_Symbol, ask, sl);
          double risk = ask - sl;
          if(risk <= 0) return;
          
-         double tp = NormalizePrice(ask + (risk * RR_Target), tick_sz);
-         double lot = CalculateLotSize(risk);
+         double tp = CArgusCore::NormalizePrice(_Symbol, ask + (risk * RR_Target), tick_sz);
+         double lot = CArgusCore::CalculateLotSize(_Symbol, RiskPercent, risk, vol_precision);
          
          if(trade.Buy(lot, _Symbol, ask, sl, tp, "AVWAP Bounce Buy")) {
             trades_today++;
@@ -202,13 +203,13 @@ void HandleBounceConfirmation()
    } else {
       double bid = SymbolInfoDouble(_Symbol, SYMBOL_BID);
       if(close1 < current_avwap && CAVWAPUtils::IsBounceConfirmed(1, current_avwap, min_bounce)) {
-         double sl = NormalizePrice(high1 + (SL_ATR_Buffer * atr[0]), tick_sz);
-         sl = ValidateStopsLevel(bid, sl);
+         double sl = CArgusCore::NormalizePrice(_Symbol, high1 + (SL_ATR_Buffer * atr[0]), tick_sz);
+         sl = CArgusCore::ValidateStopsLevel(_Symbol, bid, sl);
          double risk = sl - bid;
          if(risk <= 0) return;
          
-         double tp = NormalizePrice(bid - (risk * RR_Target), tick_sz);
-         double lot = CalculateLotSize(risk);
+         double tp = CArgusCore::NormalizePrice(_Symbol, bid - (risk * RR_Target), tick_sz);
+         double lot = CArgusCore::CalculateLotSize(_Symbol, RiskPercent, risk, vol_precision);
          
          if(trade.Sell(lot, _Symbol, bid, sl, tp, "AVWAP Bounce Sell")) {
             trades_today++;
@@ -234,41 +235,4 @@ void DrawAVWAPLine() {
    ObjectSetInteger(0, "AVWAP_Line", OBJPROP_STYLE, STYLE_DASH);
 }
 
-double CalculateLotSize(double distance) 
-{
-   if(distance <= 0) return 0;
-
-   double balance = AccountInfoDouble(ACCOUNT_BALANCE);
-   double risk_amount = balance * (RiskPercent / 100.0);
-   
-   double tick_value = SymbolInfoDouble(_Symbol, SYMBOL_TRADE_TICK_VALUE);
-   double tick_size  = SymbolInfoDouble(_Symbol, SYMBOL_TRADE_TICK_SIZE);
-   
-   if(tick_value <= 0) return 0;
-   
-   double lot = risk_amount / (distance / tick_size * tick_value);
-   
-   double min_vol = SymbolInfoDouble(_Symbol, SYMBOL_VOLUME_MIN);
-   double max_vol = SymbolInfoDouble(_Symbol, SYMBOL_VOLUME_MAX);
-   double step_vol = SymbolInfoDouble(_Symbol, SYMBOL_VOLUME_STEP);
-   
-   lot = MathFloor(lot / step_vol) * step_vol;
-   return NormalizeDouble(MathMax(min_vol, MathMin(max_vol, lot)), vol_precision);
-}
-
-double ValidateStopsLevel(double p, double t) {
-   int s = (int)SymbolInfoInteger(_Symbol, SYMBOL_TRADE_STOPS_LEVEL), f = (int)SymbolInfoInteger(_Symbol, SYMBOL_TRADE_FREEZE_LEVEL);
-   double m = MathMax(s, f) * _Point, d = MathAbs(p - t);
-   if(d < m) return (t > p) ? p + m + _Point : p - m - _Point;
-   return t;
-}
-
-bool HasOpenPosition() {
-   for(int i = PositionsTotal() - 1; i >= 0; i--) {
-      if(PositionSelectByTicket(PositionGetTicket(i)) && PositionGetInteger(POSITION_MAGIC) == MagicNumber && PositionGetString(POSITION_SYMBOL) == _Symbol) return true;
-   }
-   return false;
-}
-
-double NormalizePrice(double p, double t) { return MathRound(p / t) * t; }
 void OnDeinit(const int reason) { ObjectDelete(0, "AVWAP_Line"); IndicatorRelease(ema_h); IndicatorRelease(atr_h); }

@@ -13,8 +13,8 @@
 
 //--- Include necessary libraries
 #include <Trade\Trade.mqh>
-#include "StructureUtils.mqh"
-
+#include "..\Shared\ArgusCore.mqh"
+#include "..\Shared\ArgusStructure.mqh"
 //--- Enums
 enum ENUM_CONFIRMATION_TYPE {
    CONFIRM_CANDLE_BREAK, // Close beyond Sweep Candle High/Low
@@ -58,8 +58,7 @@ int OnInit()
    ema_handle = iMA(_Symbol, _Period, TrendEMA, 0, MODE_EMA, PRICE_CLOSE);
    if(ema_handle == INVALID_HANDLE) return(INIT_FAILED);
    
-   double step_vol = SymbolInfoDouble(_Symbol, SYMBOL_VOLUME_STEP);
-   vol_precision = (int)MathMax(0, MathCeil(MathLog10(1.0 / step_vol)));
+   vol_precision = CArgusCore::GetVolumePrecision(_Symbol);
    
    trade.SetExpertMagicNumber(MagicNumber);
    return(INIT_SUCCEEDED);
@@ -84,7 +83,7 @@ void OnTick()
    last_bar_time = current_bar_time;
 
    if(SymbolInfoInteger(_Symbol, SYMBOL_SPREAD) > MaxSpread) return;
-   if(HasOpenPosition()) {
+   if(CArgusCore::HasOpenPosition(_Symbol, MagicNumber)) {
       ResetPending();
       return;
    }
@@ -105,8 +104,8 @@ void CheckForSweeps()
    if(pending_buy || pending_sell) return;
 
    // Scan for current Liquidity Zones
-   double eqh = CStructureUtils::GetLiquidityHigh(LookbackBars, SwingRadius, EqualThresholdPips);
-   double eql = CStructureUtils::GetLiquidityLow(LookbackBars, SwingRadius, EqualThresholdPips);
+   double eqh = CArgusStructure::GetLiquidityHigh(_Symbol, _Period, LookbackBars, SwingRadius, EqualThresholdPips);
+   double eql = CArgusStructure::GetLiquidityLow(_Symbol, _Period, LookbackBars, SwingRadius, EqualThresholdPips);
 
    double h1 = iHigh(_Symbol, _Period, 1);
    double l1 = iLow(_Symbol, _Period, 1);
@@ -162,7 +161,7 @@ void CheckForConfirmation()
       if(ConfType == CONFIRM_CANDLE_BREAK) {
          confirmed = (c1 < sweep_low); 
       } else {
-         confirmed = CStructureUtils::IsBearishMSB(LookbackBars, SwingRadius);
+         confirmed = CArgusStructure::IsBearishMSB(_Symbol, _Period, LookbackBars, SwingRadius);
       }
 
       if(confirmed) {
@@ -184,7 +183,7 @@ void CheckForConfirmation()
       if(ConfType == CONFIRM_CANDLE_BREAK) {
          confirmed = (c1 > sweep_high);
       } else {
-         confirmed = CStructureUtils::IsBullishMSB(LookbackBars, SwingRadius);
+         confirmed = CArgusStructure::IsBullishMSB(_Symbol, _Period, LookbackBars, SwingRadius);
       }
 
       if(confirmed) {
@@ -209,29 +208,29 @@ void ExecuteTrade(ENUM_ORDER_TYPE type, double sl_extreme)
    double tick_size = SymbolInfoDouble(_Symbol, SYMBOL_TRADE_TICK_SIZE);
 
    if(type == ORDER_TYPE_BUY) {
-      double sl = NormalizePrice(sl_extreme - (5 * _Point), tick_size);
-      sl = ValidateStopsLevel(ask, sl);
+      double sl = CArgusCore::NormalizePrice(_Symbol, sl_extreme - (5 * _Point), tick_size);
+      sl = CArgusCore::ValidateStopsLevel(_Symbol, ask, sl);
       double risk_dist = ask - sl;
       if(risk_dist <= 0) return;
       
-      double tp = NormalizePrice(ask + (risk_dist * FixedRR), tick_size);
-      tp = ValidateStopsLevel(ask, tp);
+      double tp = CArgusCore::NormalizePrice(_Symbol, ask + (risk_dist * FixedRR), tick_size);
+      tp = CArgusCore::ValidateStopsLevel(_Symbol, ask, tp);
       
-      double lot = CalculateLotSize(risk_dist);
+      double lot = CArgusCore::CalculateLotSize(_Symbol, RiskPercent, risk_dist, vol_precision);
       if(trade.Buy(lot, _Symbol, ask, sl, tp, "LS Sweep Buy")) {
          Print("Trade Success: LS Sweep Buy at ", ask);
       }
    }
    else {
-      double sl = NormalizePrice(sl_extreme + (5 * _Point), tick_size);
-      sl = ValidateStopsLevel(bid, sl);
+      double sl = CArgusCore::NormalizePrice(_Symbol, sl_extreme + (5 * _Point), tick_size);
+      sl = CArgusCore::ValidateStopsLevel(_Symbol, bid, sl);
       double risk_dist = sl - bid;
       if(risk_dist <= 0) return;
       
-      double tp = NormalizePrice(bid - (risk_dist * FixedRR), tick_size);
-      tp = ValidateStopsLevel(bid, tp);
+      double tp = CArgusCore::NormalizePrice(_Symbol, bid - (risk_dist * FixedRR), tick_size);
+      tp = CArgusCore::ValidateStopsLevel(_Symbol, bid, tp);
       
-      double lot = CalculateLotSize(risk_dist);
+      double lot = CArgusCore::CalculateLotSize(_Symbol, RiskPercent, risk_dist, vol_precision);
       if(trade.Sell(lot, _Symbol, bid, sl, tp, "LS Sweep Sell")) {
          Print("Trade Success: LS Sweep Sell at ", bid);
       }
@@ -250,34 +249,3 @@ void ResetPending() {
    liquidity_level = 0;
 }
 
-double CalculateLotSize(double risk_dist) {
-   double balance = AccountInfoDouble(ACCOUNT_BALANCE);
-   double risk_amount = balance * (RiskPercent / 100.0);
-   double tick_value = SymbolInfoDouble(_Symbol, SYMBOL_TRADE_TICK_VALUE);
-   double tick_size = SymbolInfoDouble(_Symbol, SYMBOL_TRADE_TICK_SIZE);
-   if(risk_dist <= 0 || tick_value <= 0) return 0;
-   double lot = risk_amount / (risk_dist / tick_size * tick_value);
-   double min_lot = SymbolInfoDouble(_Symbol, SYMBOL_VOLUME_MIN);
-   double max_lot = SymbolInfoDouble(_Symbol, SYMBOL_VOLUME_MAX);
-   double step_lot = SymbolInfoDouble(_Symbol, SYMBOL_VOLUME_STEP);
-   lot = MathFloor(lot / step_lot) * step_lot;
-   return NormalizeDouble(MathMax(min_lot, MathMin(max_lot, lot)), vol_precision);
-}
-
-double ValidateStopsLevel(double price, double target) {
-   int stops_level = (int)SymbolInfoInteger(_Symbol, SYMBOL_TRADE_STOPS_LEVEL);
-   int freeze_level = (int)SymbolInfoInteger(_Symbol, SYMBOL_TRADE_FREEZE_LEVEL);
-   double min_dist = MathMax(stops_level, freeze_level) * _Point;
-   double actual_dist = MathAbs(price - target);
-   if(actual_dist < min_dist) return (target > price) ? price + min_dist + _Point : price - min_dist - _Point;
-   return target;
-}
-
-bool HasOpenPosition() {
-   for(int i = PositionsTotal() - 1; i >= 0; i--) {
-      if(PositionSelectByTicket(PositionGetTicket(i)) && PositionGetInteger(POSITION_MAGIC) == MagicNumber && PositionGetString(POSITION_SYMBOL) == _Symbol) return true;
-   }
-   return false;
-}
-
-double NormalizePrice(double p, double t) { return MathRound(p / t) * t; }

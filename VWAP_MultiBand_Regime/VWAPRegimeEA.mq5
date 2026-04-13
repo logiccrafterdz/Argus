@@ -13,6 +13,8 @@
 
 //--- Include necessary libraries
 #include <Trade\Trade.mqh>
+#include "..\Shared\ArgusCore.mqh"
+#include "..\Shared\ArgusStructure.mqh"
 #include "VWAPUtils.mqh"
 
 //--- Input parameters
@@ -56,8 +58,7 @@ int OnInit()
    atr_handle = iATR(_Symbol, _Period, AtrPeriod);
    if(atr_handle == INVALID_HANDLE) return(INIT_FAILED);
    
-   double step_vol = SymbolInfoDouble(_Symbol, SYMBOL_VOLUME_STEP);
-   vol_precision = (int)MathMax(0, MathCeil(MathLog10(1.0 / step_vol)));
+   vol_precision = CArgusCore::GetVolumePrecision(_Symbol);
    
    trade.SetExpertMagicNumber(MagicNumber);
    return(INIT_SUCCEEDED);
@@ -82,7 +83,7 @@ void OnTick()
    last_bar_time = current_bar_time;
 
    if(SymbolInfoInteger(_Symbol, SYMBOL_SPREAD) > MaxSpread) return;
-   if(HasOpenPosition()) return;
+   if(CArgusCore::HasOpenPosition(_Symbol, MagicNumber)) return;
 
    // 1. Daily Trade Limit Logic
    datetime current_day = iTime(_Symbol, PERIOD_D1, 0);
@@ -159,27 +160,27 @@ void ExecuteVWAPTrade(ENUM_ORDER_TYPE type, double entry_extreme, double target_
    }
 
    if(type == ORDER_TYPE_BUY) {
-      double sl = NormalizePrice(ask - sl_dist, tick_size); 
-      sl = ValidateStopsLevel(ask, sl);
+      double sl = CArgusCore::NormalizePrice(_Symbol, ask - sl_dist, tick_size); 
+      sl = CArgusCore::ValidateStopsLevel(_Symbol, ask, sl);
       double risk_dist = ask - sl;
       if(risk_dist <= 0) return;
       
-      double tp = NormalizePrice(target_vwap, tick_size);
-      tp = ValidateStopsLevel(ask, tp);
+      double tp = CArgusCore::NormalizePrice(_Symbol, target_vwap, tick_size);
+      tp = CArgusCore::ValidateStopsLevel(_Symbol, ask, tp);
       
-      double lot = CalculateLotSize(risk_dist);
+      double lot = CArgusCore::CalculateLotSize(_Symbol, RiskPercent, risk_dist, vol_precision);
       if(SendTrade(ORDER_TYPE_BUY, lot, ask, sl, tp, comment)) trades_today++;
    }
    else {
-      double sl = NormalizePrice(bid + sl_dist, tick_size);
-      sl = ValidateStopsLevel(bid, sl);
+      double sl = CArgusCore::NormalizePrice(_Symbol, bid + sl_dist, tick_size);
+      sl = CArgusCore::ValidateStopsLevel(_Symbol, bid, sl);
       double risk_dist = sl - bid;
       if(risk_dist <= 0) return;
       
-      double tp = NormalizePrice(target_vwap, tick_size);
-      tp = ValidateStopsLevel(bid, tp);
+      double tp = CArgusCore::NormalizePrice(_Symbol, target_vwap, tick_size);
+      tp = CArgusCore::ValidateStopsLevel(_Symbol, bid, tp);
       
-      double lot = CalculateLotSize(risk_dist);
+      double lot = CArgusCore::CalculateLotSize(_Symbol, RiskPercent, risk_dist, vol_precision);
       if(SendTrade(ORDER_TYPE_SELL, lot, bid, sl, tp, comment)) trades_today++;
    }
 }
@@ -198,29 +199,5 @@ bool SendTrade(ENUM_ORDER_TYPE type, double lot, double price, double sl, double
 
 //+------------------------------------------------------------------+
 //| Utilities                                                        |
-//+------------------------------------------------------------------+
-double CalculateLotSize(double d) {
-   double b = AccountInfoDouble(ACCOUNT_BALANCE), r = b * (RiskPercent / 100.0);
-   double tv = SymbolInfoDouble(_Symbol, SYMBOL_TRADE_TICK_VALUE), ts = SymbolInfoDouble(_Symbol, SYMBOL_TRADE_TICK_SIZE);
-   if(d <= 0 || tv <= 0) return 0;
-   double l = r / (d / ts * tv), min = SymbolInfoDouble(_Symbol, SYMBOL_VOLUME_MIN), max = SymbolInfoDouble(_Symbol, SYMBOL_VOLUME_MAX), st = SymbolInfoDouble(_Symbol, SYMBOL_VOLUME_STEP);
-   l = MathFloor(l / st) * st;
-   return NormalizeDouble(MathMax(min, MathMin(max, l)), vol_precision);
-}
 
-double ValidateStopsLevel(double p, double t) {
-   int s = (int)SymbolInfoInteger(_Symbol, SYMBOL_TRADE_STOPS_LEVEL), f = (int)SymbolInfoInteger(_Symbol, SYMBOL_TRADE_FREEZE_LEVEL);
-   double m = MathMax(s, f) * _Point, d = MathAbs(p - t);
-   if(d < m) return (t > p) ? p + m + _Point : p - m - _Point;
-   return t;
-}
-
-bool HasOpenPosition() {
-   for(int i = PositionsTotal() - 1; i >= 0; i--) {
-      if(PositionSelectByTicket(PositionGetTicket(i)) && PositionGetInteger(POSITION_MAGIC) == MagicNumber && PositionGetString(POSITION_SYMBOL) == _Symbol) return true;
-   }
-   return false;
-}
-
-double NormalizePrice(double p, double t) { return MathRound(p / t) * t; }
 double PipsToPointsMultiplier() { int d = (int)SymbolInfoInteger(_Symbol, SYMBOL_DIGITS); return (d == 3 || d == 5) ? 10.0 * _Point : _Point; }

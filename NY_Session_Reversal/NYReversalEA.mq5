@@ -13,8 +13,8 @@
 
 //--- Include necessary libraries
 #include <Trade\Trade.mqh>
-#include "StructureUtils.mqh"
-
+#include "..\Shared\ArgusCore.mqh"
+#include "..\Shared\ArgusStructure.mqh"
 //--- Enums
 enum ENUM_NY_STATE {
    STATE_WAIT_LONDON_END,
@@ -67,8 +67,7 @@ int OnInit()
    ema_handle = iMA(_Symbol, _Period, HTF_EMA_Period, 0, MODE_EMA, PRICE_CLOSE);
    if(ema_handle == INVALID_HANDLE) return(INIT_FAILED);
    
-   double step_vol = SymbolInfoDouble(_Symbol, SYMBOL_VOLUME_STEP);
-   vol_precision = (int)MathMax(0, MathCeil(MathLog10(1.0 / step_vol)));
+   vol_precision = CArgusCore::GetVolumePrecision(_Symbol);
    
    trade.SetExpertMagicNumber(MagicNumber);
    return(INIT_SUCCEEDED);
@@ -121,7 +120,7 @@ void ManageStates(datetime now)
    {
       case STATE_WAIT_LONDON_END:
          if(now >= ld_end_dt) {
-            if(CStructureUtils::GetSessionRange(ld_start_dt, ld_end_dt, london_high, london_low)) {
+            if(CArgusStructure::GetSessionRange(_Symbol, _Period, ld_start_dt, ld_end_dt, london_high, london_low)) {
                current_state = STATE_ANALYZE_EXPANSION;
                DrawLondonRange();
             }
@@ -131,7 +130,7 @@ void ManageStates(datetime now)
       case STATE_ANALYZE_EXPANSION:
          if(CheckLondonExpansion()) {
             current_state = STATE_MONITOR_NY_REVERSAL;
-            PrintFormat("NYR: Expansion Confirmed (%.1f pips). Monitoring NY Killzone...", (london_high - london_low)/CStructureUtils::PipsToPoints());
+            PrintFormat("NYR: Expansion Confirmed (%.1f pips). Monitoring NY Killzone...", (london_high - london_low)/CArgusStructure::PipsToPoints(_Symbol));
          } else {
             Print("NYR: London move too small. Skipping today.");
             current_state = STATE_TRADED_FOR_DAY;
@@ -167,12 +166,12 @@ bool CheckLondonExpansion()
 //+------------------------------------------------------------------+
 void CheckForReversalEntry()
 {
-   if(HasOpenPosition()) return;
+   if(CArgusCore::HasOpenPosition(_Symbol, MagicNumber)) return;
 
    double h1 = iHigh(_Symbol, _Period, 1);
    double l1 = iLow(_Symbol, _Period, 1);
    double c1 = iClose(_Symbol, _Period, 1);
-   double sweep_lvl = MinSweepPips * CStructureUtils::PipsToPoints();
+   double sweep_lvl = MinSweepPips * CArgusStructure::PipsToPoints(_Symbol);
 
    // -- Bias Check --
    bool bias_ok_sell = true;
@@ -193,14 +192,14 @@ void CheckForReversalEntry()
    // -- SELL REVERSAL (London was up, NY sweeps high) --
    if(h1 > london_high + sweep_lvl && c1 < london_high && bias_ok_sell)
    {
-      bool msb = RequireMSB ? CStructureUtils::IsStructureBreak(ORDER_TYPE_SELL, 20, 5) : true;
+      bool msb = RequireMSB ? CArgusStructure::IsStructureBreak(_Symbol, _Period, ORDER_TYPE_SELL, 20, 5) : true;
       if(msb) ExecuteTrade(ORDER_TYPE_SELL, h1);
    }
 
    // -- BUY REVERSAL (London was down, NY sweeps low) --
    else if(l1 < london_low - sweep_lvl && c1 > london_low && bias_ok_buy)
    {
-      bool msb = RequireMSB ? CStructureUtils::IsStructureBreak(ORDER_TYPE_BUY, 20, 5) : true;
+      bool msb = RequireMSB ? CArgusStructure::IsStructureBreak(_Symbol, _Period, ORDER_TYPE_BUY, 20, 5) : true;
       if(msb) ExecuteTrade(ORDER_TYPE_BUY, l1);
    }
 }
@@ -217,31 +216,31 @@ void ExecuteTrade(ENUM_ORDER_TYPE type, double extreme)
    double tp_target = (london_high + london_low) / 2.0; // Primary Target: London Midpoint
 
    if(type == ORDER_TYPE_BUY) {
-      double sl = NormalizePrice(extreme - (2 * _Point), tick_size);
-      sl = ValidateStopsLevel(ask, sl);
+      double sl = CArgusCore::NormalizePrice(_Symbol, extreme - (2 * _Point), tick_size);
+      sl = CArgusCore::ValidateStopsLevel(_Symbol, ask, sl);
       double risk_dist = ask - sl;
       if(risk_dist <= 0) return;
       
-      double tp = NormalizePrice(tp_target, tick_size);
-      tp = ValidateStopsLevel(ask, tp);
-      if(tp <= ask) tp = NormalizePrice(ask + (risk_dist * 2.0), tick_size); // Fallback to 1:2 RR
+      double tp = CArgusCore::NormalizePrice(_Symbol, tp_target, tick_size);
+      tp = CArgusCore::ValidateStopsLevel(_Symbol, ask, tp);
+      if(tp <= ask) tp = CArgusCore::NormalizePrice(_Symbol, ask + (risk_dist * 2.0), tick_size); // Fallback to 1:2 RR
       
-      double lot = CalculateLotSize(risk_dist);
+      double lot = CArgusCore::CalculateLotSize(_Symbol, RiskPercent, risk_dist, vol_precision);
       if(trade.Buy(lot, _Symbol, ask, sl, tp, "NY Reversal Long")) {
          current_state = STATE_TRADED_FOR_DAY;
       }
    }
    else {
-      double sl = NormalizePrice(extreme + (2 * _Point), tick_size);
-      sl = ValidateStopsLevel(bid, sl);
+      double sl = CArgusCore::NormalizePrice(_Symbol, extreme + (2 * _Point), tick_size);
+      sl = CArgusCore::ValidateStopsLevel(_Symbol, bid, sl);
       double risk_dist = sl - bid;
       if(risk_dist <= 0) return;
       
-      double tp = NormalizePrice(tp_target, tick_size);
-      tp = ValidateStopsLevel(bid, tp);
-      if(tp >= bid) tp = NormalizePrice(bid - (risk_dist * 2.0), tick_size); 
+      double tp = CArgusCore::NormalizePrice(_Symbol, tp_target, tick_size);
+      tp = CArgusCore::ValidateStopsLevel(_Symbol, bid, tp);
+      if(tp >= bid) tp = CArgusCore::NormalizePrice(_Symbol, bid - (risk_dist * 2.0), tick_size); 
 
-      double lot = CalculateLotSize(risk_dist);
+      double lot = CArgusCore::CalculateLotSize(_Symbol, RiskPercent, risk_dist, vol_precision);
       if(trade.Sell(lot, _Symbol, bid, sl, tp, "NY Reversal Short")) {
          current_state = STATE_TRADED_FOR_DAY;
       }
@@ -273,20 +272,3 @@ void DrawLondonRange() {
    ObjectSetInteger(0, "NYR_Range", OBJPROP_BACK, true);
 }
 
-double CalculateLotSize(double d) {
-   double b = AccountInfoDouble(ACCOUNT_BALANCE), r = b * (RiskPercent / 100.0);
-   double tv = SymbolInfoDouble(_Symbol, SYMBOL_TRADE_TICK_VALUE), ts = SymbolInfoDouble(_Symbol, SYMBOL_TRADE_TICK_SIZE);
-   if(d <= 0 || tv <= 0) return 0;
-   double l = r / (d / ts * tv), min = SymbolInfoDouble(_Symbol, SYMBOL_VOLUME_MIN), max = SymbolInfoDouble(_Symbol, SYMBOL_VOLUME_MAX), st = SymbolInfoDouble(_Symbol, SYMBOL_VOLUME_STEP);
-   l = MathFloor(l / st) * st;
-   return NormalizeDouble(MathMax(min, MathMin(max, l)), vol_precision);
-}
-
-bool HasOpenPosition() {
-   for(int i = PositionsTotal() - 1; i >= 0; i--) {
-      if(PositionSelectByTicket(PositionGetTicket(i)) && PositionGetInteger(POSITION_MAGIC) == MagicNumber && PositionGetString(POSITION_SYMBOL) == _Symbol) return true;
-   }
-   return false;
-}
-
-double NormalizePrice(double p, double t) { return MathRound(p / t) * t; }
