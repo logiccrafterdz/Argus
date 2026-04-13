@@ -29,6 +29,7 @@ Each strategy is located in its own dedicated folder. This ensures a clean works
 | **ADX Strength** | ./ADX_TrendStrength/ | **Production Elite** | Trend intensity strategy using ADX regime filtering and DMI crossovers. |
 | **Donchian Break** | ./Donchian_Breakout/ | **Production Elite** | Classic Donchian Channel breakout system with trend and ADX filters. |
 | **ICT Killzone** | ./ICT_Killzone_Macro/ | **Production Elite** | Institutional liquidity sweep strategy inside precise Macro Windows. |
+| **PDH/PDL Break** | ./PDH_PDL_BreakReversal/ | **Production Elite** | PDH/PDL level strategy with dynamic Expansion/Balance regime switching. |
 
 ---
 
@@ -171,6 +172,14 @@ Each strategy is located in its own dedicated folder. This ensures a clean works
     *   **Dual-Target Management**: Uses Mid-Range (50%) and Range-Extremes for high-probability exits.
     *   **Temporal Protection**: Forced exit at window end to minimize exposure to non-institutional liquidity.
 *   **Execution**: Automated calculation 15m prior to window. Triggered on M5/M15 rejection close.
+
+### 18. Previous Day High/Low (PDH/PDL) Breakout & Reversal
+*   **Confluence Stack**: 
+    *   **Institutional Structural Levels**: Uses the most significant daily price anchors (Yesterday's High/Low).
+    *   **ATR Regime Gate**: Automatically identifies if the market is in "Expansion" (Breakout) or "Balance" (Reversal) mode.
+    *   **Breakout + Retest Logic**: Ensures momentum is confirmed before entering on a structural pullback.
+    *   **Rejection PA Confirmation**: Detects Pinbars and institutional rejections at sensitive price levels.
+*   **Execution**: Level-based trigger with state-machine tracking. Exit via fixed 2.0x RR.
 
 ---
 
