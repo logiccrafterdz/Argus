@@ -158,25 +158,23 @@ void DetectSweep(bool bullish_bias)
 //+------------------------------------------------------------------+
 void DetectFVG()
 {
+   double atr[];
+   if(CopyBuffer(atr_h, 0, 0, 1, atr) <= 0) return;
+
    double top, bottom;
    bool found = false;
+   double min_fvg = atr[0] * MinFVGSizeATR;
 
    // FVG logic: Check index 1 (gap end), displacement is index 2
    if(pending_type == ORDER_TYPE_BUY) {
-      if(CSMCUtils::IsBullishFVG(1, top, bottom) && CSMCUtils::IsDisplacement(2, atr_h)) {
-         double atr[];
-         if(CopyBuffer(atr_h, 0, 0, 1, atr) > 0 && (top - bottom) >= atr[0] * MinFVGSizeATR) {
-            fvg_top = top; fvg_bottom = bottom;
-            found = true;
-         }
+      if(CSMCUtils::IsBullishFVG(1, top, bottom) && CSMCUtils::IsDisplacement(2, atr_h) && (top - bottom) >= min_fvg) {
+         fvg_top = top; fvg_bottom = bottom;
+         found = true;
       }
    } else {
-      if(CSMCUtils::IsBearishFVG(1, top, bottom) && CSMCUtils::IsDisplacement(2, atr_h)) {
-         double atr[];
-         if(CopyBuffer(atr_h, 0, 0, 1, atr) > 0 && (top - bottom) >= atr[0] * MinFVGSizeATR) {
-            fvg_top = top; fvg_bottom = bottom;
-            found = true;
-         }
+      if(CSMCUtils::IsBearishFVG(1, top, bottom) && CSMCUtils::IsDisplacement(2, atr_h) && (top - bottom) >= min_fvg) {
+         fvg_top = top; fvg_bottom = bottom;
+         found = true;
       }
    }
 
@@ -188,10 +186,7 @@ void DetectFVG()
    
    // Adaptive Reset: If price moves 1.5x ATR from sweep extreme, reset
    double bid = SymbolInfoDouble(_Symbol, SYMBOL_BID);
-   double atr[];
-   if(CopyBuffer(atr_h, 0, 0, 1, atr) > 0) {
-      if(MathAbs(bid - sweep_extreme) > 1.5 * atr[0]) ResetState("Adaptive Reset");
-   }
+   if(MathAbs(bid - sweep_extreme) > 1.5 * atr[0]) ResetState("Adaptive Reset");
 }
 
 //+------------------------------------------------------------------+
