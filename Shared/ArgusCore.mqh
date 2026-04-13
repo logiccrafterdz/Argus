@@ -10,6 +10,9 @@
 #property link      "https://example.com"
 #property strict
 
+#ifndef ARGUS_CORE_MQH
+#define ARGUS_CORE_MQH
+
 //+------------------------------------------------------------------+
 //| Class for Core Operations (Risk, Validation, Helpers)            |
 //+------------------------------------------------------------------+
@@ -149,11 +152,19 @@ public:
    //+------------------------------------------------------------------+
    static void SendTelegramAlert(string bot_token, string chat_id, string message)
    {
-      string url = "https://api.telegram.org/bot" + bot_token + "/sendMessage?chat_id=" + chat_id + "&text=" + message + "&parse_mode=HTML";
-      char post[], result[];
-      string headers;
+      string url = "https://api.telegram.org/bot" + bot_token + "/sendMessage";
+      string body = "chat_id=" + chat_id + "&text=" + message + "&parse_mode=HTML";
+      
+      char post_data[];
+      StringToCharArray(body, post_data, 0, WHOLE_ARRAY, CP_UTF8);
+      char result[];
+      string headers = "Content-Type: application/x-www-form-urlencoded\r\n";
+      
       ResetLastError();
-      int res = WebRequest("GET", url, NULL, NULL, 5000, post, 0, result, headers);
+      // Use POST with body
+      int res = WebRequest("POST", url, headers, 5000, post_data, result, headers);
       if(res != 200 && res != -1) PrintFormat("Telegram Alert Failed. Code: %d", res);
    }
 };
+
+#endif

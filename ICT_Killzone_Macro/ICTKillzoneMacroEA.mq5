@@ -173,7 +173,7 @@ void ExecuteTrade(ENUM_ORDER_TYPE type, double stop_ref)
 
    // Base lot calculation
    double risk_amt = (type == ORDER_TYPE_BUY) ? (ask - (stop_ref - 2 * _Point)) : ((stop_ref + 2 * _Point) - bid);
-   double base_lot = CArgusCore::CalculateLotSize(_Symbol, RiskPercent, MathMax(risk_amt, 10 * _Point, vol_precision));
+   double base_lot = CArgusCore::CalculateLotSize(_Symbol, RiskPercent, MathMax(risk_amt, 10 * _Point), vol_precision);
    if(base_lot <= 0) return;
 
    double min_lot = SymbolInfoDouble(_Symbol, SYMBOL_VOLUME_MIN);
@@ -256,7 +256,12 @@ void OnTradeTransaction(const MqlTradeTransaction& trans, const MqlTradeRequest&
    if(trans.type == TRADE_TRANSACTION_DEAL_ADD) {
       if(HistoryDealSelect(trans.deal)) {
          if(HistoryDealGetInteger(DEAL_MAGIC) == MagicNumber && HistoryDealGetInteger(DEAL_ENTRY) == DEAL_ENTRY_IN) {
-            CArgusCore::LogTradeData(_Symbol, MagicNumber, (ENUM_ORDER_TYPE)HistoryDealGetInteger(DEAL_TYPE), HistoryDealGetDouble(DEAL_VOLUME), HistoryDealGetDouble(DEAL_PRICE), HistoryDealGetDouble(DEAL_SL), HistoryDealGetDouble(DEAL_TP), HistoryDealGetString(DEAL_COMMENT), trans.order);
+            double sl = 0, tp = 0;
+            if(PositionSelectByTicket(trans.position)) {
+               sl = PositionGetDouble(POSITION_SL);
+               tp = PositionGetDouble(POSITION_TP);
+            }
+            CArgusCore::LogTradeData(_Symbol, MagicNumber, (ENUM_ORDER_TYPE)HistoryDealGetInteger(DEAL_TYPE), HistoryDealGetDouble(DEAL_VOLUME), HistoryDealGetDouble(DEAL_PRICE), sl, tp, HistoryDealGetString(DEAL_COMMENT), trans.order);
          }
       }
    }

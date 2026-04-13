@@ -10,6 +10,9 @@
 #property link      "https://example.com"
 #property strict
 
+#ifndef ARGUS_STRUCTURE_MQH
+#define ARGUS_STRUCTURE_MQH
+
 #include "ArgusCore.mqh"
 
 //+------------------------------------------------------------------+
@@ -239,3 +242,5 @@ public:
       return (d == 3 || d == 5) ? 10.0 * SymbolInfoDouble(symbol, SYMBOL_POINT) : SymbolInfoDouble(symbol, SYMBOL_POINT);
    }
 };
+
+#endif

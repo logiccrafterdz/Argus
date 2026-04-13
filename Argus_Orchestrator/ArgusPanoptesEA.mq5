@@ -12,6 +12,8 @@
 #property description "Portfolio Orchestrator: Manages global circuit breakers and regimes."
 #property strict
 
+#include <Trade\Trade.mqh>
+
 //--- Input parameters
 input string   _RiskSettings        = "------ Circuit Breaker ------";
 input double   MaxDailyDrawdown     = 3.0;           // Max Daily Drawdown (%)
@@ -86,7 +88,6 @@ void OnTimer()
 
 void EmergencyCloseAll()
 {
-   #include <Trade\Trade.mqh>
    CTrade trade;
    int failed_closes = 0;
    
@@ -147,8 +148,8 @@ void UpdateDashboard(double dd_pct, bool is_halted, double balance, double equit
    // Drawdown
    ObjectSetInteger(0, "Argus_DD", OBJPROP_XDISTANCE, 30);
    ObjectSetInteger(0, "Argus_DD", OBJPROP_YDISTANCE, 130);
-   ObjectSetString(0, "Argus_DD", OBJPROP_TEXT, StringFormat("Daily Drawdown: %.2f%% (Max: %.2f%%)", current_drawdown_pct, MaxDailyDrawdown));
-   ObjectSetInteger(0, "Argus_DD", OBJPROP_COLOR, (current_drawdown_pct > MaxDailyDrawdown*0.7) ? clrOrange : clrWhite);
+   ObjectSetString(0, "Argus_DD", OBJPROP_TEXT, StringFormat("Daily Drawdown: %.2f%% (Max: %.2f%%)", dd_pct, MaxDailyDrawdown));
+   ObjectSetInteger(0, "Argus_DD", OBJPROP_COLOR, (dd_pct > MaxDailyDrawdown*0.7) ? clrOrange : clrWhite);
    ObjectSetString(0, "Argus_DD", OBJPROP_FONT, "Segoe UI");
    ObjectSetInteger(0, "Argus_DD", OBJPROP_FONTSIZE, 9);
    
