@@ -34,7 +34,7 @@ input string   _Risk_Settings        = "------ Risk & Trade ------";
 input double   RiskPercent          = 1.0;           // Risk % per trade
 input double   RR_Target            = 2.0;           // Reward:Risk Goal
 input int      MaxSpread            = 20;            // Max Allowed Spread
-input int      MagicNumber          = 556677;        // Magic Number
+input int      MagicNumber          = 100018;        // EA Magic Number
 
 //--- Global variables
 CTrade         trade;
@@ -231,4 +231,4 @@ bool HasOpenPosition() {
 }
 
 double NormalizePrice(double p, double t) { return MathRound(p / t) * t; }
-void OnDeinit(const int reason) { ObjectDelete(0, "Argus_PDH"); ObjectDelete(0, "Argus_PDL"); }
+void OnDeinit(const int reason) { ObjectDelete(0, "Argus_PDH"); ObjectDelete(0, "Argus_PDL"); IndicatorRelease(atr_h); }

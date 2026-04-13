@@ -31,7 +31,7 @@ input double   ATR_ThresholdMult    = 0.8;           // ATR > SMA(ATR)*X
 input string   _Risk_Settings        = "------ Risk & Trade ------";
 input double   RiskPercent          = 1.0;           // Risk % per trade
 input bool     UseTrailing          = true;          // Trail SL with ST Line
-input int      MagicNumber          = 112233;        // Magic Number
+input int      MagicNumber          = 100013;        // EA Magic Number
 
 //--- Global variables
 CTrade         trade;

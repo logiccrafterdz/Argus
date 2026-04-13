@@ -40,7 +40,7 @@ input int      HTF_EMA_Period       = 200;           // HTF Trend (EMA 200)
 input string   _RiskSettings        = "------ Risk & Trade ------";
 input double   RiskPercent          = 1.0;           // Risk % per trade
 input int      MaxSpread            = 30;            // Max Allowed Spread
-input int      MagicNumber          = 776655;        // Magic Number
+input int      MagicNumber          = 100009;        // EA Magic Number
 
 //--- Global variables
 CTrade         trade;

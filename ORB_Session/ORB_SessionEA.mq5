@@ -31,7 +31,7 @@ input int      Trend_EMA_Period  = 200;           // Trend Filter (Current TF)
 input int      MaxSpread         = 30;            // Max Allowed Spread (Points)
 input double   RiskPercent       = 1.0;           // Risk % per Trade
 input int      TP_Multiplier     = 2;             // Risk-Reward Ratio
-input int      MagicNumber       = 998877;        // Magic Number
+input int      MagicNumber       = 100003;        // EA Magic Number
 input bool     OnlyNewBar        = true;          // Execution on New Bar
 
 //--- Global variables

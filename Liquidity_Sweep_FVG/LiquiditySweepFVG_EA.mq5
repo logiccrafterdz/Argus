@@ -41,7 +41,7 @@ input string   _Risk_Settings        = "------ Risk & Trade ------";
 input double   RiskPercent          = 1.0;           // Risk % per trade
 input double   RR_Target            = 2.5;           // Reward:Risk Goal
 input int      MaxSpread            = 15;            // Institutional Spread
-input int      MagicNumber          = 991122;        // Magic Number
+input int      MagicNumber          = 100019;        // EA Magic Number
 
 //--- Global variables
 CTrade         trade;
@@ -87,11 +87,10 @@ void OnTick()
 
    datetime current_bar_time = iTime(_Symbol, _Period, 0);
    bool is_new_bar = (current_bar_time != last_bar_time);
+   if(is_new_bar) last_bar_time = current_bar_time;
 
    if(SymbolInfoInteger(_Symbol, SYMBOL_SPREAD) > MaxSpread) return;
    if(HasOpenPosition()) return;
-
-   last_bar_time = current_bar_time;
 
    // 2. HTF Bias Check (H1 Trend)
    double ema[];
@@ -319,4 +318,4 @@ bool HasOpenPosition() {
 }
 
 double NormalizePrice(double p, double t) { return MathRound(p / t) * t; }
-void OnDeinit(const int reason) { ObjectDelete(0, "SMC_LiqHigh"); ObjectDelete(0, "SMC_LiqLow"); ObjectDelete(0, "SMC_FVG"); }
+void OnDeinit(const int reason) { ObjectDelete(0, "SMC_LiqHigh"); ObjectDelete(0, "SMC_LiqLow"); ObjectDelete(0, "SMC_FVG"); IndicatorRelease(ema_h); IndicatorRelease(atr_h); }

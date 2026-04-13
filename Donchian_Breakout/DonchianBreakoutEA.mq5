@@ -29,7 +29,7 @@ input string   _Risk_Settings        = "------ Risk & Trade ------";
 input double   RiskPercent          = 1.0;           // Risk % per trade
 input double   ATR_Multiplier       = 1.5;           // SL (if not using Channel)
 input int      MaxSpread            = 30;            // Max Allowed Spread
-input int      MagicNumber          = 991122;        // Magic Number
+input int      MagicNumber          = 100016;        // EA Magic Number
 
 //--- Global variables
 CTrade         trade;

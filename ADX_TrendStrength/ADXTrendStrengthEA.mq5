@@ -31,7 +31,7 @@ input double   ATR_Multiplier       = 1.5;           // Stop Loss ATR Multiplier
 input double   RR_Target            = 2.5;           // Fixed RR Goal
 input bool     UseExhaustionExit    = true;          // Exit if Trend Fades
 input int      MaxSpread            = 30;            // Max Allowed Spread
-input int      MagicNumber          = 112244;        // Magic Number
+input int      MagicNumber          = 100015;        // EA Magic Number
 
 //--- Global variables
 CTrade         trade;

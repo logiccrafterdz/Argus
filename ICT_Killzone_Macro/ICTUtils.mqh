@@ -31,7 +31,7 @@ public:
    // Capture High/Low for a specific lookback period (in hours)
    static bool GetReferenceRange(int hours, double &high, double &low)
    {
-      int bars = hours * 60 / PeriodSeconds() * 60; // Approximate bars
+      int bars = hours * 3600 / PeriodSeconds(); // Accurate bars calculation
       if(bars <= 0) return false;
       
       int h_idx = iHighest(_Symbol, _Period, MODE_HIGH, bars, 1);

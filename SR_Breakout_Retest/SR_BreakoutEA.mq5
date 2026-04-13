@@ -37,7 +37,7 @@ input int      MaxBreakDistancePips = 30;            // Max pips price can go af
 input int      MaxSpread            = 30;            // Max Allowed Spread (Points)
 input double   RiskPercent          = 1.0;           // Risk % per Trade
 input int      TP_Multiplier        = 2;             // Risk-Reward Multiplier
-input int      MagicNumber          = 654321;        // EA Magic Number
+input int      MagicNumber          = 100002;        // EA Magic Number
 input bool     OnlyNewBar           = true;          // Execute on New Bar Only
 
 //--- Global variables

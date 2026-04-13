@@ -38,7 +38,7 @@ input double   RiskPercent          = 1.0;            // Risk % per trade
 input double   RR_Target            = 2.0;            // Reward:Risk Ratio
 input double   SL_ATR_Buffer        = 0.2;            // SL buffer (ATR ratio)
 input int      MaxSpread            = 15;             // Institutional Spread
-input int      MagicNumber          = 778899;         // Magic Number
+input int      MagicNumber          = 100020;        // EA Magic Number
 
 //--- Global variables
 CTrade         trade;
@@ -271,4 +271,4 @@ bool HasOpenPosition() {
 }
 
 double NormalizePrice(double p, double t) { return MathRound(p / t) * t; }
-void OnDeinit(const int reason) { ObjectDelete(0, "AVWAP_Line"); }
+void OnDeinit(const int reason) { ObjectDelete(0, "AVWAP_Line"); IndicatorRelease(ema_h); IndicatorRelease(atr_h); }

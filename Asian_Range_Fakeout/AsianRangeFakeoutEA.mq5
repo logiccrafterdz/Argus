@@ -49,7 +49,7 @@ input int      Trend_EMA            = 200;           // Trend Period
 input double   RiskPercent          = 1.0;           // Risk % per trade
 input int      TP_Ratio             = 2;             // Fixed Risk-Reward
 input int      MaxSpread            = 30;            // Max Allowed Spread (Points)
-input int      MagicNumber          = 112233;        // Magic Number
+input int      MagicNumber          = 100008;        // EA Magic Number
 
 //--- Global variables
 CTrade         trade;

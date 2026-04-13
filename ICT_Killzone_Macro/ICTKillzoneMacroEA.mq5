@@ -37,7 +37,7 @@ input double   RiskPercent          = 1.0;           // Risk % per trade
 input bool     UseTP2               = true;          // Exit half at Mid, half at End
 input bool     ForceCloseAtEnd      = true;          // Close all at KillzoneEnd
 input int      MaxSpread            = 20;            // Max Allowed Spread
-input int      MagicNumber          = 778899;        // Magic Number
+input int      MagicNumber          = 100017;        // EA Magic Number
 
 //--- Global variables
 CTrade         trade;

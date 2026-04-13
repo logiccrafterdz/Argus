@@ -30,7 +30,7 @@ input string   _RiskSettings        = "------ Risk & Trade ------";
 input double   RiskPercent          = 1.0;           // Risk % per trade
 input int      TP_Ratio             = 2;             // Risk-Reward
 input int      MaxSpread            = 25;            // Max Allowed Spread
-input int      MagicNumber          = 778899;        // Magic Number
+input int      MagicNumber          = 100014;        // EA Magic Number
 
 //--- Global variables
 CTrade         trade;

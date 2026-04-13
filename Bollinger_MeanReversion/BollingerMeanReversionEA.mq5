@@ -34,7 +34,7 @@ input int      Trend_EMA_Period = 200;         // Trend Filter Period
 input int      MaxBarsOutside = 15;            // Max candles allowed outside band
 input int      MaxSpread      = 30;            // Max Allowed Spread (Points)
 input double   RiskPercent    = 1.0;           // Risk % per Trade
-input int      MagicNumber    = 887766;        // Magic Number
+input int      MagicNumber    = 100004;        // EA Magic Number
 input bool     OnlyNewBar     = true;          // Execute on New Bar Only
 
 //--- Global variables

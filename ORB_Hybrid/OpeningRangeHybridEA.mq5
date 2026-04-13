@@ -40,7 +40,7 @@ input double   RiskPercent          = 1.0;           // Risk % per trade
 input int      TP_Ratio             = 2;             // Risk-Reward
 input int      MaxTradesPerDay      = 1;             // Max Trades allowed daily
 input int      MaxSpread            = 30;            // Max Allowed Spread
-input int      MagicNumber          = 998877;        // Magic Number
+input int      MagicNumber          = 100011;        // EA Magic Number
 
 //--- Global variables
 CTrade         trade;

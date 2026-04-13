@@ -38,7 +38,7 @@ input double   SL_FixedPips         = 15.0;          // SL Pips (if Fixed)
 input double   SL_AtrMultiplier     = 1.5;           // SL ATR Mult (if ATR)
 input int      MaxTradesPerDay      = 2;             // Max Trades Per Day
 input int      MaxSpread            = 30;            // Max Allowed Spread (Points)
-input int      MagicNumber          = 554433;        // Magic Number
+input int      MagicNumber          = 100007;        // EA Magic Number
 
 //--- Global variables
 CTrade         trade;
