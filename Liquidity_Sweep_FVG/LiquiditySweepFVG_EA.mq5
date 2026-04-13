@@ -4,11 +4,11 @@
 //|                                             https://example.com |
 //|                                                                  |
 //|  WARNING: FOR EDUCATIONAL PURPOSES ONLY. NO WARRANTY PROVIDED.   |
-//|  USE AT YOUR OWN RISK. VERSION 1.00 (Smart Money Engine)         |
+//|  USE AT YOUR OWN RISK. VERSION 1.10 (Refined SMC Engine)         |
 //+------------------------------------------------------------------+
 #property copyright "Copyright 2026, LogicCrafterDz"
 #property link      "https://example.com"
-#property version   "1.00"
+#property version   "1.10"
 #property strict
 
 //--- Include necessary libraries
@@ -24,14 +24,16 @@ enum ENUM_SMC_STATE {
 };
 
 //--- Input parameters
-input string   _Regime_Settings     = "------ HTF Bias ------";
+input string   _Regime_Settings     = "------ HTF Bias & Session ------";
 input ENUM_TIMEFRAMES HTF_Period    = PERIOD_H1;     // Higher Timeframe
 input int      EMA_Trend_Period     = 50;            // Trend EMA
+input int      StartHour            = 8;             // London Start (Server)
+input int      EndHour              = 18;            // NY Close (Server)
 
 input string   _SMC_Settings        = "------ SMC Logic ------";
 input int      SweepLookback        = 20;            // Candles to find Liq Pools
-input double   SweepBufferPips      = 2.0;           // Buffer for "Breach"
-input double   MinFVGSizePips       = 3.0;           // Minimum gap size
+input double   SweepBufferATR       = 0.1;           // 0.1 x ATR for breach
+input double   MinFVGSizeATR        = 0.2;           // Minimum gap size (ATR)
 input double   EntryRetracePercent  = 50.0;          // 0 = Start of FVG, 50 = Mid
 
 input string   _Risk_Settings        = "------ Risk & Trade ------";
@@ -72,23 +74,28 @@ int OnInit()
 //+------------------------------------------------------------------+
 void OnTick()
 {
-   datetime current_bar_time = iTime(_Symbol, _Period, 0);
-   if(current_bar_time == last_bar_time) {
-      if(current_state == SMC_WAIT_ENTRY) HandleEntryLogic();
+   // 1. Session Filter
+   MqlDateTime dt;
+   TimeCurrent(dt);
+   if(dt.hour < StartHour || dt.hour >= EndHour) {
+      if(current_state != SMC_IDLE) ResetState("Out of session");
       return;
    }
+
+   datetime current_bar_time = iTime(_Symbol, _Period, 0);
+   bool is_new_bar = (current_bar_time != last_bar_time);
    last_bar_time = current_bar_time;
 
    if(SymbolInfoInteger(_Symbol, SYMBOL_SPREAD) > MaxSpread) return;
    if(HasOpenPosition()) return;
 
-   // 1. HTF Bias Check (H1 Trend)
+   // 2. HTF Bias Check (H1 Trend)
    double ema[];
    if(CopyBuffer(ema_h, 0, 0, 1, ema) <= 0) return;
    double htf_close = iClose(_Symbol, HTF_Period, 0);
    bool bullish_bias = (htf_close > ema[0]);
 
-   // 2. State Machine Logic
+   // 3. State Machine Logic
    switch(current_state)
    {
       case SMC_IDLE:
@@ -98,6 +105,10 @@ void OnTick()
          break;
 
       case SMC_WAIT_SWEEP:
+         if(is_new_bar) {
+            CSMCUtils::GetLiquidityPools(SweepLookback, liq_high, liq_low);
+            DrawLiquidityLines();
+         }
          DetectSweep(bullish_bias);
          break;
 
@@ -119,7 +130,10 @@ void DetectSweep(bool bullish_bias)
    double high1 = iHigh(_Symbol, _Period, 1);
    double low1 = iLow(_Symbol, _Period, 1);
    double close1 = iClose(_Symbol, _Period, 1);
-   double buffer = SweepBufferPips * _Point * (SymbolInfoInteger(_Symbol, SYMBOL_DIGITS) == 5 ? 10 : 1);
+   
+   double atr[];
+   if(CopyBuffer(atr_h, 0, 0, 1, atr) <= 0) return;
+   double buffer = atr[0] * SweepBufferATR;
 
    // Bullish Setup Logic: Sweep LOW then shift UP
    if(bullish_bias && low1 < liq_low - buffer && close1 > liq_low) {
@@ -140,18 +154,17 @@ void DetectSweep(bool bullish_bias)
 //+------------------------------------------------------------------+
 void DetectFVG()
 {
-   // Check the most recent closed candle (1) for FVG status
-   // An FVG involves 3 candles: 1(current), 2(gap), 3(start) -> Indices: 1, 2, 3
    double top, bottom;
    bool found = false;
 
+   // FVG logic: Check index 1 (gap fill candle)
    if(pending_type == ORDER_TYPE_BUY) {
-      if(CSMCUtils::IsBullishFVG(1, top, bottom) && CSMCUtils::IsDisplacement(2, atr_h)) {
+      if(CSMCUtils::IsBullishFVG(1, top, bottom) && CSMCUtils::IsDisplacement(1, atr_h)) {
          fvg_top = top; fvg_bottom = bottom;
          found = true;
       }
    } else {
-      if(CSMCUtils::IsBearishFVG(1, top, bottom) && CSMCUtils::IsDisplacement(2, atr_h)) {
+      if(CSMCUtils::IsBearishFVG(1, top, bottom) && CSMCUtils::IsDisplacement(1, atr_h)) {
          fvg_top = top; fvg_bottom = bottom;
          found = true;
       }
@@ -162,10 +175,12 @@ void DetectFVG()
       current_state = SMC_WAIT_ENTRY;
    }
    
-   // Failure reset: If no FVG within 5 bars of Sweep, reset to IDLE
-   // (Simple implementation: reset if price moves too far from sweep_extreme)
+   // Adaptive Reset: If price moves 1.5x ATR from sweep extreme, reset
    double bid = SymbolInfoDouble(_Symbol, SYMBOL_BID);
-   if(MathAbs(bid - sweep_extreme) > 100 * _Point) current_state = SMC_IDLE;
+   double atr[];
+   if(CopyBuffer(atr_h, 0, 0, 1, atr) > 0) {
+      if(MathAbs(bid - sweep_extreme) > 1.5 * atr[0]) ResetState("Adaptive Reset");
+   }
 }
 
 //+------------------------------------------------------------------+
@@ -177,14 +192,13 @@ void HandleEntryLogic()
    double ask = SymbolInfoDouble(_Symbol, SYMBOL_ASK);
    double tick_sz = SymbolInfoDouble(_Symbol, SYMBOL_TRADE_TICK_SIZE);
 
-   // Calculate target entry price (e.g. 50% retrace or start of FVG)
-   double entry_p = (pending_type == ORDER_TYPE_BUY) ? 
-                    (fvg_bottom + (fvg_top - fvg_bottom) * (100.0 - EntryRetracePercent) / 100.0) :
-                    (fvg_top - (fvg_top - fvg_bottom) * (100.0 - EntryRetracePercent) / 100.0);
+   double atr[];
+   if(CopyBuffer(atr_h, 0, 0, 1, atr) <= 0) return;
 
+   // Entry logic
    if(pending_type == ORDER_TYPE_BUY) {
       if(ask <= fvg_top && ask >= fvg_bottom) {
-         double sl = NormalizePrice(sweep_extreme - (2 * _Point), tick_sz);
+         double sl = NormalizePrice(sweep_extreme - (0.2 * atr[0]), tick_sz);
          sl = ValidateStopsLevel(ask, sl);
          double risk = ask - sl;
          if(risk <= 0) return;
@@ -192,11 +206,11 @@ void HandleEntryLogic()
          
          double lot = CalculateLotSize(risk);
          trade.Buy(lot, _Symbol, ask, sl, tp, "SMC Sweep+FVG Buy");
-         current_state = SMC_IDLE;
+         ResetState("Order Executed");
       }
    } else {
       if(bid >= fvg_bottom && bid <= fvg_top) {
-         double sl = NormalizePrice(sweep_extreme + (2 * _Point), tick_sz);
+         double sl = NormalizePrice(sweep_extreme + (0.2 * atr[0]), tick_sz);
          sl = ValidateStopsLevel(bid, sl);
          double risk = sl - bid;
          if(risk <= 0) return;
@@ -204,7 +218,7 @@ void HandleEntryLogic()
          
          double lot = CalculateLotSize(risk);
          trade.Sell(lot, _Symbol, bid, sl, tp, "SMC Sweep+FVG Sell");
-         current_state = SMC_IDLE;
+         ResetState("Order Executed");
       }
    }
 }
@@ -212,6 +226,12 @@ void HandleEntryLogic()
 //+------------------------------------------------------------------+
 //| Utilities & UI                                                   |
 //+------------------------------------------------------------------+
+void ResetState(string reason) {
+   current_state = SMC_IDLE;
+   ObjectDelete(0, "SMC_FVG");
+   Print("SMC Reset: ", reason);
+}
+
 void DrawLiquidityLines() {
    ObjectDelete(0, "SMC_LiqHigh");
    ObjectDelete(0, "SMC_LiqLow");
@@ -225,8 +245,8 @@ void DrawLiquidityLines() {
 
 void DrawFVG() {
    ObjectDelete(0, "SMC_FVG");
-   datetime t1 = iTime(_Symbol, _Period, 3);
-   datetime t2 = TimeCurrent() + 3600; // Extend forward
+   datetime t1 = iTime(_Symbol, _Period, 4);
+   datetime t2 = TimeCurrent() + 7200; // Extend forward
    ObjectCreate(0, "SMC_FVG", OBJ_RECTANGLE, 0, t1, fvg_top, t2, fvg_bottom);
    ObjectSetInteger(0, "SMC_FVG", OBJPROP_COLOR, (pending_type == ORDER_TYPE_BUY) ? clrLightBlue : clrLightPink);
    ObjectSetInteger(0, "SMC_FVG", OBJPROP_FILL, true);
@@ -244,8 +264,9 @@ double CalculateLotSize(double d) {
 
 double ValidateStopsLevel(double p, double t) {
    int s = (int)SymbolInfoInteger(_Symbol, SYMBOL_TRADE_STOPS_LEVEL), f = (int)SymbolInfoInteger(_Symbol, SYMBOL_TRADE_FREEZE_LEVEL);
-   double m = MathMax(s, f) * _Point, d = MathAbs(p - t);
-   if(d < m) return (t > p) ? p + m + _Point : p - m - _Point;
+   double tick_sz = SymbolInfoDouble(_Symbol, SYMBOL_TRADE_TICK_SIZE);
+   double m = MathMax(s, f) * tick_sz, d = MathAbs(p - t);
+   if(d < m) return (t > p) ? p + m + tick_sz : p - m - tick_sz;
    return t;
 }
 

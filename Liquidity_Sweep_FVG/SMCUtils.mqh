@@ -13,15 +13,16 @@
 class CSMCUtils
 {
 public:
-   // Detect Bullish Fair Value Gap
+   // Detect Bullish Fair Value Gap (3-Candle Sequence)
+   // i = start of gap (candle 1), i+1 = displacement (candle 2), i+2 = end of gap (candle 3)
    static bool IsBullishFVG(int i, double &top, double &bottom)
    {
-      double h2 = iHigh(_Symbol, _Period, i + 2);
-      double l0 = iLow(_Symbol, _Period, i);
+      double h_start = iHigh(_Symbol, _Period, i + 2); // Candle 3 High
+      double l_end   = iLow(_Symbol, _Period, i);     // Candle 1 Low
       
-      if(l0 > h2 + 2 * _Point) {
-         top = l0;
-         bottom = h2;
+      if(l_end > h_start + 2 * _Point) {
+         top = l_end;
+         bottom = h_start;
          return true;
       }
       return false;
@@ -30,12 +31,12 @@ public:
    // Detect Bearish Fair Value Gap
    static bool IsBearishFVG(int i, double &top, double &bottom)
    {
-      double l2 = iLow(_Symbol, _Period, i + 2);
-      double h0 = iHigh(_Symbol, _Period, i);
+      double l_start = iLow(_Symbol, _Period, i + 2);  // Candle 3 Low
+      double h_end   = iHigh(_Symbol, _Period, i);      // Candle 1 High
       
-      if(h0 < l2 - 2 * _Point) {
-         top = l2;
-         bottom = h0;
+      if(h_end < l_start - 2 * _Point) {
+         top = l_start;
+         bottom = h_end;
          return true;
       }
       return false;
@@ -51,13 +52,13 @@ public:
       low = iLow(_Symbol, _Period, l_idx);
    }
 
-   // Check for displacement (Strong impulsive candle)
+   // Check for displacement (Using middle candle of sequence)
    static bool IsDisplacement(int i, int atr_h)
    {
       double body = MathAbs(iOpen(_Symbol, _Period, i) - iClose(_Symbol, _Period, i));
       double atr[];
-      if(CopyBuffer(atr_h, 0, i, 1, atr) <= 0) return false;
+      if(CopyBuffer(atr_h, 0, 0, 1, atr) <= 0) return false;
       
-      return (body > atr[0] * 1.5); // Body must be 1.5x larger than average volatility
+      return (body > atr[0] * 1.5); 
    }
 };
