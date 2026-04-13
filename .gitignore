@@ -1,19 +1,33 @@
-# MQL5 Compiled files
+# ============================================
+# Argus Trading Suite - .gitignore
+# ============================================
+
+# --- MQL5 Compiled Binaries ---
 *.ex5
 *.ex4
 
-# Resource files (if you want to ignore them)
-# *.ico
-# *.bmp
-# *.wav
-
-# Logs and temporary files
+# --- Temporary & Build Files ---
 *.log
-*.txt
+*.tmp
+*.bak
+
+# --- MetaTrader Data Directories ---
 MQL5/Logs/*
 MQL5/Files/*
 MQL5/Tester/*
 
-# OS generated files
+# --- Python utility scripts (one-time use) ---
+*.pyc
+__pycache__/
+
+# --- OS Generated Files ---
 .DS_Store
 Thumbs.db
+desktop.ini
+
+# --- IDE / Editor ---
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
