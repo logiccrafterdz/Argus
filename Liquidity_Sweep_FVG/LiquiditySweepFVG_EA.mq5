@@ -87,10 +87,11 @@ void OnTick()
 
    datetime current_bar_time = iTime(_Symbol, _Period, 0);
    bool is_new_bar = (current_bar_time != last_bar_time);
-   last_bar_time = current_bar_time;
 
    if(SymbolInfoInteger(_Symbol, SYMBOL_SPREAD) > MaxSpread) return;
    if(HasOpenPosition()) return;
+
+   last_bar_time = current_bar_time;
 
    // 2. HTF Bias Check (H1 Trend)
    double ema[];
@@ -116,7 +117,7 @@ void OnTick()
          break;
 
       case SMC_WAIT_FVG:
-         DetectFVG();
+         if(is_new_bar) DetectFVG();
          break;
 
       case SMC_WAIT_ENTRY:
@@ -163,13 +164,19 @@ void DetectFVG()
    // FVG logic: Check index 1 (gap end), displacement is index 2
    if(pending_type == ORDER_TYPE_BUY) {
       if(CSMCUtils::IsBullishFVG(1, top, bottom) && CSMCUtils::IsDisplacement(2, atr_h)) {
-         fvg_top = top; fvg_bottom = bottom;
-         found = true;
+         double atr[];
+         if(CopyBuffer(atr_h, 0, 0, 1, atr) > 0 && (top - bottom) >= atr[0] * MinFVGSizeATR) {
+            fvg_top = top; fvg_bottom = bottom;
+            found = true;
+         }
       }
    } else {
       if(CSMCUtils::IsBearishFVG(1, top, bottom) && CSMCUtils::IsDisplacement(2, atr_h)) {
-         fvg_top = top; fvg_bottom = bottom;
-         found = true;
+         double atr[];
+         if(CopyBuffer(atr_h, 0, 0, 1, atr) > 0 && (top - bottom) >= atr[0] * MinFVGSizeATR) {
+            fvg_top = top; fvg_bottom = bottom;
+            found = true;
+         }
       }
    }
 
@@ -207,9 +214,14 @@ void HandleEntryLogic(bool is_new_bar)
    double atr[];
    if(CopyBuffer(atr_h, 0, 0, 1, atr) <= 0) return;
 
+   // Entry level calculation inside FVG
+   double entry_level = (pending_type == ORDER_TYPE_BUY) ? 
+                        (fvg_bottom + (fvg_top - fvg_bottom) * (EntryRetracePercent / 100.0)) :
+                        (fvg_top - (fvg_top - fvg_bottom) * (EntryRetracePercent / 100.0));
+
    // Entry logic
    if(pending_type == ORDER_TYPE_BUY) {
-      if(ask <= fvg_top && ask >= fvg_bottom) {
+      if(ask <= entry_level && ask >= fvg_bottom) {
          double sl = NormalizePrice(sweep_extreme - (0.2 * atr[0]), tick_sz);
          sl = ValidateStopsLevel(ask, sl);
          double risk = ask - sl;
@@ -221,7 +233,7 @@ void HandleEntryLogic(bool is_new_bar)
          ResetState("Order Executed");
       }
    } else {
-      if(bid >= fvg_bottom && bid <= fvg_top) {
+      if(bid >= entry_level && bid <= fvg_top) {
          double sl = NormalizePrice(sweep_extreme + (0.2 * atr[0]), tick_sz);
          sl = ValidateStopsLevel(bid, sl);
          double risk = sl - bid;
