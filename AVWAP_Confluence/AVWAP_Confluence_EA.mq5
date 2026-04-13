@@ -47,6 +47,7 @@ double         current_avwap = 0;
 ENUM_EA_STATE  current_state = STATE_IDLE;
 ENUM_ORDER_TYPE bias = ORDER_TYPE_BUY;
 datetime       last_bar_time = 0;
+int            bounce_bar_count = 0;
 int            trades_today = 0;
 int            last_day = 0;
 int            vol_precision = 0;
@@ -91,9 +92,11 @@ void OnTick()
    if(HasOpenPosition()) return;
 
    // 1. Update Core Data
-   if(anchor_time == 0) anchor_time = CAVWAPUtils::GetAnchorTime(AnchorMode, SessionAnchorHour, SwingLookback);
+   if(AnchorMode == ANCHOR_SWING || anchor_time == 0) 
+      anchor_time = CAVWAPUtils::GetAnchorTime(AnchorMode, SessionAnchorHour, SwingLookback);
+      
    current_avwap = CAVWAPUtils::CalculateAVWAP(anchor_time);
-   DrawAVWAPLine();
+   if(is_new_bar) DrawAVWAPLine();
 
    // 2. HTF Bias Check
    double ema[];
@@ -117,7 +120,14 @@ void OnTick()
          break;
 
       case STATE_WATCH_TOUCH:
-         DetectTouch();
+         // Bias Reversal Protection
+         if((bias == ORDER_TYPE_BUY && SymbolInfoDouble(_Symbol, SYMBOL_ASK) < current_avwap) ||
+            (bias == ORDER_TYPE_SELL && SymbolInfoDouble(_Symbol, SYMBOL_BID) > current_avwap))
+         {
+            current_state = STATE_IDLE;
+            break;
+         }
+         if(is_new_bar) DetectTouch();
          break;
 
       case STATE_CONFIRM_BOUNCE:
@@ -131,15 +141,19 @@ void OnTick()
 //+------------------------------------------------------------------+
 void DetectTouch()
 {
-   double ask = SymbolInfoDouble(_Symbol, SYMBOL_ASK);
-   double bid = SymbolInfoDouble(_Symbol, SYMBOL_BID);
-   double low0 = iLow(_Symbol, _Period, 0);
-   double high0 = iHigh(_Symbol, _Period, 0);
+   double low1 = iLow(_Symbol, _Period, 1);
+   double high1 = iHigh(_Symbol, _Period, 1);
    
    if(bias == ORDER_TYPE_BUY) {
-      if(low0 <= current_avwap) current_state = STATE_CONFIRM_BOUNCE;
+      if(low1 <= current_avwap) {
+         current_state = STATE_CONFIRM_BOUNCE;
+         bounce_bar_count = 0;
+      }
    } else {
-      if(high0 >= current_avwap) current_state = STATE_CONFIRM_BOUNCE;
+      if(high1 >= current_avwap) {
+         current_state = STATE_CONFIRM_BOUNCE;
+         bounce_bar_count = 0;
+      }
    }
 }
 
@@ -148,6 +162,13 @@ void DetectTouch()
 //+------------------------------------------------------------------+
 void HandleBounceConfirmation()
 {
+   bounce_bar_count++;
+   if(bounce_bar_count > 5) {
+      current_state = STATE_IDLE;
+      Print("AVWAP Reset: Bounce Expired (5 bars)");
+      return;
+   }
+
    double close1 = iClose(_Symbol, _Period, 1);
    double low1 = iLow(_Symbol, _Period, 1);
    double high1 = iHigh(_Symbol, _Period, 1);
@@ -158,31 +179,33 @@ void HandleBounceConfirmation()
    double tick_sz = SymbolInfoDouble(_Symbol, SYMBOL_TRADE_TICK_SIZE);
 
    if(bias == ORDER_TYPE_BUY) {
+      double ask = SymbolInfoDouble(_Symbol, SYMBOL_ASK);
       if(close1 > current_avwap && CAVWAPUtils::IsBounceConfirmed(1, current_avwap, min_bounce)) {
          double sl = NormalizePrice(low1 - (0.2 * atr[0]), tick_sz);
-         sl = ValidateStopsLevel(SymbolInfoDouble(_Symbol, SYMBOL_ASK), sl);
-         double risk = SymbolInfoDouble(_Symbol, SYMBOL_ASK) - sl;
+         sl = ValidateStopsLevel(ask, sl);
+         double risk = ask - sl;
          if(risk <= 0) return;
          
-         double tp = NormalizePrice(SymbolInfoDouble(_Symbol, SYMBOL_ASK) + (risk * RR_Target), tick_sz);
+         double tp = NormalizePrice(ask + (risk * RR_Target), tick_sz);
          double lot = CalculateLotSize(risk);
          
-         if(trade.Buy(lot, _Symbol, SymbolInfoDouble(_Symbol, SYMBOL_ASK), sl, tp, "AVWAP Bounce Buy")) {
+         if(trade.Buy(lot, _Symbol, ask, sl, tp, "AVWAP Bounce Buy")) {
             trades_today++;
             current_state = STATE_IDLE;
          }
       }
    } else {
+      double bid = SymbolInfoDouble(_Symbol, SYMBOL_BID);
       if(close1 < current_avwap && CAVWAPUtils::IsBounceConfirmed(1, current_avwap, min_bounce)) {
          double sl = NormalizePrice(high1 + (0.2 * atr[0]), tick_sz);
-         sl = ValidateStopsLevel(SymbolInfoDouble(_Symbol, SYMBOL_BID), sl);
-         double risk = sl - SymbolInfoDouble(_Symbol, SYMBOL_BID);
+         sl = ValidateStopsLevel(bid, sl);
+         double risk = sl - bid;
          if(risk <= 0) return;
          
-         double tp = NormalizePrice(SymbolInfoDouble(_Symbol, SYMBOL_BID) - (risk * RR_Target), tick_sz);
+         double tp = NormalizePrice(bid - (risk * RR_Target), tick_sz);
          double lot = CalculateLotSize(risk);
          
-         if(trade.Sell(lot, _Symbol, SymbolInfoDouble(_Symbol, SYMBOL_BID), sl, tp, "AVWAP Bounce Sell")) {
+         if(trade.Sell(lot, _Symbol, bid, sl, tp, "AVWAP Bounce Sell")) {
             trades_today++;
             current_state = STATE_IDLE;
          }
@@ -199,19 +222,32 @@ void HandleBounceConfirmation()
 //+------------------------------------------------------------------+
 void DrawAVWAPLine() {
    ObjectDelete(0, "AVWAP_Line");
-   ObjectCreate(0, "AVWAP_Line", OBJ_TREND, 0, anchor_time, current_avwap, TimeCurrent(), current_avwap);
+   ObjectCreate(0, "AVWAP_Line", OBJ_HLINE, 0, 0, current_avwap);
    ObjectSetInteger(0, "AVWAP_Line", OBJPROP_COLOR, clrCyan);
    ObjectSetInteger(0, "AVWAP_Line", OBJPROP_WIDTH, 2);
-   ObjectSetInteger(0, "AVWAP_Line", OBJPROP_RAY_RIGHT, true);
+   ObjectSetInteger(0, "AVWAP_Line", OBJPROP_STYLE, STYLE_DASH);
 }
 
-double CalculateLotSize(double d) {
-   double b = AccountInfoDouble(ACCOUNT_BALANCE), r = b * (RiskPercent / 100.0);
-   double tv = SymbolInfoDouble(_Symbol, SYMBOL_TRADE_TICK_VALUE), ts = SymbolInfoDouble(_Symbol, SYMBOL_TRADE_TICK_SIZE);
-   if(d <= 0 || tv <= 0) return 0;
-   double l = r / (d / ts * tv), min = SymbolInfoDouble(_Symbol, SYMBOL_VOLUME_MIN), max = SymbolInfoDouble(_Symbol, SYMBOL_VOLUME_MAX), st = SymbolInfoDouble(_Symbol, SYMBOL_VOLUME_STEP);
-   l = MathFloor(l / st) * st;
-   return NormalizeDouble(MathMax(min, MathMin(max, l)), vol_precision);
+double CalculateLotSize(double distance) 
+{
+   if(distance <= 0) return 0;
+
+   double balance = AccountInfoDouble(ACCOUNT_BALANCE);
+   double risk_amount = balance * (RiskPercent / 100.0);
+   
+   double tick_value = SymbolInfoDouble(_Symbol, SYMBOL_TRADE_TICK_VALUE);
+   double tick_size  = SymbolInfoDouble(_Symbol, SYMBOL_TRADE_TICK_SIZE);
+   
+   if(tick_value <= 0) return 0;
+   
+   double lot = risk_amount / (distance / tick_size * tick_value);
+   
+   double min_vol = SymbolInfoDouble(_Symbol, SYMBOL_VOLUME_MIN);
+   double max_vol = SymbolInfoDouble(_Symbol, SYMBOL_VOLUME_MAX);
+   double step_vol = SymbolInfoDouble(_Symbol, SYMBOL_VOLUME_STEP);
+   
+   lot = MathFloor(lot / step_vol) * step_vol;
+   return NormalizeDouble(MathMax(min_vol, MathMin(max_vol, lot)), vol_precision);
 }
 
 double ValidateStopsLevel(double p, double t) {
