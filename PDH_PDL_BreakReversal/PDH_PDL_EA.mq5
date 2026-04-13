@@ -43,6 +43,7 @@ double         pdh = 0, pdl = 0;
 ENUM_TRADE_STATE current_state = STATE_WATCHING;
 ENUM_STRATEGY_MODE current_regime = MODE_REVERSAL;
 datetime       last_bar_time = 0;
+datetime       last_day_time = 0;
 int            vol_precision = 0;
 
 //+------------------------------------------------------------------+
@@ -76,10 +77,13 @@ void OnTick()
    last_bar_time = current_bar_time;
 
    // Update Daily Levels if day changed
-   if(iTime(_Symbol, PERIOD_D1, 0) > last_bar_time) {
+   datetime current_day = iTime(_Symbol, PERIOD_D1, 0);
+   if(current_day != last_day_time) {
+      last_day_time = current_day;
       pdh = CPDHUtils::GetPDH();
       pdl = CPDHUtils::GetPDL();
       DrawPDH_PDL();
+      current_state = STATE_WATCHING;
    }
 
    if(SymbolInfoInteger(_Symbol, SYMBOL_SPREAD) > MaxSpread) return;
@@ -90,7 +94,12 @@ void OnTick()
    if(UseATRRegime) {
       current_regime = (ratio > ATR_ExpansionRatio) ? MODE_BREAKOUT : MODE_REVERSAL;
    } else {
-      current_regime = (StrategyStep == MODE_BOTH) ? MODE_REVERSAL : StrategyStep;
+      if(StrategyStep == MODE_BOTH) {
+         HandleBreakoutLogic();
+         HandleReversalLogic();
+         return;
+      }
+      current_regime = StrategyStep;
    }
 
    // 3. Signal Logic
@@ -139,7 +148,7 @@ void HandleBreakoutLogic()
    {
       // Check if price was significantly above PDH recently (Breakout confirmed)
       int h_idx = iHighest(_Symbol, _Period, MODE_HIGH, 10, 2);
-      if(iHigh(_Symbol, _Period, h_idx) > pdh + buffer) {
+      if(iHigh(_Symbol, _Period, h_idx) > pdh + (BreakConfirmPips * _Point * (SymbolInfoInteger(_Symbol, SYMBOL_DIGITS) == 5 ? 10 : 1))) {
          ExecuteTrade(ORDER_TYPE_BUY, low1);
       }
    }
@@ -147,7 +156,7 @@ void HandleBreakoutLogic()
    else if(high1 > pdl - buffer && high1 < pdl + buffer && close1 < pdl && CPDHUtils::IsRejection(ORDER_TYPE_SELL, 1))
    {
       int l_idx = iLowest(_Symbol, _Period, MODE_LOW, 10, 2);
-      if(iLow(_Symbol, _Period, l_idx) < pdl - buffer) {
+      if(iLow(_Symbol, _Period, l_idx) < pdl - (BreakConfirmPips * _Point * (SymbolInfoInteger(_Symbol, SYMBOL_DIGITS) == 5 ? 10 : 1))) {
          ExecuteTrade(ORDER_TYPE_SELL, high1);
       }
    }
