@@ -15,6 +15,7 @@
 #include <Trade\Trade.mqh>
 #include "..\Shared\ArgusCore.mqh"
 #include "..\Shared\ArgusStructure.mqh"
+#include "..\Shared\ArgusManifest.mqh"
 #include "SuperTrendUtils.mqh"
 
 //--- Input parameters
@@ -208,4 +209,21 @@ void OnTradeTransaction(const MqlTradeTransaction& trans, const MqlTradeRequest&
          }
       }
    }
+}
+
+//+------------------------------------------------------------------+
+//| Strategy Manifest Identity                                       |
+//+------------------------------------------------------------------+
+StrategyManifest GetManifest()
+{
+   StrategyManifest m;
+   m.name = "SuperTrend EMA";
+   m.category = "Trend Following";
+   m.magic_number = MagicNumber;
+   m.regime_mask = REGIME_TREND;
+   m.session_mask = SESSION_ALL;
+   m.requires_trend = true;
+   m.hates_high_volatility = false;
+   m.target_style = "Trailing SL";
+   return m;
 }

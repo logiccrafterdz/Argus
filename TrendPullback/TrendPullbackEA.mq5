@@ -15,6 +15,7 @@
 #include <Trade\Trade.mqh>
 #include "..\Shared\ArgusCore.mqh"
 #include "..\Shared\ArgusStructure.mqh"
+#include "..\Shared\ArgusManifest.mqh"
 //--- Input parameters
 input int      FastEMA_Period = 50;     // Fast EMA Period (Pullback Zone)
 input int      SlowEMA_Period = 200;    // Slow EMA Period (Trend Filter)
@@ -178,4 +179,21 @@ void OnTradeTransaction(const MqlTradeTransaction& trans, const MqlTradeRequest&
          }
       }
    }
+}
+
+//+------------------------------------------------------------------+
+//| Strategy Manifest Identity                                       |
+//+------------------------------------------------------------------+
+StrategyManifest GetManifest()
+{
+   StrategyManifest m;
+   m.name = "TrendPullback";
+   m.category = "Trend Following";
+   m.magic_number = MagicNumber;
+   m.regime_mask = REGIME_TREND | REGIME_EXPANSION;
+   m.session_mask = SESSION_ALL;
+   m.requires_trend = true;
+   m.hates_high_volatility = false;
+   m.target_style = "Fixed RR";
+   return m;
 }

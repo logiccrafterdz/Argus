@@ -15,6 +15,7 @@
 #include <Trade\Trade.mqh>
 #include "..\Shared\ArgusCore.mqh"
 #include "..\Shared\ArgusStructure.mqh"
+#include "..\Shared\ArgusManifest.mqh"
 //--- Enums
 enum ENUM_BB_STATE {
    STATE_IDLE,
@@ -234,4 +235,21 @@ void OnTradeTransaction(const MqlTradeTransaction& trans, const MqlTradeRequest&
          }
       }
    }
+}
+
+//+------------------------------------------------------------------+
+//| Strategy Manifest Identity                                       |
+//+------------------------------------------------------------------+
+StrategyManifest GetManifest()
+{
+   StrategyManifest m;
+   m.name = "Bollinger MeanReversion";
+   m.category = "Mean Reversion";
+   m.magic_number = MagicNumber;
+   m.regime_mask = REGIME_RANGE | REGIME_COMPRESSION;
+   m.session_mask = SESSION_ASIAN | SESSION_LONDON;
+   m.requires_trend = false;
+   m.hates_high_volatility = true;
+   m.target_style = "Bollinger Middle";
+   return m;
 }

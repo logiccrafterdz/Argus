@@ -15,6 +15,7 @@
 #include <Trade\Trade.mqh>
 #include "..\Shared\ArgusCore.mqh"
 #include "..\Shared\ArgusStructure.mqh"
+#include "..\Shared\ArgusManifest.mqh"
 #include "SMCUtils.mqh"
 
 //--- States
@@ -302,4 +303,21 @@ void OnTradeTransaction(const MqlTradeTransaction& trans, const MqlTradeRequest&
          }
       }
    }
+}
+
+//+------------------------------------------------------------------+
+//| Strategy Manifest Identity                                       |
+//+------------------------------------------------------------------+
+StrategyManifest GetManifest()
+{
+   StrategyManifest m;
+   m.name = "Liquidity Sweep FVG";
+   m.category = "SMC";
+   m.magic_number = MagicNumber;
+   m.regime_mask = REGIME_TREND | REGIME_REVERSAL;
+   m.session_mask = SESSION_LONDON | SESSION_NY;
+   m.requires_trend = true;
+   m.hates_high_volatility = false;
+   m.target_style = "Structural Limits";
+   return m;
 }

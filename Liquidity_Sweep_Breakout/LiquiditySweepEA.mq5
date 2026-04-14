@@ -15,6 +15,7 @@
 #include <Trade\Trade.mqh>
 #include "..\Shared\ArgusCore.mqh"
 #include "..\Shared\ArgusStructure.mqh"
+#include "..\Shared\ArgusManifest.mqh"
 //--- Enums
 enum ENUM_CONFIRMATION_TYPE {
    CONFIRM_CANDLE_BREAK, // Close beyond Sweep Candle High/Low
@@ -269,4 +270,21 @@ void OnTradeTransaction(const MqlTradeTransaction& trans, const MqlTradeRequest&
          }
       }
    }
+}
+
+//+------------------------------------------------------------------+
+//| Strategy Manifest Identity                                       |
+//+------------------------------------------------------------------+
+StrategyManifest GetManifest()
+{
+   StrategyManifest m;
+   m.name = "Liquidity Sweep Breakout";
+   m.category = "Liquidity Hunting";
+   m.magic_number = MagicNumber;
+   m.regime_mask = REGIME_ALL;
+   m.session_mask = SESSION_LONDON | SESSION_NY;
+   m.requires_trend = false;
+   m.hates_high_volatility = false;
+   m.target_style = "Fixed RR";
+   return m;
 }

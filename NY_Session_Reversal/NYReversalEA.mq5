@@ -15,6 +15,7 @@
 #include <Trade\Trade.mqh>
 #include "..\Shared\ArgusCore.mqh"
 #include "..\Shared\ArgusStructure.mqh"
+#include "..\Shared\ArgusManifest.mqh"
 //--- Enums
 enum ENUM_NY_STATE {
    STATE_WAIT_LONDON_END,
@@ -289,4 +290,21 @@ void OnTradeTransaction(const MqlTradeTransaction& trans, const MqlTradeRequest&
          }
       }
    }
+}
+
+//+------------------------------------------------------------------+
+//| Strategy Manifest Identity                                       |
+//+------------------------------------------------------------------+
+StrategyManifest GetManifest()
+{
+   StrategyManifest m;
+   m.name = "NY Session Reversal";
+   m.category = "Reversal";
+   m.magic_number = MagicNumber;
+   m.regime_mask = REGIME_REVERSAL;
+   m.session_mask = SESSION_NY;
+   m.requires_trend = false;
+   m.hates_high_volatility = false;
+   m.target_style = "50% London Retracement";
+   return m;
 }

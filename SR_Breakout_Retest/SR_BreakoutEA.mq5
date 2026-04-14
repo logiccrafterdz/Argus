@@ -15,6 +15,7 @@
 #include <Trade\Trade.mqh>
 #include "..\Shared\ArgusCore.mqh"
 #include "..\Shared\ArgusStructure.mqh"
+#include "..\Shared\ArgusManifest.mqh"
 //--- Enums
 enum ENUM_STATE {
    STATE_IDLE,
@@ -255,4 +256,21 @@ void OnTradeTransaction(const MqlTradeTransaction& trans, const MqlTradeRequest&
          }
       }
    }
+}
+
+//+------------------------------------------------------------------+
+//| Strategy Manifest Identity                                       |
+//+------------------------------------------------------------------+
+StrategyManifest GetManifest()
+{
+   StrategyManifest m;
+   m.name = "SR Breakout Retest";
+   m.category = "Breakout";
+   m.magic_number = MagicNumber;
+   m.regime_mask = REGIME_EXPANSION | REGIME_TREND;
+   m.session_mask = SESSION_ALL;
+   m.requires_trend = false;
+   m.hates_high_volatility = false;
+   m.target_style = "Next SR Level";
+   return m;
 }

@@ -15,6 +15,7 @@
 #include <Trade\Trade.mqh>
 #include "..\Shared\ArgusCore.mqh"
 #include "..\Shared\ArgusStructure.mqh"
+#include "..\Shared\ArgusManifest.mqh"
 #include "PDHUtils.mqh"
 
 //--- Enums
@@ -229,4 +230,21 @@ void OnTradeTransaction(const MqlTradeTransaction& trans, const MqlTradeRequest&
          }
       }
    }
+}
+
+//+------------------------------------------------------------------+
+//| Strategy Manifest Identity                                       |
+//+------------------------------------------------------------------+
+StrategyManifest GetManifest()
+{
+   StrategyManifest m;
+   m.name = "PDH PDL BreakReversal";
+   m.category = "Breakout/Trap";
+   m.magic_number = MagicNumber;
+   m.regime_mask = REGIME_EXPANSION | REGIME_REVERSAL;
+   m.session_mask = SESSION_ALL;
+   m.requires_trend = false;
+   m.hates_high_volatility = false;
+   m.target_style = "Fixed RR";
+   return m;
 }

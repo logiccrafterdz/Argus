@@ -15,6 +15,7 @@
 #include <Trade\Trade.mqh>
 #include "..\Shared\ArgusCore.mqh"
 #include "..\Shared\ArgusStructure.mqh"
+#include "..\Shared\ArgusManifest.mqh"
 //--- Enums
 enum ENUM_ORB_STATE {
    STATE_WAIT_START,
@@ -266,4 +267,21 @@ void OnTradeTransaction(const MqlTradeTransaction& trans, const MqlTradeRequest&
          }
       }
    }
+}
+
+//+------------------------------------------------------------------+
+//| Strategy Manifest Identity                                       |
+//+------------------------------------------------------------------+
+StrategyManifest GetManifest()
+{
+   StrategyManifest m;
+   m.name = "ORB Session";
+   m.category = "Breakout";
+   m.magic_number = MagicNumber;
+   m.regime_mask = REGIME_EXPANSION;
+   m.session_mask = SESSION_LONDON | SESSION_NY;
+   m.requires_trend = false;
+   m.hates_high_volatility = false;
+   m.target_style = "Fixed RR";
+   return m;
 }

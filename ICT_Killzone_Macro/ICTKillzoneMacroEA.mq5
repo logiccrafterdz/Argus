@@ -15,6 +15,7 @@
 #include <Trade\Trade.mqh>
 #include "..\Shared\ArgusCore.mqh"
 #include "..\Shared\ArgusStructure.mqh"
+#include "..\Shared\ArgusManifest.mqh"
 #include "ICTUtils.mqh"
 
 //--- States
@@ -265,4 +266,21 @@ void OnTradeTransaction(const MqlTradeTransaction& trans, const MqlTradeRequest&
          }
       }
    }
+}
+
+//+------------------------------------------------------------------+
+//| Strategy Manifest Identity                                       |
+//+------------------------------------------------------------------+
+StrategyManifest GetManifest()
+{
+   StrategyManifest m;
+   m.name = "ICT Killzone Macro";
+   m.category = "Liquidity Hunting";
+   m.magic_number = MagicNumber;
+   m.regime_mask = REGIME_EXPANSION | REGIME_REVERSAL;
+   m.session_mask = SESSION_LONDON | SESSION_NY;
+   m.requires_trend = false;
+   m.hates_high_volatility = false;
+   m.target_style = "Mid Range / Extremes";
+   return m;
 }

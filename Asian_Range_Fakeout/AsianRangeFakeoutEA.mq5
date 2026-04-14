@@ -15,6 +15,7 @@
 #include <Trade\Trade.mqh>
 #include "..\Shared\ArgusCore.mqh"
 #include "..\Shared\ArgusStructure.mqh"
+#include "..\Shared\ArgusManifest.mqh"
 //--- Enums
 enum ENUM_STRATEGY_STATE {
    STATE_WAITING_ASIA,
@@ -320,4 +321,21 @@ void OnTradeTransaction(const MqlTradeTransaction& trans, const MqlTradeRequest&
          }
       }
    }
+}
+
+//+------------------------------------------------------------------+
+//| Strategy Manifest Identity                                       |
+//+------------------------------------------------------------------+
+StrategyManifest GetManifest()
+{
+   StrategyManifest m;
+   m.name = "Asian Range Fakeout";
+   m.category = "Liquidity Hunting";
+   m.magic_number = MagicNumber;
+   m.regime_mask = REGIME_EXPANSION;
+   m.session_mask = SESSION_LONDON;
+   m.requires_trend = false;
+   m.hates_high_volatility = false;
+   m.target_style = "Fixed RR";
+   return m;
 }
