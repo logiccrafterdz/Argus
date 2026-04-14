@@ -80,6 +80,12 @@ void OnTick()
 {
    if(CArgusCore::IsHalted()) return;
 
+   // --- V2.0 Regime Filter ---
+   StrategyManifest m = GetManifest();
+   int current_regime = (int)GlobalVariableGet("Argus_Regime");
+   if(current_regime > 0 && !CManifestUtils::IsRegimeMatch(current_regime, m.regime_mask)) return;
+
+
    // Only execute logic on New Bar
    datetime current_bar_time = iTime(_Symbol, _Period, 0);
    if(current_bar_time == last_bar_time) return;

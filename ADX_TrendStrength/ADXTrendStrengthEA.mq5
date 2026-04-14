@@ -77,6 +77,12 @@ void OnTick()
 {
    if(CArgusCore::IsHalted()) return;
 
+   // --- V2.0 Regime Filter ---
+   StrategyManifest m = GetManifest();
+   int current_regime = (int)GlobalVariableGet("Argus_Regime");
+   if(current_regime > 0 && !CManifestUtils::IsRegimeMatch(current_regime, m.regime_mask)) return;
+
+
    // 1. Manage Active Trades (Exhaustion Logic)
    if(UseExhaustionExit && PositionSelectByMagic(MagicNumber)) {
       if(CADXUtils::IsFalling(adx_handle, 2)) {

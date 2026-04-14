@@ -74,6 +74,12 @@ void OnTick()
 {
    if(CArgusCore::IsHalted()) return;
 
+   // --- V2.0 Regime Filter ---
+   StrategyManifest m = GetManifest();
+   int current_regime = (int)GlobalVariableGet("Argus_Regime");
+   if(current_regime > 0 && !CManifestUtils::IsRegimeMatch(current_regime, m.regime_mask)) return;
+
+
    // Manage Trailing Stop on every tick (if active)
    if(UseTrailing && PositionSelectByMagic(MagicNumber)) {
       HandleTrailingStop();
