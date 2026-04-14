@@ -13,6 +13,7 @@
 #property strict
 
 #include <Trade\Trade.mqh>
+#include "..\Shared\MarketRegimeEngine.mqh"
 
 //--- Input parameters
 input string   _RiskSettings        = "------ Circuit Breaker ------";
@@ -24,6 +25,7 @@ input string   HaltVariableName     = "Argus_Halt";
 //--- Global variables
 double initial_daily_balance = 0;
 int last_day = -1;
+CMarketRegimeEngine regimeEngine;
 
 //+------------------------------------------------------------------+
 //| Expert initialization function                                   |
@@ -40,13 +42,20 @@ int OnInit()
    
    EventSetTimer(1);
    
+   if(!regimeEngine.Init(_Symbol, PERIOD_D1)) {
+      Print("Argus Panoptes: Failed to init Regime Engine.");
+      return(INIT_FAILED);
+   }
+   
    return(INIT_SUCCEEDED);
 }
 
 void OnDeinit(const int reason)
 {
    EventKillTimer();
+   regimeEngine.Deinit();
    if(GlobalVariableCheck(HaltVariableName)) GlobalVariableDel(HaltVariableName);
+   if(GlobalVariableCheck("Argus_Regime")) GlobalVariableDel("Argus_Regime");
    
    ObjectDelete(0, "Argus_BG");
    ObjectDelete(0, "Argus_Header");
@@ -83,7 +92,11 @@ void OnTimer()
       if(CloseAllOnHalt) EmergencyCloseAll();
    }
 
-   UpdateDashboard(current_drawdown_pct, is_halted, balance, equity);
+   // Regime Analysis
+   int current_regime = regimeEngine.GetCurrentRegime();
+   GlobalVariableSet("Argus_Regime", current_regime);
+
+   UpdateDashboard(current_drawdown_pct, is_halted, balance, equity, current_regime);
 }
 
 void EmergencyCloseAll()
@@ -102,12 +115,13 @@ void EmergencyCloseAll()
    else Print("Argus Panoptes: Successfully closed all open positions.");
 }
 
-void UpdateDashboard(double dd_pct, bool is_halted, double balance, double equity)
+void UpdateDashboard(double dd_pct, bool is_halted, double balance, double equity, int current_regime)
 {
    if(ObjectFind(0, "Argus_BG") < 0) {
       ObjectCreate(0, "Argus_BG", OBJ_RECTANGLE_LABEL, 0, 0, 0);
       ObjectCreate(0, "Argus_Header", OBJ_LABEL, 0, 0, 0);
       ObjectCreate(0, "Argus_Status", OBJ_LABEL, 0, 0, 0);
+      ObjectCreate(0, "Argus_Regime", OBJ_LABEL, 0, 0, 0);
       ObjectCreate(0, "Argus_Eq", OBJ_LABEL, 0, 0, 0);
       ObjectCreate(0, "Argus_DD", OBJ_LABEL, 0, 0, 0);
    }
@@ -116,7 +130,7 @@ void UpdateDashboard(double dd_pct, bool is_halted, double balance, double equit
    ObjectSetInteger(0, "Argus_BG", OBJPROP_XDISTANCE, 20);
    ObjectSetInteger(0, "Argus_BG", OBJPROP_YDISTANCE, 30);
    ObjectSetInteger(0, "Argus_BG", OBJPROP_XSIZE, 280);
-   ObjectSetInteger(0, "Argus_BG", OBJPROP_YSIZE, 150);
+   ObjectSetInteger(0, "Argus_BG", OBJPROP_YSIZE, 170); // Expanded size for Regime string
    ObjectSetInteger(0, "Argus_BG", OBJPROP_BGCOLOR, clrBlack);
    ObjectSetInteger(0, "Argus_BG", OBJPROP_BORDER_COLOR, clrDimGray);
    ObjectSetInteger(0, "Argus_BG", OBJPROP_CORNER, CORNER_LEFT_UPPER);
@@ -152,6 +166,14 @@ void UpdateDashboard(double dd_pct, bool is_halted, double balance, double equit
    ObjectSetInteger(0, "Argus_DD", OBJPROP_COLOR, (dd_pct > MaxDailyDrawdown*0.7) ? clrOrange : clrWhite);
    ObjectSetString(0, "Argus_DD", OBJPROP_FONT, "Segoe UI");
    ObjectSetInteger(0, "Argus_DD", OBJPROP_FONTSIZE, 9);
+   
+   // Regime
+   ObjectSetInteger(0, "Argus_Regime", OBJPROP_XDISTANCE, 30);
+   ObjectSetInteger(0, "Argus_Regime", OBJPROP_YDISTANCE, 150);
+   ObjectSetString(0, "Argus_Regime", OBJPROP_TEXT, "Day Regime: " + CMarketRegimeEngine::RegimeToString(current_regime));
+   ObjectSetInteger(0, "Argus_Regime", OBJPROP_COLOR, clrAqua);
+   ObjectSetString(0, "Argus_Regime", OBJPROP_FONT, "Segoe UI");
+   ObjectSetInteger(0, "Argus_Regime", OBJPROP_FONTSIZE, 9);
    
    ChartRedraw();
 }
