@@ -65,6 +65,7 @@ int OnInit()
    pdh = CPDHUtils::GetPDH();
    pdl = CPDHUtils::GetPDL();
    
+   trade.SetDeviationInPoints(30);
    return(INIT_SUCCEEDED);
 }
 

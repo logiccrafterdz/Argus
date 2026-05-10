@@ -82,6 +82,7 @@ int OnInit()
    vol_precision = CArgusCore::GetVolumePrecision(_Symbol);
    
    trade.SetExpertMagicNumber(MagicNumber);
+   trade.SetDeviationInPoints(30);
    return(INIT_SUCCEEDED);
 }
 
