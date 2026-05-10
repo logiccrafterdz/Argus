@@ -77,6 +77,32 @@ public:
    }
 
    //+------------------------------------------------------------------+
+   //| Portfolio Exposure Checks                                        |
+   //+------------------------------------------------------------------+
+   static int GetNetDirectionalExposure(string symbol)
+   {
+      int net_exposure = 0;
+      for(int i = PositionsTotal() - 1; i >= 0; i--)
+      {
+         ulong ticket = PositionGetTicket(i);
+         if(PositionSelectByTicket(ticket) && PositionGetString(POSITION_SYMBOL) == symbol)
+         {
+            if(PositionGetInteger(POSITION_TYPE) == POSITION_TYPE_BUY) net_exposure++;
+            else if(PositionGetInteger(POSITION_TYPE) == POSITION_TYPE_SELL) net_exposure--;
+         }
+      }
+      return net_exposure;
+   }
+
+   static bool IsExposureSafe(string symbol, ENUM_ORDER_TYPE order_type, int max_directional_exposure = 2)
+   {
+      int net = GetNetDirectionalExposure(symbol);
+      if(order_type == ORDER_TYPE_BUY && net >= max_directional_exposure) return false;
+      if(order_type == ORDER_TYPE_SELL && net <= -max_directional_exposure) return false;
+      return true;
+   }
+
+   //+------------------------------------------------------------------+
    //| Helpers                                                          |
    //+------------------------------------------------------------------+
    static double NormalizePrice(string symbol, double price, double tick_size) 
