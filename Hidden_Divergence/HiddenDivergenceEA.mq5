@@ -210,18 +210,25 @@ void ExecuteTrade(ENUM_ORDER_TYPE type, double sl_extreme)
 //+------------------------------------------------------------------+
 void OnTradeTransaction(const MqlTradeTransaction& trans, const MqlTradeRequest& request, const MqlTradeResult& result)
 {
+   HistorySelect(TimeCurrent() - 86400 * 7, TimeCurrent());
    if(trans.type == TRADE_TRANSACTION_DEAL_ADD) {
       if(HistoryDealSelect(trans.deal)) {
-         if(HistoryDealGetInteger(DEAL_MAGIC) == MagicNumber && HistoryDealGetInteger(DEAL_ENTRY) == DEAL_ENTRY_IN) {
-            double sl = 0, tp = 0;
-            if(PositionSelectByTicket(trans.position)) {
-               sl = PositionGetDouble(POSITION_SL);
-               tp = PositionGetDouble(POSITION_TP);
+         if(HistoryDealGetInteger(trans.deal, DEAL_MAGIC) == MagicNumber) {
+            long entry_type = HistoryDealGetInteger(trans.deal, DEAL_ENTRY);
+            
+            // Log Entry
+            if(entry_type == DEAL_ENTRY_IN) {
+               double sl = 0, tp = 0;
+               if(PositionSelectByTicket(trans.position)) {
+                  sl = PositionGetDouble(POSITION_SL);
+                  tp = PositionGetDouble(POSITION_TP);
+               }
+               CArgusCore::LogTradeData(_Symbol, MagicNumber, (ENUM_ORDER_TYPE)HistoryDealGetInteger(trans.deal, DEAL_TYPE), HistoryDealGetDouble(trans.deal, DEAL_VOLUME), HistoryDealGetDouble(trans.deal, DEAL_PRICE), sl, tp, HistoryDealGetString(trans.deal, DEAL_COMMENT), trans.order);
             }
-            CArgusCore::LogTradeData(_Symbol, MagicNumber, (ENUM_ORDER_TYPE)HistoryDealGetInteger(DEAL_TYPE), HistoryDealGetDouble(DEAL_VOLUME), HistoryDealGetDouble(DEAL_PRICE), sl, tp, HistoryDealGetString(DEAL_COMMENT), trans.order);
          }
       }
    }
+   CArgusCore::ProcessTradeTransaction(trans, MagicNumber);
 }
 
 //+------------------------------------------------------------------+
