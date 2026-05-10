@@ -31,6 +31,10 @@ input int      NYEndHour            = 22;
 input string   _GlobalSettings      = "------ Global Variables ------";
 input string   HaltVariableName     = "Argus_Halt";
 
+input string   _PropFirmSettings    = "------ Prop Firm Compliance ------";
+input bool     PropFirmCompliance   = true;          // Enforce News Filter & Weekend Close
+input int      FridayCloseHour      = 21;            // Broker hour to close all trades on Friday
+
 //--- Global variables
 double initial_daily_balance = 0;
 double initial_weekly_balance = 0;
@@ -81,6 +85,7 @@ void OnDeinit(const int reason)
    if(GlobalVariableCheck(HaltVariableName)) GlobalVariableDel(HaltVariableName);
    if(GlobalVariableCheck("Argus_Regime")) GlobalVariableDel("Argus_Regime");
    if(GlobalVariableCheck("Argus_Session")) GlobalVariableDel("Argus_Session");
+   if(GlobalVariableCheck("Argus_PropMode")) GlobalVariableDel("Argus_PropMode");
    
    ObjectDelete(0, "Argus_BG");
    ObjectDelete(0, "Argus_Header");
@@ -146,6 +151,23 @@ void OnTimer()
          GlobalVariableSet(HaltVariableName, 1);
          if(CloseAllOnHalt) EmergencyCloseAll();
       }
+   }
+
+   // Prop Firm Compliance: Weekend Closure
+   if(PropFirmCompliance)
+   {
+      GlobalVariableSet("Argus_PropMode", 1);
+      
+      if(dt.day_of_week == 5 && dt.hour >= FridayCloseHour && !is_halted)
+      {
+         PrintFormat("Argus Panoptes: 🔐 Prop Firm Compliance: Friday %02d:00 Reached. Closing all positions for the weekend.", dt.hour);
+         EmergencyCloseAll();
+         GlobalVariableSet(HaltVariableName, 1); // Halt until next week
+      }
+   }
+   else
+   {
+      GlobalVariableSet("Argus_PropMode", 0);
    }
 
    // Regime Analysis

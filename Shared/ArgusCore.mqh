@@ -270,6 +270,16 @@ public:
    //+------------------------------------------------------------------+
    static bool ExecuteTradeWithRetry(CTrade &trade_obj, string symbol, ENUM_ORDER_TYPE order_type, double volume, double price, double sl, double tp, string comment = "")
    {
+      // Prop Firm Compliance: Block opening new trades during High Impact News
+      if(GlobalVariableCheck("Argus_PropMode") && GlobalVariableGet("Argus_PropMode") == 1)
+      {
+         if(IsHighImpactNews(symbol, 30, 30))
+         {
+            PrintFormat("ArgusCore (PropMode): Trade blocked for %s due to High Impact News within 30 minutes.", symbol);
+            return false;
+         }
+      }
+
       int max_retries = 3;
       int retry_delay = 500; // ms
       bool success = false;
