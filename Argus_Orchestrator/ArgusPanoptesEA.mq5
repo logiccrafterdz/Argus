@@ -18,13 +18,19 @@
 //--- Input parameters
 input string   _RiskSettings        = "------ Circuit Breaker ------";
 input double   MaxDailyDrawdown     = 3.0;           // Max Daily Drawdown (%)
+input double   MaxWeeklyDrawdown    = 8.0;           // Max Weekly Drawdown (%)
+input double   MaxMonthlyDrawdown   = 15.0;          // Max Monthly Drawdown (%)
 input bool     CloseAllOnHalt       = true;          // Close all positions when halted
 input string   _GlobalSettings      = "------ Global Variables ------";
 input string   HaltVariableName     = "Argus_Halt";
 
 //--- Global variables
 double initial_daily_balance = 0;
+double initial_weekly_balance = 0;
+double initial_monthly_balance = 0;
 int last_day = -1;
+int last_week = -1;
+int last_month = -1;
 CMarketRegimeEngine regimeEngine;
 
 //+------------------------------------------------------------------+
@@ -35,7 +41,17 @@ int OnInit()
    MqlDateTime dt;
    TimeCurrent(dt);
    last_day = dt.day;
+   last_week = dt.day_of_year / 7;
+   last_month = dt.mon;
+   
    initial_daily_balance = AccountInfoDouble(ACCOUNT_BALANCE);
+   initial_weekly_balance = initial_daily_balance;
+   initial_monthly_balance = initial_daily_balance;
+   
+   // Recover from global variables if exist
+   if(GlobalVariableCheck("Argus_InitDailyBal")) initial_daily_balance = GlobalVariableGet("Argus_InitDailyBal");
+   if(GlobalVariableCheck("Argus_InitWeeklyBal")) initial_weekly_balance = GlobalVariableGet("Argus_InitWeeklyBal");
+   if(GlobalVariableCheck("Argus_InitMonthlyBal")) initial_monthly_balance = GlobalVariableGet("Argus_InitMonthlyBal");
    
    if(GlobalVariableCheck(HaltVariableName)) GlobalVariableSet(HaltVariableName, 0);
    else GlobalVariableTemp(HaltVariableName);
@@ -73,24 +89,55 @@ void OnTimer()
    if(dt.day != last_day) {
       last_day = dt.day;
       initial_daily_balance = AccountInfoDouble(ACCOUNT_BALANCE);
+      GlobalVariableSet("Argus_InitDailyBal", initial_daily_balance);
       GlobalVariableSet(HaltVariableName, 0);
+   }
+   if(dt.day_of_year / 7 != last_week) {
+      last_week = dt.day_of_year / 7;
+      initial_weekly_balance = AccountInfoDouble(ACCOUNT_BALANCE);
+      GlobalVariableSet("Argus_InitWeeklyBal", initial_weekly_balance);
+   }
+   if(dt.mon != last_month) {
+      last_month = dt.mon;
+      initial_monthly_balance = AccountInfoDouble(ACCOUNT_BALANCE);
+      GlobalVariableSet("Argus_InitMonthlyBal", initial_monthly_balance);
    }
 
    double balance = AccountInfoDouble(ACCOUNT_BALANCE);
    double equity = AccountInfoDouble(ACCOUNT_EQUITY);
    
-   double current_drawdown_pct = 0;
-   if(initial_daily_balance > 0) {
-      current_drawdown_pct = ((initial_daily_balance - equity) / initial_daily_balance) * 100.0;
+   // High Water Mark tracking
+   if(equity > initial_daily_balance) {
+      initial_daily_balance = equity;
+      GlobalVariableSet("Argus_InitDailyBal", initial_daily_balance);
    }
+   
+   double current_drawdown_pct = 0;
+   double weekly_dd_pct = 0;
+   double monthly_dd_pct = 0;
+   
+   if(initial_daily_balance > 0) current_drawdown_pct = ((initial_daily_balance - equity) / initial_daily_balance) * 100.0;
+   if(initial_weekly_balance > 0) weekly_dd_pct = ((initial_weekly_balance - equity) / initial_weekly_balance) * 100.0;
+   if(initial_monthly_balance > 0) monthly_dd_pct = ((initial_monthly_balance - equity) / initial_monthly_balance) * 100.0;
 
    bool is_halted = (GlobalVariableGet(HaltVariableName) == 1);
 
-   if(!is_halted && current_drawdown_pct >= MaxDailyDrawdown) {
-      PrintFormat("Argus Panoptes: 🚨 CIRCUIT BREAKER TRIPPED! Daily DD reached %.2f%%", current_drawdown_pct);
-      GlobalVariableSet(HaltVariableName, 1);
-      
-      if(CloseAllOnHalt) EmergencyCloseAll();
+   if(!is_halted) {
+      if(current_drawdown_pct >= MaxDailyDrawdown) {
+         PrintFormat("Argus Panoptes: 🚨 CIRCUIT BREAKER TRIPPED! Daily DD reached %.2f%%", current_drawdown_pct);
+         GlobalVariableSet(HaltVariableName, 1);
+         if(CloseAllOnHalt) EmergencyCloseAll();
+      }
+      else if(weekly_dd_pct >= MaxWeeklyDrawdown) {
+         PrintFormat("Argus Panoptes: 🚨 CIRCUIT BREAKER TRIPPED! Weekly DD reached %.2f%%", weekly_dd_pct);
+         GlobalVariableSet(HaltVariableName, 1);
+         if(CloseAllOnHalt) EmergencyCloseAll();
+      }
+      else if(monthly_dd_pct >= MaxMonthlyDrawdown) {
+         PrintFormat("Argus Panoptes: 🚨 CIRCUIT BREAKER TRIPPED! Monthly DD reached %.2f%%", monthly_dd_pct);
+         GlobalVariableSet(HaltVariableName, 1);
+         if(CloseAllOnHalt) EmergencyCloseAll();
+      }
    }
 
    // Regime Analysis
