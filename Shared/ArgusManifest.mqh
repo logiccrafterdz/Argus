@@ -52,6 +52,8 @@ public:
    }
    
    static bool IsSessionMatch(int target_session, int strat_mask) {
+      if(strat_mask == SESSION_ALL) return true;
+      if(target_session == 0) return false; // Out of session and not SESSION_ALL
       return (target_session & strat_mask) != 0;
    }
 };

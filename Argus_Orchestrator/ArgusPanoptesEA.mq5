@@ -21,6 +21,13 @@ input double   MaxDailyDrawdown     = 3.0;           // Max Daily Drawdown (%)
 input double   MaxWeeklyDrawdown    = 8.0;           // Max Weekly Drawdown (%)
 input double   MaxMonthlyDrawdown   = 15.0;          // Max Monthly Drawdown (%)
 input bool     CloseAllOnHalt       = true;          // Close all positions when halted
+input string   _SessionSettings     = "------ Session Times (Broker Time) ------";
+input int      AsianStartHour       = 0;
+input int      AsianEndHour         = 8;
+input int      LondonStartHour      = 8;
+input int      LondonEndHour        = 16;
+input int      NYStartHour          = 13;
+input int      NYEndHour            = 22;
 input string   _GlobalSettings      = "------ Global Variables ------";
 input string   HaltVariableName     = "Argus_Halt";
 
@@ -73,6 +80,7 @@ void OnDeinit(const int reason)
    regimeEngine.Deinit();
    if(GlobalVariableCheck(HaltVariableName)) GlobalVariableDel(HaltVariableName);
    if(GlobalVariableCheck("Argus_Regime")) GlobalVariableDel("Argus_Regime");
+   if(GlobalVariableCheck("Argus_Session")) GlobalVariableDel("Argus_Session");
    
    ObjectDelete(0, "Argus_BG");
    ObjectDelete(0, "Argus_Header");
@@ -144,7 +152,25 @@ void OnTimer()
    int current_regime = regimeEngine.GetCurrentRegime();
    GlobalVariableSet("Argus_Regime", current_regime);
 
-   UpdateDashboard(current_drawdown_pct, is_halted, balance, equity, current_regime);
+   // Session Analysis
+   int current_session = 0;
+   int h = dt.hour;
+   
+   if((AsianStartHour < AsianEndHour && h >= AsianStartHour && h < AsianEndHour) ||
+      (AsianStartHour > AsianEndHour && (h >= AsianStartHour || h < AsianEndHour)))
+      current_session |= SESSION_ASIAN;
+      
+   if((LondonStartHour < LondonEndHour && h >= LondonStartHour && h < LondonEndHour) ||
+      (LondonStartHour > LondonEndHour && (h >= LondonStartHour || h < LondonEndHour)))
+      current_session |= SESSION_LONDON;
+      
+   if((NYStartHour < NYEndHour && h >= NYStartHour && h < NYEndHour) ||
+      (NYStartHour > NYEndHour && (h >= NYStartHour || h < NYEndHour)))
+      current_session |= SESSION_NY;
+      
+   GlobalVariableSet("Argus_Session", current_session);
+
+   UpdateDashboard(current_drawdown_pct, is_halted, balance, equity, current_regime, current_session);
 }
 
 void EmergencyCloseAll()
@@ -163,13 +189,14 @@ void EmergencyCloseAll()
    else Print("Argus Panoptes: Successfully closed all open positions.");
 }
 
-void UpdateDashboard(double dd_pct, bool is_halted, double balance, double equity, int current_regime)
+void UpdateDashboard(double dd_pct, bool is_halted, double balance, double equity, int current_regime, int current_session)
 {
    if(ObjectFind(0, "Argus_BG") < 0) {
       ObjectCreate(0, "Argus_BG", OBJ_RECTANGLE_LABEL, 0, 0, 0);
       ObjectCreate(0, "Argus_Header", OBJ_LABEL, 0, 0, 0);
       ObjectCreate(0, "Argus_Status", OBJ_LABEL, 0, 0, 0);
       ObjectCreate(0, "Argus_Regime", OBJ_LABEL, 0, 0, 0);
+      ObjectCreate(0, "Argus_Session", OBJ_LABEL, 0, 0, 0);
       ObjectCreate(0, "Argus_Eq", OBJ_LABEL, 0, 0, 0);
       ObjectCreate(0, "Argus_DD", OBJ_LABEL, 0, 0, 0);
    }
@@ -222,6 +249,22 @@ void UpdateDashboard(double dd_pct, bool is_halted, double balance, double equit
    ObjectSetInteger(0, "Argus_Regime", OBJPROP_COLOR, clrAqua);
    ObjectSetString(0, "Argus_Regime", OBJPROP_FONT, "Segoe UI");
    ObjectSetInteger(0, "Argus_Regime", OBJPROP_FONTSIZE, 9);
+   
+   // Session
+   string s_str = "";
+   if(current_session & SESSION_ASIAN) s_str += "Asian ";
+   if(current_session & SESSION_LONDON) s_str += "London ";
+   if(current_session & SESSION_NY) s_str += "NY ";
+   if(s_str == "") s_str = "Out of Session";
+
+   ObjectSetInteger(0, "Argus_Session", OBJPROP_XDISTANCE, 30);
+   ObjectSetInteger(0, "Argus_Session", OBJPROP_YDISTANCE, 170);
+   ObjectSetString(0, "Argus_Session", OBJPROP_TEXT, "Active Session: " + s_str);
+   ObjectSetInteger(0, "Argus_Session", OBJPROP_COLOR, clrPlum);
+   ObjectSetString(0, "Argus_Session", OBJPROP_FONT, "Segoe UI");
+   ObjectSetInteger(0, "Argus_Session", OBJPROP_FONTSIZE, 9);
+   
+   ObjectSetInteger(0, "Argus_BG", OBJPROP_YSIZE, 190); // Expand background to fit session
    
    ChartRedraw();
 }

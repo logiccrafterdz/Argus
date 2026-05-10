@@ -77,10 +77,15 @@ void OnTick()
 {
    if(CArgusCore::IsHalted()) return;
 
-   // --- V2.0 Regime Filter ---
+   // --- V2.0 Regime & Session Filter ---
    StrategyManifest m = GetManifest();
    int current_regime = (int)GlobalVariableGet("Argus_Regime");
    if(current_regime > 0 && !CManifestUtils::IsRegimeMatch(current_regime, m.regime_mask)) return;
+   
+   if(GlobalVariableCheck("Argus_Session")) {
+      int current_session = (int)GlobalVariableGet("Argus_Session");
+      if(!CManifestUtils::IsSessionMatch(current_session, m.session_mask)) return;
+   }
 
 
    datetime now = TimeCurrent();
