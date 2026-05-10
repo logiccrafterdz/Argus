@@ -14,12 +14,10 @@ class CSuperTrendUtils
 {
 public:
    // Calculate SuperTrend state for a specific bar
-   // Returns: 1 (Bullish), -1 (Bearish)
-   static int Calculate(int index, int atr_period, double multiplier, double &st_value, double &prev_upper, double &prev_lower, int &prev_trend)
+   static int Calculate(int index, int atr_handle, double multiplier, double &st_value, double &prev_upper, double &prev_lower, int &prev_trend)
    {
       double atr[];
-      int handle = iATR(_Symbol, _Period, atr_period);
-      if(CopyBuffer(handle, 0, index, 1, atr) <= 0) return 0;
+      if(CopyBuffer(atr_handle, 0, index, 1, atr) <= 0) return 0;
       
       double mid = (iHigh(_Symbol, _Period, index) + iLow(_Symbol, _Period, index)) / 2.0;
       double basic_upper = mid + multiplier * atr[0];
@@ -50,12 +48,9 @@ public:
    }
 
    // Simply verify if ATR is above a certain threshold (Chop Filter)
-   static bool IsVolatilityHealthy(int atr_period, double threshold_mult)
+   static bool IsVolatilityHealthy(int h_atr, int h_sma, double threshold_mult)
    {
       double atr[], atr_sma[];
-      int h_atr = iATR(_Symbol, _Period, atr_period);
-      int h_sma = iMA(_Symbol, _Period, 50, 0, MODE_SMA, h_atr);
-      
       if(CopyBuffer(h_atr, 0, 0, 1, atr) <= 0) return true;
       if(CopyBuffer(h_sma, 0, 0, 1, atr_sma) <= 0) return true;
       

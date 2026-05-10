@@ -38,7 +38,7 @@ input int      MagicNumber          = 100013;        // EA Magic Number
 
 //--- Global variables
 CTrade         trade;
-int            ema_handle, atr_handle;
+int            ema_handle, atr_handle, atr_sma_handle;
 int            vol_precision = 0;
 datetime       last_bar_time = 0;
 
@@ -49,8 +49,9 @@ int OnInit()
 {
    ema_handle = iMA(_Symbol, _Period, EMA_Trend, 0, MODE_EMA, PRICE_CLOSE);
    atr_handle = iATR(_Symbol, _Period, ST_Period);
+   atr_sma_handle = iMA(_Symbol, _Period, 50, 0, MODE_SMA, atr_handle);
    
-   if(ema_handle == INVALID_HANDLE || atr_handle == INVALID_HANDLE) return(INIT_FAILED);
+   if(ema_handle == INVALID_HANDLE || atr_handle == INVALID_HANDLE || atr_sma_handle == INVALID_HANDLE) return(INIT_FAILED);
    
    vol_precision = CArgusCore::GetVolumePrecision(_Symbol);
    
@@ -65,6 +66,7 @@ void OnDeinit(const int reason)
 {
    IndicatorRelease(ema_handle);
    IndicatorRelease(atr_handle);
+   IndicatorRelease(atr_sma_handle);
 }
 
 //+------------------------------------------------------------------+
@@ -105,7 +107,7 @@ void OnTick()
    int trend2 = GetSuperTrendState(2, st_val2);
 
    // 3. Volatility Filter
-   if(UseChopFilter && !CSuperTrendUtils::IsVolatilityHealthy(ST_Period, ATR_ThresholdMult)) return;
+   if(UseChopFilter && !CSuperTrendUtils::IsVolatilityHealthy(atr_handle, atr_sma_handle, ATR_ThresholdMult)) return;
 
    // 4. Signal Detection
    // Long: Flip from Red to Green while above EMA 200
@@ -129,7 +131,7 @@ int GetSuperTrendState(int bar_idx, double &value)
    // Initialize state from a safe lookback
    int start_idx = bar_idx + ST_Warmup; 
    for(int i = start_idx; i >= bar_idx; i--) {
-      trend = CSuperTrendUtils::Calculate(i, ST_Period, ST_Multiplier, value, upper, lower, trend);
+      trend = CSuperTrendUtils::Calculate(i, atr_handle, ST_Multiplier, value, upper, lower, trend);
    }
    return trend;
 }
