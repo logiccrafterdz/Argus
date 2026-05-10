@@ -127,7 +127,7 @@ void IdentifyBreakout(bool bull_bias, bool bear_bias)
    double prev_close = iClose(_Symbol, _Period, 2);
 
    if(bull_bias) {
-      double res = CStructureUtils::GetRecentSwingHigh(SR_Lookback, SR_Radius);
+      double res = CArgusStructure::GetRecentSwingHigh(_Symbol, _Period, SR_Lookback, SR_Radius);
       if(res > 0 && prev_close <= res && last_close > res) {
          current_state = STATE_WAIT_RETEST;
          intended_signal = SIGNAL_BUY;
@@ -138,7 +138,7 @@ void IdentifyBreakout(bool bull_bias, bool bear_bias)
       }
    }
    else if(bear_bias) {
-      double sup = CStructureUtils::GetRecentSwingLow(SR_Lookback, SR_Radius);
+      double sup = CArgusStructure::GetRecentSwingLow(_Symbol, _Period, SR_Lookback, SR_Radius);
       if(sup > 0 && prev_close >= sup && last_close < sup) {
          current_state = STATE_WAIT_RETEST;
          intended_signal = SIGNAL_SELL;

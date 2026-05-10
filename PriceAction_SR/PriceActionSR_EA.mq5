@@ -79,8 +79,8 @@ void OnTick()
    if(CArgusCore::HasOpenPosition(_Symbol, MagicNumber)) return;
 
    // 1. Scan for recent S/R levels
-   double near_res = CStructureUtils::GetRecentSwingHigh(SR_Lookback, SR_Radius);
-   double near_sup = CStructureUtils::GetRecentSwingLow(SR_Lookback, SR_Radius);
+   double near_res = CArgusStructure::GetRecentSwingHigh(_Symbol, _Period, SR_Lookback, SR_Radius);
+   double near_sup = CArgusStructure::GetRecentSwingLow(_Symbol, _Period, SR_Lookback, SR_Radius);
 
    // 2. Trend Bias
    bool trend_up = true, trend_dn = true;

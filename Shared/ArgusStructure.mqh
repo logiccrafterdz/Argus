@@ -42,6 +42,22 @@ public:
       return true;
    }
 
+   static double GetRecentSwingHigh(string symbol, ENUM_TIMEFRAMES period, int lookback, int radius)
+   {
+      for(int i = 2; i <= lookback; i++) {
+         if(IsSwingHigh(symbol, period, i, radius)) return iHigh(symbol, period, i);
+      }
+      return 0;
+   }
+
+   static double GetRecentSwingLow(string symbol, ENUM_TIMEFRAMES period, int lookback, int radius)
+   {
+      for(int i = 2; i <= lookback; i++) {
+         if(IsSwingLow(symbol, period, i, radius)) return iLow(symbol, period, i);
+      }
+      return 0;
+   }
+
    //+------------------------------------------------------------------+
    //| Macro Structure Detection (Higher Highs / Lower Lows)            |
    //+------------------------------------------------------------------+
