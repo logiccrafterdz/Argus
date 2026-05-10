@@ -1,222 +1,99 @@
-# MT5 Strategy Repository
+# ARGUS PANOPTES V2.0
+## Institutional-Grade Algorithmic Trading Portfolio
 
-A collection of professional MetaTrader 5 (MQL5) trading strategies and Expert Advisors. Each system is designed with a focus on market structure, institutional-grade risk management, and operational safety.
+Argus is an advanced, multi-strategy algorithmic trading framework built on MetaTrader 5 (MQL5). Version 2.0 transforms the repository from a collection of isolated Expert Advisors into a centralized, hedge-fund-style portfolio management system. 
 
----
-
-## Repository Structure
-
-Each strategy is located in its own dedicated folder. This ensures a clean workspace and independent development for every trading system.
-
-### Current Strategies:
-
-| Strategy | Path | Technical Grade | Description |
-| :--- | :--- | :--- | :--- |
-| **Trend Pullback** | ./TrendPullback/ | **Production Elite** | A structure-aware trend following system. Uses 2-bar momentum confirmation and EMA confluence. |
-| **S/R Break & Retest** | ./SR_Breakout_Retest/ | **Production Elite** | A multi-timeframe breakout system. Tracks S/R levels, breakouts, and retests. |
-| **ORB Session** | ./ORB_Session/ | **Production Elite** | Opening Range Breakout strategy. Captures morning volatility. |
-| **Bollinger Mean Rev** | ./Bollinger_MeanReversion/ | **Production Elite** | Mean reversion system using Bollinger Bands. |
-| **Price Action S/R** | ./PriceAction_SR/ | **Production Elite** | Price Action rejection patterns (Pin Bar/Engulfing) at S/R levels. |
-| **Liquidity Sweep** | ./Liquidity_Sweep_Breakout/ | **Production Elite** | Institutional liquidity grab system. Detects EQH/EQL and enters on MSB. |
-| **VWAP Regime** | ./VWAP_MultiBand_Regime/ | **Production Elite** | Multi-VWAP Band system with ATR-based regime detection. |
-| **Asian Fakeout** | ./Asian_Range_Fakeout/ | **Production Elite** | London fakeout strategy (Judas Swing) using Asian range liquidity. |
-| **NY Reversal** | ./NY_Session_Reversal/ | **Production Elite** | New York session reversal strategy following London expansion. |
-| **Vol Squeeze** | ./Volatility_Squeeze/ | **Production Elite** | TTM-style squeeze breakout strategy with momentum confirmation. |
-| **ORB Hybrid** | ./ORB_Hybrid/ | **Production Elite** | Modern ORB system with trend bias and failure (trap) detection. |
-| **Smart-Swing** | ./Smart_Swing_Bias/ | **Production Elite** | Multi-TF SMC-inspired strategy focusing on Discount/Premium zones. |
-| **SuperTrend EMA** | ./SuperTrend_EMA/ | **Production Elite** | Classic SuperTrend flip strategy with 200 EMA and ATR chop filter. |
-| **Hidden Div** | ./Hidden_Divergence/ | **Production Elite** | Trend continuation strategy using Hidden RSI Divergence and EMA bias. |
-| **ADX Strength** | ./ADX_TrendStrength/ | **Production Elite** | Trend intensity strategy using ADX regime filtering and DMI crossovers. |
-| **Donchian Break** | ./Donchian_Breakout/ | **Production Elite** | Classic Donchian Channel breakout system with trend and ADX filters. |
-| **ICT Killzone** | ./ICT_Killzone_Macro/ | **Production Elite** | Institutional liquidity sweep strategy inside precise Macro Windows. |
-| **PDH/PDL Break** | ./PDH_PDL_BreakReversal/ | **Production Elite** | PDH/PDL level strategy with dynamic Expansion/Balance regime switching. |
-| **SMC Sweep FVG** | ./Liquidity_Sweep_FVG/ | **Production Elite** | Smart Money Concepts strategy using Liquidity Sweeps and Fair Value Gaps. |
-| **AVWAP Confluence** | ./AVWAP_Confluence/ | **Production Elite** | Institutional Anchored VWAP bouncing strategy with HTF EMA alignment. |
+The architecture is built around a central orchestrator that actively monitors exposure, filters macroeconomic events, manages risk through a High Water Mark circuit breaker, and enforces strict operational parameters across 20 distinct quantitative strategies.
 
 ---
 
-## 📈 Strategy Details
+## SYSTEM ARCHITECTURE
 
-### 1. Trend Pullback (EMA)
-*   **Logic**: EMA 200 trend filter + EMA 50 pullback zone.
-*   **Confirmation**: 2-bar momentum sequence (Touch -> Break).
-*   **Safety**: OnlyNewBar execution + Spread filter.
+The Argus framework is divided into three primary tiers:
 
-### 2. S/R Break & Retest
-*   **Confluence Stack**: 
-    *   **HTF Filter**: H4 EMA 200 determines the global bias.
-    *   **Level Detection**: Radius (N bars) and Lookback parameters to identify significant local peaks/valleys.
-    *   **Validation**: `MaxWaitBars` limits the wait time, and `MaxBreakDistance` tracks deviation to invalidate "tired" breakouts.
-*   **Confirmation**: Price touch of the broken level followed by a directional candle close.
+### 1. The Orchestrator (Argus Panoptes)
+The central intelligence of the portfolio. It acts as a master daemon running on a single chart, managing the global state of the portfolio. It is responsible for global circuit breakers, session enforcement, and broadcasting system states to all subordinate strategies.
 
----
+### 2. The Shared Core (Argus Core)
+A robust library of static methods shared across all strategies. It handles complex mathematical models, portfolio correlation matrices, execution retry logic, and dynamic trade management (such as Break-Even and Partial Closes).
 
-### 3. ORB Session (Opening Range Breakout)
-*   **Confluence Stack**: 
-    *   **Range Detection**: Automated high/low detection for a specified session window (e.g., first 30 mins).
-    *   **Trend Filter**: EMA 200 on the current timeframe ensures alignment with the day's bias.
-    *   **Discipline**: Strict "One Trade Per Session" rule to avoid overtrading and whipsaws.
-*   **Visual Support**: Draws session range lines on the chart for transparency.
+### 3. The Execution Layer (Strategies)
+20 independent Expert Advisors covering various market inefficiencies (Mean Reversion, Breakouts, Liquidity Sweeps, Trend Following). Each strategy is restricted to its specific logic and relies on the Core and Orchestrator for risk parameters and permissions.
 
 ---
 
-### 4. Bollinger Mean Reversion
-*   **Confluence Stack**: 
-    *   **Volatility Bands**: Bollinger Bands (20, 2.0) identify statistical extremes.
-    *   **Trend Filter**: Optional EMA 200 confirmation to align mean reversion with the major trend.
-    *   **Safety**: `MaxBarsOutside` limit to prevent catching a "falling knife" during parabolic trends.
-    *   **RSI Filter**: Optional RSI confirmation for extreme overbought/oversold conditions.
-*   **Dynamic Exit**: Take Profit targets the **Bollinger Middle Band** (The Mean), adapting to market conditions.
+## INSTITUTIONAL RISK MANAGEMENT
 
-### 5. Price Action S/R Rejections
-*   **Confluence Stack**: 
-    *   **Level Synergy**: Rejections must occur within a proximity zone (5 pips) of a structural S/R level.
-    *   **Candlestick Patterns**: Specialized detection for Pin Bars (long wick rejection) and Engulfing candles.
-    *   **Trend Context**: Optional EMA 200 filter to prioritize trades in the direction of market flow.
-*   **Disciplined Exit**: Uses a fixed 2.0 Risk-Reward ratio targeting the next structural pivot.
+### High Water Mark Circuit Breaker
+The system tracks the daily peak equity (High Water Mark). If the portfolio experiences a rapid drawdown from its daily peak that exceeds the user-defined threshold, the Orchestrator triggers an emergency global halt and liquidates all open positions. Additional weekly and monthly drawdown limits prevent extended series of losses.
 
-### 6. Liquidity Sweep & Breakout
-*   **Confluence Stack**: 
-    *   **Liquidity Detection**: Groups multiple swing points within a 3-pip threshold to identify EQH/EQL zones (Liquidity Pools).
-    *   **Sweep Signature**: Tracks price piercing these levels and closing back within the range, identifying a "Stop Hunt" or "False Breakout".
-    *   **Conservative Confirmation**: Implements a mandatory wait for a close beyond the sweep candle's range or a Market Structure Break (MSB) to avoid caught in extensions.
-    *   **Trend Alignment**: Integrated EMA 200 filter to synchronize liquidity grabs with the major trend direction.
-*   **Execution**: Precision "Sniper" entries with SL placed behind the sweep wick and a fixed 2.0 R:R target.
+### Pearson Correlation Matrix
+To prevent redundant risk and margin lock, the Core calculates statistical correlation across all open positions. If a strategy attempts to open a position on a symbol that is highly correlated (positively or negatively) with an existing open position, the trade is blocked.
 
-### 7. VWAP Multi-Band Regime
-*   **Confluence Stack**: 
-    *   **Regime Filter**: Uses the ratio `ATR / SMA(ATR)` to distinguish between "Balanced" (Range) and "Trending" (Expansion) market cycles.
-    *   **Dynamic VWAP Bands**: Calculates ±1σ and ±2σ Standard Deviation bands around the Daily VWAP mean.
-    *   **Thick Levels (MTF)**: Identifies high-probability zones where Daily, Weekly, and Monthly VWAP levels converge within 5 pips.
-    *   **Mean Reversion logic**: Primarily executes mean reversion trades towards the VWAP during low-volatility "Balanced" regimes.
-*   **Execution**: Automated TP at the VWAP mean, with safety SL beyond the outer bands.
-*   **Operational Notes**:
-    *   **Timezone Sync**: Daily resets and trade limits are synced to the **Broker Platform Time**. Ensure your session settings align with your target market (e.g., London/New York).
-    *   **Dynamic SL Tuning**: Recommended `SL_AtrMultiplier` is between **1.0 – 2.0**. For tighter "Balanced" regimes, use smaller multipliers to maintain a positive R:R relative to the `BandMult`.
+### Prop Firm Compliance Mode
+Designed for proprietary trading challenges. When activated, the system:
+- Enforces a strict weekend closure protocol, liquidating all positions on Friday at a specified broker time.
+- Implements an automatic centralized News Blockade, preventing any strategy from opening trades 30 minutes before and after High Impact macroeconomic events on the traded currency pair.
 
-### 8. Asian Range → London Fakeout & Expansion
-*   **Confluence Stack**: 
-    *   **Asian Range Accumulation**: Defines the high/low context during the low-volatility Asian session (00:00 - 06:00).
-    *   **London Killzone Monitoring**: Watches start of London session (08:00 - 11:00) for a liquidity grab (Fakeout).
-    *   **Fakeout Detection**: Identifies price piercing Asian extremes and closing back inside (Standard Judas Swing).
-    *   **Structure Confirmation**: Optional Market Structure Break (MSB) to filter false reversals.
-*   **Execution**: Multi-target setup: Mid-range, Opposite side, or fixed 2.0 RR target.
-
-### 9. New York Session Reversal (NY-Fade)
-*   **Confluence Stack**: 
-    *   **London Expansion Filter**: Validates that the London session (08:00 - 12:00) had a significant move (> 1.5x ATR).
-    *   **NY Killzone Monitoring**: Watches the NY open window (13:00 - 15:30) for exhaustion.
-    *   **Liquidity Sweep (OHLC)**: Detects price sweeping the London High/Low and closing back inside.
-    *   **Market Structure Shift**: Confirms the reversal with a minor structure break (MSB) before entry.
-*   **Execution**: Targets the London session midpoint (50% retracement) as a high-probability "Fair Value" return.
-
-### 10. Volatility Squeeze Breakout
-*   **Confluence Stack**: 
-    *   **TTM Squeeze Engine**: Monitors Bollinger Bands (20, 2.0) coiling within Keltner Channels (20, 1.5).
-    *   **Expansion Confirmation**: Requires a breakout candle to have 1.5x the average range/body size (momentum spike).
-    *   **Trend Alignment**: EMA 100 filter ensures breakouts occur in the direction of the dominant trend.
-    *   **Compression Filter**: Validates that the "Squeeze" has been sustained for at least 5 consecutive bars.
-*   **Execution**: Targets 1:2 Risk-Reward or measured move, with SL placed at the opposite extreme of the compression zone.
-
-### 11. ORB Hybrid / Failure EA
-*   **Confluence Stack**: 
-    *   **Opening Range Definition**: Capture high/low of the first 30 minutes of a session.
-    *   **Trend Bias (EMA 200)**: Breakouts are only taken if they align with the higher timeframe trend.
-    *   **Momentum Expansion**: Uses `ExpansionMult` to ensure the breakout candle is significant.
-    *   **Failure Logic (Liquidity Sweep)**: Detects "Fakeouts" where price pierces the OR but closes back inside, triggering a reversal.
-*   **Execution**: Multi-mode execution (Breakout vs Failure). TP targets 2.0x RR or the opposite OR boundary.
-
-### 12. Multi-Timeframe Smart-Swing Bias
-*   **Confluence Stack**: 
-    *   **HTF Bias (PERIOD_D1)**: Enforces directional alignment with long-term trend (EMA 200/50).
-    *   **Swing Leg Analysis**: Identifies the current structural high/low range on the execution timeframe.
-    *   **Discount/Premium Zones**: Targets entries in the "Value Zones" (Retracements of 50%-75% of the leg).
-    *   **Rejection Triggers**: Uses Price Action confirmations (Long wicks/Engulfing) for precision entry.
-*   **Execution**: Aim for High Reward:Risk setups by targeting external liquidity (Swing Extremes) with a fixed 2.0+ RR.
-
-### 13. SuperTrend + EMA Confluence
-*   **Confluence Stack**: 
-    *   **Institutional Bias (EMA 200)**: Ensures all trades occur within the major market regime.
-    *   **SuperTrend Adaptive Engine**: Detects trend flips using ATR-adjusted price bands for dynamic S/R.
-    *   **Chop Filter (ATR Regime)**: Prevents entry during low-volatility "dead zones" where trend-following fails.
-    *   **Dynamic Trailing SL**: Automatically lock in profits by moving the stop loss along the SuperTrend line.
-*   **Execution**: Enters at close of the flip candle. Exit via Trailing SL or optional 1:2 RR.
-
-### 14. Hidden Divergence + Trend Confluence
-*   **Confluence Stack**: 
-    *   **Institutional Bias (EMA 200)**: Operates strictly in the direction of the higher timeframe trend.
-    *   **Hidden Bullish Div**: Detects Price Higher-Low vs RSI Lower-Low (Springboard setup).
-    *   **Hidden Bearish Div**: Detects Price Lower-High vs RSI Higher-High (Exhaustion setup).
-    *   **Swing Logic**: Uses structural peaks and troughs to ensure high-fidelity signal mapping.
-*   **Execution**: Triggered upon confirmation of the second swing point. SL placed at the structural extreme.
-
-### 15. ADX Trend Strength + DMI Crossover
-*   **Confluence Stack**: 
-    *   **Regime Gate (ADX > 25)**: Ensures trades are only placed during high-intensity trending environments.
-    *   **Momentum Slope Filter**: Logic to detect trend acceleration (Entry) and exhaustion (Exit).
-    *   **Directional Alignment**: Combines DMI (+DI/-DI) for short-term entry with 200 EMA for macro-trend synchronization.
-    *   **Adaptive Risk**: Uses 1.5x ATR for safety, as optimized by community backtesting.
-*   **Execution**: Triggered when ADX crosses 25 while DI/EMA are aligned. Exit on TP or ADX slope reversal.
-
-### 16. Donchian Channel Breakout
-*   **Confluence Stack**: 
-    *   **Price Action Breakout**: Triggered by closure outside the 20-period Highest High or Lowest Low.
-    *   **Dual Trend Alignment**: Requires price to be above (Long) or below (Short) both 50 and 200 EMAs.
-    *   **Volatility Filter (ADX > 20)**: Ensures breakouts happen during active market cycles to avoid false signals.
-    *   **Turtle Trailing Exit**: Dynamic Stop Loss that follows the opposite Donchian band (The "opposite wall").
-*   **Execution**: Enters at bar close. Exits via trailing opposite band or a 2.5:1 fixed RR target.
-
-### 17. ICT Killzone Macro
-*   **Confluence Stack**: 
-    *   **Time-Regime Gate**: Operates strictly within precise Macro Windows (e.g., London/NY Killzones).
-    *   **Institutional Liquidity Reference**: Targets the highest/lowest prices of the preceding 4-hour block.
-    *   **Sweep & Rejection Logic**: Detects price piercing liquidity levels and closing back inside (Manipulation detection).
-    *   **Dual-Target Management**: Uses Mid-Range (50%) and Range-Extremes for high-probability exits.
-    *   **Temporal Protection**: Forced exit at window end to minimize exposure to non-institutional liquidity.
-*   **Execution**: Automated calculation 15m prior to window. Triggered on M5/M15 rejection close.
-
-### 18. Previous Day High/Low (PDH/PDL) Breakout & Reversal
-*   **Confluence Stack**: 
-    *   **Institutional Structural Levels**: Uses the most significant daily price anchors (Yesterday's High/Low).
-    *   **ATR Regime Gate**: Automatically identifies if the market is in "Expansion" (Breakout) or "Balance" (Reversal) mode.
-    *   **Breakout + Retest Logic**: Ensures momentum is confirmed before entering on a structural pullback.
-    *   **Rejection PA Confirmation**: Detects Pinbars and institutional rejections at sensitive price levels.
-*   **Execution**: Level-based trigger with state-machine tracking. Exit via fixed 2.0x RR.
-
-### 19. Liquidity Sweep + Fair Value Gap (SMC)
-*   **Confluence Stack**: 
-    *   **HTF Bias Alignment**: Ensures trades are taken in the direction of institutional order flow (H1/H4).
-    *   **Liquidity Sweep Detection**: Identifies "Stop Hunt" manipulation at previous structural highs/lows.
-    *   **Impulsive Displacement**: Validates institutional entry via high-momentum candles.
-    *   **Fair Value Gap (FVG)**: Pinpoints price imbalances as high-probability entry zones.
-    *   **Structural RR Management**: Uses the sweep extreme for highly optimized risk:reward targeting.
-*   **Execution**: Logic-based state machine. Automatically draws Sweep levels and FVG rectangles on the chart.
-
-### 20. Anchored VWAP + EMA Confluence
-*   **Confluence Stack**: 
-    *   **Institutional "Fair Value" (AVWAP)**: Calculates the Volume Weighted Average Price from a specific anchor (London Open or Swing).
-    *   **HTF Trend Filter**: Uses H1 EMA 50 to ensure trades are aligned with professional order flow.
-    *   **Volume-Weighted Reversion**: Targets entries when price returns to the "Value Area" and shows rejection.
-    *   **Momentum Confirmation**: ATR-based body filter ensures the bounce is significant.
-*   **Execution**: Multi-mode anchoring (Session/Swing). Visual VWAP trendline drawing and logic-based entry.
+### Execution Retry Logic with Exponential Backoff
+To ensure reliability during high volatility or poor broker connectivity, all trade executions utilize a resilient retry mechanism. If a trade fails due to requotes or off-quotes, the system attempts to resubmit the order with exponentially increasing delays.
 
 ---
 
-## Getting Started
+## ADVANCED TRADE MANAGEMENT
 
-1. Download the strategy folder and place it in your MetaTrader 5 MQL5/Experts directory.
-2. Ensure you have the necessary libraries (`StructureUtils.mqh`) included.
-3. Always test the strategy on a Demo account before moving to a Live environment.
+### Dynamic ATR-Based Profit Targets
+Take Profit targets can be dynamically adjusted based on the Average True Range (ATR) of the asset, ensuring targets are realistic within current market volatility rather than relying on fixed pip distances.
 
-> [!NOTE]
-> **Pips Definition**: All distance parameters (e.g., `MaxSR_DistancePips`) are based on the standard 5/3 digit broker logic. If your broker uses 5 digits, 1.0 Pip = 10 Points.
+### Unified Partial Close and Break-Even
+Strategies utilize central logic to secure positions. When price reaches specific milestones, stop losses are securely trailed to the break-even point plus a commission buffer, or the system can liquidate a percentage of the volume to secure realized profits while letting the remainder run.
+
+---
+
+## STRATEGY MANIFEST
+
+Each of the 20 strategies is bound by a Manifest defining its operational bounds. Strategies will automatically hibernate if:
+- The current Market Regime (Expansion, Compression, Trend, Range) does not match the strategy's requirement.
+- The current Market Session (Asian, London, New York) does not align with the strategy's optimal execution window.
+
+Current active strategies include:
+- Trend Pullback
+- S/R Break & Retest
+- ORB Session & ORB Hybrid
+- Bollinger Mean Reversion
+- Price Action S/R
+- Liquidity Sweep (Breakout & FVG)
+- VWAP Regime & AVWAP Confluence
+- Asian Range Fakeout
+- NY Session Reversal
+- Volatility Squeeze
+- Smart-Swing Bias
+- SuperTrend EMA
+- Hidden Divergence
+- ADX Trend Strength
+- Donchian Breakout
+- ICT Killzone Macro
+- PDH/PDL Breakout & Reversal
+
+---
+
+## INSTALLATION & COMPILATION
+
+1. Clone or download the repository into your MetaTrader 5 `MQL5/Experts` directory.
+2. Ensure the `Shared` folder is located correctly, as all strategies depend on `ArgusCore.mqh` and `MarketRegimeEngine.mqh`.
+3. Open MetaEditor and compile the Orchestrator (`Argus_Orchestrator/ArgusPanoptesEA.mq5`).
+4. Compile the individual strategy EAs you wish to deploy.
+5. Attach the Orchestrator to a single chart to manage global variables.
+6. Attach the individual strategies to their respective instrument charts.
+
+**Important Note:** The system relies on MetaTrader 5's Economic Calendar for the News Filter. Ensure your platform is configured to receive calendar updates.
 
 ---
 
 ## LEGAL DISCLAIMER - PLEASE READ CAREFULLY
 
 ### USE AT YOUR OWN RISK
-The software, Expert Advisors (EAs), indicators, and strategies contained in this repository are provided for **educational and informational purposes only**. They do not constitute financial, investment, or trading advice.
+The software, Expert Advisors, indicators, and strategies contained in this repository are provided for educational and informational purposes only. They do not constitute financial, investment, or trading advice.
 
 ### No Warranty
 This software is provided "as is", without warranty of any kind, express or implied. In no event shall the authors or copyright holders be liable for any claim, damages, or other liability.
