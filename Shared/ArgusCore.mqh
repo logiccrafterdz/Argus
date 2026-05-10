@@ -113,6 +113,54 @@ public:
    }
 
    //+------------------------------------------------------------------+
+   //| Cross-Asset Correlation Matrix Checks                            |
+   //+------------------------------------------------------------------+
+   static double GetCorrelation(string symbol1, string symbol2, ENUM_TIMEFRAMES timeframe, int period)
+   {
+      double close1[], close2[];
+      if(CopyClose(symbol1, timeframe, 1, period, close1) != period) return 0;
+      if(CopyClose(symbol2, timeframe, 1, period, close2) != period) return 0;
+      
+      double sum1 = 0, sum2 = 0, sum1_sq = 0, sum2_sq = 0, p_sum = 0;
+      for(int i = 0; i < period; i++)
+      {
+         sum1 += close1[i];
+         sum2 += close2[i];
+         sum1_sq += MathPow(close1[i], 2);
+         sum2_sq += MathPow(close2[i], 2);
+         p_sum += close1[i] * close2[i];
+      }
+      
+      double num = p_sum - (sum1 * sum2 / period);
+      double den = MathSqrt((sum1_sq - MathPow(sum1, 2) / period) * (sum2_sq - MathPow(sum2, 2) / period));
+      
+      if(den == 0) return 0;
+      return num / den;
+   }
+
+   static bool IsCorrelationSafe(string proposed_symbol, double threshold = 0.8)
+   {
+      for(int i = PositionsTotal() - 1; i >= 0; i--)
+      {
+         ulong ticket = PositionGetTicket(i);
+         if(PositionSelectByTicket(ticket))
+         {
+            string open_symbol = PositionGetString(POSITION_SYMBOL);
+            if(open_symbol == proposed_symbol) continue; 
+            
+            double corr = GetCorrelation(proposed_symbol, open_symbol, PERIOD_D1, 30); // 30-day statistical correlation
+            
+            if(MathAbs(corr) > threshold)
+            {
+               PrintFormat("ArgusCore: Correlation Matrix Block. %s is highly correlated (%.2f) with open position on %s", proposed_symbol, corr, open_symbol);
+               return false; // Prevent redundant risk and locked margin
+            }
+         }
+      }
+      return true;
+   }
+
+   //+------------------------------------------------------------------+
    //| Helpers                                                          |
    //+------------------------------------------------------------------+
    static double NormalizePrice(string symbol, double price, double tick_size) 
