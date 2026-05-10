@@ -159,7 +159,7 @@ void OnTick()
 //+------------------------------------------------------------------+
 void ExecuteTrade(ENUM_ORDER_TYPE type, double lot, double price, double sl, double tp, string comment)
 {
-   bool success = (type == ORDER_TYPE_BUY) ? trade.Buy(lot, _Symbol, price, sl, tp, comment) : trade.Sell(lot, _Symbol, price, sl, tp, comment);
+   bool success = (type == ORDER_TYPE_BUY) ? CArgusCore::ExecuteTradeWithRetry(trade, _Symbol, ORDER_TYPE_BUY, lot, _Symbol, price, sl, tp, comment) : trade.Sell(lot, _Symbol, price, sl, tp, comment);
    
    if(!success)
       PrintFormat("Trade Failed: %s. Code: %d (%s)", comment, trade.ResultRetcode(), trade.ResultRetcodeDescription());

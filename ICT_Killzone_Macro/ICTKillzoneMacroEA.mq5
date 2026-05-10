@@ -196,10 +196,10 @@ void ExecuteTrade(ENUM_ORDER_TYPE type, double stop_ref)
       if(UseTP2) {
          double lot1 = NormalizeDouble(MathMax(min_lot, MathFloor((base_lot/2.0)/step_lot)*step_lot), vol_precision);
          double lot2 = NormalizeDouble(MathMax(min_lot, MathFloor((base_lot/2.0)/step_lot)*step_lot), vol_precision);
-         trade.Buy(lot1, _Symbol, ask, sl, tp1, "ICT Macro Buy TP1");
-         trade.Buy(lot2, _Symbol, ask, sl, tp2, "ICT Macro Buy TP2");
+         CArgusCore::ExecuteTradeWithRetry(trade, _Symbol, ORDER_TYPE_BUY, lot1, _Symbol, ask, sl, tp1, "ICT Macro Buy TP1");
+         CArgusCore::ExecuteTradeWithRetry(trade, _Symbol, ORDER_TYPE_BUY, lot2, _Symbol, ask, sl, tp2, "ICT Macro Buy TP2");
       } else {
-         trade.Buy(base_lot, _Symbol, ask, sl, tp1, "ICT Macro Buy Full");
+         CArgusCore::ExecuteTradeWithRetry(trade, _Symbol, ORDER_TYPE_BUY, base_lot, _Symbol, ask, sl, tp1, "ICT Macro Buy Full");
       }
    }
    else {
@@ -211,10 +211,10 @@ void ExecuteTrade(ENUM_ORDER_TYPE type, double stop_ref)
       if(UseTP2) {
          double lot1 = NormalizeDouble(MathMax(min_lot, MathFloor((base_lot/2.0)/step_lot)*step_lot), vol_precision);
          double lot2 = NormalizeDouble(MathMax(min_lot, MathFloor((base_lot/2.0)/step_lot)*step_lot), vol_precision);
-         trade.Sell(lot1, _Symbol, bid, sl, tp1, "ICT Macro Sell TP1");
-         trade.Sell(lot2, _Symbol, bid, sl, tp2, "ICT Macro Sell TP2");
+         CArgusCore::ExecuteTradeWithRetry(trade, _Symbol, ORDER_TYPE_SELL, lot1, _Symbol, bid, sl, tp1, "ICT Macro Sell TP1");
+         CArgusCore::ExecuteTradeWithRetry(trade, _Symbol, ORDER_TYPE_SELL, lot2, _Symbol, bid, sl, tp2, "ICT Macro Sell TP2");
       } else {
-         trade.Sell(base_lot, _Symbol, bid, sl, tp1, "ICT Macro Sell Full");
+         CArgusCore::ExecuteTradeWithRetry(trade, _Symbol, ORDER_TYPE_SELL, base_lot, _Symbol, bid, sl, tp1, "ICT Macro Sell Full");
       }
    }
    trade_taken_today = true;

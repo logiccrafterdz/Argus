@@ -177,7 +177,7 @@ void ExecuteTrade(ENUM_ORDER_TYPE type, double sl_start)
       double risk_dist = ask - sl;
       if(risk_dist <= 0) return;
       double lot = CArgusCore::CalculateLotSize(_Symbol, RiskPercent, risk_dist, vol_precision);
-      trade.Buy(lot, _Symbol, ask, sl, 0, "SuperTrend Breakout Long");
+      CArgusCore::ExecuteTradeWithRetry(trade, _Symbol, ORDER_TYPE_BUY, lot, _Symbol, ask, sl, 0, "SuperTrend Breakout Long");
    }
    else {
       double sl = CArgusCore::NormalizePrice(_Symbol, sl_start + (5 * _Point), tick_sz);
@@ -185,7 +185,7 @@ void ExecuteTrade(ENUM_ORDER_TYPE type, double sl_start)
       double risk_dist = sl - bid;
       if(risk_dist <= 0) return;
       double lot = CArgusCore::CalculateLotSize(_Symbol, RiskPercent, risk_dist, vol_precision);
-      trade.Sell(lot, _Symbol, bid, sl, 0, "SuperTrend Breakout Short");
+      CArgusCore::ExecuteTradeWithRetry(trade, _Symbol, ORDER_TYPE_SELL, lot, _Symbol, bid, sl, 0, "SuperTrend Breakout Short");
    }
 }
 

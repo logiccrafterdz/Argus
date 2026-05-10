@@ -218,6 +218,41 @@ public:
    }
 
    //+------------------------------------------------------------------+
+   //| Safe Trade Execution with Exponential Backoff                    |
+   //+------------------------------------------------------------------+
+   static bool ExecuteTradeWithRetry(CTrade &trade_obj, string symbol, ENUM_ORDER_TYPE order_type, double volume, double price, double sl, double tp, string comment = "")
+   {
+      int max_retries = 3;
+      int retry_delay = 500; // ms
+      bool success = false;
+      
+      for(int i = 0; i < max_retries; i++)
+      {
+         ResetLastError();
+         if(order_type == ORDER_TYPE_BUY) success = trade_obj.Buy(volume, symbol, price, sl, tp, comment);
+         else if(order_type == ORDER_TYPE_SELL) success = trade_obj.Sell(volume, symbol, price, sl, tp, comment);
+         
+         if(success) break;
+         
+         uint retcode = trade_obj.ResultRetcode();
+         if(retcode == TRADE_RETCODE_REQUOTE || retcode == TRADE_RETCODE_PRICE_OFF || 
+            retcode == TRADE_RETCODE_PRICE_CHANGED || retcode == TRADE_RETCODE_CONNECTION)
+         {
+            PrintFormat("ArgusCore: Trade failed (Retcode: %d). Retrying %d/%d in %d ms...", retcode, i+1, max_retries, retry_delay);
+            Sleep(retry_delay);
+            retry_delay *= 2; 
+            RefreshRates();
+         }
+         else
+         {
+            PrintFormat("ArgusCore: Trade failed with unrecoverable error (Retcode: %d)", retcode);
+            break;
+         }
+      }
+      return success;
+   }
+
+   //+------------------------------------------------------------------+
    //| Telegram Integration                                             |
    //+------------------------------------------------------------------+
    static void SendTelegramAlert(string bot_token, string chat_id, string message)
