@@ -64,6 +64,16 @@ public:
    }
 
    //+------------------------------------------------------------------+
+   //| Dynamic ATR-Based Take Profit Calculation                        |
+   //+------------------------------------------------------------------+
+   static double CalculateDynamicTP(string symbol, double entry_price, ENUM_ORDER_TYPE type, double atr_val, double atr_multiplier)
+   {
+      double tp_dist = atr_val * atr_multiplier;
+      double new_tp = (type == ORDER_TYPE_BUY) ? entry_price + tp_dist : entry_price - tp_dist;
+      return NormalizePrice(symbol, new_tp, SymbolInfoDouble(symbol, SYMBOL_TRADE_TICK_SIZE));
+   }
+
+   //+------------------------------------------------------------------+
    //| Check if an EA has open positions                                |
    //+------------------------------------------------------------------+
    static bool HasOpenPosition(string symbol, int magic_number)
@@ -131,6 +141,40 @@ public:
        if(GlobalVariableCheck("Argus_Halt") && GlobalVariableGet("Argus_Halt") == 1) return true;
        return false;
    }
+
+   //+------------------------------------------------------------------+
+   //| Economic Calendar News Filter                                    |
+   //+------------------------------------------------------------------+
+   static bool CheckNewsForCurrency(string currency, datetime start_time, datetime end_time)
+   {
+      MqlCalendarValue values[];
+      if(CalendarValueHistory(values, start_time, end_time, NULL, currency))
+      {
+         for(int i=0; i<ArraySize(values); i++)
+         {
+            MqlCalendarEvent event;
+            if(CalendarEventById(values[i].event_id, event))
+            {
+               if(event.importance == CALENDAR_IMPORTANCE_HIGH) return true;
+            }
+         }
+      }
+      return false;
+   }
+
+   static bool IsHighImpactNews(string symbol, int minutes_before, int minutes_after)
+   {
+      string base_curr = StringSubstr(symbol, 0, 3);
+      string quote_curr = StringSubstr(symbol, 3, 3);
+      
+      datetime now = TimeCurrent();
+      datetime start_time = now - (minutes_after * 60);
+      datetime end_time = now + (minutes_before * 60);
+      
+      return CheckNewsForCurrency(base_curr, start_time, end_time) || 
+             CheckNewsForCurrency(quote_curr, start_time, end_time);
+   }
+
    //+------------------------------------------------------------------+
    //| Trade Journaling & Analytics                                     |
    //+------------------------------------------------------------------+
