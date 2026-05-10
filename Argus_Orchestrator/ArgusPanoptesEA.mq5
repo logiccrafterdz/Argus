@@ -217,17 +217,31 @@ void UpdateDashboard(double dd_pct, bool is_halted, double balance, double equit
       ObjectCreate(0, "Argus_BG", OBJ_RECTANGLE_LABEL, 0, 0, 0);
       ObjectCreate(0, "Argus_Header", OBJ_LABEL, 0, 0, 0);
       ObjectCreate(0, "Argus_Status", OBJ_LABEL, 0, 0, 0);
-      ObjectCreate(0, "Argus_Regime", OBJ_LABEL, 0, 0, 0);
-      ObjectCreate(0, "Argus_Session", OBJ_LABEL, 0, 0, 0);
+      ObjectCreate(0, "Argus_PropMode", OBJ_LABEL, 0, 0, 0);
       ObjectCreate(0, "Argus_Eq", OBJ_LABEL, 0, 0, 0);
       ObjectCreate(0, "Argus_DD", OBJ_LABEL, 0, 0, 0);
+      ObjectCreate(0, "Argus_Regime", OBJ_LABEL, 0, 0, 0);
+      ObjectCreate(0, "Argus_Session", OBJ_LABEL, 0, 0, 0);
+      ObjectCreate(0, "Argus_Pos", OBJ_LABEL, 0, 0, 0);
    }
+   
+   int total_positions = PositionsTotal();
+   int buys = 0, sells = 0;
+   for(int i=0; i<total_positions; i++) {
+       ulong t = PositionGetTicket(i);
+       if(PositionSelectByTicket(t)) {
+           if(PositionGetInteger(POSITION_TYPE) == POSITION_TYPE_BUY) buys++;
+           else sells++;
+       }
+   }
+   
+   bool is_prop = (GlobalVariableCheck("Argus_PropMode") && GlobalVariableGet("Argus_PropMode") == 1);
    
    // Background
    ObjectSetInteger(0, "Argus_BG", OBJPROP_XDISTANCE, 20);
    ObjectSetInteger(0, "Argus_BG", OBJPROP_YDISTANCE, 30);
    ObjectSetInteger(0, "Argus_BG", OBJPROP_XSIZE, 280);
-   ObjectSetInteger(0, "Argus_BG", OBJPROP_YSIZE, 170); // Expanded size for Regime string
+   ObjectSetInteger(0, "Argus_BG", OBJPROP_YSIZE, 220); // Expanded size
    ObjectSetInteger(0, "Argus_BG", OBJPROP_BGCOLOR, clrBlack);
    ObjectSetInteger(0, "Argus_BG", OBJPROP_BORDER_COLOR, clrDimGray);
    ObjectSetInteger(0, "Argus_BG", OBJPROP_CORNER, CORNER_LEFT_UPPER);
@@ -235,7 +249,7 @@ void UpdateDashboard(double dd_pct, bool is_halted, double balance, double equit
    // Header
    ObjectSetInteger(0, "Argus_Header", OBJPROP_XDISTANCE, 30);
    ObjectSetInteger(0, "Argus_Header", OBJPROP_YDISTANCE, 40);
-   ObjectSetString(0, "Argus_Header", OBJPROP_TEXT, "👁️ ARGUS PANOPTES");
+   ObjectSetString(0, "Argus_Header", OBJPROP_TEXT, "👁️ ARGUS PANOPTES V2.0");
    ObjectSetInteger(0, "Argus_Header", OBJPROP_COLOR, clrGold);
    ObjectSetString(0, "Argus_Header", OBJPROP_FONT, "Segoe UI");
    ObjectSetInteger(0, "Argus_Header", OBJPROP_FONTSIZE, 12);
@@ -247,6 +261,14 @@ void UpdateDashboard(double dd_pct, bool is_halted, double balance, double equit
    ObjectSetInteger(0, "Argus_Status", OBJPROP_COLOR, is_halted ? clrRed : clrLimeGreen);
    ObjectSetString(0, "Argus_Status", OBJPROP_FONT, "Segoe UI");
    ObjectSetInteger(0, "Argus_Status", OBJPROP_FONTSIZE, 10);
+   
+   // Prop Firm Mode
+   ObjectSetInteger(0, "Argus_PropMode", OBJPROP_XDISTANCE, 180);
+   ObjectSetInteger(0, "Argus_PropMode", OBJPROP_YDISTANCE, 70);
+   ObjectSetString(0, "Argus_PropMode", OBJPROP_TEXT, is_prop ? "🛡️ PROP MODE" : "");
+   ObjectSetInteger(0, "Argus_PropMode", OBJPROP_COLOR, clrOrange);
+   ObjectSetString(0, "Argus_PropMode", OBJPROP_FONT, "Segoe UI");
+   ObjectSetInteger(0, "Argus_PropMode", OBJPROP_FONTSIZE, 9);
    
    // Equity
    ObjectSetInteger(0, "Argus_Eq", OBJPROP_XDISTANCE, 30);
@@ -286,7 +308,14 @@ void UpdateDashboard(double dd_pct, bool is_halted, double balance, double equit
    ObjectSetString(0, "Argus_Session", OBJPROP_FONT, "Segoe UI");
    ObjectSetInteger(0, "Argus_Session", OBJPROP_FONTSIZE, 9);
    
-   ObjectSetInteger(0, "Argus_BG", OBJPROP_YSIZE, 190); // Expand background to fit session
+   // Open Positions & Exposure
+   ObjectSetInteger(0, "Argus_Pos", OBJPROP_XDISTANCE, 30);
+   ObjectSetInteger(0, "Argus_Pos", OBJPROP_YDISTANCE, 190);
+   ObjectSetString(0, "Argus_Pos", OBJPROP_TEXT, StringFormat("Open Positions: %d (Buy: %d | Sell: %d)", total_positions, buys, sells));
+   ObjectSetInteger(0, "Argus_Pos", OBJPROP_COLOR, clrLightSkyBlue);
+   ObjectSetString(0, "Argus_Pos", OBJPROP_FONT, "Segoe UI");
+   ObjectSetInteger(0, "Argus_Pos", OBJPROP_FONTSIZE, 9);
    
    ChartRedraw();
 }
+
