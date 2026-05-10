@@ -64,14 +64,20 @@ public:
       double atr_ratio = (atr_sma[0] > 0) ? (atr[0] / atr_sma[0]) : 1.0;
       
       bool isTrend  = (adx[0] > 25.0);
+      bool isExhaustion = (adx[0] >= 45.0);
       bool isExpand = (atr_ratio > 1.3);
+      bool isCompression = (atr_ratio < 0.7);
       
-      if(isTrend && isExpand) return REGIME_TREND | REGIME_EXPANSION;
-      if(isTrend) return REGIME_TREND;
-      if(isExpand) return REGIME_EXPANSION;
+      int regime = 0;
       
-      // If neither trend nor expansion, it's a range.
-      return REGIME_RANGE;
+      if (isExhaustion) regime |= REGIME_REVERSAL;
+      else if (isTrend) regime |= REGIME_TREND;
+      else regime |= REGIME_RANGE;
+      
+      if (isExpand) regime |= REGIME_EXPANSION;
+      else if (isCompression) regime |= REGIME_COMPRESSION;
+      
+      return regime;
    }
    
    //+------------------------------------------------------------------+
