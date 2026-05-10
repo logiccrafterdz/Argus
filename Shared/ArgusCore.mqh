@@ -253,6 +253,96 @@ public:
    }
 
    //+------------------------------------------------------------------+
+   //| Trade Management: Break-Even                                     |
+   //+------------------------------------------------------------------+
+   static void ManageBreakEven(CTrade &trade_obj, string symbol, int magic_number, double activation_pips, double lock_pips = 1.0)
+   {
+      double point = SymbolInfoDouble(symbol, SYMBOL_POINT);
+      int digits = (int)SymbolInfoInteger(symbol, SYMBOL_DIGITS);
+      double pip = (digits == 3 || digits == 5) ? point * 10 : point;
+      
+      for(int i = PositionsTotal() - 1; i >= 0; i--)
+      {
+         ulong ticket = PositionGetTicket(i);
+         if(PositionSelectByTicket(ticket) && PositionGetInteger(POSITION_MAGIC) == magic_number && PositionGetString(POSITION_SYMBOL) == symbol)
+         {
+            double open_price = PositionGetDouble(POSITION_PRICE_OPEN);
+            double current_sl = PositionGetDouble(POSITION_SL);
+            double current_price = PositionGetDouble(POSITION_PRICE_CURRENT);
+            ENUM_POSITION_TYPE type = (ENUM_POSITION_TYPE)PositionGetInteger(POSITION_TYPE);
+            
+            if(type == POSITION_TYPE_BUY && current_price - open_price >= activation_pips * pip)
+            {
+               double new_sl = open_price + (lock_pips * pip);
+               if(current_sl < open_price && new_sl < current_price) 
+                  trade_obj.PositionModify(ticket, new_sl, PositionGetDouble(POSITION_TP));
+            }
+            else if(type == POSITION_TYPE_SELL && open_price - current_price >= activation_pips * pip)
+            {
+               double new_sl = open_price - (lock_pips * pip);
+               if((current_sl > open_price || current_sl == 0) && new_sl > current_price)
+                  trade_obj.PositionModify(ticket, new_sl, PositionGetDouble(POSITION_TP));
+            }
+         }
+      }
+   }
+
+   //+------------------------------------------------------------------+
+   //| Trade Management: Partial Close                                  |
+   //+------------------------------------------------------------------+
+   static bool HasPartialClose(ulong position_ticket)
+   {
+      if(HistorySelectByPosition(position_ticket))
+      {
+         int deals = HistoryDealsTotal();
+         for(int i=0; i<deals; i++)
+         {
+            ulong deal_ticket = HistoryDealGetTicket(i);
+            long entry = HistoryDealGetInteger(deal_ticket, DEAL_ENTRY);
+            if(entry == DEAL_ENTRY_OUT || entry == DEAL_ENTRY_OUT_BY) return true;
+         }
+      }
+      return false;
+   }
+
+   static void ManagePartialClose(CTrade &trade_obj, string symbol, int magic_number, double activation_pips, double close_percent = 50.0)
+   {
+      double point = SymbolInfoDouble(symbol, SYMBOL_POINT);
+      int digits = (int)SymbolInfoInteger(symbol, SYMBOL_DIGITS);
+      double pip = (digits == 3 || digits == 5) ? point * 10 : point;
+      
+      for(int i = PositionsTotal() - 1; i >= 0; i--)
+      {
+         ulong ticket = PositionGetTicket(i);
+         if(PositionSelectByTicket(ticket) && PositionGetInteger(POSITION_MAGIC) == magic_number && PositionGetString(POSITION_SYMBOL) == symbol)
+         {
+            if(HasPartialClose(ticket)) continue; // Already partially closed
+            
+            double open_price = PositionGetDouble(POSITION_PRICE_OPEN);
+            double current_price = PositionGetDouble(POSITION_PRICE_CURRENT);
+            ENUM_POSITION_TYPE type = (ENUM_POSITION_TYPE)PositionGetInteger(POSITION_TYPE);
+            
+            bool trigger = false;
+            if(type == POSITION_TYPE_BUY && current_price - open_price >= activation_pips * pip) trigger = true;
+            else if(type == POSITION_TYPE_SELL && open_price - current_price >= activation_pips * pip) trigger = true;
+            
+            if(trigger)
+            {
+               double volume = PositionGetDouble(POSITION_VOLUME);
+               double close_vol = volume * (close_percent / 100.0);
+               double step_vol = SymbolInfoDouble(symbol, SYMBOL_VOLUME_STEP);
+               close_vol = MathFloor(close_vol / step_vol) * step_vol;
+               double min_vol = SymbolInfoDouble(symbol, SYMBOL_VOLUME_MIN);
+               
+               if(close_vol >= min_vol && volume - close_vol >= min_vol)
+                  trade_obj.PositionClosePartial(ticket, close_vol);
+            }
+         }
+      }
+   }
+
+
+   //+------------------------------------------------------------------+
    //| Telegram Integration                                             |
    //+------------------------------------------------------------------+
    static void SendTelegramAlert(string bot_token, string chat_id, string message)
