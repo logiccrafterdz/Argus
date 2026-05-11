@@ -11,6 +11,31 @@ The architecture is built around a central orchestrator that actively monitors e
 
 The Argus framework is divided into three primary tiers:
 
+```mermaid
+flowchart TD
+    subgraph Tier 1: The Orchestrator
+        O[ArgusPanoptesEA] -->|Broadcasts State| GV[(MT5 Global Variables)]
+        O -->|Emergency Halt| CLOSE[Close All Positions]
+        O -->|Circuit Breaker| DD[High Water Mark Tracking]
+    end
+
+    subgraph Tier 2: The Core Layer
+        C[ArgusCore.mqh] -->|Trade Actions| EXEC[ExecuteTradeWithRetry]
+        C -->|Risk Matrix| CORR[Correlation Filter]
+        C -->|Trade Mgmt| TP[Break-Even & Partial Close]
+        C -->|Compliance| NEWS[News Filter & Weekend Close]
+    end
+
+    subgraph Tier 3: The Execution Layer
+        S1[Strategy 1..20]
+        M[ArgusManifest.mqh]
+    end
+
+    GV -->|Regime/Session/PropMode| S1
+    M -->|Validates Entry| S1
+    S1 -->|Requests Trade| C
+```
+
 ### 1. The Orchestrator (Argus Panoptes)
 The central intelligence of the portfolio. It acts as a master daemon running on a single chart, managing the global state of the portfolio. It is responsible for global circuit breakers, session enforcement, and broadcasting system states to all subordinate strategies.
 
