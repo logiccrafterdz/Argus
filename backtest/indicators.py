@@ -85,3 +85,51 @@ def MarketRegime(df):
     regime = np.where(~is_expand & is_compression, regime | 8, regime)
     
     return regime
+def SuperTrend(df, period=10, multiplier=3):
+    atr = ATR(df, period)
+    hl2 = (df['high'] + df['low']) / 2
+    final_upperband = hl2 + (multiplier * atr)
+    final_lowerband = hl2 - (multiplier * atr)
+    
+    supertrend = pd.Series(0.0, index=df.index)
+    direction = pd.Series(1, index=df.index)
+    
+    for i in range(1, len(df.index)):
+        if df['close'].iloc[i] > final_upperband.iloc[i-1]:
+            direction.iloc[i] = 1
+        elif df['close'].iloc[i] < final_lowerband.iloc[i-1]:
+            direction.iloc[i] = -1
+        else:
+            direction.iloc[i] = direction.iloc[i-1]
+            if direction.iloc[i] == 1 and final_lowerband.iloc[i] < final_lowerband.iloc[i-1]:
+                final_lowerband.iloc[i] = final_lowerband.iloc[i-1]
+            if direction.iloc[i] == -1 and final_upperband.iloc[i] > final_upperband.iloc[i-1]:
+                final_upperband.iloc[i] = final_upperband.iloc[i-1]
+                
+        if direction.iloc[i] == 1:
+            supertrend.iloc[i] = final_lowerband.iloc[i]
+        else:
+            supertrend.iloc[i] = final_upperband.iloc[i]
+            
+    return supertrend, direction
+
+def DonchianChannels(df, period=20):
+    upper = df['high'].rolling(window=period).max()
+    lower = df['low'].rolling(window=period).min()
+    middle = (upper + lower) / 2
+    return upper, middle, lower
+
+def VWAP(df):
+    v = df['tick_volume']
+    tp = (df['high'] + df['low'] + df['close']) / 3
+    # Daily VWAP typically resets each day
+    df['date'] = df.index.date
+    vwap = (tp * v).groupby(df['date']).cumsum() / v.groupby(df['date']).cumsum()
+    return vwap
+
+def KeltnerChannels(df, period=20, atr_period=10, multiplier=2):
+    ema = EMA(df['close'], period)
+    atr = ATR(df, atr_period)
+    upper = ema + (multiplier * atr)
+    lower = ema - (multiplier * atr)
+    return upper, ema, lower

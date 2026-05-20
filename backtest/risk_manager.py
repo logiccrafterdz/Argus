@@ -83,3 +83,15 @@ class RiskManager:
         lot = np.floor(lot / step_vol) * step_vol
         lot = max(min_vol, min(max_vol, lot))
         return lot
+    def check_correlation(self, symbol, open_positions, correlation_matrix, threshold=0.8):
+        # Prevent taking a trade if it is highly correlated with a currently open position
+        if correlation_matrix is None or symbol not in correlation_matrix:
+            return True
+        for pos in open_positions:
+            open_symbol = pos['symbol']
+            if open_symbol in correlation_matrix.columns:
+                corr = correlation_matrix.loc[symbol, open_symbol]
+                # If correlation is > threshold, and we are taking the same direction trade, reject
+                if corr > threshold:
+                    return False
+        return True
