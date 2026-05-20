@@ -7,6 +7,22 @@ from strategies.trend_pullback import TrendPullback
 from strategies.ict_killzone import ICTKillzoneMacro
 from strategies.bollinger_mr import BollingerMeanReversion
 from strategies.liq_sweep import LiquiditySweepFVG
+from strategies.sr_breakout_retest import SRBreakoutRetest
+from strategies.orb_session import ORBSession
+from strategies.orb_hybrid import ORBHybrid
+from strategies.price_action_sr import PriceActionSR
+from strategies.liq_sweep_breakout import LiquiditySweepBreakout
+from strategies.vwap_multiband_regime import VWAPMultiBandRegime
+from strategies.avwap_confluence import AVWAPConfluence
+from strategies.asian_range_fakeout import AsianRangeFakeout
+from strategies.ny_session_reversal import NYSessionReversal
+from strategies.volatility_squeeze import VolatilitySqueeze
+from strategies.smart_swing_bias import SmartSwingBias
+from strategies.supertrend_ema import SuperTrendEMA
+from strategies.hidden_divergence import HiddenDivergence
+from strategies.adx_trend_strength import ADXTrendStrength
+from strategies.donchian_breakout import DonchianBreakout
+from strategies.pdh_pdl_break_reversal import PDHPDLBreakReversal
 from indicators import MarketRegime
 
 DATA_DIR = os.path.join(os.path.dirname(__file__), "data")
@@ -36,7 +52,23 @@ def run_backtest():
         TrendPullback(),
         ICTKillzoneMacro(),
         BollingerMeanReversion(),
-        LiquiditySweepFVG()
+        LiquiditySweepFVG(),
+        SRBreakoutRetest(),
+        ORBSession(),
+        ORBHybrid(),
+        PriceActionSR(),
+        LiquiditySweepBreakout(),
+        VWAPMultiBandRegime(),
+        AVWAPConfluence(),
+        AsianRangeFakeout(),
+        NYSessionReversal(),
+        VolatilitySqueeze(),
+        SmartSwingBias(),
+        SuperTrendEMA(),
+        HiddenDivergence(),
+        ADXTrendStrength(),
+        DonchianBreakout(),
+        PDHPDLBreakReversal()
     ]
     
     # For simplicity, we resample everything to a unified timeline (e.g. H1)
@@ -60,10 +92,10 @@ def run_backtest():
         for strat_idx, strat in enumerate(strategies):
             # Select appropriate TF
             tf = 'H1'
-            if strat.name == 'ICT Killzone Macro': tf = 'M15'
-            elif strat.name == 'TrendPullback': tf = 'H1'
-            elif strat.name == 'Bollinger Mean Reversion': tf = 'H1'
-            elif strat.name == 'Liquidity Sweep FVG': tf = 'H1'
+            if strat.name in ['ICT_Killzone_Macro', 'ORB_Session', 'ORB_Hybrid', 'Asian_Range_Fakeout', 'NY_Session_Reversal', 'PDH_PDL_BreakReversal']: 
+                tf = 'M15'
+            elif strat.name in ['PriceAction_SR', 'Donchian_Breakout', 'Smart_Swing_Bias']: 
+                tf = 'H4'
             
             if tf in tfs:
                 df = tfs[tf].copy()

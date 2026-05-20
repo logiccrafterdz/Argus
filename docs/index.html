@@ -4,33 +4,32 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Argus Panoptes V2.0 | Evidence Dashboard</title>
+    <meta name="description" content="Institutional-Grade Algorithmic Trading Portfolio — Real Historical Backtest Results (Jan 2022 to May 2025)">
     <link rel="stylesheet" href="style.css">
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 </head>
 <body>
     <div class="banner">
-        📊 <strong>Historical Backtest</strong> — Real Market Data (Jan 2022 to May 2025)
+        📊 <strong>Historical Backtest</strong> — Real Market Data from FBS MetaTrader 5 (Jan 2022 to May 2025)
     </div>
 
     <header>
         <div class="container header-content">
             <div>
-                <h1>👁️ ARGUS PANOPTES V2.0</h1>
+                <h1 id="main-title">👁️ ARGUS PANOPTES V2.0</h1>
                 <p>Institutional-Grade Algorithmic Trading Portfolio</p>
             </div>
             <div class="header-stats">
                 <div class="stat-pill">Status: <span class="active">ACTIVE</span></div>
-                <div class="stat-pill">Strategies: 20</div>
+                <div class="stat-pill" id="stratCount">Strategies: 20</div>
             </div>
         </div>
     </header>
 
     <main class="container">
         <!-- KPIs -->
-        <section class="kpi-grid" id="kpiGrid">
-            <!-- Populated by JS -->
-        </section>
+        <section class="kpi-grid" id="kpiGrid"></section>
 
         <!-- Charts Row -->
         <section class="charts-row">
@@ -39,14 +38,29 @@
                 <canvas id="equityChart"></canvas>
             </div>
             <div class="card chart-card">
-                <h2>Risk Analytics</h2>
-                <div class="risk-metrics" id="riskMetrics">
-                    <!-- Populated by JS -->
-                </div>
+                <h2>Drawdown Curve</h2>
+                <canvas id="drawdownChart"></canvas>
             </div>
         </section>
 
-        <!-- Strategy Matrix -->
+        <!-- Risk Analytics -->
+        <section class="card">
+            <h2>Risk Analytics</h2>
+            <div class="risk-grid" id="riskMetrics"></div>
+        </section>
+
+        <!-- Monthly Returns Heatmap -->
+        <section class="card">
+            <h2>Monthly Returns Heatmap (%)</h2>
+            <div class="table-responsive">
+                <table id="monthlyTable">
+                    <thead><tr id="monthlyHeader"></tr></thead>
+                    <tbody id="monthlyBody"></tbody>
+                </table>
+            </div>
+        </section>
+
+        <!-- Strategy Performance Matrix -->
         <section class="card">
             <h2>Strategy Performance Matrix</h2>
             <div class="table-responsive">
@@ -61,11 +75,15 @@
                             <th>Net Profit</th>
                         </tr>
                     </thead>
-                    <tbody>
-                        <!-- Populated by JS -->
-                    </tbody>
+                    <tbody></tbody>
                 </table>
             </div>
+        </section>
+
+        <!-- Portfolio vs Top 5 Strategies -->
+        <section class="card chart-card">
+            <h2>Portfolio vs Top 5 Strategies</h2>
+            <canvas id="comparisonChart"></canvas>
         </section>
 
         <!-- Trade Journal -->
@@ -84,17 +102,52 @@
                             <th>Profit</th>
                         </tr>
                     </thead>
-                    <tbody>
-                        <!-- Populated by JS -->
-                    </tbody>
+                    <tbody></tbody>
                 </table>
+            </div>
+        </section>
+
+        <!-- Architecture Section -->
+        <section class="card architecture-section">
+            <h2>System Architecture</h2>
+            <div class="arch-grid">
+                <div class="arch-card">
+                    <div class="arch-icon">📡</div>
+                    <h3>Data Pipeline</h3>
+                    <p>Real OHLCV data from FBS MetaTrader 5 API — 10 instruments × 3 timeframes (M15, H1, H4) — Jan 2022 to May 2025</p>
+                </div>
+                <div class="arch-card">
+                    <div class="arch-icon">⚙️</div>
+                    <h3>Backtest Engine</h3>
+                    <p>Event-driven bar-by-bar simulation with realistic spread, commission ($7/lot), slippage, and position management</p>
+                </div>
+                <div class="arch-card">
+                    <div class="arch-icon">🛡️</div>
+                    <h3>Risk Layer</h3>
+                    <p>HWM Circuit Breaker (3% daily / 8% weekly / 15% monthly), Pearson Correlation Filter, Exposure Limits</p>
+                </div>
+                <div class="arch-card">
+                    <div class="arch-icon">🧠</div>
+                    <h3>20 Strategies</h3>
+                    <p>Trend Following, Breakout, Mean Reversion, Smart Money (ICT), Session-Based, Divergence — all regime-filtered</p>
+                </div>
+                <div class="arch-card">
+                    <div class="arch-icon">📊</div>
+                    <h3>Market Regime</h3>
+                    <p>5-state regime engine (Trend, Range, Expansion, Compression, Reversal) via ADX + ATR bitmask filtering</p>
+                </div>
+                <div class="arch-card">
+                    <div class="arch-icon">🏗️</div>
+                    <h3>Orchestrator</h3>
+                    <p>Portfolio-level coordination with inter-strategy correlation control and unified equity management</p>
+                </div>
             </div>
         </section>
     </main>
 
     <footer>
         <div class="container">
-            <p>Argus Panoptes V2.0 Dashboard &copy; 2026 LogicCrafterDz. For educational purposes only.</p>
+            <p>Argus Panoptes V2.0 Dashboard &copy; 2026 LogicCrafterDz. For educational purposes only. Past performance does not guarantee future results.</p>
         </div>
     </footer>
 
@@ -111,7 +164,10 @@
 
         function renderDashboard(data) {
             const port = data.portfolio;
-            
+
+            // Update strategy count dynamically
+            document.getElementById('stratCount').textContent = `Strategies: ${data.strategies.length}`;
+
             // KPIs
             const kpiGrid = document.getElementById('kpiGrid');
             kpiGrid.innerHTML = `
@@ -121,7 +177,7 @@
                 </div>
                 <div class="kpi-card">
                     <div class="kpi-title">Net Profit</div>
-                    <div class="kpi-value ${port.net_profit >= 0 ? 'positive' : 'negative'}">$${port.net_profit.toFixed(2)}</div>
+                    <div class="kpi-value ${port.net_profit >= 0 ? 'positive' : 'negative'}">$${port.net_profit.toLocaleString()}</div>
                 </div>
                 <div class="kpi-card">
                     <div class="kpi-title">Win Rate</div>
@@ -141,19 +197,27 @@
                 </div>
             `;
 
-            // Risk Metrics
+            // Risk Metrics Grid
             const riskMetrics = document.getElementById('riskMetrics');
             riskMetrics.innerHTML = `
-                <div class="risk-item"><span>Sharpe Ratio:</span> <strong>${port.sharpe_ratio}</strong></div>
-                <div class="risk-item"><span>Calmar Ratio:</span> <strong>${port.calmar_ratio}</strong></div>
-                <div class="risk-item"><span>Avg Win:</span> <strong class="positive">$${port.avg_win}</strong></div>
-                <div class="risk-item"><span>Avg Loss:</span> <strong class="negative">$${port.avg_loss}</strong></div>
+                <div class="risk-item"><span>Sharpe Ratio</span><strong>${port.sharpe_ratio}</strong></div>
+                <div class="risk-item"><span>Sortino Ratio</span><strong>${port.sortino_ratio || 'N/A'}</strong></div>
+                <div class="risk-item"><span>Calmar Ratio</span><strong>${port.calmar_ratio}</strong></div>
+                <div class="risk-item"><span>Max DD Duration</span><strong>${port.max_dd_duration || 'N/A'} bars</strong></div>
+                <div class="risk-item"><span>Avg Win</span><strong class="positive">$${port.avg_win}</strong></div>
+                <div class="risk-item"><span>Avg Loss</span><strong class="negative">$${port.avg_loss}</strong></div>
             `;
+
+            // Monthly Returns Heatmap
+            if (port.monthly_returns) {
+                renderMonthlyHeatmap(port.monthly_returns);
+            }
 
             // Strategy Table
             const stratTable = document.querySelector('#strategyTable tbody');
             let stratHtml = '';
             data.strategies.sort((a,b) => b.net_profit - a.net_profit).forEach(s => {
+                const profitClass = s.net_profit >= 0 ? 'positive' : 'negative';
                 stratHtml += `
                     <tr>
                         <td><strong>${s.name}</strong></td>
@@ -161,16 +225,19 @@
                         <td>${s.total_trades}</td>
                         <td>${s.win_rate}%</td>
                         <td>${s.profit_factor}</td>
-                        <td class="${s.net_profit >= 0 ? 'positive' : 'negative'}">$${s.net_profit.toFixed(2)}</td>
+                        <td class="${profitClass}">$${s.net_profit.toFixed(2)}</td>
                     </tr>
                 `;
             });
             stratTable.innerHTML = stratHtml;
 
-            // Journal Table
+            // Portfolio vs Top 5 comparison chart
+            renderComparisonChart(data);
+
+            // Trade Journal
             const journalTable = document.querySelector('#journalTable tbody');
             let journalHtml = '';
-            const recent = data.recent_trades.reverse(); // Newest first
+            const recent = data.recent_trades.slice().reverse();
             recent.forEach(t => {
                 journalHtml += `
                     <tr>
@@ -186,11 +253,18 @@
             });
             journalTable.innerHTML = journalHtml;
 
-            // Chart
+            // Equity Curve Chart
+            renderEquityChart(data);
+
+            // Drawdown Chart
+            renderDrawdownChart(data);
+        }
+
+        function renderEquityChart(data) {
             const ctx = document.getElementById('equityChart').getContext('2d');
             const dates = data.equity_curve.map(d => d.date);
             const equity = data.equity_curve.map(d => d.equity);
-            
+
             new Chart(ctx, {
                 type: 'line',
                 data: {
@@ -199,7 +273,7 @@
                         label: 'Portfolio Equity ($)',
                         data: equity,
                         borderColor: '#00f2fe',
-                        backgroundColor: 'rgba(0, 242, 254, 0.1)',
+                        backgroundColor: 'rgba(0, 242, 254, 0.08)',
                         borderWidth: 2,
                         pointRadius: 0,
                         fill: true,
@@ -209,18 +283,121 @@
                 options: {
                     responsive: true,
                     maintainAspectRatio: false,
-                    plugins: {
-                        legend: { display: false }
-                    },
+                    plugins: { legend: { display: false } },
                     scales: {
-                        y: {
-                            grid: { color: 'rgba(255, 255, 255, 0.05)' },
-                            ticks: { color: '#8b8b9e' }
-                        },
-                        x: {
-                            grid: { display: false },
-                            ticks: { color: '#8b8b9e', maxTicksLimit: 12 }
-                        }
+                        y: { grid: { color: 'rgba(255,255,255,0.05)' }, ticks: { color: '#8b8b9e', callback: v => '$' + v.toLocaleString() } },
+                        x: { grid: { display: false }, ticks: { color: '#8b8b9e', maxTicksLimit: 12 } }
+                    }
+                }
+            });
+        }
+
+        function renderDrawdownChart(data) {
+            const ctx = document.getElementById('drawdownChart').getContext('2d');
+            const dates = data.equity_curve.map(d => d.date);
+            const equity = data.equity_curve.map(d => d.equity);
+
+            let peak = equity[0];
+            const drawdown = equity.map(e => {
+                if (e > peak) peak = e;
+                return ((e - peak) / peak) * 100;
+            });
+
+            new Chart(ctx, {
+                type: 'line',
+                data: {
+                    labels: dates,
+                    datasets: [{
+                        label: 'Drawdown (%)',
+                        data: drawdown,
+                        borderColor: '#ff4d6a',
+                        backgroundColor: 'rgba(255, 77, 106, 0.15)',
+                        borderWidth: 1.5,
+                        pointRadius: 0,
+                        fill: true,
+                        tension: 0.1
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: { legend: { display: false } },
+                    scales: {
+                        y: { grid: { color: 'rgba(255,255,255,0.05)' }, ticks: { color: '#8b8b9e', callback: v => v.toFixed(1) + '%' } },
+                        x: { grid: { display: false }, ticks: { color: '#8b8b9e', maxTicksLimit: 12 } }
+                    }
+                }
+            });
+        }
+
+        function renderMonthlyHeatmap(monthlyReturns) {
+            const months = Object.keys(monthlyReturns).sort();
+            // Group by year
+            const years = {};
+            months.forEach(m => {
+                const [y, mo] = m.split('-');
+                if (!years[y]) years[y] = {};
+                years[y][parseInt(mo)] = monthlyReturns[m];
+            });
+
+            const headerRow = document.getElementById('monthlyHeader');
+            headerRow.innerHTML = '<th>Year</th>';
+            const monthNames = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
+            monthNames.forEach(n => { headerRow.innerHTML += `<th>${n}</th>`; });
+            headerRow.innerHTML += '<th>Total</th>';
+
+            const body = document.getElementById('monthlyBody');
+            body.innerHTML = '';
+            Object.keys(years).sort().forEach(year => {
+                let row = `<tr><td><strong>${year}</strong></td>`;
+                let yearTotal = 0;
+                for (let m = 1; m <= 12; m++) {
+                    const val = years[year][m];
+                    if (val !== undefined) {
+                        yearTotal += val;
+                        const cls = val >= 0 ? 'heatmap-positive' : 'heatmap-negative';
+                        const intensity = Math.min(Math.abs(val) / 5, 1);
+                        row += `<td class="${cls}" style="opacity: ${0.4 + intensity * 0.6}">${val.toFixed(1)}</td>`;
+                    } else {
+                        row += '<td class="heatmap-empty">—</td>';
+                    }
+                }
+                const totalCls = yearTotal >= 0 ? 'positive' : 'negative';
+                row += `<td class="${totalCls}"><strong>${yearTotal.toFixed(1)}</strong></td></tr>`;
+                body.innerHTML += row;
+            });
+        }
+
+        function renderComparisonChart(data) {
+            const ctx = document.getElementById('comparisonChart').getContext('2d');
+            const sorted = data.strategies.slice().sort((a,b) => b.net_profit - a.net_profit);
+            const top5 = sorted.slice(0, 5);
+
+            const labels = ['Portfolio', ...top5.map(s => s.name)];
+            const values = [data.portfolio.net_profit, ...top5.map(s => s.net_profit)];
+            const colors = ['#00f2fe', '#a855f7', '#10b981', '#f59e0b', '#ef4444', '#3b82f6'];
+
+            new Chart(ctx, {
+                type: 'bar',
+                data: {
+                    labels: labels,
+                    datasets: [{
+                        label: 'Net Profit ($)',
+                        data: values,
+                        backgroundColor: colors.map(c => c + '99'),
+                        borderColor: colors,
+                        borderWidth: 1.5,
+                        borderRadius: 6
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    indexAxis: 'y',
+                    plugins: { legend: { display: false } },
+                    scales: {
+                        x: { grid: { color: 'rgba(255,255,255,0.05)' }, ticks: { color: '#8b8b9e', callback: v => '$' + v.toLocaleString() } },
+                        y: { grid: { display: false }, ticks: { color: '#c0c0d0', font: { size: 11 } } }
                     }
                 }
             });
