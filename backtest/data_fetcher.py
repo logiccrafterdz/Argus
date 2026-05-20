@@ -18,7 +18,8 @@ DATE_TO = datetime(2025, 5, 1, tzinfo=timezone) # Or datetime.now() if before Ma
 DATA_DIR = os.path.join(os.path.dirname(__file__), "data")
 
 def init_mt5():
-    if not mt5.initialize():
+    mt5_path = r"C:\Program Files\STARTRADER Financial MetaTrader 5\terminal64.exe"
+    if not mt5.initialize(path=mt5_path):
         print(f"initialize() failed, error code = {mt5.last_error()}")
         return False
     print("MetaTrader 5 initialized successfully.")
