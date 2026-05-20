@@ -1,0 +1,218 @@
+:root {
+    --bg-color: #0a0a0f;
+    --card-bg: rgba(20, 20, 30, 0.6);
+    --border-color: rgba(255, 255, 255, 0.1);
+    --text-primary: #ffffff;
+    --text-secondary: #8b8b9e;
+    --accent: #00f2fe;
+    --positive: #00e676;
+    --negative: #ff3d00;
+}
+
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    font-family: 'Inter', sans-serif;
+    background-color: var(--bg-color);
+    color: var(--text-primary);
+    line-height: 1.6;
+    background-image: 
+        radial-gradient(circle at 15% 50%, rgba(0, 242, 254, 0.03), transparent 25%),
+        radial-gradient(circle at 85% 30%, rgba(138, 43, 226, 0.03), transparent 25%);
+}
+
+.banner {
+    background: linear-gradient(90deg, #ff9100, #ff3d00);
+    color: #fff;
+    text-align: center;
+    padding: 8px;
+    font-size: 0.9rem;
+    font-weight: 500;
+}
+
+.container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 20px;
+}
+
+header {
+    padding: 40px 0;
+    border-bottom: 1px solid var(--border-color);
+    margin-bottom: 40px;
+}
+
+.header-content {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+h1 {
+    font-size: 2rem;
+    font-weight: 700;
+    letter-spacing: -0.5px;
+    background: linear-gradient(90deg, #fff, #8b8b9e);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+}
+
+header p {
+    color: var(--text-secondary);
+    font-size: 1.1rem;
+    margin-top: 5px;
+}
+
+.stat-pill {
+    background: var(--card-bg);
+    border: 1px solid var(--border-color);
+    padding: 8px 16px;
+    border-radius: 20px;
+    font-size: 0.9rem;
+    display: inline-block;
+    margin-left: 10px;
+}
+
+.active {
+    color: var(--positive);
+    font-weight: 600;
+}
+
+.card {
+    background: var(--card-bg);
+    border: 1px solid var(--border-color);
+    border-radius: 12px;
+    padding: 24px;
+    backdrop-filter: blur(10px);
+    margin-bottom: 24px;
+}
+
+.card h2 {
+    font-size: 1.2rem;
+    margin-bottom: 20px;
+    font-weight: 600;
+    color: var(--text-primary);
+}
+
+.kpi-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+    gap: 20px;
+    margin-bottom: 40px;
+}
+
+.kpi-card {
+    background: var(--card-bg);
+    border: 1px solid var(--border-color);
+    border-radius: 12px;
+    padding: 20px;
+    text-align: center;
+    transition: transform 0.2s;
+}
+
+.kpi-card:hover {
+    transform: translateY(-5px);
+    border-color: rgba(0, 242, 254, 0.3);
+}
+
+.kpi-title {
+    color: var(--text-secondary);
+    font-size: 0.9rem;
+    margin-bottom: 10px;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+
+.kpi-value {
+    font-size: 1.8rem;
+    font-weight: 700;
+    font-family: 'JetBrains Mono', monospace;
+}
+
+.positive { color: var(--positive); }
+.negative { color: var(--negative); }
+
+.charts-row {
+    display: grid;
+    grid-template-columns: 2fr 1fr;
+    gap: 24px;
+    margin-bottom: 40px;
+}
+
+#equityChart {
+    height: 300px !important;
+}
+
+.risk-metrics {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+
+.risk-item {
+    display: flex;
+    justify-content: space-between;
+    padding: 15px;
+    background: rgba(255,255,255,0.02);
+    border-radius: 8px;
+    border: 1px solid var(--border-color);
+}
+
+.risk-item span { color: var(--text-secondary); }
+.risk-item strong { font-family: 'JetBrains Mono', monospace; }
+
+.table-responsive {
+    overflow-x: auto;
+}
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+th, td {
+    padding: 12px 15px;
+    text-align: left;
+    border-bottom: 1px solid var(--border-color);
+}
+
+th {
+    color: var(--text-secondary);
+    font-weight: 500;
+    text-transform: uppercase;
+    font-size: 0.85rem;
+    letter-spacing: 0.5px;
+}
+
+.badge {
+    padding: 4px 10px;
+    border-radius: 4px;
+    font-size: 0.8rem;
+    background: rgba(255,255,255,0.1);
+    color: var(--text-primary);
+}
+
+.badge.buy { background: rgba(0, 230, 118, 0.15); color: var(--positive); }
+.badge.sell { background: rgba(255, 61, 0, 0.15); color: var(--negative); }
+
+.font-mono {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.9rem;
+}
+
+footer {
+    text-align: center;
+    padding: 40px 0;
+    color: var(--text-secondary);
+    font-size: 0.9rem;
+}
+
+@media (max-width: 768px) {
+    .charts-row { grid-template-columns: 1fr; }
+    .header-content { flex-direction: column; align-items: flex-start; gap: 15px; }
+    .stat-pill { margin-left: 0; margin-right: 10px; }
+}

@@ -1,0 +1,232 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Argus Panoptes V2.0 | Evidence Dashboard</title>
+    <link rel="stylesheet" href="style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body>
+    <div class="banner">
+        ⚠️ <strong>Historical Backtest</strong> — Simulated OHLCV Data (Jan 2022 to May 2025)
+    </div>
+
+    <header>
+        <div class="container header-content">
+            <div>
+                <h1>👁️ ARGUS PANOPTES V2.0</h1>
+                <p>Institutional-Grade Algorithmic Trading Portfolio</p>
+            </div>
+            <div class="header-stats">
+                <div class="stat-pill">Status: <span class="active">ACTIVE</span></div>
+                <div class="stat-pill">Strategies: 20</div>
+            </div>
+        </div>
+    </header>
+
+    <main class="container">
+        <!-- KPIs -->
+        <section class="kpi-grid" id="kpiGrid">
+            <!-- Populated by JS -->
+        </section>
+
+        <!-- Charts Row -->
+        <section class="charts-row">
+            <div class="card chart-card">
+                <h2>Portfolio Equity Curve</h2>
+                <canvas id="equityChart"></canvas>
+            </div>
+            <div class="card chart-card">
+                <h2>Risk Analytics</h2>
+                <div class="risk-metrics" id="riskMetrics">
+                    <!-- Populated by JS -->
+                </div>
+            </div>
+        </section>
+
+        <!-- Strategy Matrix -->
+        <section class="card">
+            <h2>Strategy Performance Matrix</h2>
+            <div class="table-responsive">
+                <table id="strategyTable">
+                    <thead>
+                        <tr>
+                            <th>Strategy</th>
+                            <th>Category</th>
+                            <th>Trades</th>
+                            <th>Win Rate</th>
+                            <th>Profit Factor</th>
+                            <th>Net Profit</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <!-- Populated by JS -->
+                    </tbody>
+                </table>
+            </div>
+        </section>
+
+        <!-- Trade Journal -->
+        <section class="card">
+            <h2>Recent Trade Journal (Last 100)</h2>
+            <div class="table-responsive">
+                <table id="journalTable">
+                    <thead>
+                        <tr>
+                            <th>Ticket</th>
+                            <th>Time (Open)</th>
+                            <th>Time (Close)</th>
+                            <th>Symbol</th>
+                            <th>Strategy</th>
+                            <th>Type</th>
+                            <th>Profit</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <!-- Populated by JS -->
+                    </tbody>
+                </table>
+            </div>
+        </section>
+    </main>
+
+    <footer>
+        <div class="container">
+            <p>Argus Panoptes V2.0 Dashboard &copy; 2026 LogicCrafterDz. For educational purposes only.</p>
+        </div>
+    </footer>
+
+    <script>
+        async function loadData() {
+            try {
+                const response = await fetch('data/results.json');
+                const data = await response.json();
+                renderDashboard(data);
+            } catch (error) {
+                console.error("Failed to load results data", error);
+            }
+        }
+
+        function renderDashboard(data) {
+            const port = data.portfolio;
+            
+            // KPIs
+            const kpiGrid = document.getElementById('kpiGrid');
+            kpiGrid.innerHTML = `
+                <div class="kpi-card">
+                    <div class="kpi-title">Total Return</div>
+                    <div class="kpi-value ${port.total_return >= 0 ? 'positive' : 'negative'}">${port.total_return.toFixed(2)}%</div>
+                </div>
+                <div class="kpi-card">
+                    <div class="kpi-title">Net Profit</div>
+                    <div class="kpi-value ${port.net_profit >= 0 ? 'positive' : 'negative'}">$${port.net_profit.toFixed(2)}</div>
+                </div>
+                <div class="kpi-card">
+                    <div class="kpi-title">Win Rate</div>
+                    <div class="kpi-value">${port.win_rate.toFixed(2)}%</div>
+                </div>
+                <div class="kpi-card">
+                    <div class="kpi-title">Profit Factor</div>
+                    <div class="kpi-value">${port.profit_factor.toFixed(2)}</div>
+                </div>
+                <div class="kpi-card">
+                    <div class="kpi-title">Total Trades</div>
+                    <div class="kpi-value">${port.total_trades}</div>
+                </div>
+                <div class="kpi-card">
+                    <div class="kpi-title">Max Drawdown</div>
+                    <div class="kpi-value negative">${port.max_drawdown.toFixed(2)}%</div>
+                </div>
+            `;
+
+            // Risk Metrics
+            const riskMetrics = document.getElementById('riskMetrics');
+            riskMetrics.innerHTML = `
+                <div class="risk-item"><span>Sharpe Ratio:</span> <strong>${port.sharpe_ratio}</strong></div>
+                <div class="risk-item"><span>Calmar Ratio:</span> <strong>${port.calmar_ratio}</strong></div>
+                <div class="risk-item"><span>Avg Win:</span> <strong class="positive">$${port.avg_win}</strong></div>
+                <div class="risk-item"><span>Avg Loss:</span> <strong class="negative">$${port.avg_loss}</strong></div>
+            `;
+
+            // Strategy Table
+            const stratTable = document.querySelector('#strategyTable tbody');
+            let stratHtml = '';
+            data.strategies.sort((a,b) => b.net_profit - a.net_profit).forEach(s => {
+                stratHtml += `
+                    <tr>
+                        <td><strong>${s.name}</strong></td>
+                        <td><span class="badge">${s.category}</span></td>
+                        <td>${s.total_trades}</td>
+                        <td>${s.win_rate}%</td>
+                        <td>${s.profit_factor}</td>
+                        <td class="${s.net_profit >= 0 ? 'positive' : 'negative'}">$${s.net_profit.toFixed(2)}</td>
+                    </tr>
+                `;
+            });
+            stratTable.innerHTML = stratHtml;
+
+            // Journal Table
+            const journalTable = document.querySelector('#journalTable tbody');
+            let journalHtml = '';
+            const recent = data.recent_trades.reverse(); // Newest first
+            recent.forEach(t => {
+                journalHtml += `
+                    <tr>
+                        <td>#${t.ticket}</td>
+                        <td class="font-mono">${t.entry_time}</td>
+                        <td class="font-mono">${t.close_time}</td>
+                        <td><strong>${t.symbol}</strong></td>
+                        <td>${t.strategy}</td>
+                        <td><span class="badge ${t.type.toLowerCase()}">${t.type}</span></td>
+                        <td class="font-mono ${t.profit >= 0 ? 'positive' : 'negative'}">$${t.profit.toFixed(2)}</td>
+                    </tr>
+                `;
+            });
+            journalTable.innerHTML = journalHtml;
+
+            // Chart
+            const ctx = document.getElementById('equityChart').getContext('2d');
+            const dates = data.equity_curve.map(d => d.date);
+            const equity = data.equity_curve.map(d => d.equity);
+            
+            new Chart(ctx, {
+                type: 'line',
+                data: {
+                    labels: dates,
+                    datasets: [{
+                        label: 'Portfolio Equity ($)',
+                        data: equity,
+                        borderColor: '#00f2fe',
+                        backgroundColor: 'rgba(0, 242, 254, 0.1)',
+                        borderWidth: 2,
+                        pointRadius: 0,
+                        fill: true,
+                        tension: 0.1
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                        legend: { display: false }
+                    },
+                    scales: {
+                        y: {
+                            grid: { color: 'rgba(255, 255, 255, 0.05)' },
+                            ticks: { color: '#8b8b9e' }
+                        },
+                        x: {
+                            grid: { display: false },
+                            ticks: { color: '#8b8b9e', maxTicksLimit: 12 }
+                        }
+                    }
+                }
+            });
+        }
+
+        window.onload = loadData;
+    </script>
+</body>
+</html>
