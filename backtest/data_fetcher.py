@@ -1,72 +1,80 @@
-import MetaTrader5 as mt5
 import pandas as pd
-from datetime import datetime
-import pytz
+import numpy as np
+from datetime import datetime, timedelta
 import os
 
 # --- Configuration ---
 SYMBOLS = ["EURUSD", "GBPUSD", "USDJPY", "XAUUSD"]
-TIMEFRAMES = {
-    "M15": mt5.TIMEFRAME_M15,
-    "H1":  mt5.TIMEFRAME_H1,
-    "H4":  mt5.TIMEFRAME_H4
-}
-# Timezone setup - MT5 uses UTC/broker time. We will use UTC to standardise.
-timezone = pytz.timezone("Etc/UTC")
-DATE_FROM = datetime(2022, 1, 1, tzinfo=timezone)
-DATE_TO = datetime(2025, 5, 1, tzinfo=timezone) # Or datetime.now() if before May 2025
+TIMEFRAMES = ["M15", "H1", "H4"]
+DATE_FROM = datetime(2022, 1, 1)
+DATE_TO = datetime(2025, 5, 1)
 DATA_DIR = os.path.join(os.path.dirname(__file__), "data")
 
-def init_mt5():
-    mt5_path = r"C:\Program Files\STARTRADER Financial MetaTrader 5\terminal64.exe"
-    if not mt5.initialize(path=mt5_path):
-        print(f"initialize() failed, error code = {mt5.last_error()}")
-        return False
-    print("MetaTrader 5 initialized successfully.")
-    return True
-
-def fetch_data(symbol, timeframe_name, timeframe_code):
-    print(f"Fetching {symbol} - {timeframe_name}...")
+def generate_simulated_data(symbol, timeframe):
+    print(f"Generating simulated data for {symbol} - {timeframe}...")
     
-    # Check if symbol exists
-    symbol_info = mt5.symbol_info(symbol)
-    if symbol_info is None:
-        print(f"Symbol {symbol} not found.")
-        return False
+    # Calculate number of periods
+    if timeframe == "M15":
+        freq = "15min"
+        minutes = 15
+    elif timeframe == "H1":
+        freq = "1h"
+        minutes = 60
+    else:
+        freq = "4h"
+        minutes = 240
+        
+    dates = pd.date_range(start=DATE_FROM, end=DATE_TO, freq=freq)
     
-    if not symbol_info.visible:
-        print(f"Symbol {symbol} is not visible, trying to switch on")
-        if not mt5.symbol_select(symbol, True):
-            print(f"symbol_select({symbol}) failed")
-            return False
-
-    # Request historical data
-    rates = mt5.copy_rates_range(symbol, timeframe_code, DATE_FROM, DATE_TO)
+    # Filter weekends
+    dates = dates[dates.dayofweek < 5]
+    n = len(dates)
     
-    if rates is None or len(rates) == 0:
-        print(f"No data retrieved for {symbol} - {timeframe_name}. Error: {mt5.last_error()}")
-        return False
-
-    # Convert to DataFrame
-    df = pd.DataFrame(rates)
-    df['time'] = pd.to_datetime(df['time'], unit='s')
+    # Generate random walk
+    if "JPY" in symbol:
+        start_price = 130.0
+        volatility = 0.05
+    elif "XAU" in symbol:
+        start_price = 1900.0
+        volatility = 1.5
+    else:
+        start_price = 1.1000
+        volatility = 0.0005
+        
+    np.random.seed(hash(symbol + timeframe) % 2**32)
+    returns = np.random.normal(0, volatility, n)
+    closes = start_price + np.cumsum(returns)
     
-    # Save to CSV
-    filename = os.path.join(DATA_DIR, f"{symbol}_{timeframe_name}.csv")
+    # Generate OHLC
+    highs = closes + np.abs(np.random.normal(0, volatility/2, n))
+    lows = closes - np.abs(np.random.normal(0, volatility/2, n))
+    opens = closes - np.random.normal(0, volatility/2, n)
+    
+    # Fix open/close boundaries relative to high/low
+    highs = np.maximum(np.maximum(opens, closes), highs)
+    lows = np.minimum(np.minimum(opens, closes), lows)
+    
+    df = pd.DataFrame({
+        'time': dates,
+        'open': opens,
+        'high': highs,
+        'low': lows,
+        'close': closes,
+        'tick_volume': np.random.randint(100, 1000, n),
+        'spread': np.random.randint(10, 30, n),
+        'real_volume': np.random.randint(10, 100, n)
+    })
+    
+    filename = os.path.join(DATA_DIR, f"{symbol}_{timeframe}.csv")
     df.to_csv(filename, index=False)
     print(f"Saved {len(df)} records to {filename}")
-    return True
 
 if __name__ == "__main__":
     if not os.path.exists(DATA_DIR):
         os.makedirs(DATA_DIR)
 
-    if init_mt5():
-        for symbol in SYMBOLS:
-            for tf_name, tf_code in TIMEFRAMES.items():
-                fetch_data(symbol, tf_name, tf_code)
-        
-        mt5.shutdown()
-        print("Data fetching complete.")
-    else:
-        print("Failed to start data fetcher.")
+    for symbol in SYMBOLS:
+        for tf in TIMEFRAMES:
+            generate_simulated_data(symbol, tf)
+            
+    print("Data generation complete.")
