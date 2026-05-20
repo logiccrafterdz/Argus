@@ -1,0 +1,67 @@
+from .base_strategy import BaseStrategy
+import sys
+import os
+sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
+import numpy as np
+from market_structure import get_swing_highs, get_swing_lows
+
+class PriceActionSR(BaseStrategy):
+    def __init__(self):
+        super().__init__(
+            name="PriceAction_SR",
+            category="Price Action",
+            regime_mask=2 | 16, # RANGE | REVERSAL
+            session_mask=7
+        )
+        self.lookback = 100
+        self.buffer = 0.00050
+        
+    def prepare_data(self, df):
+        signals = []
+        sl_prices = []
+        tp_prices = []
+        
+        is_high = get_swing_highs(df, 3)
+        is_low = get_swing_lows(df, 3)
+        
+        start_idx = self.lookback
+        
+        for i in range(start_idx, len(df)):
+            close1 = df['close'].iloc[i-1]
+            
+            # Find closest support and resistance
+            recent_highs = [df['high'].iloc[j] for j in range(i-self.lookback, i-1) if is_high[j]]
+            recent_lows = [df['low'].iloc[j] for j in range(i-self.lookback, i-1) if is_low[j]]
+            
+            signal = 0
+            sl = np.nan
+            tp = np.nan
+            
+            if recent_highs and recent_lows:
+                res = min([h for h in recent_highs if h > close1], default=np.nan)
+                sup = max([l for l in recent_lows if l < close1], default=np.nan)
+                
+                # Reversal off support
+                if not np.isnan(sup) and close1 <= sup + self.buffer and df['close'].iloc[i-1] > df['open'].iloc[i-1]:
+                    signal = 1
+                    sl = sup - 0.00100
+                    tp = res if not np.isnan(res) else close1 + 0.00200
+                    
+                # Reversal off resistance
+                elif not np.isnan(res) and close1 >= res - self.buffer and df['close'].iloc[i-1] < df['open'].iloc[i-1]:
+                    signal = -1
+                    sl = res + 0.00100
+                    tp = sup if not np.isnan(sup) else close1 - 0.00200
+                    
+            signals.append(signal)
+            sl_prices.append(sl)
+            tp_prices.append(tp)
+
+        pad = [0] * start_idx
+        pad_nan = [np.nan] * start_idx
+        
+        df['signal'] = pad + signals
+        df['sl'] = pad_nan + sl_prices
+        df['tp'] = pad_nan + tp_prices
+        
+        return df
