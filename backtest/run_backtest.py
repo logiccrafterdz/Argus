@@ -71,17 +71,19 @@ def run_backtest():
         PDHPDLBreakReversal()
     ]
     
-    # For simplicity, we resample everything to a unified timeline (e.g. H1)
-    # In a real tick-by-tick or bar-by-bar engine we'd step through time.
-    # Here we'll create a master timeline from M15 and step through it.
-    
+    # Build master timeline from all available M15 data, plus H1 for symbols without M15
     master_timeline = None
     for symbol, tfs in data.items():
         if 'M15' in tfs:
-            if master_timeline is None:
-                master_timeline = pd.Series(index=tfs['M15'].index, dtype=float)
-            else:
-                master_timeline = master_timeline.combine_first(pd.Series(index=tfs['M15'].index, dtype=float))
+            idx = pd.Series(index=tfs['M15'].index, dtype=float)
+        elif 'H1' in tfs:
+            idx = pd.Series(index=tfs['H1'].index, dtype=float)
+        else:
+            continue
+        if master_timeline is None:
+            master_timeline = idx
+        else:
+            master_timeline = master_timeline.combine_first(idx)
                 
     master_timeline = master_timeline.sort_index()
     
@@ -124,10 +126,15 @@ def run_backtest():
         current_highs = {}
         current_lows = {}
         
-        # Get current state
+        # Get current state — prefer M15, fallback to H1
         for symbol, tfs in data.items():
             if 'M15' in tfs and current_time in tfs['M15'].index:
                 row = tfs['M15'].loc[current_time]
+                current_prices[symbol] = row['close']
+                current_highs[symbol] = row['high']
+                current_lows[symbol] = row['low']
+            elif 'H1' in tfs and current_time in tfs['H1'].index:
+                row = tfs['H1'].loc[current_time]
                 current_prices[symbol] = row['close']
                 current_highs[symbol] = row['high']
                 current_lows[symbol] = row['low']
@@ -152,27 +159,38 @@ def run_backtest():
             
         # Strategy Signals
         for symbol, tfs in precalc_data.items():
+            if symbol not in current_prices:
+                continue
             for tf, strat_data in tfs.items():
                 if tf == 'M15':
-                    if current_time not in data[symbol]['M15'].index: continue
+                    if 'M15' not in data[symbol] or current_time not in data[symbol]['M15'].index: continue
                 elif tf == 'H1':
-                    # Only execute on hour boundary
                     if current_time.minute != 0: continue
-                    if current_time not in data[symbol]['H1'].index: continue
+                    if 'H1' not in data[symbol] or current_time not in data[symbol]['H1'].index: continue
+                elif tf == 'H4':
+                    if current_time.minute != 0 or current_time.hour % 4 != 0: continue
+                    if 'H4' not in data[symbol] or current_time not in data[symbol]['H4'].index: continue
                 
                 for strat in strategies:
                     if strat.name not in strat_data: continue
                     if not strat.check_regime(c_regime) or not strat.check_session(c_session): continue
                     
-                    row = strat_data[strat.name].loc[current_time]
+                    try:
+                        row = strat_data[strat.name].loc[current_time]
+                    except KeyError:
+                        continue
+                        
                     if row['signal'] == 1:
                         risk_dist = current_prices[symbol] - row['sl']
-                        # Approx 1 pip = 0.0001
-                        lot = engine.risk_manager.calculate_lot_size(symbol, 1.0, risk_dist / 0.00001, engine.equity)
+                        if risk_dist <= 0 or pd.isna(risk_dist): continue
+                        pip_val = 0.01 if 'JPY' in symbol or 'XAU' in symbol else 0.00001
+                        lot = engine.risk_manager.calculate_lot_size(symbol, 1.0, risk_dist / pip_val, engine.equity)
                         engine.execute_trade(symbol, strat.name, 'BUY', lot, current_prices[symbol], row['sl'], row['tp'], "Buy Signal")
                     elif row['signal'] == -1:
                         risk_dist = row['sl'] - current_prices[symbol]
-                        lot = engine.risk_manager.calculate_lot_size(symbol, 1.0, risk_dist / 0.00001, engine.equity)
+                        if risk_dist <= 0 or pd.isna(risk_dist): continue
+                        pip_val = 0.01 if 'JPY' in symbol or 'XAU' in symbol else 0.00001
+                        lot = engine.risk_manager.calculate_lot_size(symbol, 1.0, risk_dist / pip_val, engine.equity)
                         engine.execute_trade(symbol, strat.name, 'SELL', lot, current_prices[symbol], row['sl'], row['tp'], "Sell Signal")
                         
     # End of backtest, close all
