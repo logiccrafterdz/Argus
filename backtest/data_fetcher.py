@@ -23,6 +23,11 @@ def init_mt5():
     return True
 
 def fetch_data(symbol, timeframe_name, mt5_timeframe):
+    filename = os.path.join(DATA_DIR, f"{symbol}_{timeframe_name}.csv")
+    if os.path.exists(filename):
+        print(f"Skipping {symbol} - {timeframe_name}, file already exists.")
+        return
+        
     print(f"Fetching {symbol} - {timeframe_name}...")
     rates = mt5.copy_rates_range(symbol, mt5_timeframe, DATE_FROM, DATE_TO)
     if rates is None:
