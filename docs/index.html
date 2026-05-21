@@ -109,37 +109,31 @@
                 </div>
                 <div class="arch-flow">
                     <div class="arch-node">
-                        <div class="arch-node-icon">📡</div>
                         <h4>Data Pipeline</h4>
                         <p>Real OHLCV from MT5 — 10 instruments × 3 timeframes (M15, H1, H4)</p>
                     </div>
                     <div class="arch-arrow">→</div>
                     <div class="arch-node">
-                        <div class="arch-node-icon">🧠</div>
                         <h4>Strategy Layer</h4>
                         <p>20 EAs across Trend, Breakout, Mean Reversion, SMC, Session, Divergence</p>
                     </div>
                     <div class="arch-arrow">→</div>
                     <div class="arch-node">
-                        <div class="arch-node-icon">⚙️</div>
                         <h4>Shared Core</h4>
                         <p>Logging, telemetry, trade journal, unified architecture</p>
                     </div>
                     <div class="arch-arrow">→</div>
                     <div class="arch-node" style="border-color: var(--accent-teal);">
-                        <div class="arch-node-icon">👁️</div>
                         <h4>Orchestrator</h4>
                         <p>Central coordination, regime filtering, correlation control</p>
                     </div>
                     <div class="arch-arrow">→</div>
                     <div class="arch-node">
-                        <div class="arch-node-icon">🛡️</div>
                         <h4>Risk Governors</h4>
                         <p>HWM breaker, exposure limits, news blockade, prop firm mode</p>
                     </div>
                     <div class="arch-arrow">→</div>
                     <div class="arch-node">
-                        <div class="arch-node-icon">📊</div>
                         <h4>Evidence Layer</h4>
                         <p>Analytics, equity curves, drawdown, correlation, journal</p>
                     </div>
@@ -158,7 +152,6 @@
                 <div class="risk-grid">
                     <div class="risk-card">
                         <div class="risk-card-header">
-                            <div class="risk-card-icon shield">🛡️</div>
                             <h4>High Water Mark Breaker</h4>
                         </div>
                         <p>Multi-timeframe circuit breaker: 3% daily, 8% weekly, 15% monthly drawdown limits. Trading halts automatically when thresholds are breached.</p>
@@ -166,7 +159,6 @@
                     </div>
                     <div class="risk-card">
                         <div class="risk-card-header">
-                            <div class="risk-card-icon correl">🔗</div>
                             <h4>Pearson Correlation Filter</h4>
                         </div>
                         <p>Prevents opening trades on instruments with correlation > 0.8 to existing positions. Eliminates hidden concentration risk.</p>
@@ -174,7 +166,6 @@
                     </div>
                     <div class="risk-card">
                         <div class="risk-card-header">
-                            <div class="risk-card-icon alert">📋</div>
                             <h4>Exposure Limits</h4>
                         </div>
                         <p>Maximum 2 concurrent positions per instrument. Lot sizing dynamically calculated based on risk distance and account equity.</p>
@@ -182,7 +173,6 @@
                     </div>
                     <div class="risk-card">
                         <div class="risk-card-header">
-                            <div class="risk-card-icon alert">📰</div>
                             <h4>News Blockade</h4>
                         </div>
                         <p>Prop firm mode blocks trading during high-impact news windows: US early/mid news, FOMC, NFP releases.</p>
@@ -190,7 +180,6 @@
                     </div>
                     <div class="risk-card">
                         <div class="risk-card-header">
-                            <div class="risk-card-icon shield">⏰</div>
                             <h4>Session Enforcement</h4>
                         </div>
                         <p>Strategies are filtered by session: Asian, London, NY. Weekend closure auto-closes all positions Friday 20:00 UTC.</p>
@@ -198,7 +187,6 @@
                     </div>
                     <div class="risk-card">
                         <div class="risk-card-header">
-                            <div class="risk-card-icon shield">⚖️</div>
                             <h4>Break-Even + Partial Close</h4>
                         </div>
                         <p>SL moves to entry at 1R profit. 50% position closes at 1.5R. Protects capital while letting winners run.</p>
