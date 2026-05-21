@@ -298,12 +298,22 @@
                     <p class="text-body">Identifies overlapping risk exposure between strategies. Values > 0.7 indicate potential concentration.</p>
                 </div>
                 <div class="panel">
-                    <div class="table-wrapper">
-                        <table class="data-table corr-table" id="correlationTable">
-                            <thead><tr id="corrHeader"></tr></thead>
-                            <tbody id="corrBody"></tbody>
-                        </table>
+                    <div class="corr-legend">
+                        <span class="corr-legend-item"><span class="corr-legend-swatch" style="background: rgba(220, 38, 38, 0.4);"></span> High (&gt;0.7)</span>
+                        <span class="corr-legend-item"><span class="corr-legend-swatch" style="background: rgba(255, 255, 255, 0.08);"></span> Moderate</span>
+                        <span class="corr-legend-item"><span class="corr-legend-swatch" style="background: rgba(22, 163, 74, 0.3);"></span> Negative</span>
+                        <span class="corr-legend-item"><span class="corr-legend-swatch" style="background: rgba(14, 165, 160, 0.3);"></span> Self (1.0)</span>
                     </div>
+                    <div class="heatmap-wrapper" id="corrHeatmap"></div>
+                    <details style="margin-top: var(--sp-4);">
+                        <summary class="text-small" style="color: var(--text-muted); cursor: pointer;">View raw correlation table</summary>
+                        <div class="table-wrapper" style="margin-top: var(--sp-3);">
+                            <table class="data-table corr-table" id="correlationTable">
+                                <thead><tr id="corrHeader"></tr></thead>
+                                <tbody id="corrBody"></tbody>
+                            </table>
+                        </div>
+                    </details>
                 </div>
             </div>
         </section>
@@ -746,37 +756,80 @@
                 return;
             }
 
-            const headerRow = document.getElementById('corrHeader');
-            const body = document.getElementById('corrBody');
-            if (!headerRow || !body) return;
-
             const strategies = Object.keys(corrMatrix);
-            headerRow.innerHTML = '<th>Strategy</th>';
+            const n = strategies.length;
+            const cellSize = 'minmax(32px, 1fr)';
+            const gridTemplate = '120px ' + 'repeat(' + n + ', ' + cellSize + ')';
+
+            const wrapper = document.getElementById('corrHeatmap');
+            if (!wrapper) return;
+
+            let html = '<div class="corr-heatmap" style="grid-template-columns: ' + gridTemplate + ';">';
+
+            // Corner cell
+            html += '<div class="corr-corner"></div>';
+
+            // Column headers
             strategies.forEach(s => {
-                headerRow.innerHTML += '<th class="corr-header-cell"><span>' + s.replace(/_/g, ' ') + '</span></th>';
+                html += '<div class="corr-cell-header">' + s.replace(/_/g, ' ') + '</div>';
             });
 
-            body.innerHTML = '';
+            // Rows
             strategies.forEach(rowStrat => {
-                let row = '<tr><td style="color: var(--text-secondary); font-weight: 600; font-size: 0.75rem;">' + rowStrat.replace(/_/g, ' ') + '</td>';
+                // Row label
+                html += '<div class="corr-cell-label" title="' + rowStrat.replace(/_/g, ' ') + '">' + rowStrat.replace(/_/g, ' ') + '</div>';
+
                 strategies.forEach(colStrat => {
                     const val = corrMatrix[rowStrat][colStrat];
                     const absVal = Math.abs(val);
                     let bgStyle;
                     if (rowStrat === colStrat) {
-                        bgStyle = 'background: rgba(14, 165, 160, 0.15); color: #0ea5a0;';
+                        bgStyle = 'background: rgba(14, 165, 160, 0.25); color: #0ea5a0;';
                     } else if (val >= 0.7) {
-                        bgStyle = 'background: rgba(220, 38, 38, ' + (absVal * 0.2) + '); color: #fca5a5;';
+                        bgStyle = 'background: rgba(220, 38, 38, ' + (0.15 + absVal * 0.25) + '); color: #fca5a5;';
                     } else if (val <= -0.3) {
-                        bgStyle = 'background: rgba(22, 163, 74, ' + (absVal * 0.15) + '); color: #86efac;';
+                        bgStyle = 'background: rgba(22, 163, 74, ' + (0.1 + absVal * 0.2) + '); color: #86efac;';
                     } else {
-                        bgStyle = 'background: rgba(255, 255, 255, ' + (absVal * 0.04) + '); color: #8a8a9e;';
+                        bgStyle = 'background: rgba(255, 255, 255, ' + (0.02 + absVal * 0.06) + '); color: #8a8a9e;';
                     }
-                    row += '<td style="' + bgStyle + '">' + val.toFixed(2) + '</td>';
+                    html += '<div class="corr-cell" style="' + bgStyle + '" title="' + rowStrat + ' vs ' + colStrat + ': ' + val.toFixed(2) + '">' + val.toFixed(2) + '</div>';
                 });
-                row += '</tr>';
-                body.innerHTML += row;
             });
+
+            html += '</div>';
+            wrapper.innerHTML = html;
+
+            // Also render the raw table (hidden in details)
+            const headerRow = document.getElementById('corrHeader');
+            const body = document.getElementById('corrBody');
+            if (headerRow && body) {
+                headerRow.innerHTML = '<th>Strategy</th>';
+                strategies.forEach(s => {
+                    headerRow.innerHTML += '<th class="corr-header-cell"><span>' + s.replace(/_/g, ' ') + '</span></th>';
+                });
+
+                body.innerHTML = '';
+                strategies.forEach(rowStrat => {
+                    let row = '<tr><td style="color: var(--text-secondary); font-weight: 600; font-size: 0.75rem;">' + rowStrat.replace(/_/g, ' ') + '</td>';
+                    strategies.forEach(colStrat => {
+                        const val = corrMatrix[rowStrat][colStrat];
+                        const absVal = Math.abs(val);
+                        let bgStyle;
+                        if (rowStrat === colStrat) {
+                            bgStyle = 'background: rgba(14, 165, 160, 0.15); color: #0ea5a0;';
+                        } else if (val >= 0.7) {
+                            bgStyle = 'background: rgba(220, 38, 38, ' + (absVal * 0.2) + '); color: #fca5a5;';
+                        } else if (val <= -0.3) {
+                            bgStyle = 'background: rgba(22, 163, 74, ' + (absVal * 0.15) + '); color: #86efac;';
+                        } else {
+                            bgStyle = 'background: rgba(255, 255, 255, ' + (absVal * 0.04) + '); color: #8a8a9e;';
+                        }
+                        row += '<td style="' + bgStyle + '">' + val.toFixed(2) + '</td>';
+                    });
+                    row += '</tr>';
+                    body.innerHTML += row;
+                });
+            }
         }
 
         // Journal pagination state

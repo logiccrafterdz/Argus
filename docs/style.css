@@ -768,7 +768,98 @@ body {
   opacity: 0.3;
 }
 
-/* ─── Correlation Matrix ─── */
+/* ─── Correlation Heatmap ─── */
+.corr-legend {
+  display: flex;
+  gap: var(--sp-4);
+  margin-bottom: var(--sp-4);
+  flex-wrap: wrap;
+}
+
+.corr-legend-item {
+  display: flex;
+  align-items: center;
+  gap: var(--sp-2);
+  font-size: 0.75rem;
+  color: var(--text-muted);
+}
+
+.corr-legend-swatch {
+  width: 16px;
+  height: 16px;
+  border-radius: var(--radius-sm);
+  border: 1px solid var(--border-subtle);
+}
+
+.heatmap-wrapper {
+  overflow-x: auto;
+  padding: var(--sp-2) 0;
+}
+
+.corr-heatmap {
+  display: grid;
+  gap: 2px;
+}
+
+.corr-cell {
+  aspect-ratio: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: var(--font-mono);
+  font-size: 0.625rem;
+  border-radius: var(--radius-sm);
+  min-width: 32px;
+  transition: transform var(--duration-fast) var(--ease-out);
+  cursor: default;
+}
+
+.corr-cell:hover {
+  transform: scale(1.15);
+  z-index: 1;
+  position: relative;
+}
+
+.corr-cell-label {
+  font-family: var(--font-body);
+  font-size: 0.688rem;
+  color: var(--text-secondary);
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  padding-right: var(--sp-2);
+  white-space: nowrap;
+  max-width: 120px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.corr-cell-header {
+  font-family: var(--font-body);
+  font-size: 0.625rem;
+  color: var(--text-muted);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  min-width: 32px;
+  writing-mode: vertical-lr;
+  transform: rotate(180deg);
+  height: 80px;
+}
+
+.corr-corner {
+  width: 120px;
+  flex-shrink: 0;
+}
+
+details summary {
+  color: var(--text-muted);
+  cursor: pointer;
+  font-size: 0.813rem;
+}
+
+/* ─── Correlation Table (hidden in details) ─── */
 .corr-table td,
 .corr-table th {
   text-align: center;
