@@ -26,7 +26,7 @@ class AsianRangeFakeout(BaseStrategy):
         fakeout_dn = False
         
         for i in range(len(df)):
-            t = df.index[i]
+            t = df['time'].iloc[i]
             
             # Asian Session roughly 00:00 to 08:00
             if t.hour == 0 and t.minute == 0:

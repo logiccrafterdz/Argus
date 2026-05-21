@@ -28,7 +28,7 @@ class ORBHybrid(BaseStrategy):
         traded_today = False
         
         for i in range(len(df)):
-            t = df.index[i]
+            t = df['time'].iloc[i]
             
             if t.hour == 8 and t.minute == 0:
                 orb_high = df['high'].iloc[i]

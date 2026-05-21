@@ -123,7 +123,10 @@ def VWAP(df):
     v = df['tick_volume']
     tp = (df['high'] + df['low'] + df['close']) / 3
     # Daily VWAP typically resets each day
-    df['date'] = df.index.date
+    if isinstance(df.index, pd.DatetimeIndex):
+        df['date'] = df.index.date
+    else:
+        df['date'] = df['time'].apply(lambda x: x.date())
     vwap = (tp * v).groupby(df['date']).cumsum() / v.groupby(df['date']).cumsum()
     return vwap
 

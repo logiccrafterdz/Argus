@@ -2,7 +2,7 @@ from .base_strategy import BaseStrategy
 import sys
 import os
 sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
-from market_structure import get_liquidity_pools
+from market_structure import get_liquidity_pools, precompute_swings
 import numpy as np
 
 class LiquiditySweepFVG(BaseStrategy):
@@ -17,6 +17,9 @@ class LiquiditySweepFVG(BaseStrategy):
         self.threshold = 0.00050
         
     def prepare_data(self, df):
+        # Precompute swing arrays once
+        swing_highs, swing_lows = precompute_swings(df)
+        
         signals = []
         sl_prices = []
         tp_prices = []
@@ -41,7 +44,7 @@ class LiquiditySweepFVG(BaseStrategy):
                 fvg_bearish = True
                 fvg_price_high = df['low'].iloc[i-3]
 
-            liq_high, liq_low = get_liquidity_pools(df, i, self.lookback, 2, self.threshold)
+            liq_high, liq_low = get_liquidity_pools(df, i, self.lookback, 2, self.threshold, swing_highs, swing_lows)
             
             signal = 0
             sl = np.nan

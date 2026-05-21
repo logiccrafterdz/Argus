@@ -34,9 +34,21 @@ def get_recent_swing(df, is_swing_series, index, lookback, price_col):
             return df[price_col].iloc[i]
     return np.nan
 
-def is_bullish_structure(df, index, lookback=30, radius=2):
+def precompute_swings(df, radius=2):
+    """Precompute swing high and low arrays for the entire dataframe.
+    Call once per backtest run to avoid recomputing on every index.
+    Returns (swing_highs, swing_lows) as numpy boolean arrays.
+    """
+    swing_highs = get_swing_highs(df, radius)
+    swing_lows = get_swing_lows(df, radius)
+    return swing_highs, swing_lows
+
+def is_bullish_structure(df, index, lookback=30, radius=2, swing_lows=None):
     # Higher highs and higher lows
-    is_low = get_swing_lows(df, radius)
+    if swing_lows is None:
+        is_low = get_swing_lows(df, radius)
+    else:
+        is_low = swing_lows
     start_idx = max(0, index - lookback)
     
     lows = []
@@ -50,9 +62,12 @@ def is_bullish_structure(df, index, lookback=30, radius=2):
         return lows[0] > lows[1] # Last low > Previous low
     return False
 
-def is_bearish_structure(df, index, lookback=30, radius=2):
+def is_bearish_structure(df, index, lookback=30, radius=2, swing_highs=None):
     # Lower highs and lower lows
-    is_high = get_swing_highs(df, radius)
+    if swing_highs is None:
+        is_high = get_swing_highs(df, radius)
+    else:
+        is_high = swing_highs
     start_idx = max(0, index - lookback)
     
     highs = []
@@ -66,9 +81,15 @@ def is_bearish_structure(df, index, lookback=30, radius=2):
         return highs[0] < highs[1] # Last high < Previous high
     return False
 
-def get_liquidity_pools(df, index, lookback=50, radius=2, threshold_points=0.00050):
-    is_high = get_swing_highs(df, radius)
-    is_low = get_swing_lows(df, radius)
+def get_liquidity_pools(df, index, lookback=50, radius=2, threshold_points=0.00050, swing_highs=None, swing_lows=None):
+    if swing_highs is None:
+        is_high = get_swing_highs(df, radius)
+    else:
+        is_high = swing_highs
+    if swing_lows is None:
+        is_low = get_swing_lows(df, radius)
+    else:
+        is_low = swing_lows
     
     start_idx = max(0, index - lookback)
     

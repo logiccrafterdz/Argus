@@ -15,7 +15,7 @@ class PDHPDLBreakReversal(BaseStrategy):
         
     def prepare_data(self, df):
         # We need daily high/low. Since df is intraday, we groupby date.
-        df['date'] = df.index.date
+        df['date'] = df['time'].apply(lambda x: x.date())
         
         signals = []
         sl_prices = []
@@ -26,7 +26,7 @@ class PDHPDLBreakReversal(BaseStrategy):
         daily_lows = {}
         
         for i in range(len(df)):
-            t = df.index[i]
+            t = df['time'].iloc[i]
             d = t.date()
             
             if d not in daily_highs:
@@ -41,8 +41,8 @@ class PDHPDLBreakReversal(BaseStrategy):
             tp = np.nan
             
             if i > 50:
-                prev_d = df.index[i-1].date()
-                curr_d = df.index[i].date()
+                prev_d = df['time'].iloc[i-1].date()
+                curr_d = df['time'].iloc[i].date()
                 
                 # Find previous day
                 unique_dates = list(daily_highs.keys())

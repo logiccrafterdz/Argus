@@ -24,7 +24,7 @@ class NYSessionReversal(BaseStrategy):
         traded_today = False
         
         for i in range(len(df)):
-            t = df.index[i]
+            t = df['time'].iloc[i]
             
             # London Session 08:00 to 13:00 (before NY)
             if t.hour == 8 and t.minute == 0:

@@ -3,7 +3,7 @@ import sys
 import os
 sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 from indicators import EMA
-from market_structure import is_bullish_structure, is_bearish_structure
+from market_structure import is_bullish_structure, is_bearish_structure, precompute_swings
 import numpy as np
 
 class TrendPullback(BaseStrategy):
@@ -22,6 +22,9 @@ class TrendPullback(BaseStrategy):
     def prepare_data(self, df):
         df['fast_ema'] = EMA(df['close'], self.fast_ema_period)
         df['slow_ema'] = EMA(df['close'], self.slow_ema_period)
+        
+        # Precompute swing arrays once
+        swing_highs, swing_lows = precompute_swings(df)
         
         signals = []
         sl_prices = []
@@ -44,8 +47,8 @@ class TrendPullback(BaseStrategy):
             ema_bias_up = (fast_ema_1 > slow_ema_1) and (slow_ema_1 > slow_ema_2)
             ema_bias_dn = (fast_ema_1 < slow_ema_1) and (slow_ema_1 < slow_ema_2)
             
-            structure_up = is_bullish_structure(df, i, self.market_structure_period)
-            structure_dn = is_bearish_structure(df, i, self.market_structure_period)
+            structure_up = is_bullish_structure(df, i, self.market_structure_period, swing_lows=swing_lows)
+            structure_dn = is_bearish_structure(df, i, self.market_structure_period, swing_highs=swing_highs)
             
             is_uptrend = ema_bias_up and structure_up
             is_downtrend = ema_bias_dn and structure_dn

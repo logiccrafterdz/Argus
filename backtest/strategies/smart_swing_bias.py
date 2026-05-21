@@ -3,7 +3,7 @@ import sys
 import os
 sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 import numpy as np
-from market_structure import is_bullish_structure, is_bearish_structure
+from market_structure import is_bullish_structure, is_bearish_structure, precompute_swings
 
 class SmartSwingBias(BaseStrategy):
     def __init__(self):
@@ -16,6 +16,9 @@ class SmartSwingBias(BaseStrategy):
         self.lookback = 40
         
     def prepare_data(self, df):
+        # Precompute swing arrays once
+        swing_highs, swing_lows = precompute_swings(df)
+        
         signals = []
         sl_prices = []
         tp_prices = []
@@ -28,11 +31,11 @@ class SmartSwingBias(BaseStrategy):
             tp = np.nan
             
             # Simple Multi-TF approximation: check structure on large lookback and small lookback
-            bull_htf = is_bullish_structure(df, i, self.lookback*2)
-            bull_ltf = is_bullish_structure(df, i, self.lookback)
+            bull_htf = is_bullish_structure(df, i, self.lookback*2, swing_lows=swing_lows)
+            bull_ltf = is_bullish_structure(df, i, self.lookback, swing_lows=swing_lows)
             
-            bear_htf = is_bearish_structure(df, i, self.lookback*2)
-            bear_ltf = is_bearish_structure(df, i, self.lookback)
+            bear_htf = is_bearish_structure(df, i, self.lookback*2, swing_highs=swing_highs)
+            bear_ltf = is_bearish_structure(df, i, self.lookback, swing_highs=swing_highs)
             
             close1 = df['close'].iloc[i-1]
             close2 = df['close'].iloc[i-2]
