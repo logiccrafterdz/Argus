@@ -965,6 +965,39 @@ details summary {
   border-bottom: none;
 }
 
+/* ─── Parameter Grid ─── */
+.param-grid {
+  display: flex;
+  flex-direction: column;
+  gap: var(--sp-2);
+}
+
+.param-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  padding: var(--sp-2) 0;
+  border-bottom: 1px solid var(--border-subtle);
+  gap: var(--sp-3);
+}
+
+.param-row:last-child {
+  border-bottom: none;
+}
+
+.param-label {
+  font-size: 0.813rem;
+  color: var(--text-muted);
+  flex-shrink: 0;
+}
+
+.param-value {
+  font-family: var(--font-mono);
+  font-size: 0.813rem;
+  color: var(--text-primary);
+  text-align: right;
+}
+
 /* ─── Footer ─── */
 .site-footer {
   border-top: 1px solid var(--border-subtle);

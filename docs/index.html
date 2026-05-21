@@ -377,34 +377,42 @@
                 <div class="method-grid">
                     <div class="method-card">
                         <h4>Data Source</h4>
-                        <ul>
-                            <li>Broker: FBS MetaTrader 5</li>
-                            <li>Instruments: EURUSD, GBPUSD, USDJPY, XAUUSD, USDCHF, AUDUSD, USDCAD, NZDUSD, US30, NAS100</li>
-                            <li>Timeframes: M15, H1, H4</li>
-                            <li>Period: January 2022 — May 2025</li>
-                        </ul>
+                        <div class="param-grid">
+                            <div class="param-row"><span class="param-label">Broker</span><span class="param-value">FBS MetaTrader 5</span></div>
+                            <div class="param-row"><span class="param-label">Instruments</span><span class="param-value">10 (Forex + Gold + Indices)</span></div>
+                            <div class="param-row"><span class="param-label">Timeframes</span><span class="param-value">M15, H1, H4</span></div>
+                            <div class="param-row"><span class="param-label">Period</span><span class="param-value">Jan 2022 — May 2025</span></div>
+                        </div>
                     </div>
                     <div class="method-card">
                         <h4>Execution Model</h4>
-                        <ul>
-                            <li>Spread: 1.5 pips (JPY pairs: 15 points)</li>
-                            <li>Commission: $7.00 per lot (round turn)</li>
-                            <li>Slippage: Included in spread model</li>
-                            <li>Bar-by-bar event-driven simulation</li>
-                        </ul>
+                        <div class="param-grid">
+                            <div class="param-row"><span class="param-label">Spread</span><span class="param-value">1.5 pips (JPY: 15 pts)</span></div>
+                            <div class="param-row"><span class="param-label">Commission</span><span class="param-value">$7.00 / lot round turn</span></div>
+                            <div class="param-row"><span class="param-label">Slippage</span><span class="param-value">Included in spread</span></div>
+                            <div class="param-row"><span class="param-label">Simulation</span><span class="param-value">Bar-by-bar event-driven</span></div>
+                        </div>
                     </div>
                     <div class="method-card">
                         <h4>Risk Parameters</h4>
-                        <ul>
-                            <li>Initial Balance: $100,000</li>
-                            <li>Risk per Trade: 1% of equity</li>
-                            <li>Max Exposure: 2 positions per symbol</li>
-                            <li>HWM Breaker: 3% daily / 8% weekly / 15% monthly</li>
-                            <li>Correlation Threshold: 0.8</li>
-                            <li>Break-Even: Triggered at 1R</li>
-                            <li>Partial Close: 50% at 1.5R</li>
-                        </ul>
+                        <div class="param-grid">
+                            <div class="param-row"><span class="param-label">Initial Balance</span><span class="param-value">$100,000</span></div>
+                            <div class="param-row"><span class="param-label">Risk / Trade</span><span class="param-value">1% of equity</span></div>
+                            <div class="param-row"><span class="param-label">Max Exposure</span><span class="param-value">2 positions / symbol</span></div>
+                            <div class="param-row"><span class="param-label">HWM Breaker</span><span class="param-value">3% daily / 8% weekly / 15% monthly</span></div>
+                            <div class="param-row"><span class="param-label">Correlation</span><span class="param-value">Threshold 0.8</span></div>
+                            <div class="param-row"><span class="param-label">Break-Even</span><span class="param-value">Triggered at 1R</span></div>
+                            <div class="param-row"><span class="param-label">Partial Close</span><span class="param-value">50% at 1.5R</span></div>
+                        </div>
                     </div>
+                </div>
+                <div class="methodology-disclaimer" style="margin-top: var(--sp-6); padding: var(--sp-4); background: var(--bg-raised); border: 1px solid var(--border-subtle); border-radius: var(--radius-md);">
+                    <p class="text-small" style="color: var(--text-muted);">
+                        <strong style="color: var(--warning);">Disclaimer:</strong>
+                        All results shown are from historical backtest simulation only. They do not represent live trading performance.
+                        Past performance does not guarantee future results. Spread, slippage, and market conditions in live trading may differ significantly.
+                        This dashboard is for educational and research purposes only.
+                    </p>
                 </div>
             </div>
         </section>
