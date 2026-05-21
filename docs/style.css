@@ -765,6 +765,25 @@ body {
   color: var(--danger);
 }
 
+/* ─── Glossary ─── */
+.glossary-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: var(--sp-2) var(--sp-4);
+}
+
+.glossary-item {
+  font-size: 0.813rem;
+  color: var(--text-secondary);
+}
+
+.glossary-term {
+  font-family: var(--font-mono);
+  font-weight: 600;
+  color: var(--text-primary);
+  margin-right: var(--sp-1);
+}
+
 /* ─── Monthly Heatmap ─── */
 .heatmap-table td,
 .heatmap-table th {
