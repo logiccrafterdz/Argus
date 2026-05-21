@@ -23,10 +23,11 @@ class BacktestEngine:
             symbol = pos['symbol']
             if symbol in current_prices:
                 current_price = current_prices[symbol]
+                lots = pos['remaining_lots']
                 if pos['type'] == 'BUY':
-                    profit = (current_price - pos['entry_price']) * pos['lot_size'] * 100000 # simplified pnl
+                    profit = (current_price - pos['entry_price']) * lots * 100000
                 else:
-                    profit = (pos['entry_price'] - current_price) * pos['lot_size'] * 100000
+                    profit = (pos['entry_price'] - current_price) * lots * 100000
                 equity += profit
         return equity
 
@@ -57,20 +58,24 @@ class BacktestEngine:
             'tp': tp,
             'entry_time': self.current_time,
             'comment': comment,
-            'highest_profit': 0.0
+            'highest_profit': 0.0,
+            'breakeven_triggered': False,
+            'partial_closed': False,
+            'remaining_lots': lot_size
         }
         self.open_positions.append(pos)
         self.ticket_counter += 1
         return True
 
     def close_position(self, pos, close_price, close_time, reason):
+        lots_to_close = pos['remaining_lots']
         if pos['type'] == 'BUY':
-            profit = (close_price - pos['entry_price']) * pos['lot_size'] * 100000
+            profit = (close_price - pos['entry_price']) * lots_to_close * 100000
         else:
-            profit = (pos['entry_price'] - close_price) * pos['lot_size'] * 100000
+            profit = (pos['entry_price'] - close_price) * lots_to_close * 100000
             
         # Apply commission
-        commission = -7.0 * pos['lot_size']
+        commission = -7.0 * lots_to_close
         profit += commission
         
         self.balance += profit
@@ -79,7 +84,7 @@ class BacktestEngine:
             'symbol': pos['symbol'],
             'strategy': pos['strategy'],
             'type': pos['type'],
-            'lot_size': pos['lot_size'],
+            'lot_size': lots_to_close,
             'entry_time': pos['entry_time'],
             'close_time': close_time,
             'entry_price': pos['entry_price'],
@@ -87,7 +92,34 @@ class BacktestEngine:
             'profit': profit,
             'reason': reason
         })
-        self.open_positions.remove(pos)
+        pos['remaining_lots'] -= lots_to_close
+        if pos['remaining_lots'] <= 0.001:
+            self.open_positions.remove(pos)
+
+    def close_position_partial(self, pos, close_price, close_time, reason, lots_to_close):
+        if pos['type'] == 'BUY':
+            profit = (close_price - pos['entry_price']) * lots_to_close * 100000
+        else:
+            profit = (pos['entry_price'] - close_price) * lots_to_close * 100000
+            
+        commission = -7.0 * lots_to_close
+        profit += commission
+        
+        self.balance += profit
+        self.closed_trades.append({
+            'ticket': pos['ticket'],
+            'symbol': pos['symbol'],
+            'strategy': pos['strategy'],
+            'type': pos['type'],
+            'lot_size': lots_to_close,
+            'entry_time': pos['entry_time'],
+            'close_time': close_time,
+            'entry_price': pos['entry_price'],
+            'close_price': close_price,
+            'profit': profit,
+            'reason': reason
+        })
+        pos['remaining_lots'] -= lots_to_close
 
     def emergency_close_all(self, current_prices):
         for pos in list(self.open_positions):
@@ -109,6 +141,43 @@ class BacktestEngine:
             
             high = current_highs[symbol]
             low = current_lows[symbol]
+            
+            # Track highest profit for breakeven
+            if pos['type'] == 'BUY':
+                unrealized = (high - pos['entry_price']) * pos['lot_size'] * 100000
+            else:
+                unrealized = (pos['entry_price'] - low) * pos['lot_size'] * 100000
+            pos['highest_profit'] = max(pos['highest_profit'], unrealized)
+            
+            # Break-Even Logic: Move SL to entry when profit >= 1R
+            if not pos['breakeven_triggered']:
+                risk_distance = abs(pos['entry_price'] - pos['sl'])
+                if pos['type'] == 'BUY':
+                    be_threshold = pos['entry_price'] + risk_distance
+                    if high >= be_threshold:
+                        pos['sl'] = pos['entry_price']
+                        pos['breakeven_triggered'] = True
+                else:
+                    be_threshold = pos['entry_price'] - risk_distance
+                    if low <= be_threshold:
+                        pos['sl'] = pos['entry_price']
+                        pos['breakeven_triggered'] = True
+            
+            # Partial Close Logic: Close 50% at 1.5R
+            if not pos['partial_closed']:
+                risk_distance = abs(pos['entry_price'] - pos['sl'])
+                if pos['type'] == 'BUY':
+                    partial_target = pos['entry_price'] + risk_distance * 1.5
+                    if high >= partial_target:
+                        half_lots = pos['remaining_lots'] * 0.5
+                        self.close_position_partial(pos, partial_target, current_time, "Partial TP 1.5R", half_lots)
+                        pos['partial_closed'] = True
+                else:
+                    partial_target = pos['entry_price'] - risk_distance * 1.5
+                    if low <= partial_target:
+                        half_lots = pos['remaining_lots'] * 0.5
+                        self.close_position_partial(pos, partial_target, current_time, "Partial TP 1.5R", half_lots)
+                        pos['partial_closed'] = True
             
             if pos['type'] == 'BUY':
                 if low <= pos['sl']:
