@@ -1,9 +1,9 @@
 import pandas as pd
 import numpy as np
-from datetime import timedelta
+from datetime import timedelta, time
 
 class RiskManager:
-    def __init__(self, initial_balance):
+    def __init__(self, initial_balance, prop_firm_mode=False):
         self.initial_balance = initial_balance
         self.daily_high_water_mark = initial_balance
         self.weekly_high_water_mark = initial_balance
@@ -17,6 +17,17 @@ class RiskManager:
         self.last_date = None
         self.last_week = None
         self.last_month = None
+        
+        # Prop Firm Mode
+        self.prop_firm_mode = prop_firm_mode
+        self.news_blocked = False
+        self.news_windows = [
+            (time(8, 30), time(9, 0)),   # US Early News
+            (time(10, 0), time(10, 30)),  # US Mid News
+            (time(13, 30), time(14, 0)),  # US Afternoon News
+            (time(14, 0), time(14, 30)),  # FOMC / NFP Window
+        ]
+        self.weekend_closure_enabled = prop_firm_mode
 
     def update(self, current_time, equity):
         # Reset HWMs on new day/week/month
@@ -95,3 +106,30 @@ class RiskManager:
                 if corr > threshold:
                     return False
         return True
+
+    def is_news_blocked(self, current_time):
+        if not self.prop_firm_mode:
+            return False
+        current_hour_min = current_time.time()
+        for start, end in self.news_windows:
+            if start <= current_hour_min <= end:
+                return True
+        return False
+
+    def is_weekend_closure(self, current_time):
+        if not self.weekend_closure_enabled:
+            return False
+        day = current_time.weekday()
+        hour = current_time.hour
+        if day == 4 and hour >= 20:
+            return True
+        if day >= 5:
+            return True
+        return False
+
+    def should_close_weekend_positions(self, current_time, open_positions):
+        if not self.weekend_closure_enabled:
+            return []
+        if current_time.weekday() == 4 and current_time.hour >= 20:
+            return list(open_positions)
+        return []
