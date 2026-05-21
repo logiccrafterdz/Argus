@@ -86,6 +86,17 @@
             <canvas id="comparisonChart"></canvas>
         </section>
 
+        <!-- Correlation Heatmap -->
+        <section class="card">
+            <h2>Inter-Strategy Correlation Matrix</h2>
+            <div class="table-responsive">
+                <table id="correlationTable">
+                    <thead><tr id="corrHeader"></tr></thead>
+                    <tbody id="corrBody"></tbody>
+                </table>
+            </div>
+        </section>
+
         <!-- Trade Journal -->
         <section class="card">
             <h2>Recent Trade Journal (Last 100)</h2>
@@ -258,6 +269,9 @@
 
             // Drawdown Chart
             renderDrawdownChart(data);
+
+            // Correlation Heatmap
+            renderCorrelationHeatmap(data);
         }
 
         function renderEquityChart(data) {
@@ -400,6 +414,44 @@
                         y: { grid: { display: false }, ticks: { color: '#c0c0d0', font: { size: 11 } } }
                     }
                 }
+            });
+        }
+
+        function renderCorrelationHeatmap(data) {
+            const corrMatrix = data.portfolio.correlation_matrix;
+            if (!corrMatrix || Object.keys(corrMatrix).length === 0) {
+                document.getElementById('correlationTable').style.display = 'none';
+                return;
+            }
+
+            const strategies = Object.keys(corrMatrix);
+            const headerRow = document.getElementById('corrHeader');
+            headerRow.innerHTML = '<th>Strategy</th>';
+            strategies.forEach(s => {
+                headerRow.innerHTML += `<th class="corr-rotated"><span>${s.replace(/_/g, ' ')}</span></th>`;
+            });
+
+            const body = document.getElementById('corrBody');
+            body.innerHTML = '';
+            strategies.forEach(rowStrat => {
+                let row = `<tr><td><strong>${rowStrat.replace(/_/g, ' ')}</strong></td>`;
+                strategies.forEach(colStrat => {
+                    const val = corrMatrix[rowStrat][colStrat];
+                    const absVal = Math.abs(val);
+                    let bgStyle;
+                    if (rowStrat === colStrat) {
+                        bgStyle = 'background: rgba(0, 242, 254, 0.3); color: #00f2fe;';
+                    } else if (val >= 0.7) {
+                        bgStyle = `background: rgba(239, 68, 68, ${absVal * 0.6}); color: #fca5a5;`;
+                    } else if (val <= -0.3) {
+                        bgStyle = `background: rgba(16, 185, 129, ${absVal * 0.5}); color: #6ee7b7;`;
+                    } else {
+                        bgStyle = `background: rgba(255, 255, 255, ${absVal * 0.15}); color: #c0c0d0;`;
+                    }
+                    row += `<td style="${bgStyle} text-align: center; font-family: 'JetBrains Mono', monospace; font-size: 11px; padding: 6px 4px;">${val.toFixed(2)}</td>`;
+                });
+                row += '</tr>';
+                body.innerHTML += row;
             });
         }
 

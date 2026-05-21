@@ -394,3 +394,31 @@ footer {
     .risk-grid { grid-template-columns: 1fr; }
     .arch-grid { grid-template-columns: 1fr; }
 }
+
+/* ═══ Correlation Heatmap ═══ */
+.corr-rotated {
+    padding: 8px 4px !important;
+    min-width: 80px;
+}
+
+.corr-rotated span {
+    display: inline-block;
+    transform: rotate(-45deg);
+    transform-origin: left center;
+    white-space: nowrap;
+    font-size: 0.65rem;
+}
+
+#correlationTable td {
+    text-align: center;
+    padding: 6px 4px;
+    font-family: var(--font-mono);
+    font-size: 11px;
+    transition: transform 0.15s ease;
+}
+
+#correlationTable td:hover {
+    transform: scale(1.1);
+    z-index: 1;
+    position: relative;
+}
