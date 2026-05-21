@@ -40,12 +40,25 @@ class BacktestEngine:
             
         # Simplified correlation check could be added here
         
-        # Apply spread and slippage (simplified)
-        spread = 0.00015 if "JPY" not in symbol else 0.015
+        # Realistic per-symbol spread model (in price units)
+        # Based on typical FBS MT5 average spreads
+        spread_map = {
+            'EURUSD': 0.00012, 'GBPUSD': 0.00014, 'USDJPY': 0.013,
+            'USDCHF': 0.00014, 'AUDUSD': 0.00013, 'USDCAD': 0.00016,
+            'NZDUSD': 0.00018, 'XAUUSD': 0.35,   # Gold: 35 cents
+            'US30': 3.0,       # Dow Jones: 3 points
+            'NAS100': 2.5,     # Nasdaq: 2.5 points
+        }
+        spread = spread_map.get(symbol, 0.00015)
+        
+        # Dynamic slippage: random 0-30% of spread (simulates real execution variance)
+        slippage = spread * np.random.uniform(0, 0.3)
+        
+        total_cost = spread + slippage
         if order_type == 'BUY':
-            entry_price += spread
+            entry_price += total_cost
         else:
-            entry_price -= spread
+            entry_price -= total_cost
             
         pos = {
             'ticket': self.ticket_counter,
@@ -74,8 +87,15 @@ class BacktestEngine:
         else:
             profit = (pos['entry_price'] - close_price) * lots_to_close * 100000
             
-        # Apply commission
-        commission = -7.0 * lots_to_close
+        # Realistic per-symbol commission
+        # Forex: $7/lot round turn, Gold: $3.50/lot, Indices: $0 (built into spread)
+        commission_map = {
+            'XAUUSD': 3.50,
+            'US30': 0.0,
+            'NAS100': 0.0,
+        }
+        commission_per_lot = commission_map.get(symbol, 7.0)
+        commission = -commission_per_lot * lots_to_close
         profit += commission
         
         self.balance += profit
@@ -102,7 +122,8 @@ class BacktestEngine:
         else:
             profit = (pos['entry_price'] - close_price) * lots_to_close * 100000
             
-        commission = -7.0 * lots_to_close
+        commission_map = {'XAUUSD': 3.50, 'US30': 0.0, 'NAS100': 0.0}
+        commission = -commission_map.get(pos['symbol'], 7.0) * lots_to_close
         profit += commission
         
         self.balance += profit
