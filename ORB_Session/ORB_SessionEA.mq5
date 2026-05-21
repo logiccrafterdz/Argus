@@ -250,7 +250,7 @@ void DrawRangeLines()
 //+------------------------------------------------------------------+
 void ExecuteTrade(ENUM_ORDER_TYPE type, double lot, double price, double sl, double tp, string comment)
 {
-   bool s = (type == ORDER_TYPE_BUY) ? CArgusCore::ExecuteTradeWithRetry(trade, _Symbol, ORDER_TYPE_BUY, lot, _Symbol, price, sl, tp, comment) : trade.Sell(lot, _Symbol, price, sl, tp, comment);
+   bool s = CArgusCore::ExecuteTradeWithRetry(trade, _Symbol, type, lot, price, sl, tp, comment);
    
    if(!s) {
       PrintFormat("Trade Error: %d (%s)", trade.ResultRetcode(), trade.ResultRetcodeDescription());

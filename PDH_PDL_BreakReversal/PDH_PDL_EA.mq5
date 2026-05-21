@@ -195,7 +195,7 @@ void ExecuteTrade(ENUM_ORDER_TYPE type, double sl_ref)
       double tp = CArgusCore::NormalizePrice(_Symbol, ask + (risk * RR_Target), tick_sz);
       
       double lot = CArgusCore::CalculateLotSize(_Symbol, RiskPercent, risk, vol_precision);
-      CArgusCore::ExecuteTradeWithRetry(trade, _Symbol, ORDER_TYPE_BUY, lot, _Symbol, ask, sl, tp, "PDH/PDL Entry");
+      CArgusCore::ExecuteTradeWithRetry(trade, _Symbol, ORDER_TYPE_BUY, lot, ask, sl, tp, "PDH/PDL Entry");
    }
    else {
       double sl = CArgusCore::NormalizePrice(_Symbol, sl_ref + (2 * _Point), tick_sz);
@@ -205,7 +205,7 @@ void ExecuteTrade(ENUM_ORDER_TYPE type, double sl_ref)
       double tp = CArgusCore::NormalizePrice(_Symbol, bid - (risk * RR_Target), tick_sz);
       
       double lot = CArgusCore::CalculateLotSize(_Symbol, RiskPercent, risk, vol_precision);
-      CArgusCore::ExecuteTradeWithRetry(trade, _Symbol, ORDER_TYPE_SELL, lot, _Symbol, bid, sl, tp, "PDH/PDL Entry");
+      CArgusCore::ExecuteTradeWithRetry(trade, _Symbol, ORDER_TYPE_SELL, lot, bid, sl, tp, "PDH/PDL Entry");
    }
 }
 

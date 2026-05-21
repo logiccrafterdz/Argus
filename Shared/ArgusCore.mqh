@@ -297,9 +297,12 @@ public:
             retcode == TRADE_RETCODE_PRICE_CHANGED || retcode == TRADE_RETCODE_CONNECTION)
          {
             PrintFormat("ArgusCore: Trade failed (Retcode: %d). Retrying %d/%d in %d ms...", retcode, i+1, max_retries, retry_delay);
-            Sleep(retry_delay);
-            retry_delay *= 2; 
-            RefreshRates();
+             Sleep(retry_delay);
+             retry_delay *= 2;
+             // MQL5: Refresh prices via SymbolInfoTick instead of MQL4 RefreshRates()
+             MqlTick fresh_tick;
+             if(!SymbolInfoTick(symbol, fresh_tick))
+                Print("ArgusCore: Failed to refresh tick data on retry.");
          }
          else
          {
@@ -400,9 +403,45 @@ public:
    }
 
 
-   //+------------------------------------------------------------------+
-   //| Telegram Integration                                             |
-   //+------------------------------------------------------------------+
+    //+------------------------------------------------------------------+
+    //| Process Trade Transaction (OnTradeTransaction handler)           |
+    //+------------------------------------------------------------------+
+    static void ProcessTradeTransaction(const MqlTradeTransaction &trans, int magic_number)
+    {
+       // Handle deal execution events
+       if(trans.type == TRADE_TRANSACTION_DEAL_ADD)
+       {
+          if(trans.deal != 0)
+          {
+             ENUM_DEAL_TYPE deal_type = (ENUM_DEAL_TYPE)HistoryDealGetInteger(trans.deal, DEAL_TYPE);
+             if(deal_type == DEAL_TYPE_BUY || deal_type == DEAL_TYPE_SELL)
+             {
+                PrintFormat("ArgusCore: Deal executed. Ticket: %I64d, Type: %s, Volume: %.2f, Price: %.5f",
+                            trans.deal,
+                            (deal_type == DEAL_TYPE_BUY) ? "BUY" : "SELL",
+                            HistoryDealGetDouble(trans.deal, DEAL_VOLUME),
+                            HistoryDealGetDouble(trans.deal, DEAL_PRICE));
+             }
+          }
+       }
+       
+       // Handle order modification events
+       if(trans.type == TRADE_TRANSACTION_ORDER_UPDATE)
+       {
+          PrintFormat("ArgusCore: Order updated. Order: %I64d, Symbol: %s", trans.order, trans.symbol);
+       }
+       
+       // Handle position modification events (SL/TP changes)
+       if(trans.type == TRADE_TRANSACTION_POSITION)
+       {
+          PrintFormat("ArgusCore: Position modified. Ticket: %I64d, SL: %.5f, TP: %.5f",
+                      trans.position, trans.price_sl, trans.price_tp);
+       }
+    }
+
+    //+------------------------------------------------------------------+
+    //| Telegram Integration                                             |
+    //+------------------------------------------------------------------+
    static void SendTelegramAlert(string bot_token, string chat_id, string message)
    {
       string url = "https://api.telegram.org/bot" + bot_token + "/sendMessage";

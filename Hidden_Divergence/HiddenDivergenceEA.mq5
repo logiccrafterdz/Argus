@@ -192,7 +192,7 @@ void ExecuteTrade(ENUM_ORDER_TYPE type, double sl_extreme)
       double tp = CArgusCore::NormalizePrice(_Symbol, ask + (risk_dist * TP_Ratio), tick_sz);
       tp = CArgusCore::ValidateStopsLevel(_Symbol, ask, tp);
       double lot = CArgusCore::CalculateLotSize(_Symbol, RiskPercent, risk_dist, vol_precision);
-      CArgusCore::ExecuteTradeWithRetry(trade, _Symbol, ORDER_TYPE_BUY, lot, _Symbol, ask, sl, tp, "Hidden Div Long");
+      CArgusCore::ExecuteTradeWithRetry(trade, _Symbol, ORDER_TYPE_BUY, lot, ask, sl, tp, "Hidden Div Long");
    }
    else {
       double sl = CArgusCore::NormalizePrice(_Symbol, sl_extreme + (2 * _Point), tick_sz);
@@ -202,7 +202,7 @@ void ExecuteTrade(ENUM_ORDER_TYPE type, double sl_extreme)
       double tp = CArgusCore::NormalizePrice(_Symbol, bid - (risk_dist * TP_Ratio), tick_sz);
       tp = CArgusCore::ValidateStopsLevel(_Symbol, bid, tp);
       double lot = CArgusCore::CalculateLotSize(_Symbol, RiskPercent, risk_dist, vol_precision);
-      CArgusCore::ExecuteTradeWithRetry(trade, _Symbol, ORDER_TYPE_SELL, lot, _Symbol, bid, sl, tp, "Hidden Div Short");
+      CArgusCore::ExecuteTradeWithRetry(trade, _Symbol, ORDER_TYPE_SELL, lot, bid, sl, tp, "Hidden Div Short");
    }
 }
 

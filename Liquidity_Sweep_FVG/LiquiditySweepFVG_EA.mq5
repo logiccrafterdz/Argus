@@ -239,7 +239,7 @@ void HandleEntryLogic(bool is_new_bar)
          double tp = CArgusCore::NormalizePrice(_Symbol, ask + (risk * RR_Target), tick_sz);
          
          double lot = CArgusCore::CalculateLotSize(_Symbol, RiskPercent, risk, vol_precision);
-         CArgusCore::ExecuteTradeWithRetry(trade, _Symbol, ORDER_TYPE_BUY, lot, _Symbol, ask, sl, tp, "SMC Sweep+FVG Buy");
+         CArgusCore::ExecuteTradeWithRetry(trade, _Symbol, ORDER_TYPE_BUY, lot, ask, sl, tp, "SMC Sweep+FVG Buy");
          ResetState("Order Executed");
       }
    } else {
@@ -251,7 +251,7 @@ void HandleEntryLogic(bool is_new_bar)
          double tp = CArgusCore::NormalizePrice(_Symbol, bid - (risk * RR_Target), tick_sz);
          
          double lot = CArgusCore::CalculateLotSize(_Symbol, RiskPercent, risk, vol_precision);
-         CArgusCore::ExecuteTradeWithRetry(trade, _Symbol, ORDER_TYPE_SELL, lot, _Symbol, bid, sl, tp, "SMC Sweep+FVG Sell");
+         CArgusCore::ExecuteTradeWithRetry(trade, _Symbol, ORDER_TYPE_SELL, lot, bid, sl, tp, "SMC Sweep+FVG Sell");
          ResetState("Order Executed");
       }
    }

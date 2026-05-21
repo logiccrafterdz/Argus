@@ -43,6 +43,7 @@ int last_day = -1;
 int last_week = -1;
 int last_month = -1;
 CMarketRegimeEngine regimeEngine;
+CTrade trade;
 
 //+------------------------------------------------------------------+
 //| Expert initialization function                                   |
@@ -197,7 +198,6 @@ void OnTimer()
 
 void EmergencyCloseAll()
 {
-   CTrade trade;
    int failed_closes = 0;
    
    for(int i = PositionsTotal() - 1; i >= 0; i--) {

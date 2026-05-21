@@ -116,6 +116,18 @@ def run_backtest():
     eurusd_d1 = eurusd_h4.resample('D').agg({'open': 'first', 'high': 'max', 'low': 'min', 'close': 'last'}).dropna()
     global_regime = MarketRegime(eurusd_d1)
     
+    # Build correlation matrix from H1 close prices for all symbols
+    print("Building correlation matrix...")
+    all_symbols = list(data.keys())
+    h1_closes = {}
+    for sym in all_symbols:
+        if 'H1' in data[sym]:
+            h1_closes[sym] = data[sym]['H1']['close']
+    
+    corr_df = pd.DataFrame(h1_closes)
+    corr_matrix = corr_df.corr()
+    print(f"Correlation matrix built for {len(corr_matrix.columns)} symbols.")
+    
     print("Converting historical data to fast dict lookups...")
     dict_data = {}
     for symbol, tfs in data.items():
@@ -200,12 +212,16 @@ def run_backtest():
                     if row['signal'] == 1:
                         risk_dist = current_prices[symbol] - row['sl']
                         if risk_dist <= 0 or pd.isna(risk_dist): continue
+                        # Correlation check
+                        if not engine.risk_manager.check_correlation(symbol, engine.open_positions, corr_matrix, 0.8): continue
                         pip_val = 0.01 if 'JPY' in symbol or 'XAU' in symbol else 0.00001
                         lot = engine.risk_manager.calculate_lot_size(symbol, 1.0, risk_dist / pip_val, engine.equity)
                         engine.execute_trade(symbol, strat.name, 'BUY', lot, current_prices[symbol], row['sl'], row['tp'], "Buy Signal")
                     elif row['signal'] == -1:
                         risk_dist = row['sl'] - current_prices[symbol]
                         if risk_dist <= 0 or pd.isna(risk_dist): continue
+                        # Correlation check
+                        if not engine.risk_manager.check_correlation(symbol, engine.open_positions, corr_matrix, 0.8): continue
                         pip_val = 0.01 if 'JPY' in symbol or 'XAU' in symbol else 0.00001
                         lot = engine.risk_manager.calculate_lot_size(symbol, 1.0, risk_dist / pip_val, engine.equity)
                         engine.execute_trade(symbol, strat.name, 'SELL', lot, current_prices[symbol], row['sl'], row['tp'], "Sell Signal")
