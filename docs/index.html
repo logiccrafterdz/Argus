@@ -3,165 +3,443 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Argus Panoptes V2.0 | Evidence Dashboard</title>
-    <meta name="description" content="Institutional-Grade Algorithmic Trading Portfolio — Real Historical Backtest Results (Jan 2022 to May 2025)">
+    <title>Argus Panoptes V2.0 — Institutional Algorithmic Portfolio Intelligence</title>
+    <meta name="description" content="Orchestrated multi-strategy MT5 framework with centralized risk governance. Real backtest evidence from Jan 2022 to May 2025.">
     <link rel="stylesheet" href="style.css">
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 </head>
 <body>
-    <div class="banner">
-        📊 <strong>Historical Backtest</strong> — Real Market Data from FBS MetaTrader 5 (Jan 2022 to May 2025)
-    </div>
 
-    <header>
-        <div class="container header-content">
-            <div>
-                <h1 id="main-title">👁️ ARGUS PANOPTES V2.0</h1>
-                <p>Institutional-Grade Algorithmic Trading Portfolio</p>
-            </div>
-            <div class="header-stats">
-                <div class="stat-pill">Status: <span class="active">ACTIVE</span></div>
-                <div class="stat-pill" id="stratCount">Strategies: 20</div>
+    <!-- ═══ Header ═══ -->
+    <header class="site-header">
+        <div class="container">
+            <a href="#" class="logo">
+                <div class="logo-icon">A</div>
+                <div class="logo-text">Argus Panoptes <span>V2.0</span></div>
+            </a>
+            <nav>
+                <ul class="nav-links">
+                    <li><a href="#evidence">Evidence</a></li>
+                    <li><a href="#architecture">Architecture</a></li>
+                    <li><a href="#risk">Risk Governance</a></li>
+                    <li><a href="#strategies">Strategies</a></li>
+                    <li><a href="#journal">Journal</a></li>
+                    <li><a href="#methodology">Methodology</a></li>
+                </ul>
+            </nav>
+            <div class="header-actions">
+                <a href="https://github.com/logiccrafterdz/Argus" target="_blank" class="btn btn-ghost">GitHub</a>
+                <a href="#evidence" class="btn btn-primary">View Evidence</a>
             </div>
         </div>
     </header>
 
-    <main class="container">
-        <!-- KPIs -->
-        <section class="kpi-grid" id="kpiGrid"></section>
-
-        <!-- Charts Row -->
-        <section class="charts-row">
-            <div class="card chart-card">
-                <h2>Portfolio Equity Curve</h2>
-                <canvas id="equityChart"></canvas>
-            </div>
-            <div class="card chart-card">
-                <h2>Drawdown Curve</h2>
-                <canvas id="drawdownChart"></canvas>
-            </div>
-        </section>
-
-        <!-- Risk Analytics -->
-        <section class="card">
-            <h2>Risk Analytics</h2>
-            <div class="risk-grid" id="riskMetrics"></div>
-        </section>
-
-        <!-- Monthly Returns Heatmap -->
-        <section class="card">
-            <h2>Monthly Returns Heatmap (%)</h2>
-            <div class="table-responsive">
-                <table id="monthlyTable">
-                    <thead><tr id="monthlyHeader"></tr></thead>
-                    <tbody id="monthlyBody"></tbody>
-                </table>
-            </div>
-        </section>
-
-        <!-- Strategy Performance Matrix -->
-        <section class="card">
-            <h2>Strategy Performance Matrix</h2>
-            <div class="table-responsive">
-                <table id="strategyTable">
-                    <thead>
-                        <tr>
-                            <th>Strategy</th>
-                            <th>Category</th>
-                            <th>Trades</th>
-                            <th>Win Rate</th>
-                            <th>Profit Factor</th>
-                            <th>Net Profit</th>
-                        </tr>
-                    </thead>
-                    <tbody></tbody>
-                </table>
-            </div>
-        </section>
-
-        <!-- Portfolio vs Top 5 Strategies -->
-        <section class="card chart-card">
-            <h2>Portfolio vs Top 5 Strategies</h2>
-            <canvas id="comparisonChart"></canvas>
-        </section>
-
-        <!-- Correlation Heatmap -->
-        <section class="card">
-            <h2>Inter-Strategy Correlation Matrix</h2>
-            <div class="table-responsive">
-                <table id="correlationTable">
-                    <thead><tr id="corrHeader"></tr></thead>
-                    <tbody id="corrBody"></tbody>
-                </table>
-            </div>
-        </section>
-
-        <!-- Trade Journal -->
-        <section class="card">
-            <h2>Recent Trade Journal (Last 100)</h2>
-            <div class="table-responsive">
-                <table id="journalTable">
-                    <thead>
-                        <tr>
-                            <th>Ticket</th>
-                            <th>Time (Open)</th>
-                            <th>Time (Close)</th>
-                            <th>Symbol</th>
-                            <th>Strategy</th>
-                            <th>Type</th>
-                            <th>Profit</th>
-                        </tr>
-                    </thead>
-                    <tbody></tbody>
-                </table>
-            </div>
-        </section>
-
-        <!-- Architecture Section -->
-        <section class="card architecture-section">
-            <h2>System Architecture</h2>
-            <div class="arch-grid">
-                <div class="arch-card">
-                    <div class="arch-icon">📡</div>
-                    <h3>Data Pipeline</h3>
-                    <p>Real OHLCV data from FBS MetaTrader 5 API — 10 instruments × 3 timeframes (M15, H1, H4) — Jan 2022 to May 2025</p>
+    <!-- ═══ Control Ribbon ═══ -->
+    <div class="control-ribbon">
+        <div class="container">
+            <div class="ribbon-inner">
+                <div class="ribbon-item">
+                    <span class="ribbon-dot"></span>
+                    <strong>System:</strong> Active
                 </div>
-                <div class="arch-card">
-                    <div class="arch-icon">⚙️</div>
-                    <h3>Backtest Engine</h3>
-                    <p>Event-driven bar-by-bar simulation with realistic spread, commission ($7/lot), slippage, and position management</p>
+                <div class="ribbon-item">
+                    <strong>Mode:</strong> Backtest Evidence
                 </div>
-                <div class="arch-card">
-                    <div class="arch-icon">🛡️</div>
-                    <h3>Risk Layer</h3>
-                    <p>HWM Circuit Breaker (3% daily / 8% weekly / 15% monthly), Pearson Correlation Filter, Exposure Limits</p>
+                <div class="ribbon-item">
+                    <strong>Period:</strong> Jan 2022 — May 2025
                 </div>
-                <div class="arch-card">
-                    <div class="arch-icon">🧠</div>
-                    <h3>20 Strategies</h3>
-                    <p>Trend Following, Breakout, Mean Reversion, Smart Money (ICT), Session-Based, Divergence — all regime-filtered</p>
+                <div class="ribbon-item">
+                    <strong>Data:</strong> FBS MetaTrader 5
                 </div>
-                <div class="arch-card">
-                    <div class="arch-icon">📊</div>
-                    <h3>Market Regime</h3>
-                    <p>5-state regime engine (Trend, Range, Expansion, Compression, Reversal) via ADX + ATR bitmask filtering</p>
+                <div class="ribbon-item">
+                    <strong>Instruments:</strong> 10 (Forex + Gold + Indices)
                 </div>
-                <div class="arch-card">
-                    <div class="arch-icon">🏗️</div>
-                    <h3>Orchestrator</h3>
-                    <p>Portfolio-level coordination with inter-strategy correlation control and unified equity management</p>
+                <div class="ribbon-item">
+                    <strong>Strategies:</strong> 20
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <main>
+
+        <!-- ═══ Hero ═══ -->
+        <section class="hero">
+            <div class="container">
+                <div class="hero-content">
+                    <div class="hero-badge">
+                        <span class="ribbon-dot"></span>
+                        Portfolio Intelligence Engine
+                    </div>
+                    <h1 class="text-display">Institutional Algorithmic<br>Portfolio Intelligence</h1>
+                    <p class="text-body">
+                        Argus Panoptes is an orchestrated multi-strategy MT5 framework with centralized risk governance.
+                        20 strategies, unified under a single control layer with HWM circuit breakers, correlation filters, and regime-aware execution.
+                    </p>
+                    <div class="hero-actions">
+                        <a href="#evidence" class="btn btn-primary">View Backtest Evidence</a>
+                        <a href="#architecture" class="btn btn-ghost">Explore Architecture</a>
+                    </div>
                 </div>
             </div>
         </section>
+
+        <!-- ═══ Portfolio Snapshot ═══ -->
+        <section class="section" id="evidence">
+            <div class="container">
+                <div class="section-header">
+                    <div class="text-label">Portfolio Snapshot</div>
+                    <h2 class="text-h2">Executive Performance Overview</h2>
+                    <p class="text-body">Key metrics from the full backtest period across all 20 strategies and 10 instruments.</p>
+                </div>
+                <div class="kpi-grid" id="kpiGrid">
+                    <!-- Populated by JS -->
+                </div>
+            </div>
+        </section>
+
+        <!-- ═══ System Architecture ═══ -->
+        <section class="section" id="architecture">
+            <div class="container">
+                <div class="section-header">
+                    <div class="text-label">System Architecture</div>
+                    <h2 class="text-h2">How Argus Works</h2>
+                    <p class="text-body">A centralized orchestrator coordinates 20 strategies through shared core services, enforcing risk governance at every level.</p>
+                </div>
+                <div class="arch-flow">
+                    <div class="arch-node">
+                        <div class="arch-node-icon">📡</div>
+                        <h4>Data Pipeline</h4>
+                        <p>Real OHLCV from MT5 — 10 instruments × 3 timeframes (M15, H1, H4)</p>
+                    </div>
+                    <div class="arch-arrow">→</div>
+                    <div class="arch-node">
+                        <div class="arch-node-icon">🧠</div>
+                        <h4>Strategy Layer</h4>
+                        <p>20 EAs across Trend, Breakout, Mean Reversion, SMC, Session, Divergence</p>
+                    </div>
+                    <div class="arch-arrow">→</div>
+                    <div class="arch-node">
+                        <div class="arch-node-icon">⚙️</div>
+                        <h4>Shared Core</h4>
+                        <p>Logging, telemetry, trade journal, unified architecture</p>
+                    </div>
+                    <div class="arch-arrow">→</div>
+                    <div class="arch-node" style="border-color: var(--accent-teal);">
+                        <div class="arch-node-icon">👁️</div>
+                        <h4>Orchestrator</h4>
+                        <p>Central coordination, regime filtering, correlation control</p>
+                    </div>
+                    <div class="arch-arrow">→</div>
+                    <div class="arch-node">
+                        <div class="arch-node-icon">🛡️</div>
+                        <h4>Risk Governors</h4>
+                        <p>HWM breaker, exposure limits, news blockade, prop firm mode</p>
+                    </div>
+                    <div class="arch-arrow">→</div>
+                    <div class="arch-node">
+                        <div class="arch-node-icon">📊</div>
+                        <h4>Evidence Layer</h4>
+                        <p>Analytics, equity curves, drawdown, correlation, journal</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ═══ Risk Governance ═══ -->
+        <section class="section" id="risk">
+            <div class="container">
+                <div class="section-header">
+                    <div class="text-label">Risk Governance</div>
+                    <h2 class="text-h2">Discipline at Portfolio Level</h2>
+                    <p class="text-body">Risk controls are enforced globally, not per-strategy. The orchestrator acts as a governor, not just a coordinator.</p>
+                </div>
+                <div class="risk-grid">
+                    <div class="risk-card">
+                        <div class="risk-card-header">
+                            <div class="risk-card-icon shield">🛡️</div>
+                            <h4>High Water Mark Breaker</h4>
+                        </div>
+                        <p>Multi-timeframe circuit breaker: 3% daily, 8% weekly, 15% monthly drawdown limits. Trading halts automatically when thresholds are breached.</p>
+                        <span class="risk-badge">Active</span>
+                    </div>
+                    <div class="risk-card">
+                        <div class="risk-card-header">
+                            <div class="risk-card-icon correl">🔗</div>
+                            <h4>Pearson Correlation Filter</h4>
+                        </div>
+                        <p>Prevents opening trades on instruments with correlation > 0.8 to existing positions. Eliminates hidden concentration risk.</p>
+                        <span class="risk-badge">Active</span>
+                    </div>
+                    <div class="risk-card">
+                        <div class="risk-card-header">
+                            <div class="risk-card-icon alert">📋</div>
+                            <h4>Exposure Limits</h4>
+                        </div>
+                        <p>Maximum 2 concurrent positions per instrument. Lot sizing dynamically calculated based on risk distance and account equity.</p>
+                        <span class="risk-badge">Active</span>
+                    </div>
+                    <div class="risk-card">
+                        <div class="risk-card-header">
+                            <div class="risk-card-icon alert">📰</div>
+                            <h4>News Blockade</h4>
+                        </div>
+                        <p>Prop firm mode blocks trading during high-impact news windows: US early/mid news, FOMC, NFP releases.</p>
+                        <span class="risk-badge">Prop Firm Mode</span>
+                    </div>
+                    <div class="risk-card">
+                        <div class="risk-card-header">
+                            <div class="risk-card-icon shield">⏰</div>
+                            <h4>Session Enforcement</h4>
+                        </div>
+                        <p>Strategies are filtered by session: Asian, London, NY. Weekend closure auto-closes all positions Friday 20:00 UTC.</p>
+                        <span class="risk-badge">Active</span>
+                    </div>
+                    <div class="risk-card">
+                        <div class="risk-card-header">
+                            <div class="risk-card-icon shield">⚖️</div>
+                            <h4>Break-Even + Partial Close</h4>
+                        </div>
+                        <p>SL moves to entry at 1R profit. 50% position closes at 1.5R. Protects capital while letting winners run.</p>
+                        <span class="risk-badge">Active</span>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ═══ Performance Evidence ═══ -->
+        <section class="section" id="performance">
+            <div class="container">
+                <div class="section-header">
+                    <div class="text-label">Performance Evidence</div>
+                    <h2 class="text-h2">Equity & Drawdown</h2>
+                </div>
+                <div class="charts-row">
+                    <div class="panel">
+                        <div class="panel-header">
+                            <h3 class="text-h3">Portfolio Equity Curve</h3>
+                        </div>
+                        <div class="chart-container">
+                            <canvas id="equityChart"></canvas>
+                        </div>
+                    </div>
+                    <div class="panel">
+                        <div class="panel-header">
+                            <h3 class="text-h3">Drawdown Profile</h3>
+                        </div>
+                        <div class="chart-container">
+                            <canvas id="drawdownChart"></canvas>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Risk Metrics -->
+                <div class="panel" style="margin-top: var(--sp-4);">
+                    <div class="panel-header">
+                        <h3 class="text-h3">Risk Analytics</h3>
+                    </div>
+                    <div class="metrics-grid" id="riskMetrics">
+                        <!-- Populated by JS -->
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ═══ Strategy Intelligence ═══ -->
+        <section class="section" id="strategies">
+            <div class="container">
+                <div class="section-header">
+                    <div class="text-label">Strategy Intelligence</div>
+                    <h2 class="text-h2">20 Strategies — One Portfolio</h2>
+                    <p class="text-body">Each strategy operates within its regime and session constraints, coordinated by the orchestrator.</p>
+                </div>
+                <div class="panel">
+                    <div class="strategy-filters" id="strategyFilters">
+                        <button class="filter-chip active" data-filter="all">All</button>
+                        <button class="filter-chip" data-filter="Trend">Trend</button>
+                        <button class="filter-chip" data-filter="Breakout">Breakout</button>
+                        <button class="filter-chip" data-filter="Mean Reversion">Mean Reversion</button>
+                        <button class="filter-chip" data-filter="Smart Money">Smart Money</button>
+                        <button class="filter-chip" data-filter="Session">Session</button>
+                        <button class="filter-chip" data-filter="Divergence">Divergence</button>
+                    </div>
+                    <div class="table-wrapper">
+                        <table class="data-table" id="strategyTable">
+                            <thead>
+                                <tr>
+                                    <th>Strategy</th>
+                                    <th>Category</th>
+                                    <th>Trades</th>
+                                    <th>Win Rate</th>
+                                    <th>Profit Factor</th>
+                                    <th>Net Profit</th>
+                                </tr>
+                            </thead>
+                            <tbody></tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ═══ Monthly Returns ═══ -->
+        <section class="section" id="monthly">
+            <div class="container">
+                <div class="section-header">
+                    <div class="text-label">Monthly Returns</div>
+                    <h2 class="text-h2">Consistency Heatmap</h2>
+                </div>
+                <div class="panel">
+                    <div class="table-wrapper">
+                        <table class="data-table heatmap-table" id="monthlyTable">
+                            <thead><tr id="monthlyHeader"></tr></thead>
+                            <tbody id="monthlyBody"></tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ═══ Correlation Matrix ═══ -->
+        <section class="section" id="correlation">
+            <div class="container">
+                <div class="section-header">
+                    <div class="text-label">Correlation Analysis</div>
+                    <h2 class="text-h2">Inter-Strategy Correlation</h2>
+                    <p class="text-body">Identifies overlapping risk exposure between strategies. Values > 0.7 indicate potential concentration.</p>
+                </div>
+                <div class="panel">
+                    <div class="table-wrapper">
+                        <table class="data-table corr-table" id="correlationTable">
+                            <thead><tr id="corrHeader"></tr></thead>
+                            <tbody id="corrBody"></tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ═══ Trade Journal ═══ -->
+        <section class="section" id="journal">
+            <div class="container">
+                <div class="section-header">
+                    <div class="text-label">Execution Log</div>
+                    <h2 class="text-h2">Trade Journal</h2>
+                    <p class="text-body">Last 100 closed trades with entry/exit details and close reason.</p>
+                </div>
+                <div class="panel">
+                    <div class="table-wrapper">
+                        <table class="data-table journal-table" id="journalTable">
+                            <thead>
+                                <tr>
+                                    <th>Ticket</th>
+                                    <th>Open</th>
+                                    <th>Close</th>
+                                    <th>Symbol</th>
+                                    <th>Strategy</th>
+                                    <th>Type</th>
+                                    <th>Lots</th>
+                                    <th>Profit</th>
+                                    <th>Reason</th>
+                                </tr>
+                            </thead>
+                            <tbody></tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ═══ Methodology ═══ -->
+        <section class="section" id="methodology">
+            <div class="container">
+                <div class="section-header">
+                    <div class="text-label">Methodology</div>
+                    <h2 class="text-h2">Backtest Assumptions & Parameters</h2>
+                    <p class="text-body">Transparent documentation of simulation conditions, data sources, and risk parameters.</p>
+                </div>
+                <div class="method-grid">
+                    <div class="method-card">
+                        <h4>Data Source</h4>
+                        <ul>
+                            <li>Broker: FBS MetaTrader 5</li>
+                            <li>Instruments: EURUSD, GBPUSD, USDJPY, XAUUSD, USDCHF, AUDUSD, USDCAD, NZDUSD, US30, NAS100</li>
+                            <li>Timeframes: M15, H1, H4</li>
+                            <li>Period: January 2022 — May 2025</li>
+                        </ul>
+                    </div>
+                    <div class="method-card">
+                        <h4>Execution Model</h4>
+                        <ul>
+                            <li>Spread: 1.5 pips (JPY pairs: 15 points)</li>
+                            <li>Commission: $7.00 per lot (round turn)</li>
+                            <li>Slippage: Included in spread model</li>
+                            <li>Bar-by-bar event-driven simulation</li>
+                        </ul>
+                    </div>
+                    <div class="method-card">
+                        <h4>Risk Parameters</h4>
+                        <ul>
+                            <li>Initial Balance: $100,000</li>
+                            <li>Risk per Trade: 1% of equity</li>
+                            <li>Max Exposure: 2 positions per symbol</li>
+                            <li>HWM Breaker: 3% daily / 8% weekly / 15% monthly</li>
+                            <li>Correlation Threshold: 0.8</li>
+                            <li>Break-Even: Triggered at 1R</li>
+                            <li>Partial Close: 50% at 1.5R</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </section>
+
     </main>
 
-    <footer>
+    <!-- ═══ Footer ═══ -->
+    <footer class="site-footer">
         <div class="container">
-            <p>Argus Panoptes V2.0 Dashboard &copy; 2026 LogicCrafterDz. For educational purposes only. Past performance does not guarantee future results.</p>
+            <div class="footer-grid">
+                <div class="footer-brand">
+                    <a href="#" class="logo">
+                        <div class="logo-icon">A</div>
+                        <div class="logo-text">Argus Panoptes <span>V2.0</span></div>
+                    </a>
+                    <p class="text-body">Institutional algorithmic portfolio intelligence. Orchestrated multi-strategy MT5 framework with centralized risk governance.</p>
+                </div>
+                <div class="footer-col">
+                    <h4>Project</h4>
+                    <ul>
+                        <li><a href="https://github.com/logiccrafterdz/Argus" target="_blank">GitHub Repository</a></li>
+                        <li><a href="#architecture">Architecture</a></li>
+                        <li><a href="#methodology">Methodology</a></li>
+                    </ul>
+                </div>
+                <div class="footer-col">
+                    <h4>Evidence</h4>
+                    <ul>
+                        <li><a href="#evidence">Performance</a></li>
+                        <li><a href="#strategies">Strategies</a></li>
+                        <li><a href="#journal">Trade Journal</a></li>
+                    </ul>
+                </div>
+                <div class="footer-col">
+                    <h4>Governance</h4>
+                    <ul>
+                        <li><a href="#risk">Risk Controls</a></li>
+                        <li><a href="#correlation">Correlation</a></li>
+                        <li><a href="#monthly">Monthly Returns</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p class="text-small">Argus Panoptes V2.0 &copy; 2026 LogicCrafterDz. For educational purposes only. Past performance does not guarantee future results.</p>
+                <p class="text-small">Built with Python, MQL5, Chart.js</p>
+            </div>
         </div>
     </footer>
 
+    <!-- ═══ Dashboard Logic ═══ -->
     <script>
         async function loadData() {
             try {
@@ -176,102 +454,95 @@
         function renderDashboard(data) {
             const port = data.portfolio;
 
-            // Update strategy count dynamically
-            document.getElementById('stratCount').textContent = `Strategies: ${data.strategies.length}`;
-
             // KPIs
             const kpiGrid = document.getElementById('kpiGrid');
             kpiGrid.innerHTML = `
-                <div class="kpi-card">
-                    <div class="kpi-title">Total Return</div>
+                <div class="kpi-tile animate-in">
+                    <div class="text-label">Total Return</div>
                     <div class="kpi-value ${port.total_return >= 0 ? 'positive' : 'negative'}">${port.total_return.toFixed(2)}%</div>
+                    <div class="kpi-sub">${port.net_profit >= 0 ? '+' : ''}$${port.net_profit.toLocaleString(undefined, {maximumFractionDigits: 0})}</div>
                 </div>
-                <div class="kpi-card">
-                    <div class="kpi-title">Net Profit</div>
-                    <div class="kpi-value ${port.net_profit >= 0 ? 'positive' : 'negative'}">$${port.net_profit.toLocaleString()}</div>
-                </div>
-                <div class="kpi-card">
-                    <div class="kpi-title">Win Rate</div>
-                    <div class="kpi-value">${port.win_rate.toFixed(2)}%</div>
-                </div>
-                <div class="kpi-card">
-                    <div class="kpi-title">Profit Factor</div>
-                    <div class="kpi-value">${port.profit_factor.toFixed(2)}</div>
-                </div>
-                <div class="kpi-card">
-                    <div class="kpi-title">Total Trades</div>
-                    <div class="kpi-value">${port.total_trades}</div>
-                </div>
-                <div class="kpi-card">
-                    <div class="kpi-title">Max Drawdown</div>
+                <div class="kpi-tile animate-in">
+                    <div class="text-label">Max Drawdown</div>
                     <div class="kpi-value negative">${port.max_drawdown.toFixed(2)}%</div>
+                    <div class="kpi-sub">${port.max_dd_duration || 'N/A'} bars duration</div>
+                </div>
+                <div class="kpi-tile animate-in">
+                    <div class="text-label">Recovery Factor</div>
+                    <div class="kpi-value neutral">${port.recovery_factor || 'N/A'}</div>
+                    <div class="kpi-sub">Net profit / Max DD</div>
+                </div>
+                <div class="kpi-tile animate-in">
+                    <div class="text-label">Profit Factor</div>
+                    <div class="kpi-value neutral">${port.profit_factor.toFixed(2)}</div>
+                    <div class="kpi-sub">Gross profit / Gross loss</div>
+                </div>
+                <div class="kpi-tile animate-in">
+                    <div class="text-label">Win Rate</div>
+                    <div class="kpi-value neutral">${port.win_rate.toFixed(2)}%</div>
+                    <div class="kpi-sub">${port.total_trades} total trades</div>
+                </div>
+                <div class="kpi-tile animate-in">
+                    <div class="text-label">Sharpe Ratio</div>
+                    <div class="kpi-value neutral">${port.sharpe_ratio.toFixed(2)}</div>
+                    <div class="kpi-sub">Sortino: ${port.sortino_ratio ? port.sortino_ratio.toFixed(2) : 'N/A'}</div>
                 </div>
             `;
 
-            // Risk Metrics Grid
+            // Risk Metrics
             const riskMetrics = document.getElementById('riskMetrics');
             riskMetrics.innerHTML = `
-                <div class="risk-item"><span>Sharpe Ratio</span><strong>${port.sharpe_ratio}</strong></div>
-                <div class="risk-item"><span>Sortino Ratio</span><strong>${port.sortino_ratio || 'N/A'}</strong></div>
-                <div class="risk-item"><span>Calmar Ratio</span><strong>${port.calmar_ratio}</strong></div>
-                <div class="risk-item"><span>Max DD Duration</span><strong>${port.max_dd_duration || 'N/A'} bars</strong></div>
-                <div class="risk-item"><span>Avg Win</span><strong class="positive">$${port.avg_win}</strong></div>
-                <div class="risk-item"><span>Avg Loss</span><strong class="negative">$${port.avg_loss}</strong></div>
+                <div class="metric-item">
+                    <span class="text-label">Annualized Return</span>
+                    <span class="metric-val">${port.annualized_return ? port.annualized_return.toFixed(2) + '%' : 'N/A'}</span>
+                </div>
+                <div class="metric-item">
+                    <span class="text-label">Calmar Ratio</span>
+                    <span class="metric-val">${port.calmar_ratio.toFixed(2)}</span>
+                </div>
+                <div class="metric-item">
+                    <span class="text-label">Expectancy</span>
+                    <span class="metric-val">$${port.expectancy ? port.expectancy.toFixed(2) : 'N/A'}</span>
+                </div>
+                <div class="metric-item">
+                    <span class="text-label">Avg Win</span>
+                    <span class="metric-val" style="color: var(--success);">$${port.avg_win.toFixed(2)}</span>
+                </div>
+                <div class="metric-item">
+                    <span class="text-label">Avg Loss</span>
+                    <span class="metric-val" style="color: var(--danger);">$${port.avg_loss.toFixed(2)}</span>
+                </div>
+                <div class="metric-item">
+                    <span class="text-label">Max DD Duration</span>
+                    <span class="metric-val">${port.max_dd_duration || 'N/A'} bars</span>
+                </div>
+                <div class="metric-item">
+                    <span class="text-label">Sortino Ratio</span>
+                    <span class="metric-val">${port.sortino_ratio ? port.sortino_ratio.toFixed(2) : 'N/A'}</span>
+                </div>
+                <div class="metric-item">
+                    <span class="text-label">Active Strategies</span>
+                    <span class="metric-val">${data.strategies.length}</span>
+                </div>
             `;
 
-            // Monthly Returns Heatmap
+            // Monthly Heatmap
             if (port.monthly_returns) {
                 renderMonthlyHeatmap(port.monthly_returns);
             }
 
             // Strategy Table
-            const stratTable = document.querySelector('#strategyTable tbody');
-            let stratHtml = '';
-            data.strategies.sort((a,b) => b.net_profit - a.net_profit).forEach(s => {
-                const profitClass = s.net_profit >= 0 ? 'positive' : 'negative';
-                stratHtml += `
-                    <tr>
-                        <td><strong>${s.name}</strong></td>
-                        <td><span class="badge">${s.category}</span></td>
-                        <td>${s.total_trades}</td>
-                        <td>${s.win_rate}%</td>
-                        <td>${s.profit_factor}</td>
-                        <td class="${profitClass}">$${s.net_profit.toFixed(2)}</td>
-                    </tr>
-                `;
-            });
-            stratTable.innerHTML = stratHtml;
+            renderStrategyTable(data.strategies);
 
-            // Portfolio vs Top 5 comparison chart
-            renderComparisonChart(data);
+            // Correlation Matrix
+            renderCorrelationMatrix(port.correlation_matrix);
 
             // Trade Journal
-            const journalTable = document.querySelector('#journalTable tbody');
-            let journalHtml = '';
-            const recent = data.recent_trades.slice().reverse();
-            recent.forEach(t => {
-                journalHtml += `
-                    <tr>
-                        <td>#${t.ticket}</td>
-                        <td class="font-mono">${t.entry_time}</td>
-                        <td class="font-mono">${t.close_time}</td>
-                        <td><strong>${t.symbol}</strong></td>
-                        <td>${t.strategy}</td>
-                        <td><span class="badge ${t.type.toLowerCase()}">${t.type}</span></td>
-                        <td class="font-mono ${t.profit >= 0 ? 'positive' : 'negative'}">$${t.profit.toFixed(2)}</td>
-                    </tr>
-                `;
-            });
-            journalTable.innerHTML = journalHtml;
+            renderJournal(data.recent_trades);
 
-            // Equity Curve Chart
+            // Charts
             renderEquityChart(data);
-
-            // Drawdown Chart
             renderDrawdownChart(data);
-
-            // Correlation Heatmap
-            renderCorrelationHeatmap(data);
         }
 
         function renderEquityChart(data) {
@@ -286,9 +557,9 @@
                     datasets: [{
                         label: 'Portfolio Equity ($)',
                         data: equity,
-                        borderColor: '#00f2fe',
-                        backgroundColor: 'rgba(0, 242, 254, 0.08)',
-                        borderWidth: 2,
+                        borderColor: '#0ea5a0',
+                        backgroundColor: 'rgba(14, 165, 160, 0.06)',
+                        borderWidth: 1.5,
                         pointRadius: 0,
                         fill: true,
                         tension: 0.1
@@ -299,8 +570,14 @@
                     maintainAspectRatio: false,
                     plugins: { legend: { display: false } },
                     scales: {
-                        y: { grid: { color: 'rgba(255,255,255,0.05)' }, ticks: { color: '#8b8b9e', callback: v => '$' + v.toLocaleString() } },
-                        x: { grid: { display: false }, ticks: { color: '#8b8b9e', maxTicksLimit: 12 } }
+                        y: {
+                            grid: { color: 'rgba(255,255,255,0.04)' },
+                            ticks: { color: '#5a5a6e', font: { family: 'JetBrains Mono', size: 11 }, callback: v => '$' + v.toLocaleString() }
+                        },
+                        x: {
+                            grid: { display: false },
+                            ticks: { color: '#5a5a6e', font: { family: 'JetBrains Mono', size: 10 }, maxTicksLimit: 10 }
+                        }
                     }
                 }
             });
@@ -324,8 +601,8 @@
                     datasets: [{
                         label: 'Drawdown (%)',
                         data: drawdown,
-                        borderColor: '#ff4d6a',
-                        backgroundColor: 'rgba(255, 77, 106, 0.15)',
+                        borderColor: '#dc2626',
+                        backgroundColor: 'rgba(220, 38, 38, 0.08)',
                         borderWidth: 1.5,
                         pointRadius: 0,
                         fill: true,
@@ -337,8 +614,14 @@
                     maintainAspectRatio: false,
                     plugins: { legend: { display: false } },
                     scales: {
-                        y: { grid: { color: 'rgba(255,255,255,0.05)' }, ticks: { color: '#8b8b9e', callback: v => v.toFixed(1) + '%' } },
-                        x: { grid: { display: false }, ticks: { color: '#8b8b9e', maxTicksLimit: 12 } }
+                        y: {
+                            grid: { color: 'rgba(255,255,255,0.04)' },
+                            ticks: { color: '#5a5a6e', font: { family: 'JetBrains Mono', size: 11 }, callback: v => v.toFixed(1) + '%' }
+                        },
+                        x: {
+                            grid: { display: false },
+                            ticks: { color: '#5a5a6e', font: { family: 'JetBrains Mono', size: 10 }, maxTicksLimit: 10 }
+                        }
                     }
                 }
             });
@@ -346,7 +629,6 @@
 
         function renderMonthlyHeatmap(monthlyReturns) {
             const months = Object.keys(monthlyReturns).sort();
-            // Group by year
             const years = {};
             months.forEach(m => {
                 const [y, mo] = m.split('-');
@@ -363,62 +645,61 @@
             const body = document.getElementById('monthlyBody');
             body.innerHTML = '';
             Object.keys(years).sort().forEach(year => {
-                let row = `<tr><td><strong>${year}</strong></td>`;
+                let row = `<tr><td style="color: var(--text-secondary); font-weight: 600;">${year}</td>`;
                 let yearTotal = 0;
                 for (let m = 1; m <= 12; m++) {
                     const val = years[year][m];
                     if (val !== undefined) {
                         yearTotal += val;
                         const cls = val >= 0 ? 'heatmap-positive' : 'heatmap-negative';
-                        const intensity = Math.min(Math.abs(val) / 5, 1);
-                        row += `<td class="${cls}" style="opacity: ${0.4 + intensity * 0.6}">${val.toFixed(1)}</td>`;
+                        row += `<td class="${cls}">${val.toFixed(1)}</td>`;
                     } else {
                         row += '<td class="heatmap-empty">—</td>';
                     }
                 }
                 const totalCls = yearTotal >= 0 ? 'positive' : 'negative';
-                row += `<td class="${totalCls}"><strong>${yearTotal.toFixed(1)}</strong></td></tr>`;
+                row += `<td style="color: var(--${totalCls === 'positive' ? 'success' : 'danger'}); font-weight: 700;">${yearTotal.toFixed(1)}</td></tr>`;
                 body.innerHTML += row;
             });
         }
 
-        function renderComparisonChart(data) {
-            const ctx = document.getElementById('comparisonChart').getContext('2d');
-            const sorted = data.strategies.slice().sort((a,b) => b.net_profit - a.net_profit);
-            const top5 = sorted.slice(0, 5);
+        function renderStrategyTable(strategies) {
+            const tbody = document.querySelector('#strategyTable tbody');
+            let html = '';
+            const sorted = [...strategies].sort((a, b) => b.net_profit - a.net_profit);
+            sorted.forEach(s => {
+                const profitClass = s.net_profit >= 0 ? 'positive' : 'negative';
+                html += `
+                    <tr data-category="${s.category}">
+                        <td class="strategy-name">${s.name.replace(/_/g, ' ')}</td>
+                        <td><span class="category-badge">${s.category}</span></td>
+                        <td class="text-mono">${s.total_trades}</td>
+                        <td class="text-mono">${s.win_rate}%</td>
+                        <td class="text-mono">${s.profit_factor}</td>
+                        <td class="text-mono ${profitClass}">$${s.net_profit.toFixed(2)}</td>
+                    </tr>
+                `;
+            });
+            tbody.innerHTML = html;
 
-            const labels = ['Portfolio', ...top5.map(s => s.name)];
-            const values = [data.portfolio.net_profit, ...top5.map(s => s.net_profit)];
-            const colors = ['#00f2fe', '#a855f7', '#10b981', '#f59e0b', '#ef4444', '#3b82f6'];
-
-            new Chart(ctx, {
-                type: 'bar',
-                data: {
-                    labels: labels,
-                    datasets: [{
-                        label: 'Net Profit ($)',
-                        data: values,
-                        backgroundColor: colors.map(c => c + '99'),
-                        borderColor: colors,
-                        borderWidth: 1.5,
-                        borderRadius: 6
-                    }]
-                },
-                options: {
-                    responsive: true,
-                    maintainAspectRatio: false,
-                    indexAxis: 'y',
-                    plugins: { legend: { display: false } },
-                    scales: {
-                        x: { grid: { color: 'rgba(255,255,255,0.05)' }, ticks: { color: '#8b8b9e', callback: v => '$' + v.toLocaleString() } },
-                        y: { grid: { display: false }, ticks: { color: '#c0c0d0', font: { size: 11 } } }
-                    }
-                }
+            // Filter logic
+            document.querySelectorAll('.filter-chip').forEach(chip => {
+                chip.addEventListener('click', () => {
+                    document.querySelectorAll('.filter-chip').forEach(c => c.classList.remove('active'));
+                    chip.classList.add('active');
+                    const filter = chip.dataset.filter;
+                    document.querySelectorAll('#strategyTable tbody tr').forEach(row => {
+                        if (filter === 'all' || row.dataset.category === filter) {
+                            row.style.display = '';
+                        } else {
+                            row.style.display = 'none';
+                        }
+                    });
+                });
             });
         }
 
-        function renderCorrelationHeatmap(data) {
-            const corrMatrix = data.portfolio.correlation_matrix;
+        function renderCorrelationMatrix(corrMatrix) {
             if (!corrMatrix || Object.keys(corrMatrix).length === 0) {
                 document.getElementById('correlationTable').style.display = 'none';
                 return;
@@ -428,31 +709,53 @@
             const headerRow = document.getElementById('corrHeader');
             headerRow.innerHTML = '<th>Strategy</th>';
             strategies.forEach(s => {
-                headerRow.innerHTML += `<th class="corr-rotated"><span>${s.replace(/_/g, ' ')}</span></th>`;
+                headerRow.innerHTML += `<th class="corr-header-cell"><span>${s.replace(/_/g, ' ')}</span></th>`;
             });
 
             const body = document.getElementById('corrBody');
             body.innerHTML = '';
             strategies.forEach(rowStrat => {
-                let row = `<tr><td><strong>${rowStrat.replace(/_/g, ' ')}</strong></td>`;
+                let row = `<tr><td style="color: var(--text-secondary); font-weight: 600; font-size: 0.75rem;">${rowStrat.replace(/_/g, ' ')}</td>`;
                 strategies.forEach(colStrat => {
                     const val = corrMatrix[rowStrat][colStrat];
                     const absVal = Math.abs(val);
                     let bgStyle;
                     if (rowStrat === colStrat) {
-                        bgStyle = 'background: rgba(0, 242, 254, 0.3); color: #00f2fe;';
+                        bgStyle = 'background: rgba(14, 165, 160, 0.15); color: #0ea5a0;';
                     } else if (val >= 0.7) {
-                        bgStyle = `background: rgba(239, 68, 68, ${absVal * 0.6}); color: #fca5a5;`;
+                        bgStyle = `background: rgba(220, 38, 38, ${absVal * 0.2}); color: #fca5a5;`;
                     } else if (val <= -0.3) {
-                        bgStyle = `background: rgba(16, 185, 129, ${absVal * 0.5}); color: #6ee7b7;`;
+                        bgStyle = `background: rgba(22, 163, 74, ${absVal * 0.15}); color: #86efac;`;
                     } else {
-                        bgStyle = `background: rgba(255, 255, 255, ${absVal * 0.15}); color: #c0c0d0;`;
+                        bgStyle = `background: rgba(255, 255, 255, ${absVal * 0.04}); color: #8a8a9e;`;
                     }
-                    row += `<td style="${bgStyle} text-align: center; font-family: 'JetBrains Mono', monospace; font-size: 11px; padding: 6px 4px;">${val.toFixed(2)}</td>`;
+                    row += `<td style="${bgStyle}">${val.toFixed(2)}</td>`;
                 });
                 row += '</tr>';
                 body.innerHTML += row;
             });
+        }
+
+        function renderJournal(trades) {
+            const tbody = document.querySelector('#journalTable tbody');
+            let html = '';
+            const recent = trades.slice().reverse();
+            recent.forEach(t => {
+                html += `
+                    <tr>
+                        <td class="text-mono">#${t.ticket}</td>
+                        <td class="text-mono">${t.entry_time}</td>
+                        <td class="text-mono">${t.close_time}</td>
+                        <td style="font-weight: 600;">${t.symbol}</td>
+                        <td class="text-mono">${t.strategy.replace(/_/g, ' ')}</td>
+                        <td><span class="type-badge ${t.type.toLowerCase()}">${t.type}</span></td>
+                        <td class="text-mono">${t.lot_size.toFixed(2)}</td>
+                        <td class="profit-cell ${t.profit >= 0 ? 'positive' : 'negative'}">$${t.profit.toFixed(2)}</td>
+                        <td class="text-mono" style="color: var(--text-muted);">${t.reason}</td>
+                    </tr>
+                `;
+            });
+            tbody.innerHTML = html;
         }
 
         window.onload = loadData;
