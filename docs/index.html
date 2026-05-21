@@ -314,7 +314,7 @@
                 <div class="section-header">
                     <div class="text-label">Execution Log</div>
                     <h2 class="text-h2">Trade Journal</h2>
-                    <p class="text-body">Last 100 closed trades with entry/exit details and close reason.</p>
+                    <p class="text-body">Last 20 closed trades with entry/exit details and close reason.</p>
                 </div>
                 <div class="panel">
                     <div class="table-wrapper">
@@ -332,8 +332,12 @@
                                     <th>Reason</th>
                                 </tr>
                             </thead>
-                            <tbody></tbody>
+                            <tbody id="journalBody"></tbody>
                         </table>
+                    </div>
+                    <div style="text-align: center; margin-top: var(--sp-4);">
+                        <button class="btn btn-ghost" id="loadMoreBtn" style="display: none;">Load More Trades</button>
+                        <span class="text-small" id="journalCount" style="margin-left: var(--sp-3);"></span>
                     </div>
                 </div>
             </div>
@@ -775,13 +779,42 @@
             });
         }
 
+        // Journal pagination state
+        let allTrades = [];
+        let journalPage = 0;
+        const JOURNAL_PAGE_SIZE = 20;
+
         function renderJournal(trades) {
-            const tbody = document.querySelector('#journalTable tbody');
+            allTrades = trades.slice().reverse();
+            journalPage = 0;
+            renderJournalPage();
+
+            const loadMoreBtn = document.getElementById('loadMoreBtn');
+            if (loadMoreBtn) {
+                if (allTrades.length > JOURNAL_PAGE_SIZE) {
+                    loadMoreBtn.style.display = 'inline-flex';
+                    loadMoreBtn.onclick = () => {
+                        journalPage++;
+                        renderJournalPage();
+                        if ((journalPage + 1) * JOURNAL_PAGE_SIZE >= allTrades.length) {
+                            loadMoreBtn.style.display = 'none';
+                        }
+                    };
+                }
+            }
+            updateJournalCount();
+        }
+
+        function renderJournalPage() {
+            const tbody = document.getElementById('journalBody');
             if (!tbody) return;
 
+            const start = journalPage * JOURNAL_PAGE_SIZE;
+            const end = Math.min(start + JOURNAL_PAGE_SIZE, allTrades.length);
+            const pageTrades = allTrades.slice(start, end);
+
             let html = '';
-            const recent = trades.slice().reverse();
-            recent.forEach(t => {
+            pageTrades.forEach(t => {
                 html += '<tr>' +
                     '<td class="text-mono">#' + t.ticket + '</td>' +
                     '<td class="text-mono">' + t.entry_time + '</td>' +
@@ -794,7 +827,16 @@
                     '<td class="text-mono" style="color: var(--text-muted);">' + t.reason + '</td>' +
                     '</tr>';
             });
-            tbody.innerHTML = html;
+            tbody.innerHTML += html;
+            updateJournalCount();
+        }
+
+        function updateJournalCount() {
+            const countEl = document.getElementById('journalCount');
+            if (countEl) {
+                const shown = Math.min((journalPage + 1) * JOURNAL_PAGE_SIZE, allTrades.length);
+                countEl.textContent = 'Showing ' + shown + ' of ' + allTrades.length + ' trades';
+            }
         }
 
         window.onload = loadData;
