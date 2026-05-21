@@ -59,10 +59,35 @@ def calculate_metrics(trades, equity_curve, initial_balance):
     annual_return = mean_daily_return * 252
     calmar_ratio = annual_return / abs(max_dd/100) if max_dd < 0 else float('inf')
     
+    # Annualized Return
+    annualized_return = ((1 + net_profit / initial_balance) ** (252 / len(df_eq)) - 1) * 100 if len(df_eq) > 1 else 0
+    
+    # Recovery Factor
+    recovery_factor = net_profit / abs(max_dd / 100 * initial_balance) if max_dd < 0 else float('inf')
+    
+    # Expectancy per Trade
+    win_prob = len(winning_trades) / total_trades if total_trades > 0 else 0
+    loss_prob = len(losing_trades) / total_trades if total_trades > 0 else 0
+    expectancy = (win_prob * avg_win) - (loss_prob * abs(avg_loss))
+    
     # Monthly returns grid
-    df_eq['month'] = pd.to_datetime(df_eq['date']).dt.to_period('M')
+    df_eq['date'] = pd.to_datetime(df_eq['date'])
+    df_eq['month'] = df_eq['date'].dt.to_period('M')
     monthly_returns = df_eq.groupby('month')['daily_return'].sum() * 100
     monthly_returns_dict = {str(k): round(v, 2) for k, v in monthly_returns.items()}
+    
+    # Drawdown curve (daily values)
+    drawdown_curve = [{'date': row['date'].strftime('%Y-%m-%d'), 'drawdown': round(row['drawdown'], 2)} for _, row in df_eq.iterrows()]
+    
+    # Inter-strategy correlation matrix
+    correlation_matrix = {}
+    if 'strategy' in df.columns and len(df_eq) > 10:
+        df_with_strat = pd.DataFrame(trades)
+        df_with_strat['date'] = pd.to_datetime(df_with_strat['close_time']).dt.date
+        daily_strat_pnl = df_with_strat.groupby(['date', 'strategy'])['profit'].sum().unstack(fill_value=0)
+        if daily_strat_pnl.shape[1] > 1:
+            corr = daily_strat_pnl.corr()
+            correlation_matrix = corr.round(3).to_dict()
     
     metrics = {
         'total_return': round(total_return, 2),
@@ -75,9 +100,14 @@ def calculate_metrics(trades, equity_curve, initial_balance):
         'sharpe_ratio': round(sharpe_ratio, 2),
         'sortino_ratio': round(sortino_ratio, 2),
         'calmar_ratio': round(calmar_ratio, 2),
+        'annualized_return': round(annualized_return, 2),
+        'recovery_factor': round(recovery_factor, 2),
+        'expectancy': round(expectancy, 2),
         'avg_win': round(avg_win, 2),
         'avg_loss': round(avg_loss, 2),
-        'monthly_returns': monthly_returns_dict
+        'monthly_returns': monthly_returns_dict,
+        'drawdown_curve': drawdown_curve,
+        'correlation_matrix': correlation_matrix
     }
     
     return metrics
