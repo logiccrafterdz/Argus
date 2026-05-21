@@ -3,6 +3,8 @@ import pandas as pd
 import json
 from engine import BacktestEngine
 from analytics import calculate_metrics
+import numpy as np
+from json_encoder import NumpyEncoder
 from strategies.trend_pullback import TrendPullback
 from strategies.ict_killzone import ICTKillzoneMacro
 from strategies.bollinger_mr import BollingerMeanReversion
@@ -114,6 +116,24 @@ def run_backtest():
     eurusd_d1 = eurusd_h4.resample('D').agg({'open': 'first', 'high': 'max', 'low': 'min', 'close': 'last'}).dropna()
     global_regime = MarketRegime(eurusd_d1)
     
+    print("Converting historical data to fast dict lookups...")
+    dict_data = {}
+    for symbol, tfs in data.items():
+        dict_data[symbol] = {}
+        for tf_name, df in tfs.items():
+            dict_data[symbol][tf_name] = df.to_dict('index')
+            
+    print("Converting strategy precalculated data to fast dict lookups...")
+    dict_precalc = {}
+    for symbol, tfs in precalc_data.items():
+        dict_precalc[symbol] = {}
+        for tf, strat_data in tfs.items():
+            dict_precalc[symbol][tf] = {}
+            for strat_name, df in strat_data.items():
+                dict_precalc[symbol][tf][strat_name] = df.to_dict('index')
+                
+    global_regime_dict = global_regime.to_dict()
+
     print("Executing backtest over timeline...")
     count = 0
     total = len(master_timeline)
@@ -127,24 +147,21 @@ def run_backtest():
         current_lows = {}
         
         # Get current state — prefer M15, fallback to H1
-        for symbol, tfs in data.items():
-            if 'M15' in tfs and current_time in tfs['M15'].index:
-                row = tfs['M15'].loc[current_time]
+        for symbol, tfs in dict_data.items():
+            if 'M15' in tfs and current_time in tfs['M15']:
+                row = tfs['M15'][current_time]
                 current_prices[symbol] = row['close']
                 current_highs[symbol] = row['high']
                 current_lows[symbol] = row['low']
-            elif 'H1' in tfs and current_time in tfs['H1'].index:
-                row = tfs['H1'].loc[current_time]
+            elif 'H1' in tfs and current_time in tfs['H1']:
+                row = tfs['H1'][current_time]
                 current_prices[symbol] = row['close']
                 current_highs[symbol] = row['high']
                 current_lows[symbol] = row['low']
                 
         # Current Regime (Daily)
         current_date = current_time.normalize()
-        if current_date in global_regime.index:
-            c_regime = global_regime.loc[current_date]
-        else:
-            c_regime = 1 # fallback Trend
+        c_regime = global_regime_dict.get(current_date, 1) # fallback Trend
             
         c_session = 0
         h = current_time.hour
@@ -158,26 +175,26 @@ def run_backtest():
             continue
             
         # Strategy Signals
-        for symbol, tfs in precalc_data.items():
+        for symbol, tfs in dict_precalc.items():
             if symbol not in current_prices:
                 continue
             for tf, strat_data in tfs.items():
                 if tf == 'M15':
-                    if 'M15' not in data[symbol] or current_time not in data[symbol]['M15'].index: continue
+                    if 'M15' not in dict_data[symbol] or current_time not in dict_data[symbol]['M15']: continue
                 elif tf == 'H1':
                     if current_time.minute != 0: continue
-                    if 'H1' not in data[symbol] or current_time not in data[symbol]['H1'].index: continue
+                    if 'H1' not in dict_data[symbol] or current_time not in dict_data[symbol]['H1']: continue
                 elif tf == 'H4':
                     if current_time.minute != 0 or current_time.hour % 4 != 0: continue
-                    if 'H4' not in data[symbol] or current_time not in data[symbol]['H4'].index: continue
+                    if 'H4' not in dict_data[symbol] or current_time not in dict_data[symbol]['H4']: continue
                 
                 for strat in strategies:
                     if strat.name not in strat_data: continue
                     if not strat.check_regime(c_regime) or not strat.check_session(c_session): continue
                     
-                    try:
-                        row = strat_data[strat.name].loc[current_time]
-                    except KeyError:
+                    if current_time in strat_data[strat.name]:
+                        row = strat_data[strat.name][current_time]
+                    else:
                         continue
                         
                     if row['signal'] == 1:
@@ -235,29 +252,45 @@ def run_backtest():
                     'net_profit': 0.0
                 })
 
-    # Prepare JSON output
-    # Format dates for JSON
-    for point in engine.equity_curve:
-        point['date'] = point['date'].strftime('%Y-%m-%d')
+    try:
+        # Prepare JSON output
+        # Format dates for JSON
+        for point in engine.equity_curve:
+            point['date'] = point['date'].strftime('%Y-%m-%d')
+            
+        for t in engine.closed_trades:
+            t['entry_time'] = t['entry_time'].strftime('%Y-%m-%d %H:%M:%S')
+            t['close_time'] = t['close_time'].strftime('%Y-%m-%d %H:%M:%S')
+            
+        # Convert any Series or un-serializable objects inside strat_metrics
+        for s in strat_metrics:
+            for k, v in s.items():
+                if hasattr(v, 'item'):
+                    s[k] = v.item()
+                    
+        # Make sure portfolio metrics values are floats/ints
+        for k, v in port_metrics.items():
+            if hasattr(v, 'item'):
+                port_metrics[k] = v.item()
+                
+        results = {
+            'portfolio': port_metrics,
+            'strategies': strat_metrics,
+            'equity_curve': engine.equity_curve,
+            'recent_trades': engine.closed_trades[-100:] # Last 100
+        }
         
-    for t in engine.closed_trades:
-        t['entry_time'] = t['entry_time'].strftime('%Y-%m-%d %H:%M:%S')
-        t['close_time'] = t['close_time'].strftime('%Y-%m-%d %H:%M:%S')
+        abs_results_dir = os.path.abspath(RESULTS_DIR)
+        if not os.path.exists(abs_results_dir):
+            os.makedirs(abs_results_dir)
+            
+        with open(os.path.join(abs_results_dir, 'results.json'), 'w') as f:
+            json.dump(results, f, indent=4, cls=NumpyEncoder)
+            
+        print(f"Results saved to {os.path.join(abs_results_dir, 'results.json')}")
+    except Exception as e:
+        print(f"FAILED TO SAVE JSON: {e}")
         
-    results = {
-        'portfolio': port_metrics,
-        'strategies': strat_metrics,
-        'equity_curve': engine.equity_curve,
-        'recent_trades': engine.closed_trades[-100:] # Last 100
-    }
-    
-    if not os.path.exists(RESULTS_DIR):
-        os.makedirs(RESULTS_DIR)
-        
-    with open(os.path.join(RESULTS_DIR, 'results.json'), 'w') as f:
-        json.dump(results, f, indent=4)
-        
-    print(f"Results saved to {os.path.join(RESULTS_DIR, 'results.json')}")
     print(port_metrics)
 
 if __name__ == "__main__":
