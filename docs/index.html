@@ -96,6 +96,9 @@
                 <div class="kpi-grid" id="kpiGrid">
                     <!-- Populated by JS -->
                 </div>
+                <div class="kpi-secondary" id="kpiSecondary">
+                    <!-- Populated by JS -->
+                </div>
             </div>
         </section>
 
@@ -463,7 +466,7 @@
                 const port = data.portfolio;
                 if (!port) throw new Error('Missing portfolio data');
 
-                // KPIs
+                // KPIs - 3 primary
                 const kpiGrid = document.getElementById('kpiGrid');
                 if (kpiGrid) {
                     kpiGrid.innerHTML = `
@@ -482,20 +485,24 @@
                             <div class="kpi-value neutral">${port.recovery_factor || 'N/A'}</div>
                             <div class="kpi-sub">Net profit / Max DD</div>
                         </div>
+                    `;
+                }
+
+                // KPIs - 3 secondary
+                const kpiSecondary = document.getElementById('kpiSecondary');
+                if (kpiSecondary) {
+                    kpiSecondary.innerHTML = `
                         <div class="kpi-tile animate-in">
                             <div class="text-label">Profit Factor</div>
                             <div class="kpi-value neutral">${(port.profit_factor || 0).toFixed(2)}</div>
-                            <div class="kpi-sub">Gross profit / Gross loss</div>
                         </div>
                         <div class="kpi-tile animate-in">
                             <div class="text-label">Win Rate</div>
                             <div class="kpi-value neutral">${(port.win_rate || 0).toFixed(2)}%</div>
-                            <div class="kpi-sub">${port.total_trades || 0} total trades</div>
                         </div>
                         <div class="kpi-tile animate-in">
                             <div class="text-label">Sharpe Ratio</div>
                             <div class="kpi-value neutral">${(port.sharpe_ratio || 0).toFixed(2)}</div>
-                            <div class="kpi-sub">Sortino: ${port.sortino_ratio ? port.sortino_ratio.toFixed(2) : 'N/A'}</div>
                         </div>
                     `;
                 }

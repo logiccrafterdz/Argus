@@ -453,6 +453,27 @@ body {
   margin-top: var(--sp-2);
 }
 
+.kpi-secondary {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: var(--sp-3);
+  margin-top: var(--sp-4);
+}
+
+.kpi-secondary .kpi-tile {
+  background: transparent;
+  border: 1px solid var(--border-subtle);
+  padding: var(--sp-3) var(--sp-4);
+}
+
+.kpi-secondary .kpi-value {
+  font-size: 1.125rem;
+}
+
+.kpi-secondary .kpi-sub {
+  font-size: 0.688rem;
+}
+
 /* ─── Cards / Panels ─── */
 .panel {
   background: var(--bg-elevated);
@@ -1032,6 +1053,7 @@ details summary {
 /* ─── Responsive ─── */
 @media (max-width: 1200px) {
   .kpi-grid { grid-template-columns: repeat(3, 1fr); }
+  .kpi-secondary { grid-template-columns: repeat(3, 1fr); }
   .risk-grid { grid-template-columns: repeat(2, 1fr); }
   .footer-grid { grid-template-columns: 1fr 1fr; }
 }
@@ -1043,10 +1065,12 @@ details summary {
   .nav-links { display: none; }
   .arch-flow { flex-direction: column; }
   .arch-arrow { transform: rotate(90deg); justify-content: center; }
+  .kpi-secondary { grid-template-columns: repeat(2, 1fr); }
 }
 
 @media (max-width: 640px) {
   .kpi-grid { grid-template-columns: repeat(2, 1fr); }
+  .kpi-secondary { grid-template-columns: repeat(2, 1fr); }
   .risk-grid { grid-template-columns: 1fr; }
   .metrics-grid { grid-template-columns: 1fr; }
   .footer-grid { grid-template-columns: 1fr; }
