@@ -10,7 +10,7 @@ class VolatilitySqueeze(BaseStrategy):
         super().__init__(
             name="Volatility_Squeeze",
             category="Breakout",
-            regime_mask=4 | 8, # EXPANSION | COMPRESSION
+            regime_mask=2 | 4 | 8, # RANGE | EXPANSION | COMPRESSION
             session_mask=7
         )
         
@@ -19,6 +19,8 @@ class VolatilitySqueeze(BaseStrategy):
         kc_upper, _, kc_lower = KeltnerChannels(df, period=20, atr_period=10, multiplier=1.5)
         
         df['ema'] = EMA(df['close'], 20)
+        
+        self._add_atr_col(df)
         
         signals = []
         sl_prices = []
@@ -45,11 +47,11 @@ class VolatilitySqueeze(BaseStrategy):
                 
                 if close1 > ema:
                     signal = 1
-                    sl = df['low'].iloc[i-2:i].min() - 0.00050
+                    sl = df['low'].iloc[i-2:i].min() - self._atr_buf(df, i-1)
                     tp = close1 + (close1 - sl) * 2.0
                 elif close1 < ema:
                     signal = -1
-                    sl = df['high'].iloc[i-2:i].max() + 0.00050
+                    sl = df['high'].iloc[i-2:i].max() + self._atr_buf(df, i-1)
                     tp = close1 - (sl - close1) * 2.0
 
             signals.append(signal)

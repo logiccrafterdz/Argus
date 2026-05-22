@@ -20,6 +20,8 @@ class SuperTrendEMA(BaseStrategy):
         df['st_val'] = supertrend
         df['ema'] = EMA(df['close'], 50)
         
+        self._add_atr_col(df)
+        
         signals = []
         sl_prices = []
         tp_prices = []
@@ -38,11 +40,11 @@ class SuperTrendEMA(BaseStrategy):
             # Supertrend flips direction in agreement with EMA
             if dir1 == 1 and dir2 == -1 and close1 > ema1:
                 signal = 1
-                sl = st_val - 0.00050
+                sl = st_val - self._atr_buf(df, i-1)
                 tp = close1 + (close1 - sl) * 1.5
             elif dir1 == -1 and dir2 == 1 and close1 < ema1:
                 signal = -1
-                sl = st_val + 0.00050
+                sl = st_val + self._atr_buf(df, i-1)
                 tp = close1 - (sl - close1) * 1.5
 
             signals.append(signal)

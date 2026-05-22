@@ -26,6 +26,8 @@ class TrendPullback(BaseStrategy):
         # Precompute swing arrays once
         swing_highs, swing_lows = precompute_swings(df)
         
+        self._add_atr_col(df)
+        
         signals = []
         sl_prices = []
         tp_prices = []
@@ -61,13 +63,13 @@ class TrendPullback(BaseStrategy):
             
             if bull_trigger:
                 signals.append(1)
-                sl = df['low'].iloc[i-1] - 0.00050 # 5 pips approx for FX
+                sl = df['low'].iloc[i-1] - self._atr_buf(df, i-1)
                 tp = df['close'].iloc[i-1] + ((df['close'].iloc[i-1] - sl) * self.tp_multiplier)
                 sl_prices.append(sl)
                 tp_prices.append(tp)
             elif bear_trigger:
                 signals.append(-1)
-                sl = df['high'].iloc[i-1] + 0.00050
+                sl = df['high'].iloc[i-1] + self._atr_buf(df, i-1)
                 tp = df['close'].iloc[i-1] - ((sl - df['close'].iloc[i-1]) * self.tp_multiplier)
                 sl_prices.append(sl)
                 tp_prices.append(tp)

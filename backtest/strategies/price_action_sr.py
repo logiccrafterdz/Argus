@@ -23,6 +23,7 @@ class PriceActionSR(BaseStrategy):
         
         is_high = get_swing_highs(df, 3)
         is_low = get_swing_lows(df, 3)
+        self._add_atr_col(df)
         
         start_idx = self.lookback
         
@@ -44,14 +45,14 @@ class PriceActionSR(BaseStrategy):
                 # Reversal off support
                 if not np.isnan(sup) and close1 <= sup + self.buffer and df['close'].iloc[i-1] > df['open'].iloc[i-1]:
                     signal = 1
-                    sl = sup - 0.00100
-                    tp = res if not np.isnan(res) else close1 + 0.00200
+                    sl = sup - self._atr_buf(df, i-1, 1.0)
+                    tp = res if not np.isnan(res) else close1 + self._atr_buf(df, i-1, 2.0)
                     
                 # Reversal off resistance
                 elif not np.isnan(res) and close1 >= res - self.buffer and df['close'].iloc[i-1] < df['open'].iloc[i-1]:
                     signal = -1
-                    sl = res + 0.00100
-                    tp = sup if not np.isnan(sup) else close1 - 0.00200
+                    sl = res + self._atr_buf(df, i-1, 1.0)
+                    tp = sup if not np.isnan(sup) else close1 - self._atr_buf(df, i-1, 2.0)
                     
             signals.append(signal)
             sl_prices.append(sl)

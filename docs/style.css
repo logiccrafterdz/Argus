@@ -1131,3 +1131,28 @@ details summary {
   .hero-actions { flex-direction: column; }
   .ribbon-inner { gap: var(--sp-3); }
 }
+
+/* ─── Maintenance Banner ─── */
+.maintenance-banner {
+  background: linear-gradient(135deg, #1a0a0a, #2a1515);
+  color: #f0b0b0;
+  text-align: center;
+  padding: 12px 20px;
+  font-size: 14px;
+  font-weight: 500;
+  letter-spacing: 0.3px;
+  border-bottom: 1px solid rgba(255, 80, 80, 0.15);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+}
+.maintenance-icon {
+  display: inline-block;
+  animation: spin 3s linear infinite;
+  font-size: 18px;
+}
+@keyframes spin {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
+}

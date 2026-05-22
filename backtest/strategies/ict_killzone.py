@@ -8,9 +8,9 @@ import pandas as pd
 class ICTKillzoneMacro(BaseStrategy):
     def __init__(self):
         super().__init__(
-            name="ICT Killzone Macro",
+            name="ICT_Killzone_Macro",
             category="Liquidity Hunting",
-            regime_mask=4 | 16, # REGIME_EXPANSION | REGIME_REVERSAL
+            regime_mask=1 | 4 | 16, # TREND | EXPANSION | REVERSAL
             session_mask=2 | 4 # SESSION_LONDON | SESSION_NY
         )
         self.killzone_start_hour = 8
@@ -24,6 +24,7 @@ class ICTKillzoneMacro(BaseStrategy):
         tp_prices = []
         
         start_idx = self.ref_lookback_hours * 4 # roughly for M15
+        self._add_atr_col(df)
         
         for i in range(start_idx, len(df)):
             current_time = df['time'].iloc[i]
@@ -52,14 +53,14 @@ class ICTKillzoneMacro(BaseStrategy):
                 # Bullish Sweep
                 if low1 < self.liq_low - self.sweep_buffer_points and close1 > self.liq_low and not self.sweep_buy_triggered:
                     signal = 1
-                    sl = low1 - 0.00020
+                    sl = low1 - self._atr_buf(df, i-1, 0.2)
                     tp = (self.liq_high + self.liq_low) / 2.0 # Mid point
                     self.sweep_buy_triggered = True
                 
                 # Bearish Sweep
                 elif high1 > self.liq_high + self.sweep_buffer_points and close1 < self.liq_high and not self.sweep_sell_triggered:
                     signal = -1
-                    sl = high1 + 0.00020
+                    sl = high1 + self._atr_buf(df, i-1, 0.2)
                     tp = (self.liq_high + self.liq_low) / 2.0
                     self.sweep_sell_triggered = True
 

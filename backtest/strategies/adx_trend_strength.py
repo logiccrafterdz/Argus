@@ -20,6 +20,7 @@ class ADXTrendStrength(BaseStrategy):
         df['pdi'] = pdi
         df['mdi'] = mdi
         df['ema'] = EMA(df['close'], 50)
+        self._add_atr_col(df)
         
         signals = []
         sl_prices = []
@@ -45,11 +46,11 @@ class ADXTrendStrength(BaseStrategy):
                 # DI crossover
                 if pdi1 > mdi1 and pdi2 <= mdi2 and close1 > ema1:
                     signal = 1
-                    sl = df['low'].iloc[i-3:i].min() - 0.00050
+                    sl = df['low'].iloc[i-3:i].min() - self._atr_buf(df, i-1)
                     tp = close1 + (close1 - sl) * 1.5
                 elif mdi1 > pdi1 and mdi2 <= pdi2 and close1 < ema1:
                     signal = -1
-                    sl = df['high'].iloc[i-3:i].max() + 0.00050
+                    sl = df['high'].iloc[i-3:i].max() + self._atr_buf(df, i-1)
                     tp = close1 - (sl - close1) * 1.5
 
             signals.append(signal)

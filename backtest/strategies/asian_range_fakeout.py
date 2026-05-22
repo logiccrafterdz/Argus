@@ -14,6 +14,8 @@ class AsianRangeFakeout(BaseStrategy):
         )
         
     def prepare_data(self, df):
+        self._add_atr_col(df)
+        
         signals = []
         sl_prices = []
         tp_prices = []
@@ -59,14 +61,14 @@ class AsianRangeFakeout(BaseStrategy):
                     fakeout_dn = True
                     
                 # Enter on fakeout
-                if fakeout_up and close1 < asian_high - 0.00050:
+                if fakeout_up and close1 < asian_high - self._atr_buf(df, i-1):
                     signal = -1
-                    sl = asian_high + 0.00050
+                    sl = asian_high + self._atr_buf(df, i-1)
                     tp = asian_low
                     traded_today = True
-                elif fakeout_dn and close1 > asian_low + 0.00050:
+                elif fakeout_dn and close1 > asian_low + self._atr_buf(df, i-1):
                     signal = 1
-                    sl = asian_low - 0.00050
+                    sl = asian_low - self._atr_buf(df, i-1)
                     tp = asian_high
                     traded_today = True
 

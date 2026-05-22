@@ -22,6 +22,7 @@ class AVWAPConfluence(BaseStrategy):
         
         is_high = get_swing_highs(df, 10)
         is_low = get_swing_lows(df, 10)
+        self._add_atr_col(df)
         
         # Simplified Anchored VWAP: reset on significant swing high/low
         avwap = np.nan
@@ -53,12 +54,12 @@ class AVWAPConfluence(BaseStrategy):
                 buffer = 0.00050
                 if close2 < avwap and close1 > avwap + buffer:
                     signal = 1
-                    sl = df['low'].iloc[i-1] - 0.00100
-                    tp = close1 + 0.00200
+                    sl = df['low'].iloc[i-1] - self._atr_buf(df, i-1, 1.0)
+                    tp = close1 + self._atr_buf(df, i-1, 2.0)
                 elif close2 > avwap and close1 < avwap - buffer:
                     signal = -1
-                    sl = df['high'].iloc[i-1] + 0.00100
-                    tp = close1 - 0.00200
+                    sl = df['high'].iloc[i-1] + self._atr_buf(df, i-1, 1.0)
+                    tp = close1 - self._atr_buf(df, i-1, 2.0)
                     
             signals.append(signal)
             sl_prices.append(sl)

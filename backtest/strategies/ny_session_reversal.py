@@ -14,6 +14,7 @@ class NYSessionReversal(BaseStrategy):
         )
         
     def prepare_data(self, df):
+        self._add_atr_col(df)
         signals = []
         sl_prices = []
         tp_prices = []
@@ -49,14 +50,14 @@ class NYSessionReversal(BaseStrategy):
                 low1 = df['low'].iloc[i-1]
                 
                 # NY fakeout of London High/Low
-                if high1 > london_high and close1 < london_high - 0.00050:
+                if high1 > london_high and close1 < london_high - self._atr_buf(df, i-1):
                     signal = -1
-                    sl = high1 + 0.00050
+                    sl = high1 + self._atr_buf(df, i-1)
                     tp = london_low
                     traded_today = True
-                elif low1 < london_low and close1 > london_low + 0.00050:
+                elif low1 < london_low and close1 > london_low + self._atr_buf(df, i-1):
                     signal = 1
-                    sl = low1 - 0.00050
+                    sl = low1 - self._atr_buf(df, i-1)
                     tp = london_high
                     traded_today = True
 

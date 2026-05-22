@@ -13,7 +13,7 @@ def ATR(df, period=14):
     low_close = np.abs(df['low'] - df['close'].shift())
     ranges = pd.concat([high_low, high_close, low_close], axis=1)
     true_range = np.max(ranges, axis=1)
-    return true_range.rolling(window=period).mean() # Simplified ATR using SMA instead of Wilder's RMA for speed, close enough to MT5
+    return true_range.ewm(alpha=1/period, adjust=False).mean() # Wilder's RMA (matches MT5)
 
 def ADX(df, period=14):
     up = df['high'] - df['high'].shift()
@@ -45,8 +45,8 @@ def BollingerBands(series, period=20, std_dev=2):
 
 def RSI(series, period=14):
     delta = series.diff()
-    gain = (delta.where(delta > 0, 0)).rolling(window=period).mean()
-    loss = (-delta.where(delta < 0, 0)).rolling(window=period).mean()
+    gain = (delta.where(delta > 0, 0)).ewm(alpha=1/period, adjust=False).mean()
+    loss = (-delta.where(delta < 0, 0)).ewm(alpha=1/period, adjust=False).mean()
     
     rs = gain / loss
     rsi = 100 - (100 / (1 + rs))

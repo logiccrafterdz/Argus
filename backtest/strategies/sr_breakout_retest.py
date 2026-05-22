@@ -9,7 +9,7 @@ class SRBreakoutRetest(BaseStrategy):
         super().__init__(
             name="SR_Breakout_Retest",
             category="Breakout",
-            regime_mask=1 | 4, # TREND | EXPANSION
+            regime_mask=1 | 2 | 4, # TREND | RANGE | EXPANSION
             session_mask=7
         )
         self.lookback = 40
@@ -21,6 +21,8 @@ class SRBreakoutRetest(BaseStrategy):
         tp_prices = []
         
         start_idx = self.lookback
+        
+        self._add_atr_col(df)
         
         for i in range(start_idx, len(df)):
             close1 = df['close'].iloc[i-1]
@@ -37,14 +39,14 @@ class SRBreakoutRetest(BaseStrategy):
             # Bullish: previous candle closed above recent high, current candle pulls back
             if close2 > recent_high and close1 <= recent_high + self.buffer and close1 >= recent_high - self.buffer:
                 signal = 1
-                sl = close1 - 0.00100
-                tp = close1 + 0.00200
+                sl = close1 - self._atr_buf(df, i-1, 1.0)
+                tp = close1 + self._atr_buf(df, i-1, 2.0)
                 
             # Bearish
             elif close2 < recent_low and close1 >= recent_low - self.buffer and close1 <= recent_low + self.buffer:
                 signal = -1
-                sl = close1 + 0.00100
-                tp = close1 - 0.00200
+                sl = close1 + self._atr_buf(df, i-1, 1.0)
+                tp = close1 - self._atr_buf(df, i-1, 2.0)
                 
             signals.append(signal)
             sl_prices.append(sl)

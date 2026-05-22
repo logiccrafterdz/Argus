@@ -21,6 +21,7 @@ class HiddenDivergence(BaseStrategy):
         
         is_high = get_swing_highs(df, 3)
         is_low = get_swing_lows(df, 3)
+        self._add_atr_col(df)
         
         signals = []
         sl_prices = []
@@ -45,8 +46,8 @@ class HiddenDivergence(BaseStrategy):
                     
                     if curr_low_price > prev_low_price and rsi1 < prev_rsi:
                         signal = 1
-                        sl = curr_low_price - 0.00100
-                        tp = close1 + 0.00200
+                        sl = curr_low_price - self._atr_buf(df, i-1, 1.0)
+                        tp = close1 + self._atr_buf(df, i-1, 2.0)
                         
             # Hidden Bearish Div: price makes lower high, RSI makes higher high
             elif is_high[i-1]:
@@ -58,8 +59,8 @@ class HiddenDivergence(BaseStrategy):
                     
                     if curr_high_price < prev_high_price and rsi1 > prev_rsi:
                         signal = -1
-                        sl = curr_high_price + 0.00100
-                        tp = close1 - 0.00200
+                        sl = curr_high_price + self._atr_buf(df, i-1, 1.0)
+                        tp = close1 - self._atr_buf(df, i-1, 2.0)
 
             signals.append(signal)
             sl_prices.append(sl)

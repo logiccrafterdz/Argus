@@ -41,6 +41,49 @@ class BacktestEngine:
         }
         self.default_contract_size = self.config.get('default_contract_size', 100000.0)
         
+        tick_cfg = self.config.get('tick_size', {})
+        self.tick_size_map = {
+            'EURUSD': tick_cfg.get('EURUSD', 0.00001),
+            'GBPUSD': tick_cfg.get('GBPUSD', 0.00001),
+            'USDJPY': tick_cfg.get('USDJPY', 0.001),
+            'USDCHF': tick_cfg.get('USDCHF', 0.00001),
+            'AUDUSD': tick_cfg.get('AUDUSD', 0.00001),
+            'USDCAD': tick_cfg.get('USDCAD', 0.00001),
+            'NZDUSD': tick_cfg.get('NZDUSD', 0.00001),
+            'EURJPY': tick_cfg.get('EURJPY', 0.001),
+            'GBPJPY': tick_cfg.get('GBPJPY', 0.001),
+            'XAUUSD': tick_cfg.get('XAUUSD', 0.01),
+            'US30': tick_cfg.get('US30', 1.0),
+            'NAS100': tick_cfg.get('NAS100', 1.0),
+        }
+        
+        pip_cfg = self.config.get('pip_size', {})
+        self.pip_size_map = {
+            'EURUSD': pip_cfg.get('EURUSD', 0.0001),
+            'GBPUSD': pip_cfg.get('GBPUSD', 0.0001),
+            'USDJPY': pip_cfg.get('USDJPY', 0.01),
+            'USDCHF': pip_cfg.get('USDCHF', 0.0001),
+            'AUDUSD': pip_cfg.get('AUDUSD', 0.0001),
+            'USDCAD': pip_cfg.get('USDCAD', 0.0001),
+            'NZDUSD': pip_cfg.get('NZDUSD', 0.0001),
+            'EURJPY': pip_cfg.get('EURJPY', 0.01),
+            'GBPJPY': pip_cfg.get('GBPJPY', 0.01),
+            'XAUUSD': pip_cfg.get('XAUUSD', 0.01),
+            'US30': pip_cfg.get('US30', 1.0),
+            'NAS100': pip_cfg.get('NAS100', 1.0),
+        }
+        
+        tv_cfg = self.config.get('tick_value', {})
+        self.tick_value_map = {
+            'EURUSD': tv_cfg.get('EURUSD', 1.0),
+            'GBPUSD': tv_cfg.get('GBPUSD', 1.0),
+            'AUDUSD': tv_cfg.get('AUDUSD', 1.0),
+            'NZDUSD': tv_cfg.get('NZDUSD', 1.0),
+            'XAUUSD': tv_cfg.get('XAUUSD', 1.0),
+            'US30': tv_cfg.get('US30', 1.0),
+            'NAS100': tv_cfg.get('NAS100', 1.0),
+        }
+        
         comm_cfg = self.config.get('execution', {}).get('commission_map', {})
         self.commission_map = {
             'XAUUSD': comm_cfg.get('XAUUSD', 3.50),
@@ -56,8 +99,37 @@ class BacktestEngine:
         self.ticket_counter = 1
         self.is_bankrupt = False
         self.bankruptcy_threshold = initial_balance * 0.05
+        self.peak_balance = initial_balance
+        self.max_drawdown_pct = self.config.get('risk', {}).get('max_drawdown_pct', 50.0)
     def contract_size(self, symbol):
         return self.contract_size_map.get(symbol, 100000.0)
+    
+    def tick_size(self, symbol):
+        return self.tick_size_map.get(symbol, 0.00001)
+    
+    def pip_size(self, symbol):
+        return self.pip_size_map.get(symbol, 0.0001)
+    
+    def tick_value(self, symbol):
+        return self.tick_value_map.get(symbol, 1.0)
+    
+    def calculate_lot_size(self, symbol, risk_percent, risk_distance, equity):
+        if risk_distance <= 0:
+            return 0.0
+        risk_amount = equity * (risk_percent / 100.0)
+        t_size = self.tick_size(symbol)
+        t_value = self.tick_value(symbol)
+        risk_ticks = risk_distance / t_size
+        risk_per_lot = risk_ticks * t_value
+        if risk_per_lot <= 0:
+            return 0.0
+        lot = risk_amount / risk_per_lot
+        min_vol = 0.01
+        max_vol = 100.0
+        step_vol = 0.01
+        lot = np.floor(lot / step_vol) * step_vol
+        lot = max(min_vol, min(max_vol, lot))
+        return lot
     
     def position_value(self, symbol, lots):
         return lots * self.contract_size(symbol)
@@ -212,6 +284,11 @@ class BacktestEngine:
     def update(self, current_time, current_prices, current_highs, current_lows):
         self.current_time = current_time
         self.equity = self.calculate_equity(current_prices)
+        self.peak_balance = max(self.peak_balance, self.balance)
+        dd_from_peak = ((self.peak_balance - self.balance) / self.peak_balance) * 100
+        if dd_from_peak >= self.max_drawdown_pct and not self.is_bankrupt:
+            self.is_bankrupt = True
+            self.logger.warning(f"MAX DRAWDOWN at {current_time}: peak={self.peak_balance:.2f}, balance={self.balance:.2f}, dd={dd_from_peak:.1f}%")
         
         if self.risk_manager.update(current_time, self.equity):
             self.emergency_close_all(current_prices)

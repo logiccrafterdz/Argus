@@ -18,6 +18,7 @@ class LiquiditySweepBreakout(BaseStrategy):
     def prepare_data(self, df):
         # Precompute swing arrays once
         swing_highs, swing_lows = precompute_swings(df)
+        self._add_atr_col(df)
         
         signals = []
         sl_prices = []
@@ -28,7 +29,7 @@ class LiquiditySweepBreakout(BaseStrategy):
         for i in range(start_idx, len(df)):
             close1 = df['close'].iloc[i-1]
             
-            liq_high, liq_low = get_liquidity_pools(df, i, self.lookback, 2, 0.00050, swing_highs, swing_lows)
+            liq_high, liq_low = get_liquidity_pools(df, i, self.lookback, 2, self._atr_buf(df, i, 0.5), swing_highs, swing_lows)
             
             signal = 0
             sl = np.nan
@@ -40,14 +41,14 @@ class LiquiditySweepBreakout(BaseStrategy):
                 recent_high = df['high'].iloc[i-10:i-1].max()
                 if close1 > recent_high:
                     signal = 1
-                    sl = df['low'].iloc[i-2] - 0.00050
+                    sl = df['low'].iloc[i-2] - self._atr_buf(df, i-1)
                     tp = close1 + (close1 - sl) * 2.0
                     
             elif not np.isnan(liq_high) and df['high'].iloc[i-2] > liq_high and close1 < liq_high:
                 recent_low = df['low'].iloc[i-10:i-1].min()
                 if close1 < recent_low:
                     signal = -1
-                    sl = df['high'].iloc[i-2] + 0.00050
+                    sl = df['high'].iloc[i-2] + self._atr_buf(df, i-1)
                     tp = close1 - (sl - close1) * 2.0
                     
             signals.append(signal)

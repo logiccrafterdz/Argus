@@ -19,6 +19,7 @@ class LiquiditySweepFVG(BaseStrategy):
     def prepare_data(self, df):
         # Precompute swing arrays once
         swing_highs, swing_lows = precompute_swings(df)
+        self._add_atr_col(df)
         
         signals = []
         sl_prices = []
@@ -44,7 +45,7 @@ class LiquiditySweepFVG(BaseStrategy):
                 fvg_bearish = True
                 fvg_price_high = df['low'].iloc[i-3]
 
-            liq_high, liq_low = get_liquidity_pools(df, i, self.lookback, 2, self.threshold, swing_highs, swing_lows)
+            liq_high, liq_low = get_liquidity_pools(df, i, self.lookback, 2, self._atr_buf(df, i, 0.5), swing_highs, swing_lows)
             
             signal = 0
             sl = np.nan
@@ -54,13 +55,13 @@ class LiquiditySweepFVG(BaseStrategy):
                 # Sweep low, then FVG formed
                 if df['low'].iloc[i-2] < liq_low:
                     signal = 1
-                    sl = df['low'].iloc[i-2] - 0.00050
+                    sl = df['low'].iloc[i-2] - self._atr_buf(df, i-1)
                     tp = df['close'].iloc[i-1] + (df['close'].iloc[i-1] - sl) * 2.5
             elif fvg_bearish and not np.isnan(liq_high):
                 # Sweep high, then FVG formed
                 if df['high'].iloc[i-2] > liq_high:
                     signal = -1
-                    sl = df['high'].iloc[i-2] + 0.00050
+                    sl = df['high'].iloc[i-2] + self._atr_buf(df, i-1)
                     tp = df['close'].iloc[i-1] - (sl - df['close'].iloc[i-1]) * 2.5
 
             signals.append(signal)

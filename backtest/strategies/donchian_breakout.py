@@ -10,7 +10,7 @@ class DonchianBreakout(BaseStrategy):
         super().__init__(
             name="Donchian_Breakout",
             category="Breakout",
-            regime_mask=4, # EXPANSION
+            regime_mask=1 | 2 | 4, # TREND | RANGE | EXPANSION
             session_mask=7
         )
         
@@ -19,6 +19,7 @@ class DonchianBreakout(BaseStrategy):
         df['dc_upper'] = upper
         df['dc_lower'] = lower
         df['ema'] = EMA(df['close'], 50)
+        self._add_atr_col(df)
         
         signals = []
         sl_prices = []

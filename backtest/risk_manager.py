@@ -94,17 +94,20 @@ class RiskManager:
         lot = np.floor(lot / step_vol) * step_vol
         lot = max(min_vol, min(max_vol, lot))
         return lot
-    def check_correlation(self, symbol, open_positions, correlation_matrix, threshold=0.8):
-        # Prevent taking a trade if it is highly correlated with a currently open position
+    def check_correlation(self, symbol, order_type, open_positions, correlation_matrix, threshold=0.8):
         if correlation_matrix is None or symbol not in correlation_matrix:
             return True
         for pos in open_positions:
             open_symbol = pos['symbol']
             if open_symbol in correlation_matrix.columns:
                 corr = correlation_matrix.loc[symbol, open_symbol]
-                # If correlation is > threshold, and we are taking the same direction trade, reject
-                if corr > threshold:
-                    return False
+                if abs(corr) > threshold:
+                    # Same direction: high positive corr = double exposure -> reject
+                    # Opposite direction: high negative corr = effective double exposure -> reject
+                    if order_type == pos['type'] and corr > threshold:
+                        return False
+                    if order_type != pos['type'] and corr < -threshold:
+                        return False
         return True
 
     def is_news_blocked(self, current_time):

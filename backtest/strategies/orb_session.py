@@ -9,12 +9,13 @@ class ORBSession(BaseStrategy):
         super().__init__(
             name="ORB_Session",
             category="Breakout",
-            regime_mask=4, # EXPANSION
+            regime_mask=1 | 4, # TREND | EXPANSION
             session_mask=2 | 4 # LONDON | NY
         )
         self.orb_duration_minutes = 30
         
     def prepare_data(self, df):
+        self._add_atr_col(df)
         signals = []
         sl_prices = []
         tp_prices = []

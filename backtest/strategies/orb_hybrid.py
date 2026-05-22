@@ -17,6 +17,7 @@ class ORBHybrid(BaseStrategy):
         
     def prepare_data(self, df):
         df['ema'] = EMA(df['close'], self.ema_period)
+        self._add_atr_col(df)
         
         signals = []
         sl_prices = []
