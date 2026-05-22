@@ -19,7 +19,7 @@ def calculate_metrics(trades, equity_curve, initial_balance):
     
     profit_factor = gross_profit / gross_loss if gross_loss > 0 else float('inf')
     net_profit = df['profit'].sum()
-    total_return = (net_profit / initial_balance) * 100
+    total_return = max((net_profit / initial_balance) * 100, -100.0)
     
     avg_win = winning_trades['profit'].mean() if not winning_trades.empty else 0
     avg_loss = losing_trades['profit'].mean() if not losing_trades.empty else 0

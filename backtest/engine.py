@@ -54,6 +54,8 @@ class BacktestEngine:
         self.slippage_max = slippage_cfg.get('slippage_max', 0.3)
         self.current_time = None
         self.ticket_counter = 1
+        self.is_bankrupt = False
+        self.bankruptcy_threshold = initial_balance * 0.05
     def contract_size(self, symbol):
         return self.contract_size_map.get(symbol, 100000.0)
     
@@ -76,7 +78,7 @@ class BacktestEngine:
         return equity
 
     def execute_trade(self, symbol, strategy_name, order_type, lot_size, entry_price, sl, tp, comment):
-        if self.risk_manager.is_halted:
+        if self.is_bankrupt or self.risk_manager.is_halted:
             return False
             
         if not self.risk_manager.check_exposure(symbol, order_type, self.open_positions):
@@ -149,6 +151,10 @@ class BacktestEngine:
         if pos['remaining_lots'] <= 0.001:
             self.open_positions.remove(pos)
 
+        if self.balance < self.bankruptcy_threshold and not self.is_bankrupt:
+            self.is_bankrupt = True
+            self.logger.warning(f"BANKRUPT at {close_time}: balance={self.balance:.2f} < threshold={self.bankruptcy_threshold:.2f}")
+
     def close_position_partial(self, pos, close_price, close_time, reason, lots_to_close):
         cs = self.contract_size(pos['symbol'])
         if pos['type'] == 'BUY':
@@ -175,11 +181,15 @@ class BacktestEngine:
         })
         pos['remaining_lots'] -= lots_to_close
 
-    def emergency_close_all(self, current_prices):
+        if self.balance < self.bankruptcy_threshold and not self.is_bankrupt:
+            self.is_bankrupt = True
+            self.logger.warning(f"BANKRUPT at {close_time}: balance={self.balance:.2f}")
+
+    def emergency_close_all(self, current_prices, reason="Circuit Breaker"):
         for pos in list(self.open_positions):
             symbol = pos['symbol']
             if symbol in current_prices:
-                self.close_position(pos, current_prices[symbol], self.current_time, "Circuit Breaker")
+                self.close_position(pos, current_prices[symbol], self.current_time, reason)
 
     def update(self, current_time, current_prices, current_highs, current_lows):
         self.current_time = current_time
