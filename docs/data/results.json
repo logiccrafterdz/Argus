@@ -10,7 +10,7 @@
         "sharpe_ratio": 0.54,
         "sortino_ratio": 262.87,
         "calmar_ratio": 11.95,
-        "annualized_return": NaN,
+        "annualized_return": null,
         "recovery_factor": -1.0,
         "expectancy": -843.99,
         "avg_win": 50.54,
