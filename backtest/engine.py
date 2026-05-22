@@ -1,9 +1,13 @@
 import pandas as pd
 import numpy as np
 from risk_manager import RiskManager
+from log_setup import get_logger
 
 class BacktestEngine:
-    def __init__(self, initial_balance=100000.0):
+    def __init__(self, initial_balance=100000.0, config=None):
+        self.config = config or {}
+        self.logger = get_logger('engine')
+        
         self.initial_balance = initial_balance
         self.balance = initial_balance
         self.equity = initial_balance
@@ -14,14 +18,42 @@ class BacktestEngine:
         
         self.risk_manager = RiskManager(initial_balance)
         
-        self.contract_size_map = {
-            'XAUUSD': 100,
-            'US30': 1.0,
-            'NAS100': 1.0,
+        spread_cfg = self.config.get('spread', {})
+        self.spread_map = {
+            'EURUSD': spread_cfg.get('EURUSD', 0.00012),
+            'GBPUSD': spread_cfg.get('GBPUSD', 0.00014),
+            'USDJPY': spread_cfg.get('USDJPY', 0.013),
+            'USDCHF': spread_cfg.get('USDCHF', 0.00014),
+            'AUDUSD': spread_cfg.get('AUDUSD', 0.00013),
+            'USDCAD': spread_cfg.get('USDCAD', 0.00016),
+            'NZDUSD': spread_cfg.get('NZDUSD', 0.00018),
+            'XAUUSD': spread_cfg.get('XAUUSD', 0.35),
+            'US30': spread_cfg.get('US30', 3.0),
+            'NAS100': spread_cfg.get('NAS100', 2.5),
         }
+        self.default_spread = 0.00015
+        
+        cs_cfg = self.config.get('contract_size', {})
+        self.contract_size_map = {
+            'XAUUSD': cs_cfg.get('XAUUSD', 100),
+            'US30': cs_cfg.get('US30', 1.0),
+            'NAS100': cs_cfg.get('NAS100', 1.0),
+        }
+        self.default_contract_size = self.config.get('default_contract_size', 100000.0)
+        
+        comm_cfg = self.config.get('execution', {}).get('commission_map', {})
+        self.commission_map = {
+            'XAUUSD': comm_cfg.get('XAUUSD', 3.50),
+            'US30': comm_cfg.get('US30', 0.0),
+            'NAS100': comm_cfg.get('NAS100', 0.0),
+        }
+        self.default_commission = self.config.get('execution', {}).get('default_commission', 7.0)
+        
+        slippage_cfg = self.config.get('execution', {})
+        self.slippage_min = slippage_cfg.get('slippage_min', 0.0)
+        self.slippage_max = slippage_cfg.get('slippage_max', 0.3)
         self.current_time = None
         self.ticket_counter = 1
-        
     def contract_size(self, symbol):
         return self.contract_size_map.get(symbol, 100000.0)
     
@@ -54,17 +86,10 @@ class BacktestEngine:
         
         # Realistic per-symbol spread model (in price units)
         # Based on typical FBS MT5 average spreads
-        spread_map = {
-            'EURUSD': 0.00012, 'GBPUSD': 0.00014, 'USDJPY': 0.013,
-            'USDCHF': 0.00014, 'AUDUSD': 0.00013, 'USDCAD': 0.00016,
-            'NZDUSD': 0.00018, 'XAUUSD': 0.35,   # Gold: 35 cents
-            'US30': 3.0,       # Dow Jones: 3 points
-            'NAS100': 2.5,     # Nasdaq: 2.5 points
-        }
-        spread = spread_map.get(symbol, 0.00015)
+        spread = self.spread_map.get(symbol, self.default_spread)
         
         # Dynamic slippage: random 0-30% of spread (simulates real execution variance)
-        slippage = spread * np.random.uniform(0, 0.3)
+        slippage = spread * np.random.uniform(self.slippage_min or 0, self.slippage_max or 0.3)
         
         total_cost = spread + slippage
         if order_type == 'BUY':
@@ -102,12 +127,7 @@ class BacktestEngine:
             
         # Realistic per-symbol commission
         # Forex: $7/lot round turn, Gold: $3.50/lot, Indices: $0 (built into spread)
-        commission_map = {
-            'XAUUSD': 3.50,
-            'US30': 0.0,
-            'NAS100': 0.0,
-        }
-        commission_per_lot = commission_map.get(pos['symbol'], 7.0)
+        commission_per_lot = self.commission_map.get(pos['symbol'], self.default_commission)
         commission = -commission_per_lot * lots_to_close
         profit += commission
         
@@ -136,8 +156,7 @@ class BacktestEngine:
         else:
             profit = (pos['entry_price'] - close_price) * lots_to_close * cs
             
-        commission_map = {'XAUUSD': 3.50, 'US30': 0.0, 'NAS100': 0.0}
-        commission = -commission_map.get(pos['symbol'], 7.0) * lots_to_close
+        commission = -self.commission_map.get(pos['symbol'], self.default_commission) * lots_to_close
         profit += commission
         
         self.balance += profit

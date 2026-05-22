@@ -26,6 +26,8 @@ from strategies.adx_trend_strength import ADXTrendStrength
 from strategies.donchian_breakout import DonchianBreakout
 from strategies.pdh_pdl_break_reversal import PDHPDLBreakReversal
 from indicators import MarketRegime
+from config import load_config, create_default_config
+from log_setup import setup_logger
 
 DATA_DIR = os.path.join(os.path.dirname(__file__), "data")
 RESULTS_DIR = os.path.join(os.path.dirname(os.path.dirname(__file__)), "docs", "data")
@@ -44,11 +46,19 @@ def load_data():
     return symbols_data
 
 def run_backtest():
-    print("Loading historical data...")
-    data = load_data()
-    print("Data loaded.")
+    logger = setup_logger('backtest', log_file='backtest.log')
+    config = load_config()
+    if config is None:
+        config = create_default_config()
     
-    engine = BacktestEngine(initial_balance=100000.0)
+    logger.info("Loading historical data...")
+    data = load_data()
+    logger.info(f"Data loaded: {len(data)} symbols")
+    
+    engine = BacktestEngine(
+        initial_balance=config.get('backtest', {}).get('initial_balance', 100000.0),
+        config=config
+    )
     
     strategies = [
         TrendPullback(),
@@ -89,7 +99,7 @@ def run_backtest():
                 
     master_timeline = master_timeline.sort_index()
     
-    print("Pre-calculating strategy signals...")
+    logger.info("Pre-calculating strategy signals...")
     precalc_data = {}
     for symbol, tfs in data.items():
         precalc_data[symbol] = {}
@@ -117,7 +127,7 @@ def run_backtest():
     global_regime = MarketRegime(eurusd_d1)
     
     # Build correlation matrix from H1 close prices for all symbols
-    print("Building correlation matrix...")
+    logger.info("Building correlation matrix...")
     all_symbols = list(data.keys())
     h1_closes = {}
     for sym in all_symbols:
@@ -126,16 +136,16 @@ def run_backtest():
     
     corr_df = pd.DataFrame(h1_closes)
     corr_matrix = corr_df.corr()
-    print(f"Correlation matrix built for {len(corr_matrix.columns)} symbols.")
+    logger.info(f"Correlation matrix built for {len(corr_matrix.columns)} symbols.")
     
-    print("Converting historical data to fast dict lookups...")
+    logger.info("Converting historical data to fast dict lookups...")
     dict_data = {}
     for symbol, tfs in data.items():
         dict_data[symbol] = {}
         for tf_name, df in tfs.items():
             dict_data[symbol][tf_name] = df.to_dict('index')
             
-    print("Converting strategy precalculated data to fast dict lookups...")
+    logger.info("Converting strategy precalculated data to fast dict lookups...")
     dict_precalc = {}
     for symbol, tfs in precalc_data.items():
         dict_precalc[symbol] = {}
@@ -146,13 +156,13 @@ def run_backtest():
                 
     global_regime_dict = global_regime.to_dict()
 
-    print("Executing backtest over timeline...")
+    logger.info("Executing backtest over timeline...")
     count = 0
     total = len(master_timeline)
     for current_time in master_timeline.index:
         count += 1
         if count % 10000 == 0:
-            print(f"Progress: {count}/{total}")
+            logger.info(f"Progress: {count}/{total}")
             
         current_prices = {}
         current_highs = {}
@@ -229,7 +239,7 @@ def run_backtest():
     # End of backtest, close all
     engine.emergency_close_all(current_prices)
     
-    print("Backtest finished. Calculating metrics...")
+    logger.info("Backtest finished. Calculating metrics...")
     
     # Portfolio Metrics
     port_metrics = calculate_metrics(engine.closed_trades, engine.equity_curve, 100000.0)
@@ -303,11 +313,11 @@ def run_backtest():
         with open(os.path.join(abs_results_dir, 'results.json'), 'w') as f:
             json.dump(results, f, indent=4, cls=NumpyEncoder)
             
-        print(f"Results saved to {os.path.join(abs_results_dir, 'results.json')}")
+        logger.info(f"Results saved to {os.path.join(abs_results_dir, 'results.json')}")
     except Exception as e:
-        print(f"FAILED TO SAVE JSON: {e}")
+        logger.error(f"FAILED TO SAVE JSON: {e}")
         
-    print(port_metrics)
+    logger.info(f"Portfolio metrics: {port_metrics}")
 
 if __name__ == "__main__":
     run_backtest()
