@@ -1,0 +1,34 @@
+{
+  "_comment": "Forward Test Deployment Configuration for Argus Panoptes V2.0",
+  "version": "2.0.0",
+  "date": "2026-05-22",
+  "broker": "FBS",
+  "platform": "MT5",
+  "account_type": "Standard",
+  "initial_balance": 10000,
+  "symbols": ["EURUSD", "GBPUSD", "USDJPY", "USDCHF", "AUDUSD", "USDCAD", "NZDUSD", "EURJPY", "GBPJPY", "XAUUSD"],
+  "timeframes": {
+    "M15": ["ICT_Killzone_Macro", "ORB_Session", "ORB_Hybrid", "Asian_Range_Fakeout", "NY_Session_Reversal", "PDH_PDL_BreakReversal"],
+    "H1": ["TrendPullback", "BollingerMeanReversion", "LiquiditySweepFVG", "SR_Breakout_Retest", "Liquidity_Sweep_Breakout", "VWAP_MultiBand_Regime", "AVWAP_Confluence", "Volatility_Squeeze", "SuperTrend_EMA", "Hidden_Divergence", "ADX_TrendStrength"],
+    "H4": ["PriceAction_SR", "Smart_Swing_Bias", "Donchian_Breakout"]
+  },
+  "risk_parameters": {
+    "risk_percent_per_trade": 1.0,
+    "max_daily_drawdown": 3.0,
+    "max_weekly_drawdown": 8.0,
+    "max_monthly_drawdown": 15.0,
+    "max_exposure_per_symbol": 2,
+    "correlation_threshold": 0.8,
+    "correlation_enabled": true
+  },
+  "prop_firm_mode": false,
+  "news_filter": false,
+  "forward_test_duration_days": 30,
+  "min_forward_trades": 30,
+  "pass_criteria": {
+    "min_profit_factor": 1.2,
+    "min_win_rate": 30,
+    "max_drawdown": 15
+  },
+  "_notes": "Deploy EAs in MQL5/Experts/. Each EA runs on one chart with one TF. Ensure Shared/ArgusCore.mqh is in MQL5/Include/Shared/."
+}
