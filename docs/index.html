@@ -466,7 +466,7 @@
     <script>
         async function loadData() {
             try {
-                const response = await fetch('data/results.json');
+                const response = await fetch('data/results.json?t=' + Date.now());
                 if (!response.ok) throw new Error('HTTP ' + response.status);
                 const data = await response.json();
                 if (!data || !data.portfolio || !data.equity_curve) {
