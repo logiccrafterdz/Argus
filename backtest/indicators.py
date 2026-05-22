@@ -24,8 +24,8 @@ def ADX(df, period=14):
     
     tr = ATR(df, 1) # True range of 1 period
     
-    pos_dm_smooth = pd.Series(pos_dm).ewm(alpha=1/period, adjust=False).mean()
-    neg_dm_smooth = pd.Series(neg_dm).ewm(alpha=1/period, adjust=False).mean()
+    pos_dm_smooth = pd.Series(pos_dm, index=df.index).ewm(alpha=1/period, adjust=False).mean()
+    neg_dm_smooth = pd.Series(neg_dm, index=df.index).ewm(alpha=1/period, adjust=False).mean()
     tr_smooth = tr.ewm(alpha=1/period, adjust=False).mean()
     
     plus_di = 100 * (pos_dm_smooth / tr_smooth)
@@ -73,7 +73,7 @@ def MarketRegime(df):
     is_expand = atr_ratio > 1.3
     is_compression = atr_ratio < 0.7
     
-    regime = pd.Series(0, index=df.index)
+    regime = np.zeros(len(df), dtype=int)
     
     # 1: Trend, 2: Range, 16: Reversal
     regime = np.where(is_exhaustion, regime | 16, regime)
@@ -84,7 +84,7 @@ def MarketRegime(df):
     regime = np.where(is_expand, regime | 4, regime)
     regime = np.where(~is_expand & is_compression, regime | 8, regime)
     
-    return regime
+    return pd.Series(regime, index=df.index)
 def SuperTrend(df, period=10, multiplier=3):
     atr = ATR(df, period)
     hl2 = (df['high'] + df['low']) / 2

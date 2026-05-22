@@ -13,10 +13,21 @@ class BacktestEngine:
         self.equity_curve = []
         
         self.risk_manager = RiskManager(initial_balance)
-        self.current_time = None
         
+        self.contract_size_map = {
+            'XAUUSD': 100,
+            'US30': 1.0,
+            'NAS100': 1.0,
+        }
+        self.current_time = None
         self.ticket_counter = 1
-
+        
+    def contract_size(self, symbol):
+        return self.contract_size_map.get(symbol, 100000.0)
+    
+    def position_value(self, symbol, lots):
+        return lots * self.contract_size(symbol)
+    
     def calculate_equity(self, current_prices):
         equity = self.balance
         for pos in self.open_positions:
@@ -24,10 +35,11 @@ class BacktestEngine:
             if symbol in current_prices:
                 current_price = current_prices[symbol]
                 lots = pos['remaining_lots']
+                cs = self.contract_size(symbol)
                 if pos['type'] == 'BUY':
-                    profit = (current_price - pos['entry_price']) * lots * 100000
+                    profit = (current_price - pos['entry_price']) * lots * cs
                 else:
-                    profit = (pos['entry_price'] - current_price) * lots * 100000
+                    profit = (pos['entry_price'] - current_price) * lots * cs
                 equity += profit
         return equity
 
@@ -82,10 +94,11 @@ class BacktestEngine:
 
     def close_position(self, pos, close_price, close_time, reason):
         lots_to_close = pos['remaining_lots']
+        cs = self.contract_size(pos['symbol'])
         if pos['type'] == 'BUY':
-            profit = (close_price - pos['entry_price']) * lots_to_close * 100000
+            profit = (close_price - pos['entry_price']) * lots_to_close * cs
         else:
-            profit = (pos['entry_price'] - close_price) * lots_to_close * 100000
+            profit = (pos['entry_price'] - close_price) * lots_to_close * cs
             
         # Realistic per-symbol commission
         # Forex: $7/lot round turn, Gold: $3.50/lot, Indices: $0 (built into spread)
@@ -94,7 +107,7 @@ class BacktestEngine:
             'US30': 0.0,
             'NAS100': 0.0,
         }
-        commission_per_lot = commission_map.get(symbol, 7.0)
+        commission_per_lot = commission_map.get(pos['symbol'], 7.0)
         commission = -commission_per_lot * lots_to_close
         profit += commission
         
@@ -117,10 +130,11 @@ class BacktestEngine:
             self.open_positions.remove(pos)
 
     def close_position_partial(self, pos, close_price, close_time, reason, lots_to_close):
+        cs = self.contract_size(pos['symbol'])
         if pos['type'] == 'BUY':
-            profit = (close_price - pos['entry_price']) * lots_to_close * 100000
+            profit = (close_price - pos['entry_price']) * lots_to_close * cs
         else:
-            profit = (pos['entry_price'] - close_price) * lots_to_close * 100000
+            profit = (pos['entry_price'] - close_price) * lots_to_close * cs
             
         commission_map = {'XAUUSD': 3.50, 'US30': 0.0, 'NAS100': 0.0}
         commission = -commission_map.get(pos['symbol'], 7.0) * lots_to_close
@@ -165,9 +179,9 @@ class BacktestEngine:
             
             # Track highest profit for breakeven
             if pos['type'] == 'BUY':
-                unrealized = (high - pos['entry_price']) * pos['lot_size'] * 100000
+                unrealized = (high - pos['entry_price']) * pos['remaining_lots'] * self.contract_size(symbol)
             else:
-                unrealized = (pos['entry_price'] - low) * pos['lot_size'] * 100000
+                unrealized = (pos['entry_price'] - low) * pos['remaining_lots'] * self.contract_size(symbol)
             pos['highest_profit'] = max(pos['highest_profit'], unrealized)
             
             # Break-Even Logic: Move SL to entry when profit >= 1R
