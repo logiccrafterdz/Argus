@@ -98,6 +98,24 @@ class BacktestEngine:
             entry_price += total_cost
         else:
             entry_price -= total_cost
+
+        # Validate TP direction: ensure TP is on the profit side of entry
+        if tp is not None:
+            if order_type == 'BUY' and tp <= entry_price:
+                self.logger.debug(f"Reject {symbol} {strategy_name} BUY: tp={tp:.5f} <= entry={entry_price:.5f}")
+                return False
+            if order_type == 'SELL' and tp >= entry_price:
+                self.logger.debug(f"Reject {symbol} {strategy_name} SELL: tp={tp:.5f} >= entry={entry_price:.5f}")
+                return False
+
+        # Validate SL direction: ensure SL is on the risk side of entry
+        if sl is not None:
+            if order_type == 'BUY' and sl >= entry_price:
+                self.logger.debug(f"Reject {symbol} {strategy_name} BUY: sl={sl:.5f} >= entry={entry_price:.5f}")
+                return False
+            if order_type == 'SELL' and sl <= entry_price:
+                self.logger.debug(f"Reject {symbol} {strategy_name} SELL: sl={sl:.5f} <= entry={entry_price:.5f}")
+                return False
             
         pos = {
             'ticket': self.ticket_counter,
