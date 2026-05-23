@@ -27,6 +27,8 @@ class BacktestEngine:
             'AUDUSD': spread_cfg.get('AUDUSD', 0.00013),
             'USDCAD': spread_cfg.get('USDCAD', 0.00016),
             'NZDUSD': spread_cfg.get('NZDUSD', 0.00018),
+            'EURJPY': spread_cfg.get('EURJPY', 0.015),
+            'GBPJPY': spread_cfg.get('GBPJPY', 0.020),
             'XAUUSD': spread_cfg.get('XAUUSD', 0.35),
             'US30': spread_cfg.get('US30', 3.0),
             'NAS100': spread_cfg.get('NAS100', 2.5),
@@ -38,6 +40,8 @@ class BacktestEngine:
             'XAUUSD': cs_cfg.get('XAUUSD', 100),
             'US30': cs_cfg.get('US30', 1.0),
             'NAS100': cs_cfg.get('NAS100', 1.0),
+            'EURJPY': cs_cfg.get('EURJPY', 100000.0),
+            'GBPJPY': cs_cfg.get('GBPJPY', 100000.0),
         }
         self.default_contract_size = self.config.get('default_contract_size', 100000.0)
         
@@ -89,6 +93,8 @@ class BacktestEngine:
             'XAUUSD': comm_cfg.get('XAUUSD', 3.50),
             'US30': comm_cfg.get('US30', 0.0),
             'NAS100': comm_cfg.get('NAS100', 0.0),
+            'EURJPY': comm_cfg.get('EURJPY', 3.50),
+            'GBPJPY': comm_cfg.get('GBPJPY', 3.50),
         }
         self.default_commission = self.config.get('execution', {}).get('default_commission', 7.0)
         
@@ -101,6 +107,25 @@ class BacktestEngine:
         self.bankruptcy_threshold = initial_balance * 0.05
         self.peak_balance = initial_balance
         self.max_drawdown_pct = self.config.get('risk', {}).get('max_drawdown_pct', 50.0)
+        self.current_prices = {}
+
+    def get_usd_multiplier(self, symbol):
+        if symbol.endswith('USD') or symbol in ['US30', 'NAS100']:
+            return 1.0
+        if symbol.endswith('JPY'):
+            if 'USDJPY' in self.current_prices:
+                return 1.0 / self.current_prices['USDJPY']
+            return 1.0 / 135.0
+        if symbol.endswith('CAD'):
+            if 'USDCAD' in self.current_prices:
+                return 1.0 / self.current_prices['USDCAD']
+            return 1.0 / 1.35
+        if symbol.endswith('CHF'):
+            if 'USDCHF' in self.current_prices:
+                return 1.0 / self.current_prices['USDCHF']
+            return 1.0 / 0.90
+        return 1.0
+
     def contract_size(self, symbol):
         return self.contract_size_map.get(symbol, 100000.0)
     
@@ -117,13 +142,21 @@ class BacktestEngine:
         if risk_distance <= 0:
             return 0.0
         risk_amount = equity * (risk_percent / 100.0)
-        t_size = self.tick_size(symbol)
-        t_value = self.tick_value(symbol)
-        risk_ticks = risk_distance / t_size
-        risk_per_lot = risk_ticks * t_value
-        if risk_per_lot <= 0:
+        multiplier = self.get_usd_multiplier(symbol)
+        
+        risk_per_lot_usd = risk_distance * self.contract_size(symbol) * multiplier
+        
+        if risk_per_lot_usd <= 0:
             return 0.0
-        lot = risk_amount / risk_per_lot
+        lot = risk_amount / risk_per_lot_usd
+        
+        # Max 3x leverage cap per trade approximation
+        max_position_value_usd = equity * 3.0
+        if multiplier > 0:
+            # position value roughly = lot * contract_size * (price * multiplier if cross, else price)
+            # For simplicity, cap lot size at (max_val / contract_size)
+            lot = min(lot, max_position_value_usd / self.contract_size(symbol))
+            
         min_vol = 0.01
         max_vol = 100.0
         step_vol = 0.01
@@ -142,10 +175,11 @@ class BacktestEngine:
                 current_price = current_prices[symbol]
                 lots = pos['remaining_lots']
                 cs = self.contract_size(symbol)
+                multiplier = self.get_usd_multiplier(symbol)
                 if pos['type'] == 'BUY':
-                    profit = (current_price - pos['entry_price']) * lots * cs
+                    profit = (current_price - pos['entry_price']) * lots * cs * multiplier
                 else:
-                    profit = (pos['entry_price'] - current_price) * lots * cs
+                    profit = (pos['entry_price'] - current_price) * lots * cs * multiplier
                 equity += profit
         return equity
 
@@ -212,10 +246,11 @@ class BacktestEngine:
     def close_position(self, pos, close_price, close_time, reason):
         lots_to_close = pos['remaining_lots']
         cs = self.contract_size(pos['symbol'])
+        multiplier = self.get_usd_multiplier(pos['symbol'])
         if pos['type'] == 'BUY':
-            profit = (close_price - pos['entry_price']) * lots_to_close * cs
+            profit = (close_price - pos['entry_price']) * lots_to_close * cs * multiplier
         else:
-            profit = (pos['entry_price'] - close_price) * lots_to_close * cs
+            profit = (pos['entry_price'] - close_price) * lots_to_close * cs * multiplier
             
         # Realistic per-symbol commission
         # Forex: $7/lot round turn, Gold: $3.50/lot, Indices: $0 (built into spread)
@@ -247,10 +282,11 @@ class BacktestEngine:
 
     def close_position_partial(self, pos, close_price, close_time, reason, lots_to_close):
         cs = self.contract_size(pos['symbol'])
+        multiplier = self.get_usd_multiplier(pos['symbol'])
         if pos['type'] == 'BUY':
-            profit = (close_price - pos['entry_price']) * lots_to_close * cs
+            profit = (close_price - pos['entry_price']) * lots_to_close * cs * multiplier
         else:
-            profit = (pos['entry_price'] - close_price) * lots_to_close * cs
+            profit = (pos['entry_price'] - close_price) * lots_to_close * cs * multiplier
             
         commission = -self.commission_map.get(pos['symbol'], self.default_commission) * lots_to_close
         profit += commission
@@ -283,6 +319,7 @@ class BacktestEngine:
 
     def update(self, current_time, current_prices, current_highs, current_lows):
         self.current_time = current_time
+        self.current_prices = current_prices
         self.equity = self.calculate_equity(current_prices)
         self.peak_balance = max(self.peak_balance, self.balance)
         dd_from_peak = ((self.peak_balance - self.balance) / self.peak_balance) * 100
@@ -311,15 +348,16 @@ class BacktestEngine:
             # Break-Even Logic: Move SL to entry when profit >= 1R
             if not pos['breakeven_triggered']:
                 risk_distance = abs(pos['entry_price'] - pos['sl'])
+                spread = self.spread_map.get(symbol, self.default_spread)
                 if pos['type'] == 'BUY':
                     be_threshold = pos['entry_price'] + risk_distance
                     if high >= be_threshold:
-                        pos['sl'] = pos['entry_price']
+                        pos['sl'] = pos['entry_price'] + spread
                         pos['breakeven_triggered'] = True
                 else:
                     be_threshold = pos['entry_price'] - risk_distance
                     if low <= be_threshold:
-                        pos['sl'] = pos['entry_price']
+                        pos['sl'] = pos['entry_price'] - spread
                         pos['breakeven_triggered'] = True
             
             # Partial Close Logic: Close 50% at 1.5R

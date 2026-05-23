@@ -19,6 +19,8 @@ execution:
     XAUUSD: 3.5
     US30: 0.0
     NAS100: 0.0
+    EURJPY: 3.5
+    GBPJPY: 3.5
   default_commission: 7.0
 spread:
   EURUSD: 0.00012
@@ -28,6 +30,8 @@ spread:
   AUDUSD: 0.00013
   USDCAD: 0.00016
   NZDUSD: 0.00018
+  EURJPY: 0.015
+  GBPJPY: 0.020
   XAUUSD: 0.35
   US30: 3.0
   NAS100: 2.5
@@ -35,6 +39,8 @@ contract_size:
   XAUUSD: 100
   US30: 1.0
   NAS100: 1.0
+  EURJPY: 100000
+  GBPJPY: 100000
 default_contract_size: 100000.0
 strategies:
   TrendPullback:
