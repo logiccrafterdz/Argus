@@ -120,12 +120,22 @@ def run_backtest():
                     precalc_data[symbol][tf] = {}
                 precalc_data[symbol][tf][strat.name] = df
 
-    # Prepare daily regime for filtering
-    # Use EURUSD D1 or resample H4 to D1 for regime
-    eurusd_h4 = data['EURUSD']['H4']
-    eurusd_d1 = eurusd_h4.resample('D').agg({'open': 'first', 'high': 'max', 'low': 'min', 'close': 'last'}).dropna()
-    global_regime = MarketRegime(eurusd_d1)
-    
+    # Prepare daily regime for filtering per symbol
+    logger.info("Building regime dict per symbol...")
+    regimes_dict = {}
+    for sym in data.keys():
+        if 'H4' in data[sym]:
+            h4_df = data[sym]['H4']
+            d1_df = h4_df.resample('D').agg({'open': 'first', 'high': 'max', 'low': 'min', 'close': 'last'}).dropna()
+            m_regime = MarketRegime(d1_df)
+            regimes_dict[sym] = m_regime.to_dict()
+        elif 'H1' in data[sym]:
+            h1_df = data[sym]['H1']
+            d1_df = h1_df.resample('D').agg({'open': 'first', 'high': 'max', 'low': 'min', 'close': 'last'}).dropna()
+            m_regime = MarketRegime(d1_df)
+            regimes_dict[sym] = m_regime.to_dict()
+        else:
+            regimes_dict[sym] = {}    
     # Build correlation matrix from H1 close prices for all symbols
     logger.info("Building correlation matrix...")
     all_symbols = list(data.keys())
@@ -154,7 +164,7 @@ def run_backtest():
             for strat_name, df in strat_data.items():
                 dict_precalc[symbol][tf][strat_name] = df.to_dict('index')
                 
-    global_regime_dict = global_regime.to_dict()
+
 
     logger.info("Executing backtest over timeline...")
     count = 0
@@ -183,7 +193,6 @@ def run_backtest():
                 
         # Current Regime (Daily)
         current_date = current_time.normalize()
-        c_regime = global_regime_dict.get(current_date, 1) # fallback Trend
             
         c_session = 0
         h = current_time.hour
@@ -212,6 +221,9 @@ def run_backtest():
                 
                 for strat in strategies:
                     if strat.name not in strat_data: continue
+                    
+                    sym_regime_dict = regimes_dict.get(symbol, {})
+                    c_regime = sym_regime_dict.get(current_date, 1)
                     if not strat.check_regime(c_regime) or not strat.check_session(c_session): continue
                     
                     if current_time in strat_data[strat.name]:

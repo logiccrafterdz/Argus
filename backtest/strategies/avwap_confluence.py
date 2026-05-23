@@ -34,7 +34,7 @@ class AVWAPConfluence(BaseStrategy):
             sl = np.nan
             tp = np.nan
             
-            if is_high[i-1] or is_low[i-1]:
+            if i > 0 and (is_high[i-1] or is_low[i-1]):
                 # Anchor VWAP here
                 avwap = df['close'].iloc[i-1]
                 cum_vol = df['tick_volume'].iloc[i-1]
@@ -51,7 +51,7 @@ class AVWAPConfluence(BaseStrategy):
                 close2 = df['close'].iloc[i-2]
                 
                 # Bounce off AVWAP
-                buffer = 0.00050
+                buffer = self._atr_buf(df, i-1, 0.2)
                 if close2 < avwap and close1 > avwap + buffer:
                     signal = 1
                     sl = df['low'].iloc[i-1] - self._atr_buf(df, i-1, 1.0)

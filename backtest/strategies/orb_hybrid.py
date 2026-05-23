@@ -56,8 +56,8 @@ class ORBHybrid(BaseStrategy):
             tp = np.nan
             
             if not in_orb and not traded_today and not np.isnan(orb_high) and i >= self.ema_period:
-                close = df['close'].iloc[i]
-                ema = df['ema'].iloc[i]
+                close = df['close'].iloc[i-1]
+                ema = df['ema'].iloc[i-1]
                 
                 # Only take breakout if it aligns with EMA trend
                 if close > orb_high and close > ema:
