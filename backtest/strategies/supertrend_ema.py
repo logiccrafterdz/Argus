@@ -40,12 +40,12 @@ class SuperTrendEMA(BaseStrategy):
             # Supertrend flips direction in agreement with EMA
             if dir1 == 1 and dir2 == -1 and close1 > ema1:
                 signal = 1
-                sl = st_val - self._atr_buf(df, i-1)
-                tp = close1 + (close1 - sl) * 1.5
+                sl = close1 - self._atr_buf(df, i-1, 1.0)
+                tp = close1 + self._atr_buf(df, i-1, 2.0)
             elif dir1 == -1 and dir2 == 1 and close1 < ema1:
                 signal = -1
-                sl = st_val + self._atr_buf(df, i-1)
-                tp = close1 - (sl - close1) * 1.5
+                sl = close1 + self._atr_buf(df, i-1, 1.0)
+                tp = close1 - self._atr_buf(df, i-1, 2.0)
 
             signals.append(signal)
             sl_prices.append(sl)
