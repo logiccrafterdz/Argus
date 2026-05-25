@@ -47,12 +47,12 @@ class VolatilitySqueeze(BaseStrategy):
                 
                 if close1 > ema:
                     signal = 1
-                    sl = df['low'].iloc[i-2:i].min() - self._atr_buf(df, i-1)
-                    tp = close1 + (close1 - sl) * 2.0
+                    sl = close1 - self._atr_buf(df, i-1, 1.0)
+                    tp = close1 + self._atr_buf(df, i-1, 2.0)
                 elif close1 < ema:
                     signal = -1
-                    sl = df['high'].iloc[i-2:i].max() + self._atr_buf(df, i-1)
-                    tp = close1 - (sl - close1) * 2.0
+                    sl = close1 + self._atr_buf(df, i-1, 1.0)
+                    tp = close1 - self._atr_buf(df, i-1, 2.0)
 
             signals.append(signal)
             sl_prices.append(sl)
