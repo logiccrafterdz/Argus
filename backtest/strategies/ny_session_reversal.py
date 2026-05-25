@@ -49,16 +49,16 @@ class NYSessionReversal(BaseStrategy):
                 high1 = df['high'].iloc[i-1]
                 low1 = df['low'].iloc[i-1]
                 
-                # NY fakeout of London High/Low
+                # NY fakeout of London High/Low with fixed R:R
                 if high1 > london_high and close1 < london_high - self._atr_buf(df, i-1):
                     signal = -1
-                    sl = high1 + self._atr_buf(df, i-1)
-                    tp = london_low
+                    sl = london_high + self._atr_buf(df, i-1, 0.5)
+                    tp = close1 - (sl - close1) * 3.0
                     traded_today = True
                 elif low1 < london_low and close1 > london_low + self._atr_buf(df, i-1):
                     signal = 1
-                    sl = low1 - self._atr_buf(df, i-1)
-                    tp = london_high
+                    sl = london_low - self._atr_buf(df, i-1, 0.5)
+                    tp = close1 + (close1 - sl) * 3.0
                     traded_today = True
 
             signals.append(signal)
