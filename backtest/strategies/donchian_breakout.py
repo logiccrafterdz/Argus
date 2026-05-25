@@ -15,10 +15,10 @@ class DonchianBreakout(BaseStrategy):
         )
         
     def prepare_data(self, df):
-        upper, middle, lower = DonchianChannels(df, period=20)
+        upper, middle, lower = DonchianChannels(df, period=10)
         df['dc_upper'] = upper
         df['dc_lower'] = lower
-        df['ema'] = EMA(df['close'], 50)
+        df['ema'] = EMA(df['close'], 20)
         self._add_atr_col(df)
         
         signals = []
@@ -45,11 +45,11 @@ class DonchianBreakout(BaseStrategy):
                 signal = -1
                 sl = middle.iloc[i-1]
                 tp = close1 - (sl - close1) * 2.0
-
+            
             signals.append(signal)
             sl_prices.append(sl)
             tp_prices.append(tp)
-
+        
         pad = [0] * 50
         pad_nan = [np.nan] * 50
         

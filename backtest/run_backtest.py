@@ -46,7 +46,7 @@ def load_data():
     return symbols_data
 
 def run_backtest():
-    logger = setup_logger('backtest', log_file='backtest.log')
+    logger = setup_logger('backtest')
     config = load_config()
     if config is None:
         config = create_default_config()

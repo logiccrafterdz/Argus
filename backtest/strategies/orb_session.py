@@ -12,7 +12,7 @@ class ORBSession(BaseStrategy):
             regime_mask=1 | 4, # TREND | EXPANSION
             session_mask=2 | 4 # LONDON | NY
         )
-        self.orb_duration_minutes = 30
+        self.orb_duration_minutes = 15
         
     def prepare_data(self, df):
         self._add_atr_col(df)

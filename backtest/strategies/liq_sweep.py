@@ -14,7 +14,7 @@ class LiquiditySweepFVG(BaseStrategy):
             session_mask=7 # SESSION_ALL
         )
         self.lookback = 50
-        self.threshold = 0.00050
+        self.threshold_multiplier = 0.5
         
     def prepare_data(self, df):
         # Precompute swing arrays once
@@ -45,7 +45,7 @@ class LiquiditySweepFVG(BaseStrategy):
                 fvg_bearish = True
                 fvg_price_high = df['low'].iloc[i-3]
 
-            liq_high, liq_low = get_liquidity_pools(df, i, self.lookback, 2, self._atr_buf(df, i, 0.5), swing_highs, swing_lows)
+            liq_high, liq_low = get_liquidity_pools(df, i, self.lookback, 2, self._atr_buf(df, i, self.threshold_multiplier), swing_highs, swing_lows)
             
             signal = 0
             sl = np.nan
