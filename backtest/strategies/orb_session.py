@@ -20,33 +20,25 @@ class ORBSession(BaseStrategy):
         sl_prices = []
         tp_prices = []
         
-        # simplified ORB logic for M15: track first 2 bars of London (8am) or NY (13pm)
+        # ORB logic for M15: track first 60 min of London (8:00-9:00) or NY (13:00-14:00)
         orb_high = np.nan
         orb_low = np.nan
         in_orb = False
         traded_today = False
+        orb_end = {8: 9, 13: 14}
         
         for i in range(len(df)):
             t = df['time'].iloc[i]
             
-            if t.hour == 8 and t.minute == 0:
+            if t.hour in orb_end and t.minute == 0:
                 orb_high = df['high'].iloc[i]
                 orb_low = df['low'].iloc[i]
                 in_orb = True
                 traded_today = False
-            elif t.hour == 8 and t.minute == 15 and in_orb:
+            elif in_orb and t.hour < orb_end.get(t.hour, t.hour):
                 orb_high = max(orb_high, df['high'].iloc[i])
                 orb_low = min(orb_low, df['low'].iloc[i])
-                in_orb = False
-                
-            elif t.hour == 13 and t.minute == 0:
-                orb_high = df['high'].iloc[i]
-                orb_low = df['low'].iloc[i]
-                in_orb = True
-                traded_today = False
-            elif t.hour == 13 and t.minute == 15 and in_orb:
-                orb_high = max(orb_high, df['high'].iloc[i])
-                orb_low = min(orb_low, df['low'].iloc[i])
+            elif in_orb and t.hour >= orb_end.get(t.hour, t.hour):
                 in_orb = False
                 
             signal = 0
@@ -57,13 +49,13 @@ class ORBSession(BaseStrategy):
                 close = df['close'].iloc[i]
                 if close > orb_high:
                     signal = 1
-                    sl = orb_low
-                    tp = close + (close - sl) * 2
+                    sl = close - self._atr_buf(df, i, 1.0)
+                    tp = close + self._atr_buf(df, i, 2.0)
                     traded_today = True
                 elif close < orb_low:
                     signal = -1
-                    sl = orb_high
-                    tp = close - (sl - close) * 2
+                    sl = close + self._atr_buf(df, i, 1.0)
+                    tp = close - self._atr_buf(df, i, 2.0)
                     traded_today = True
                     
             signals.append(signal)
