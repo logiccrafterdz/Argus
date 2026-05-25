@@ -42,15 +42,15 @@ class PriceActionSR(BaseStrategy):
                 sup = max([l for l in recent_lows if l < close1], default=np.nan)
                 
                 # Reversal off support with ATR buffer
-                if not np.isnan(sup) and close1 <= sup + self._atr_buf(df, i-1, 0.3) and df['close'].iloc[i-1] > df['open'].iloc[i-1]:
+                if not np.isnan(sup) and close1 <= sup + self._atr_buf(df, i-1, 0.5) and df['close'].iloc[i-1] > df['open'].iloc[i-1]:
                     signal = 1
-                    sl = sup - self._atr_buf(df, i-1, 0.5)
+                    sl = sup - self._atr_buf(df, i-1, 1.0)
                     tp = close1 + (close1 - sl) * 2.0
                     
                 # Reversal off resistance with ATR buffer
-                elif not np.isnan(res) and close1 >= res - self._atr_buf(df, i-1, 0.3) and df['close'].iloc[i-1] < df['open'].iloc[i-1]:
+                elif not np.isnan(res) and close1 >= res - self._atr_buf(df, i-1, 0.5) and df['close'].iloc[i-1] < df['open'].iloc[i-1]:
                     signal = -1
-                    sl = res + self._atr_buf(df, i-1, 0.5)
+                    sl = res + self._atr_buf(df, i-1, 1.0)
                     tp = close1 - (sl - close1) * 2.0
                     
             signals.append(signal)
