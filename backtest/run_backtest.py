@@ -104,6 +104,7 @@ def run_backtest():
     for symbol, tfs in data.items():
         precalc_data[symbol] = {}
         for strat_idx, strat in enumerate(strategies):
+            logger.info(f"Processing {symbol} - {strat.name}")
             # Select appropriate TF
             tf = 'H1'
             if strat.name in ['ICT_Killzone_Macro', 'ORB_Session', 'ORB_Hybrid', 'Asian_Range_Fakeout', 'NY_Session_Reversal', 'PDH_PDL_BreakReversal']: 
