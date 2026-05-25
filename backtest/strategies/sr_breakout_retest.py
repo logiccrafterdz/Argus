@@ -12,7 +12,7 @@ class SRBreakoutRetest(BaseStrategy):
             regime_mask=1 | 2 | 4, # TREND | RANGE | EXPANSION
             session_mask=7
         )
-        self.lookback = 5
+        self.lookback = 10
 
     def prepare_data(self, df):
         signals = []
@@ -36,7 +36,7 @@ class SRBreakoutRetest(BaseStrategy):
             
             # Breakout and Retest (simplified)
             # Bullish: previous candle closed above recent high, current candle pulls back
-            buffer = self._atr_buf(df, i-1, 1.0)
+            buffer = self._atr_buf(df, i-1, 0.3)
             if close2 > recent_high and close1 <= recent_high + buffer:
                 signal = 1
                 sl = close1 - self._atr_buf(df, i-1, 1.0)

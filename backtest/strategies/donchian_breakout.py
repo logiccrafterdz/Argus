@@ -15,17 +15,17 @@ class DonchianBreakout(BaseStrategy):
         )
         
     def prepare_data(self, df):
-        upper, middle, lower = DonchianChannels(df, period=10)
+        upper, middle, lower = DonchianChannels(df, period=5)
         df['dc_upper'] = upper
         df['dc_lower'] = lower
-        df['ema'] = EMA(df['close'], 20)
+        df['ema'] = EMA(df['close'], 10)
         self._add_atr_col(df)
         
         signals = []
         sl_prices = []
         tp_prices = []
         
-        for i in range(50, len(df)):
+        for i in range(20, len(df)):
             signal = 0
             sl = np.nan
             tp = np.nan
@@ -39,19 +39,19 @@ class DonchianBreakout(BaseStrategy):
             # Breakout of Donchian channel in direction of EMA
             if close2 <= dc_upper2 and close1 > df['dc_upper'].iloc[i-1] and close1 > ema1:
                 signal = 1
-                sl = middle.iloc[i-1] # SL at middle line
-                tp = close1 + (close1 - sl) * 2.0
+                sl = close1 - self._atr_buf(df, i-1, 1.0)
+                tp = close1 + self._atr_buf(df, i-1, 2.0)
             elif close2 >= dc_lower2 and close1 < df['dc_lower'].iloc[i-1] and close1 < ema1:
                 signal = -1
-                sl = middle.iloc[i-1]
-                tp = close1 - (sl - close1) * 2.0
+                sl = close1 + self._atr_buf(df, i-1, 1.0)
+                tp = close1 - self._atr_buf(df, i-1, 2.0)
             
             signals.append(signal)
             sl_prices.append(sl)
             tp_prices.append(tp)
         
-        pad = [0] * 50
-        pad_nan = [np.nan] * 50
+        pad = [0] * 20
+        pad_nan = [np.nan] * 20
         
         df['signal'] = pad + signals
         df['sl'] = pad_nan + sl_prices
