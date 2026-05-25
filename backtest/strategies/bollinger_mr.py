@@ -44,15 +44,15 @@ class BollingerMeanReversion(BaseStrategy):
             # Oversold and touching lower band
             if low1 <= lower1 and rsi1 < 30 and close1 > lower1:
                 signals.append(1)
-                sl = low1 - self._atr_buf(df, i-1, 1.0)
-                tp = sma1
+                sl = close1 - self._atr_buf(df, i-1, 1.0)
+                tp = close1 + self._atr_buf(df, i-1, 2.0)
                 sl_prices.append(sl)
                 tp_prices.append(tp)
             # Overbought and touching upper band
             elif high1 >= upper1 and rsi1 > 70 and close1 < upper1:
                 signals.append(-1)
-                sl = high1 + self._atr_buf(df, i-1, 1.0)
-                tp = sma1
+                sl = close1 + self._atr_buf(df, i-1, 1.0)
+                tp = close1 - self._atr_buf(df, i-1, 2.0)
                 sl_prices.append(sl)
                 tp_prices.append(tp)
             else:
