@@ -56,19 +56,19 @@ class PDHPDLBreakReversal(BaseStrategy):
                         close1 = df['close'].iloc[i-1]
                         close2 = df['close'].iloc[i-2]
                         
-                        buffer = 0.00050
+                        buffer = self._atr_buf(df, i-1, 0.3)
                         
                         # Breakout of PDH
                         if close2 <= pdh and close1 > pdh + buffer:
                             signal = 1
-                            sl = df['low'].iloc[i-3:i].min() - self._atr_buf(df, i-1)
-                            tp = close1 + (close1 - sl) * 1.5
+                            sl = df['low'].iloc[i-3:i].min() - self._atr_buf(df, i-1, 0.5)
+                            tp = close1 + (close1 - sl) * 2.0
                             
                         # Breakout of PDL
                         elif close2 >= pdl and close1 < pdl - buffer:
                             signal = -1
-                            sl = df['high'].iloc[i-3:i].max() + self._atr_buf(df, i-1)
-                            tp = close1 - (sl - close1) * 1.5
+                            sl = df['high'].iloc[i-3:i].max() + self._atr_buf(df, i-1, 0.5)
+                            tp = close1 - (sl - close1) * 2.0
                             
             signals.append(signal)
             sl_prices.append(sl)
