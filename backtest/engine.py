@@ -17,6 +17,7 @@ class BacktestEngine:
         self.equity_curve = []
         
         self.risk_manager = RiskManager(initial_balance)
+        self.disable_breakeven_strategies = set()  # strategy names that skip breakeven/partial close
         
         spread_cfg = self.config.get('spread', {})
         self.spread_map = {
@@ -345,8 +346,8 @@ class BacktestEngine:
                 unrealized = (pos['entry_price'] - low) * pos['remaining_lots'] * self.contract_size(symbol)
             pos['highest_profit'] = max(pos['highest_profit'], unrealized)
             
-            # Break-Even Logic: Move SL to entry when profit >= 1R
-            if not pos['breakeven_triggered']:
+            # Break-Even Logic: Move SL to entry when profit >= 1R (skip for configured strategies)
+            if pos['strategy'] not in self.disable_breakeven_strategies and not pos['breakeven_triggered']:
                 risk_distance = abs(pos['entry_price'] - pos['sl'])
                 spread = self.spread_map.get(symbol, self.default_spread)
                 if pos['type'] == 'BUY':
@@ -360,8 +361,8 @@ class BacktestEngine:
                         pos['sl'] = pos['entry_price'] - spread
                         pos['breakeven_triggered'] = True
             
-            # Partial Close Logic: Close 50% at 1.5R
-            if not pos['partial_closed']:
+            # Partial Close Logic: Close 50% at 1.5R (skip for configured strategies)
+            if pos['strategy'] not in self.disable_breakeven_strategies and not pos['partial_closed']:
                 risk_distance = abs(pos['entry_price'] - pos['sl'])
                 if pos['type'] == 'BUY':
                     partial_target = pos['entry_price'] + risk_distance * 1.5
@@ -376,15 +377,24 @@ class BacktestEngine:
                         self.close_position_partial(pos, partial_target, current_time, "Partial TP 1.5R", half_lots)
                         pos['partial_closed'] = True
             
+            # Check both SL and TP on the same bar; if both hit, assume TP occurred first
             if pos['type'] == 'BUY':
-                if low <= pos['sl']:
+                hit_sl = low <= pos['sl']
+                hit_tp = high >= pos['tp']
+                if hit_sl and hit_tp:
+                    self.close_position(pos, pos['tp'], current_time, "TP")
+                elif hit_sl:
                     self.close_position(pos, pos['sl'], current_time, "SL")
-                elif high >= pos['tp']:
+                elif hit_tp:
                     self.close_position(pos, pos['tp'], current_time, "TP")
             else:
-                if high >= pos['sl']:
+                hit_sl = high >= pos['sl']
+                hit_tp = low <= pos['tp']
+                if hit_sl and hit_tp:
+                    self.close_position(pos, pos['tp'], current_time, "TP")
+                elif hit_sl:
                     self.close_position(pos, pos['sl'], current_time, "SL")
-                elif low <= pos['tp']:
+                elif hit_tp:
                     self.close_position(pos, pos['tp'], current_time, "TP")
                     
         # Log equity daily

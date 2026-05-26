@@ -69,6 +69,8 @@ def run_single(strat_class, label=None):
     logger.info(f"Symbols: {len(data)}")
 
     engine = BacktestEngine(initial_balance=init_balance, config=config)
+    if strat.disable_breakeven:
+        engine.disable_breakeven_strategies.add(name)
     master_timeline = build_master_timeline(data)
 
     # Precalculate signals for this strategy only

@@ -10,6 +10,7 @@ class BaseStrategy:
         self.regime_mask = regime_mask
         self.session_mask = session_mask
         self.atr_period = 14
+        self.disable_breakeven = False
 
     def _add_atr_col(self, df):
         df['atr'] = ATR(df, self.atr_period)
