@@ -17,7 +17,8 @@ class TrendPullback(BaseStrategy):
         self.fast_ema_period = 50
         self.slow_ema_period = 200
         self.market_structure_period = 30
-        self.tp_multiplier = 2.0
+        self.tp_multiplier = 8.0
+        self.disable_breakeven = True
 
     def prepare_data(self, df):
         df['fast_ema'] = EMA(df['close'], self.fast_ema_period)
@@ -63,13 +64,13 @@ class TrendPullback(BaseStrategy):
             
             if bull_trigger:
                 signals.append(1)
-                sl = df['close'].iloc[i-1] - self._atr_buf(df, i-1, 1.0)
+                sl = df['close'].iloc[i-1] - self._atr_buf(df, i-1, 2.0)
                 tp = df['close'].iloc[i-1] + ((df['close'].iloc[i-1] - sl) * self.tp_multiplier)
                 sl_prices.append(sl)
                 tp_prices.append(tp)
             elif bear_trigger:
                 signals.append(-1)
-                sl = df['close'].iloc[i-1] + self._atr_buf(df, i-1, 1.0)
+                sl = df['close'].iloc[i-1] + self._atr_buf(df, i-1, 2.0)
                 tp = df['close'].iloc[i-1] - ((sl - df['close'].iloc[i-1]) * self.tp_multiplier)
                 sl_prices.append(sl)
                 tp_prices.append(tp)

@@ -13,6 +13,7 @@ class ADXTrendStrength(BaseStrategy):
             regime_mask=1, # TREND
             session_mask=7
         )
+        self.disable_breakeven = True
         
     def prepare_data(self, df):
         adx, pdi, mdi = ADX(df, 14)
@@ -46,12 +47,12 @@ class ADXTrendStrength(BaseStrategy):
                 # DI crossover
                 if pdi1 > mdi1 and pdi2 <= mdi2 and close1 > ema1:
                     signal = 1
-                    sl = df['low'].iloc[i-3:i].min() - self._atr_buf(df, i-1)
-                    tp = close1 + (close1 - sl) * 1.5
+                    sl = close1 - self._atr_buf(df, i-1, 2.0)
+                    tp = close1 + self._atr_buf(df, i-1, 12.0)
                 elif mdi1 > pdi1 and mdi2 <= pdi2 and close1 < ema1:
                     signal = -1
-                    sl = df['high'].iloc[i-3:i].max() + self._atr_buf(df, i-1)
-                    tp = close1 - (sl - close1) * 1.5
+                    sl = close1 + self._atr_buf(df, i-1, 2.0)
+                    tp = close1 - self._atr_buf(df, i-1, 12.0)
             
             signals.append(signal)
             sl_prices.append(sl)
