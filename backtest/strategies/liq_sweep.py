@@ -15,6 +15,7 @@ class LiquiditySweepFVG(BaseStrategy):
         )
         self.lookback = 50
         self.threshold_multiplier = 0.5
+        self.disable_breakeven = True
         
     def prepare_data(self, df):
         # Precompute swing arrays once
@@ -55,14 +56,14 @@ class LiquiditySweepFVG(BaseStrategy):
                 # Sweep low, then FVG formed
                 if df['low'].iloc[i-2] < liq_low:
                     signal = 1
-                    sl = df['close'].iloc[i-1] - self._atr_buf(df, i-1, 1.0)
-                    tp = df['close'].iloc[i-1] + self._atr_buf(df, i-1, 2.0)
+                    sl = df['close'].iloc[i-1] - self._atr_buf(df, i-1, 2.0)
+                    tp = df['close'].iloc[i-1] + self._atr_buf(df, i-1, 14.0)
             elif fvg_bearish and not np.isnan(liq_high):
                 # Sweep high, then FVG formed
                 if df['high'].iloc[i-2] > liq_high:
                     signal = -1
-                    sl = df['close'].iloc[i-1] + self._atr_buf(df, i-1, 1.0)
-                    tp = df['close'].iloc[i-1] - self._atr_buf(df, i-1, 2.0)
+                    sl = df['close'].iloc[i-1] + self._atr_buf(df, i-1, 2.0)
+                    tp = df['close'].iloc[i-1] - self._atr_buf(df, i-1, 14.0)
 
             signals.append(signal)
             sl_prices.append(sl)

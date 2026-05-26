@@ -12,6 +12,7 @@ class NYSessionReversal(BaseStrategy):
             regime_mask=2 | 16, # RANGE | REVERSAL
             session_mask=4 # NY
         )
+        self.disable_breakeven = True
         
     def prepare_data(self, df):
         self._add_atr_col(df)
@@ -52,13 +53,13 @@ class NYSessionReversal(BaseStrategy):
                 # NY fakeout of London High/Low with fixed R:R
                 if high1 > london_high and close1 < london_high - self._atr_buf(df, i-1):
                     signal = -1
-                    sl = london_high + self._atr_buf(df, i-1, 0.5)
-                    tp = close1 - (sl - close1) * 3.0
+                    sl = close1 + self._atr_buf(df, i-1, 2.0)
+                    tp = close1 - self._atr_buf(df, i-1, 14.0)
                     traded_today = True
                 elif low1 < london_low and close1 > london_low + self._atr_buf(df, i-1):
                     signal = 1
-                    sl = london_low - self._atr_buf(df, i-1, 0.5)
-                    tp = close1 + (close1 - sl) * 3.0
+                    sl = close1 - self._atr_buf(df, i-1, 2.0)
+                    tp = close1 + self._atr_buf(df, i-1, 14.0)
                     traded_today = True
 
             signals.append(signal)

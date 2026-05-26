@@ -13,6 +13,7 @@ class VWAPMultiBandRegime(BaseStrategy):
             regime_mask=1 | 2, # TREND | RANGE
             session_mask=7
         )
+        self.disable_breakeven = True
         
     def prepare_data(self, df):
         df['vwap'] = VWAP(df)
@@ -46,12 +47,12 @@ class VWAPMultiBandRegime(BaseStrategy):
                 # Reversal from 2nd VWAP band with fixed R:R
                 if close2 < df['vwap_lower2'].iloc[i-2] and close1 > vwap_lower2:
                     signal = 1
-                    sl = close1 - self._atr_buf(df, i-1, 1.0)
-                    tp = close1 + self._atr_buf(df, i-1, 2.0)
+                    sl = close1 - self._atr_buf(df, i-1, 2.0)
+                    tp = close1 + self._atr_buf(df, i-1, 14.0)
                 elif close2 > df['vwap_upper2'].iloc[i-2] and close1 < vwap_upper2:
                     signal = -1
-                    sl = close1 + self._atr_buf(df, i-1, 1.0)
-                    tp = close1 - self._atr_buf(df, i-1, 2.0)
+                    sl = close1 + self._atr_buf(df, i-1, 2.0)
+                    tp = close1 - self._atr_buf(df, i-1, 14.0)
 
             signals.append(signal)
             sl_prices.append(sl)

@@ -12,6 +12,7 @@ class AsianRangeFakeout(BaseStrategy):
             regime_mask=2 | 8 | 16, # RANGE | COMPRESSION | REVERSAL
             session_mask=2 # LONDON
         )
+        self.disable_breakeven = True
         
     def prepare_data(self, df):
         self._add_atr_col(df)
@@ -63,13 +64,13 @@ class AsianRangeFakeout(BaseStrategy):
                 # Enter on fakeout with fixed R:R
                 if fakeout_up and close1 < asian_high - self._atr_buf(df, i-1):
                     signal = -1
-                    sl = asian_high + self._atr_buf(df, i-1, 0.5)
-                    tp = close1 - (sl - close1) * 3.0
+                    sl = close1 + self._atr_buf(df, i-1, 2.0)
+                    tp = close1 - self._atr_buf(df, i-1, 10.0)
                     traded_today = True
                 elif fakeout_dn and close1 > asian_low + self._atr_buf(df, i-1):
                     signal = 1
-                    sl = asian_low - self._atr_buf(df, i-1, 0.5)
-                    tp = close1 + (close1 - sl) * 3.0
+                    sl = close1 - self._atr_buf(df, i-1, 2.0)
+                    tp = close1 + self._atr_buf(df, i-1, 10.0)
                     traded_today = True
 
             signals.append(signal)

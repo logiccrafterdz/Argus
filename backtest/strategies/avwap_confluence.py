@@ -14,6 +14,7 @@ class AVWAPConfluence(BaseStrategy):
             regime_mask=1 | 16, # TREND | REVERSAL
             session_mask=7
         )
+        self.disable_breakeven = True
         
     def prepare_data(self, df):
         signals = []
@@ -54,12 +55,12 @@ class AVWAPConfluence(BaseStrategy):
                 buffer = self._atr_buf(df, i-1, 0.5)
                 if close2 < avwap and close1 > avwap + buffer:
                     signal = 1
-                    sl = df['low'].iloc[i-1] - self._atr_buf(df, i-1, 1.0)
-                    tp = close1 + self._atr_buf(df, i-1, 3.0)
+                    sl = close1 - self._atr_buf(df, i-1, 2.0)
+                    tp = close1 + self._atr_buf(df, i-1, 14.0)
                 elif close2 > avwap and close1 < avwap - buffer:
                     signal = -1
-                    sl = df['high'].iloc[i-1] + self._atr_buf(df, i-1, 1.0)
-                    tp = close1 - self._atr_buf(df, i-1, 3.0)
+                    sl = close1 + self._atr_buf(df, i-1, 2.0)
+                    tp = close1 - self._atr_buf(df, i-1, 14.0)
                     
             signals.append(signal)
             sl_prices.append(sl)

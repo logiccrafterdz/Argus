@@ -14,6 +14,7 @@ class ORBHybrid(BaseStrategy):
             session_mask=2 | 4 # LONDON | NY
         )
         self.ema_period = 50
+        self.disable_breakeven = True
         
     def prepare_data(self, df):
         df['ema'] = EMA(df['close'], self.ema_period)
@@ -62,13 +63,13 @@ class ORBHybrid(BaseStrategy):
                 # Only take breakout if it aligns with EMA trend
                 if close > orb_high and close > ema:
                     signal = 1
-                    sl = orb_low
-                    tp = close + (close - sl) * 2.0
+                    sl = close - self._atr_buf(df, i-1, 2.0)
+                    tp = close + self._atr_buf(df, i-1, 14.0)
                     traded_today = True
                 elif close < orb_low and close < ema:
                     signal = -1
-                    sl = orb_high
-                    tp = close - (sl - close) * 2.0
+                    sl = close + self._atr_buf(df, i-1, 2.0)
+                    tp = close - self._atr_buf(df, i-1, 14.0)
                     traded_today = True
                     
             signals.append(signal)

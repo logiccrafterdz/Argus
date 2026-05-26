@@ -15,6 +15,7 @@ class HiddenDivergence(BaseStrategy):
             session_mask=7
         )
         self.lookback = 40
+        self.disable_breakeven = True
         
     def prepare_data(self, df):
         df['rsi'] = RSI(df['close'], 14)
@@ -46,9 +47,9 @@ class HiddenDivergence(BaseStrategy):
                     
                     if curr_low_price > prev_low_price and rsi1 < prev_rsi:
                         signal = 1
-                        sl = curr_low_price - self._atr_buf(df, i-1, 1.0)
-                        tp = close1 + self._atr_buf(df, i-1, 2.0)
-                        
+                        sl = close1 - self._atr_buf(df, i-1, 2.0)
+                        tp = close1 + self._atr_buf(df, i-1, 14.0)
+
             # Hidden Bearish Div: price makes lower high, RSI makes higher high
             elif is_high[i-1]:
                 prev_high_idx = next((j for j in range(i-2, i-self.lookback, -1) if is_high[j]), None)
@@ -56,11 +57,11 @@ class HiddenDivergence(BaseStrategy):
                     prev_high_price = df['high'].iloc[prev_high_idx]
                     prev_rsi = df['rsi'].iloc[prev_high_idx]
                     curr_high_price = df['high'].iloc[i-1]
-                    
+
                     if curr_high_price < prev_high_price and rsi1 > prev_rsi:
                         signal = -1
-                        sl = curr_high_price + self._atr_buf(df, i-1, 1.0)
-                        tp = close1 - self._atr_buf(df, i-1, 2.0)
+                        sl = close1 + self._atr_buf(df, i-1, 2.0)
+                        tp = close1 - self._atr_buf(df, i-1, 14.0)
 
             signals.append(signal)
             sl_prices.append(sl)

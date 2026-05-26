@@ -16,6 +16,7 @@ class ICTKillzoneMacro(BaseStrategy):
         self.killzone_start_hour = 8
         self.killzone_end_hour = 10
         self.ref_lookback_hours = 4
+        self.disable_breakeven = True
 
     def prepare_data(self, df):
         signals = []
@@ -53,15 +54,15 @@ class ICTKillzoneMacro(BaseStrategy):
                 buffer = self._atr_buf(df, i-1, 0.2)
                 if low1 < self.liq_low - buffer and close1 > self.liq_low and not self.sweep_buy_triggered:
                     signal = 1
-                    sl = low1 - self._atr_buf(df, i-1, 0.2)
-                    tp = (self.liq_high + self.liq_low) / 2.0 # Mid point
+                    sl = close1 - self._atr_buf(df, i-1, 2.0)
+                    tp = close1 + self._atr_buf(df, i-1, 12.0)
                     self.sweep_buy_triggered = True
-                
+
                 # Bearish Sweep
                 elif high1 > self.liq_high + buffer and close1 < self.liq_high and not self.sweep_sell_triggered:
                     signal = -1
-                    sl = high1 + self._atr_buf(df, i-1, 0.2)
-                    tp = (self.liq_high + self.liq_low) / 2.0
+                    sl = close1 + self._atr_buf(df, i-1, 2.0)
+                    tp = close1 - self._atr_buf(df, i-1, 12.0)
                     self.sweep_sell_triggered = True
 
             signals.append(signal)

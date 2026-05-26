@@ -12,6 +12,7 @@ class PDHPDLBreakReversal(BaseStrategy):
             regime_mask=4 | 16, # EXPANSION | REVERSAL
             session_mask=7
         )
+        self.disable_breakeven = True
         
     def prepare_data(self, df):
         # We need daily high/low. Since df is intraday, we groupby date.
@@ -61,14 +62,14 @@ class PDHPDLBreakReversal(BaseStrategy):
                         # Breakout of PDH
                         if close2 <= pdh and close1 > pdh + buffer:
                             signal = 1
-                            sl = df['low'].iloc[i-3:i].min() - self._atr_buf(df, i-1, 0.5)
-                            tp = close1 + (close1 - sl) * 2.0
-                            
+                            sl = close1 - self._atr_buf(df, i-1, 2.0)
+                            tp = close1 + self._atr_buf(df, i-1, 14.0)
+
                         # Breakout of PDL
                         elif close2 >= pdl and close1 < pdl - buffer:
                             signal = -1
-                            sl = df['high'].iloc[i-3:i].max() + self._atr_buf(df, i-1, 0.5)
-                            tp = close1 - (sl - close1) * 2.0
+                            sl = close1 + self._atr_buf(df, i-1, 2.0)
+                            tp = close1 - self._atr_buf(df, i-1, 14.0)
                             
             signals.append(signal)
             sl_prices.append(sl)
