@@ -148,7 +148,7 @@ def run_single(strat_class, label=None):
         if tf == 'H4' and (current_time.minute != 0 or current_time.hour % 4 != 0):
             continue
 
-        sym_regime = regimes.get(list(prices.keys())[0] if prices else '', {}) if len(prices) == 1 else {}
+        sym_regime = regimes.get(next(iter(prices), ''), {})
         c_regime = sym_regime.get(cdate, 1)
         if not strat.check_regime(c_regime) or not strat.check_session(c_session):
             continue

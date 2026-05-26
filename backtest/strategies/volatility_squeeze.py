@@ -13,6 +13,7 @@ class VolatilitySqueeze(BaseStrategy):
             regime_mask=2 | 4 | 8, # RANGE | EXPANSION | COMPRESSION
             session_mask=7
         )
+        self.disable_breakeven = True
         
     def prepare_data(self, df):
         bb_upper, _, bb_lower = BollingerBands(df['close'], period=20, std_dev=2.0)
@@ -47,12 +48,12 @@ class VolatilitySqueeze(BaseStrategy):
                 
                 if close1 > ema:
                     signal = 1
-                    sl = close1 - self._atr_buf(df, i-1, 1.0)
-                    tp = close1 + self._atr_buf(df, i-1, 2.0)
+                    sl = close1 - self._atr_buf(df, i-1, 2.0)
+                    tp = close1 + self._atr_buf(df, i-1, 14.0)
                 elif close1 < ema:
                     signal = -1
-                    sl = close1 + self._atr_buf(df, i-1, 1.0)
-                    tp = close1 - self._atr_buf(df, i-1, 2.0)
+                    sl = close1 + self._atr_buf(df, i-1, 2.0)
+                    tp = close1 - self._atr_buf(df, i-1, 14.0)
 
             signals.append(signal)
             sl_prices.append(sl)

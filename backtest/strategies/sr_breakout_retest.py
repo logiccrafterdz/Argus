@@ -13,7 +13,8 @@ class SRBreakoutRetest(BaseStrategy):
             regime_mask=1 | 2 | 4, # TREND | RANGE | EXPANSION
             session_mask=7
         )
-        self.lookback = 10
+        self.lookback = 50
+        self.disable_breakeven = True
 
     def prepare_data(self, df):
         signals = []
@@ -40,14 +41,12 @@ class SRBreakoutRetest(BaseStrategy):
             # Breakout: price closed above recent high, confirm above EMA200
             if close1 > recent_high and not np.isnan(ema200) and close1 > ema200:
                 signal = 1
-                sl = close1 - self._atr_buf(df, i-1, 1.0)
-                tp = close1 + self._atr_buf(df, i-1, 2.0)
-                
-            # Bearish breakout below recent low, confirm below EMA200
+                sl = close1 - self._atr_buf(df, i-1, 2.0)
+                tp = close1 + self._atr_buf(df, i-1, 14.0)
             elif close1 < recent_low and not np.isnan(ema200) and close1 < ema200:
                 signal = -1
-                sl = close1 + self._atr_buf(df, i-1, 1.0)
-                tp = close1 - self._atr_buf(df, i-1, 2.0)
+                sl = close1 + self._atr_buf(df, i-1, 2.0)
+                tp = close1 - self._atr_buf(df, i-1, 14.0)
                 
             signals.append(signal)
             sl_prices.append(sl)
