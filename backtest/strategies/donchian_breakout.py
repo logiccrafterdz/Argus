@@ -13,6 +13,7 @@ class DonchianBreakout(BaseStrategy):
             regime_mask=1 | 2 | 4, # TREND | RANGE | EXPANSION
             session_mask=7
         )
+        self.disable_breakeven = True
         
     def prepare_data(self, df):
         upper, middle, lower = DonchianChannels(df, period=5)
@@ -39,12 +40,12 @@ class DonchianBreakout(BaseStrategy):
             # compare close[i-1] with Donchian[i-2] (which excludes bar i-1)
             if close1 > dc_upper2 and close1 > ema1:
                 signal = 1
-                sl = close1 - self._atr_buf(df, i-1, 1.0)
-                tp = close1 + self._atr_buf(df, i-1, 2.0)
+                sl = close1 - self._atr_buf(df, i-1, 2.0)
+                tp = close1 + self._atr_buf(df, i-1, 14.0)
             elif close1 < dc_lower2 and close1 < ema1:
                 signal = -1
-                sl = close1 + self._atr_buf(df, i-1, 1.0)
-                tp = close1 - self._atr_buf(df, i-1, 2.0)
+                sl = close1 + self._atr_buf(df, i-1, 2.0)
+                tp = close1 - self._atr_buf(df, i-1, 14.0)
             
             signals.append(signal)
             sl_prices.append(sl)
