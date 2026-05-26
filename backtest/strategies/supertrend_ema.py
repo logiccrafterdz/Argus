@@ -15,10 +15,10 @@ class SuperTrendEMA(BaseStrategy):
         )
         
     def prepare_data(self, df):
-        supertrend, direction = SuperTrend(df, period=10, multiplier=3)
+        supertrend, direction = SuperTrend(df, period=20, multiplier=4)
         df['st_dir'] = direction
         df['st_val'] = supertrend
-        df['ema'] = EMA(df['close'], 50)
+        df['ema'] = EMA(df['close'], 100)
         
         self._add_atr_col(df)
         
@@ -26,7 +26,7 @@ class SuperTrendEMA(BaseStrategy):
         sl_prices = []
         tp_prices = []
         
-        for i in range(50, len(df)):
+        for i in range(100, len(df)):
             signal = 0
             sl = np.nan
             tp = np.nan
@@ -41,18 +41,18 @@ class SuperTrendEMA(BaseStrategy):
             if dir1 == 1 and dir2 == -1 and close1 > ema1:
                 signal = 1
                 sl = close1 - self._atr_buf(df, i-1, 1.0)
-                tp = close1 + self._atr_buf(df, i-1, 2.0)
+                tp = close1 + self._atr_buf(df, i-1, 3.0)
             elif dir1 == -1 and dir2 == 1 and close1 < ema1:
                 signal = -1
                 sl = close1 + self._atr_buf(df, i-1, 1.0)
-                tp = close1 - self._atr_buf(df, i-1, 2.0)
+                tp = close1 - self._atr_buf(df, i-1, 3.0)
 
             signals.append(signal)
             sl_prices.append(sl)
             tp_prices.append(tp)
 
-        pad = [0] * 50
-        pad_nan = [np.nan] * 50
+        pad = [0] * 100
+        pad_nan = [np.nan] * 100
         
         df['signal'] = pad + signals
         df['sl'] = pad_nan + sl_prices

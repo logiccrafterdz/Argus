@@ -200,13 +200,13 @@ def run_backtest():
                         risk_dist = current_prices[symbol] - row['sl']
                         if risk_dist <= 0 or pd.isna(risk_dist): continue
                         if not engine.risk_manager.check_correlation(symbol, 'BUY', engine.open_positions, corr_matrix, 0.8): continue
-                        lot = engine.calculate_lot_size(symbol, 1.0, risk_dist, engine.equity)
+                        lot = engine.calculate_lot_size(symbol, 0.2, risk_dist, engine.equity)
                         engine.execute_trade(symbol, strat.name, 'BUY', lot, current_prices[symbol], row['sl'], row['tp'], "Buy Signal")
                     elif row['signal'] == -1:
                         risk_dist = row['sl'] - current_prices[symbol]
                         if risk_dist <= 0 or pd.isna(risk_dist): continue
                         if not engine.risk_manager.check_correlation(symbol, 'SELL', engine.open_positions, corr_matrix, 0.8): continue
-                        lot = engine.calculate_lot_size(symbol, 1.0, risk_dist, engine.equity)
+                        lot = engine.calculate_lot_size(symbol, 0.2, risk_dist, engine.equity)
                         engine.execute_trade(symbol, strat.name, 'SELL', lot, current_prices[symbol], row['sl'], row['tp'], "Sell Signal")
                     
 
