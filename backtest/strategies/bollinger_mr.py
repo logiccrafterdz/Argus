@@ -16,6 +16,7 @@ class BollingerMeanReversion(BaseStrategy):
         self.bb_period = 20
         self.bb_dev = 2.0
         self.rsi_period = 14
+        self.disable_breakeven = True
 
     def prepare_data(self, df):
         upper, sma, lower = BollingerBands(df['close'], self.bb_period, self.bb_dev)
@@ -44,15 +45,15 @@ class BollingerMeanReversion(BaseStrategy):
             # Oversold and touching lower band
             if low1 <= lower1 and rsi1 < 30 and close1 > lower1:
                 signals.append(1)
-                sl = close1 - self._atr_buf(df, i-1, 1.5)
-                tp = close1 + self._atr_buf(df, i-1, 3.0)
+                sl = close1 - self._atr_buf(df, i-1, 2.0)
+                tp = close1 + self._atr_buf(df, i-1, 4.0)
                 sl_prices.append(sl)
                 tp_prices.append(tp)
             # Overbought and touching upper band
             elif high1 >= upper1 and rsi1 > 70 and close1 < upper1:
                 signals.append(-1)
-                sl = close1 + self._atr_buf(df, i-1, 1.5)
-                tp = close1 - self._atr_buf(df, i-1, 3.0)
+                sl = close1 + self._atr_buf(df, i-1, 2.0)
+                tp = close1 - self._atr_buf(df, i-1, 4.0)
                 sl_prices.append(sl)
                 tp_prices.append(tp)
             else:

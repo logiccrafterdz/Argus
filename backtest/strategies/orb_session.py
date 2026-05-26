@@ -13,6 +13,7 @@ class ORBSession(BaseStrategy):
             session_mask=2 | 4 # LONDON | NY
         )
         self.orb_duration_minutes = 15
+        self.disable_breakeven = True
         
     def prepare_data(self, df):
         self._add_atr_col(df)
@@ -49,13 +50,13 @@ class ORBSession(BaseStrategy):
                 close = df['close'].iloc[i]
                 if close > orb_high:
                     signal = 1
-                    sl = close - self._atr_buf(df, i, 1.0)
-                    tp = close + self._atr_buf(df, i, 2.0)
+                    sl = close - self._atr_buf(df, i, 2.0)
+                    tp = close + self._atr_buf(df, i, 4.0)
                     traded_today = True
                 elif close < orb_low:
                     signal = -1
-                    sl = close + self._atr_buf(df, i, 1.0)
-                    tp = close - self._atr_buf(df, i, 2.0)
+                    sl = close + self._atr_buf(df, i, 2.0)
+                    tp = close - self._atr_buf(df, i, 4.0)
                     traded_today = True
                     
             signals.append(signal)

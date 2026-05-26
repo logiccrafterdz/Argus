@@ -15,6 +15,7 @@ class PriceActionSR(BaseStrategy):
             session_mask=7
         )
         self.lookback = 100
+        self.disable_breakeven = True
         
     def prepare_data(self, df):
         signals = []
@@ -48,14 +49,14 @@ class PriceActionSR(BaseStrategy):
                 # Reversal off support with ATR buffer, only in uptrend
                 if not np.isnan(sup) and close1 <= sup + self._atr_buf(df, i-1, 0.5) and df['close'].iloc[i-1] > df['open'].iloc[i-1] and not np.isnan(ema200) and close1 > ema200:
                     signal = 1
-                    sl = sup - self._atr_buf(df, i-1, 1.0)
-                    tp = close1 + (close1 - sl) * 2.0
+                    sl = sup - self._atr_buf(df, i-1, 2.0)
+                    tp = close1 + (close1 - sl) * 8.0
                     
                 # Reversal off resistance with ATR buffer, only in downtrend
                 elif not np.isnan(res) and close1 >= res - self._atr_buf(df, i-1, 0.5) and df['close'].iloc[i-1] < df['open'].iloc[i-1] and not np.isnan(ema200) and close1 < ema200:
                     signal = -1
-                    sl = res + self._atr_buf(df, i-1, 1.0)
-                    tp = close1 - (sl - close1) * 2.0
+                    sl = res + self._atr_buf(df, i-1, 2.0)
+                    tp = close1 - (sl - close1) * 8.0
                     
             signals.append(signal)
             sl_prices.append(sl)
