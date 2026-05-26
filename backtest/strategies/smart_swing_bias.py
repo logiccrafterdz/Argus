@@ -4,6 +4,7 @@ import os
 sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 import numpy as np
 from market_structure import is_bullish_structure, is_bearish_structure, precompute_swings
+from indicators import EMA
 
 class SmartSwingBias(BaseStrategy):
     def __init__(self):
@@ -20,6 +21,7 @@ class SmartSwingBias(BaseStrategy):
         swing_highs, swing_lows = precompute_swings(df)
         
         self._add_atr_col(df)
+        df['ema200'] = EMA(df['close'], 200)
         
         signals = []
         sl_prices = []
@@ -41,12 +43,13 @@ class SmartSwingBias(BaseStrategy):
             
             close1 = df['close'].iloc[i-1]
             close2 = df['close'].iloc[i-2]
+            ema200 = df['ema200'].iloc[i-1]
             
-            if bull_htf and bull_ltf and close2 < close1:
+            if bull_htf and bull_ltf and close2 < close1 and not np.isnan(ema200) and close1 > ema200:
                 signal = 1
                 sl = close1 - self._atr_buf(df, i-1, 1.5)
                 tp = close1 + self._atr_buf(df, i-1, 3.0)
-            elif bear_htf and bear_ltf and close2 > close1:
+            elif bear_htf and bear_ltf and close2 > close1 and not np.isnan(ema200) and close1 < ema200:
                 signal = -1
                 sl = close1 + self._atr_buf(df, i-1, 1.5)
                 tp = close1 - self._atr_buf(df, i-1, 3.0)

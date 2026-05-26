@@ -7,24 +7,6 @@ import numpy as np
 from json_encoder import NumpyEncoder
 from strategies.trend_pullback import TrendPullback
 from strategies.ict_killzone import ICTKillzoneMacro
-from strategies.bollinger_mr import BollingerMeanReversion
-from strategies.liq_sweep import LiquiditySweepFVG
-from strategies.sr_breakout_retest import SRBreakoutRetest
-from strategies.orb_session import ORBSession
-from strategies.orb_hybrid import ORBHybrid
-from strategies.price_action_sr import PriceActionSR
-from strategies.liq_sweep_breakout import LiquiditySweepBreakout
-from strategies.vwap_multiband_regime import VWAPMultiBandRegime
-from strategies.avwap_confluence import AVWAPConfluence
-from strategies.asian_range_fakeout import AsianRangeFakeout
-from strategies.ny_session_reversal import NYSessionReversal
-from strategies.volatility_squeeze import VolatilitySqueeze
-from strategies.smart_swing_bias import SmartSwingBias
-from strategies.supertrend_ema import SuperTrendEMA
-from strategies.hidden_divergence import HiddenDivergence
-from strategies.adx_trend_strength import ADXTrendStrength
-from strategies.donchian_breakout import DonchianBreakout
-from strategies.pdh_pdl_break_reversal import PDHPDLBreakReversal
 from indicators import MarketRegime
 from config import load_config, create_default_config
 from log_setup import setup_logger
@@ -62,25 +44,7 @@ def run_backtest():
     
     strategies = [
         TrendPullback(),
-        ICTKillzoneMacro(),
-        BollingerMeanReversion(),
-        LiquiditySweepFVG(),
-        SRBreakoutRetest(),
-        ORBSession(),
-        ORBHybrid(),
-        PriceActionSR(),
-        LiquiditySweepBreakout(),
-        VWAPMultiBandRegime(),
-        AVWAPConfluence(),
-        AsianRangeFakeout(),
-        NYSessionReversal(),
-        VolatilitySqueeze(),
-        SmartSwingBias(),
-        SuperTrendEMA(),
-        HiddenDivergence(),
-        ADXTrendStrength(),
-        DonchianBreakout(),
-        PDHPDLBreakReversal()
+        ICTKillzoneMacro()
     ]
     
     # Build master timeline from all available M15 data, plus H1 for symbols without M15
@@ -244,7 +208,8 @@ def run_backtest():
                         if not engine.risk_manager.check_correlation(symbol, 'SELL', engine.open_positions, corr_matrix, 0.8): continue
                         lot = engine.calculate_lot_size(symbol, 1.0, risk_dist, engine.equity)
                         engine.execute_trade(symbol, strat.name, 'SELL', lot, current_prices[symbol], row['sl'], row['tp'], "Sell Signal")
-                        
+                    
+
     # End of backtest, close all
     engine.emergency_close_all(current_prices)
     

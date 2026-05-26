@@ -31,17 +31,17 @@ class DonchianBreakout(BaseStrategy):
             tp = np.nan
             
             close1 = df['close'].iloc[i-1]
-            close2 = df['close'].iloc[i-2]
+            ema1 = df['ema'].iloc[i-1]
             dc_upper2 = df['dc_upper'].iloc[i-2]
             dc_lower2 = df['dc_lower'].iloc[i-2]
-            ema1 = df['ema'].iloc[i-1]
             
             # Breakout of Donchian channel in direction of EMA
-            if close2 <= dc_upper2 and close1 > df['dc_upper'].iloc[i-1] and close1 > ema1:
+            # compare close[i-1] with Donchian[i-2] (which excludes bar i-1)
+            if close1 > dc_upper2 and close1 > ema1:
                 signal = 1
                 sl = close1 - self._atr_buf(df, i-1, 1.0)
                 tp = close1 + self._atr_buf(df, i-1, 2.0)
-            elif close2 >= dc_lower2 and close1 < df['dc_lower'].iloc[i-1] and close1 < ema1:
+            elif close1 < dc_lower2 and close1 < ema1:
                 signal = -1
                 sl = close1 + self._atr_buf(df, i-1, 1.0)
                 tp = close1 - self._atr_buf(df, i-1, 2.0)

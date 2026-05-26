@@ -3,6 +3,7 @@ import sys
 import os
 sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 import numpy as np
+from indicators import EMA
 
 class SRBreakoutRetest(BaseStrategy):
     def __init__(self):
@@ -22,10 +23,10 @@ class SRBreakoutRetest(BaseStrategy):
         start_idx = self.lookback
         
         self._add_atr_col(df)
+        df['ema200'] = EMA(df['close'], 200)
         
         for i in range(start_idx, len(df)):
             close1 = df['close'].iloc[i-1]
-            close2 = df['close'].iloc[i-2]
             
             recent_high = df['high'].iloc[i-self.lookback:i-1].max()
             recent_low = df['low'].iloc[i-self.lookback:i-1].min()
@@ -34,16 +35,16 @@ class SRBreakoutRetest(BaseStrategy):
             sl = np.nan
             tp = np.nan
             
-            # Breakout and Retest (simplified)
-            # Bullish: previous candle closed above recent high, current candle pulls back
-            buffer = self._atr_buf(df, i-1, 0.3)
-            if close2 > recent_high and close1 <= recent_high + buffer:
+            ema200 = df['ema200'].iloc[i-1]
+            
+            # Breakout: price closed above recent high, confirm above EMA200
+            if close1 > recent_high and not np.isnan(ema200) and close1 > ema200:
                 signal = 1
                 sl = close1 - self._atr_buf(df, i-1, 1.0)
                 tp = close1 + self._atr_buf(df, i-1, 2.0)
                 
-            # Bearish
-            elif close2 < recent_low and close1 >= recent_low - buffer:
+            # Bearish breakout below recent low, confirm below EMA200
+            elif close1 < recent_low and not np.isnan(ema200) and close1 < ema200:
                 signal = -1
                 sl = close1 + self._atr_buf(df, i-1, 1.0)
                 tp = close1 - self._atr_buf(df, i-1, 2.0)

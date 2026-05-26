@@ -4,6 +4,7 @@ import os
 sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 import numpy as np
 from market_structure import get_swing_highs, get_swing_lows
+from indicators import EMA
 
 class PriceActionSR(BaseStrategy):
     def __init__(self):
@@ -23,6 +24,7 @@ class PriceActionSR(BaseStrategy):
         is_high = get_swing_highs(df, 3)
         is_low = get_swing_lows(df, 3)
         self._add_atr_col(df)
+        df['ema200'] = EMA(df['close'], 200)
         
         start_idx = self.lookback
         
@@ -37,18 +39,20 @@ class PriceActionSR(BaseStrategy):
             sl = np.nan
             tp = np.nan
             
+            ema200 = df['ema200'].iloc[i-1]
+            
             if recent_highs and recent_lows:
                 res = min([h for h in recent_highs if h > close1], default=np.nan)
                 sup = max([l for l in recent_lows if l < close1], default=np.nan)
                 
-                # Reversal off support with ATR buffer
-                if not np.isnan(sup) and close1 <= sup + self._atr_buf(df, i-1, 0.5) and df['close'].iloc[i-1] > df['open'].iloc[i-1]:
+                # Reversal off support with ATR buffer, only in uptrend
+                if not np.isnan(sup) and close1 <= sup + self._atr_buf(df, i-1, 0.5) and df['close'].iloc[i-1] > df['open'].iloc[i-1] and not np.isnan(ema200) and close1 > ema200:
                     signal = 1
                     sl = sup - self._atr_buf(df, i-1, 1.0)
                     tp = close1 + (close1 - sl) * 2.0
                     
-                # Reversal off resistance with ATR buffer
-                elif not np.isnan(res) and close1 >= res - self._atr_buf(df, i-1, 0.5) and df['close'].iloc[i-1] < df['open'].iloc[i-1]:
+                # Reversal off resistance with ATR buffer, only in downtrend
+                elif not np.isnan(res) and close1 >= res - self._atr_buf(df, i-1, 0.5) and df['close'].iloc[i-1] < df['open'].iloc[i-1] and not np.isnan(ema200) and close1 < ema200:
                     signal = -1
                     sl = res + self._atr_buf(df, i-1, 1.0)
                     tp = close1 - (sl - close1) * 2.0

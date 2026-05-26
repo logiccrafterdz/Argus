@@ -10,7 +10,7 @@ class SuperTrendEMA(BaseStrategy):
         super().__init__(
             name="SuperTrend_EMA",
             category="Trend Following",
-            regime_mask=1 | 4, # TREND | EXPANSION
+            regime_mask=1 | 2 | 4, # TREND | RANGE | EXPANSION
             session_mask=7
         )
         
