@@ -65,7 +65,7 @@
                     <strong>Instruments:</strong> 10 (Forex + Gold + Indices)
                 </div>
                 <div class="ribbon-item">
-                    <strong>Strategies:</strong> 9
+                    <strong>Strategies:</strong> 9 / 20
                 </div>
             </div>
         </div>
@@ -233,8 +233,8 @@
             <div class="container">
                 <div class="section-header">
                     <div class="text-label">Strategy Intelligence</div>
-                    <h2 class="text-h2">9 Strategies in Detail</h2>
-                    <p class="text-body">Each strategy with its individual backtest statistics, parameters, and equity curve.</p>
+                    <h2 class="text-h2">All 20 Strategies — <span style="color:var(--success);">9 Active</span> in Portfolio</h2>
+                    <p class="text-body">Each strategy with individual backtest statistics. Active strategies are part of the portfolio; inactive ones were excluded after optimisation.</p>
                 </div>
 
                 <!-- Strategy cards -->
@@ -253,7 +253,7 @@
                         <button class="filter-chip" data-filter="Divergence">Divergence</button>
                     </div>
                     <div class="table-wrapper">
-                        <table class="data-table" id="strategyTable">
+                            <table class="data-table" id="strategyTable">
                             <thead>
                                 <tr>
                                     <th>Rank</th>
@@ -267,6 +267,7 @@
                                     <th>Max DD</th>
                                     <th>Sharpe</th>
                                     <th>Return</th>
+                                    <th>Status</th>
                                 </tr>
                             </thead>
                             <tbody></tbody>
@@ -507,7 +508,7 @@
 
     <!-- ═══ Dashboard Logic ═══ -->
     <script>
-        // Strategy data file mapping (from single_*.json files)
+        // All 20 strategy data files
         const STRATEGY_FILES = [
             'single_AVWAP_Confluence.json',
             'single_ADX_TrendStrength.json',
@@ -518,7 +519,25 @@
             'single_Smart_Swing_Bias.json',
             'single_PriceAction_SR.json',
             'single_SuperTrend_EMA.json',
+            'single_VWAP_MultiBand_Regime.json',
+            'single_Liquidity_Sweep_Breakout.json',
+            'single_Liquidity Sweep FVG.json',
+            'single_Volatility_Squeeze.json',
+            'single_SR_Breakout_Retest.json',
+            'single_ICT_Killzone_Macro.json',
+            'single_ORB_Hybrid.json',
+            'single_ORB_Session.json',
+            'single_Asian_Range_Fakeout.json',
+            'single_NY_Session_Reversal.json',
+            'single_PDH_PDL_BreakReversal.json',
         ];
+
+        // Active portfolio strategies (class names used in run_backtest.py)
+        const ACTIVE_STRATEGIES = new Set([
+            'AVWAP_Confluence', 'ADX_TrendStrength', 'Hidden_Divergence',
+            'Donchian_Breakout', 'TrendPullback', 'Bollinger Mean Reversion',
+            'Smart_Swing_Bias', 'PriceAction_SR', 'SuperTrend_EMA',
+        ]);
 
         const STRATEGY_COLORS = [
             '#0ea5a0', '#f59e0b', '#8b5cf6', '#ef4444', '#22c55e',
@@ -770,38 +789,60 @@
             });
         }
 
-        /* ═══ Strategy Cards ═══ */
+        /* ═══ Strategy Cards (all 20) ═══ */
         function renderStrategyCards() {
             const container = document.getElementById('strategyCards');
-            if (!container || !portfolioData.strategies) return;
-            const sorted = [...portfolioData.strategies].sort((a, b) => b.net_profit - a.net_profit);
+            if (!container) return;
+
+            // Build combined list: all strategies with data, sorted by net profit descending
+            const all = [];
+            Object.keys(singleStrategyData).forEach(name => {
+                const sd = singleStrategyData[name];
+                const port = sd.portfolio || {};
+                const isActive = ACTIVE_STRATEGIES.has(name);
+                all.push({
+                    name: name,
+                    category: (sd.params && sd.params.category) || '',
+                    tf: sd.tf || 'N/A',
+                    net_profit: port.net_profit || 0,
+                    total_trades: port.total_trades || 0,
+                    win_rate: port.win_rate || 0,
+                    profit_factor: port.profit_factor || 0,
+                    max_drawdown: port.max_drawdown || 0,
+                    sharpe_ratio: port.sharpe_ratio || 0,
+                    total_return: port.total_return || 0,
+                    params: sd.params || {},
+                    isActive: isActive
+                });
+            });
+            all.sort((a, b) => b.net_profit - a.net_profit);
+
             let html = '<div class="strategy-cards-grid">';
-            sorted.forEach((s, i) => {
-                const sd = singleStrategyData[s.name];
-                const dd = sd && sd.portfolio ? sd.portfolio.max_drawdown.toFixed(2) : 'N/A';
-                const ret = sd && sd.portfolio ? sd.portfolio.total_return.toFixed(2) + '%' : 'N/A';
-                const sharpe = sd && sd.portfolio ? sd.portfolio.sharpe_ratio.toFixed(2) : 'N/A';
-                const tf = sd ? sd.tf : 'N/A';
-                const params = sd && sd.params ? sd.params : {};
-                const paramStr = Object.entries(params)
+            all.forEach((s, i) => {
+                const colorIdx = i % STRATEGY_COLORS.length;
+                const activeLabel = s.isActive
+                    ? '<span class="risk-badge" style="background:var(--success-dim);color:var(--success);">Active</span>'
+                    : '<span class="risk-badge" style="background:var(--warning-dim);color:var(--warning);">Inactive</span>';
+                const paramStr = Object.entries(s.params)
                     .filter(([k]) => !['name', 'category', 'regime_mask', 'session_mask', 'disable_breakeven'].includes(k))
                     .map(([k, v]) => k.replace(/_/g, ' ') + ': ' + v)
                     .join(', ');
-                html += '<div class="strategy-card" style="border-left-color: ' + STRATEGY_COLORS[i % STRATEGY_COLORS.length] + ';">' +
+                html += '<div class="strategy-card" style="border-left-color: ' + STRATEGY_COLORS[colorIdx] + ';' + (!s.isActive ? ' opacity: 0.7;' : '') + '">' +
                     '<div class="strategy-card-header">' +
                     '<span class="strategy-rank">#' + (i + 1) + '</span>' +
                     '<h4>' + s.name.replace(/_/g, ' ') + '</h4>' +
                     '<span class="category-badge">' + s.category + '</span>' +
+                    activeLabel +
                     '</div>' +
                     '<div class="strategy-card-metrics">' +
-                    '<div class="sc-metric"><span class="sc-label">Return</span><span class="sc-value positive">' + ret + '</span></div>' +
-                    '<div class="sc-metric"><span class="sc-label">Max DD</span><span class="sc-value negative">' + dd + '%</span></div>' +
-                    '<div class="sc-metric"><span class="sc-label">Sharpe</span><span class="sc-value neutral">' + sharpe + '</span></div>' +
-                    '<div class="sc-metric"><span class="sc-label">PF</span><span class="sc-value neutral">' + s.profit_factor + '</span></div>' +
-                    '<div class="sc-metric"><span class="sc-label">WR</span><span class="sc-value neutral">' + s.win_rate + '%</span></div>' +
+                    '<div class="sc-metric"><span class="sc-label">Return</span><span class="sc-value ' + (s.total_return >= 0 ? 'positive' : 'negative') + '">' + s.total_return.toFixed(2) + '%</span></div>' +
+                    '<div class="sc-metric"><span class="sc-label">Max DD</span><span class="sc-value negative">' + s.max_drawdown.toFixed(2) + '%</span></div>' +
+                    '<div class="sc-metric"><span class="sc-label">Sharpe</span><span class="sc-value neutral">' + s.sharpe_ratio.toFixed(2) + '</span></div>' +
+                    '<div class="sc-metric"><span class="sc-label">PF</span><span class="sc-value neutral">' + s.profit_factor.toFixed(2) + '</span></div>' +
+                    '<div class="sc-metric"><span class="sc-label">WR</span><span class="sc-value neutral">' + s.win_rate.toFixed(2) + '%</span></div>' +
                     '<div class="sc-metric"><span class="sc-label">Trades</span><span class="sc-value">' + s.total_trades + '</span></div>' +
                     '<div class="sc-metric"><span class="sc-label">Net Profit</span><span class="sc-value ' + (s.net_profit >= 0 ? 'positive' : 'negative') + '">$' + s.net_profit.toFixed(2) + '</span></div>' +
-                    '<div class="sc-metric"><span class="sc-label">TF</span><span class="sc-value">' + tf + '</span></div>' +
+                    '<div class="sc-metric"><span class="sc-label">TF</span><span class="sc-value">' + s.tf + '</span></div>' +
                     '</div>' +
                     (paramStr ? '<div class="strategy-card-params"><span class="sc-label">Params:</span> <span class="text-small" style="color:var(--text-muted);">' + paramStr + '</span></div>' : '') +
                     '</div>';
@@ -810,30 +851,50 @@
             container.innerHTML = html;
         }
 
-        /* ═══ Strategy Table ═══ */
+        /* ═══ Strategy Table (all 20) ═══ */
         function renderStrategyTable() {
             const tbody = document.querySelector('#strategyTable tbody');
-            if (!tbody || !portfolioData.strategies) return;
-            const sorted = [...portfolioData.strategies].sort((a, b) => b.net_profit - a.net_profit);
+            if (!tbody) return;
+
+            const all = [];
+            Object.keys(singleStrategyData).forEach(name => {
+                const sd = singleStrategyData[name];
+                const port = sd.portfolio || {};
+                const isActive = ACTIVE_STRATEGIES.has(name);
+                all.push({
+                    name: name,
+                    category: (sd.params && sd.params.category) || '',
+                    tf: sd.tf || 'N/A',
+                    net_profit: port.net_profit || 0,
+                    total_trades: port.total_trades || 0,
+                    win_rate: port.win_rate || 0,
+                    profit_factor: port.profit_factor || 0,
+                    max_drawdown: port.max_drawdown || 0,
+                    sharpe_ratio: port.sharpe_ratio || 0,
+                    total_return: port.total_return || 0,
+                    isActive: isActive
+                });
+            });
+            all.sort((a, b) => b.net_profit - a.net_profit);
+
             let html = '';
-            sorted.forEach((s, i) => {
-                const sd = singleStrategyData[s.name];
-                const dd = sd && sd.portfolio ? sd.portfolio.max_drawdown.toFixed(2) : 'N/A';
-                const sharpe = sd && sd.portfolio ? sd.portfolio.sharpe_ratio.toFixed(2) : 'N/A';
-                const ret = sd && sd.portfolio ? sd.portfolio.total_return.toFixed(2) : 'N/A';
-                const tf = sd ? sd.tf : 'N/A';
-                html += '<tr data-category="' + s.category + '">' +
+            all.forEach((s, i) => {
+                const statusLabel = s.isActive
+                    ? '<span class="risk-badge" style="background:var(--success-dim);color:var(--success);font-size:0.625rem;">Active</span>'
+                    : '<span style="color:var(--text-muted);font-size:0.688rem;">Inactive</span>';
+                html += '<tr data-category="' + s.category + '" data-active="' + s.isActive + '">' +
                     '<td style="color:var(--text-muted);font-weight:600;">#' + (i + 1) + '</td>' +
                     '<td class="strategy-name">' + s.name.replace(/_/g, ' ') + '</td>' +
                     '<td><span class="category-badge">' + s.category + '</span></td>' +
-                    '<td class="text-mono">' + tf + '</td>' +
+                    '<td class="text-mono">' + s.tf + '</td>' +
                     '<td class="text-mono">' + s.total_trades + '</td>' +
-                    '<td class="text-mono">' + s.win_rate + '%</td>' +
-                    '<td class="text-mono">' + s.profit_factor + '</td>' +
+                    '<td class="text-mono">' + s.win_rate.toFixed(2) + '%</td>' +
+                    '<td class="text-mono">' + s.profit_factor.toFixed(2) + '</td>' +
                     '<td class="text-mono ' + (s.net_profit >= 0 ? 'positive' : 'negative') + '">$' + s.net_profit.toFixed(2) + '</td>' +
-                    '<td class="text-mono negative">' + dd + '%</td>' +
-                    '<td class="text-mono">' + sharpe + '</td>' +
-                    '<td class="text-mono ' + (parseFloat(ret) >= 0 ? 'positive' : 'negative') + '">' + ret + '</td>' +
+                    '<td class="text-mono negative">' + s.max_drawdown.toFixed(2) + '%</td>' +
+                    '<td class="text-mono">' + s.sharpe_ratio.toFixed(2) + '</td>' +
+                    '<td class="text-mono ' + (s.total_return >= 0 ? 'positive' : 'negative') + '">' + s.total_return.toFixed(2) + '%</td>' +
+                    '<td>' + statusLabel + '</td>' +
                     '</tr>';
             });
             tbody.innerHTML = html;
