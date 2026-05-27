@@ -1,0 +1,4561 @@
+{
+    "mode": "test",
+    "portfolio": {
+        "total_return": 10.27,
+        "net_profit": 10265.46,
+        "total_trades": 367,
+        "win_rate": 26.98,
+        "profit_factor": 1.18,
+        "max_drawdown": -5.44,
+        "max_dd_duration": 83,
+        "sharpe_ratio": 0.38,
+        "sortino_ratio": 0.54,
+        "calmar_ratio": 1.35,
+        "annualized_return": 7.29,
+        "recovery_factor": 1.89,
+        "expectancy": 27.97,
+        "avg_win": 677.74,
+        "avg_loss": -212.06,
+        "monthly_returns": {
+            "2024-01": -1.36,
+            "2024-02": -0.58,
+            "2024-03": 0.77,
+            "2024-04": -0.33,
+            "2024-05": 2.73,
+            "2024-06": 3.09,
+            "2024-07": -1.36,
+            "2024-08": 1.84,
+            "2024-09": -1.07,
+            "2024-10": 2.72,
+            "2024-11": -2.65,
+            "2024-12": 0.73,
+            "2025-01": 1.12,
+            "2025-02": 3.4,
+            "2025-03": -1.21,
+            "2025-04": 2.14,
+            "2025-05": 0.23
+        },
+        "drawdown_curve": [
+            {
+                "date": "2024-01-01",
+                "drawdown": 0.0
+            },
+            {
+                "date": "2024-01-02",
+                "drawdown": 0.0
+            },
+            {
+                "date": "2024-01-03",
+                "drawdown": -0.08
+            },
+            {
+                "date": "2024-01-04",
+                "drawdown": -0.42
+            },
+            {
+                "date": "2024-01-05",
+                "drawdown": -0.64
+            },
+            {
+                "date": "2024-01-08",
+                "drawdown": -1.04
+            },
+            {
+                "date": "2024-01-09",
+                "drawdown": -1.1
+            },
+            {
+                "date": "2024-01-10",
+                "drawdown": -1.16
+            },
+            {
+                "date": "2024-01-11",
+                "drawdown": -1.2
+            },
+            {
+                "date": "2024-01-12",
+                "drawdown": -1.4
+            },
+            {
+                "date": "2024-01-15",
+                "drawdown": -1.41
+            },
+            {
+                "date": "2024-01-16",
+                "drawdown": -1.29
+            },
+            {
+                "date": "2024-01-17",
+                "drawdown": -1.05
+            },
+            {
+                "date": "2024-01-18",
+                "drawdown": -0.55
+            },
+            {
+                "date": "2024-01-19",
+                "drawdown": -0.09
+            },
+            {
+                "date": "2024-01-22",
+                "drawdown": 0.0
+            },
+            {
+                "date": "2024-01-23",
+                "drawdown": -0.7
+            },
+            {
+                "date": "2024-01-24",
+                "drawdown": -0.63
+            },
+            {
+                "date": "2024-01-25",
+                "drawdown": -2.02
+            },
+            {
+                "date": "2024-01-26",
+                "drawdown": -2.04
+            },
+            {
+                "date": "2024-01-29",
+                "drawdown": -2.01
+            },
+            {
+                "date": "2024-01-30",
+                "drawdown": -1.82
+            },
+            {
+                "date": "2024-01-31",
+                "drawdown": -1.81
+            },
+            {
+                "date": "2024-02-01",
+                "drawdown": -1.95
+            },
+            {
+                "date": "2024-02-02",
+                "drawdown": -1.34
+            },
+            {
+                "date": "2024-02-05",
+                "drawdown": -1.75
+            },
+            {
+                "date": "2024-02-06",
+                "drawdown": -1.96
+            },
+            {
+                "date": "2024-02-07",
+                "drawdown": -1.8
+            },
+            {
+                "date": "2024-02-08",
+                "drawdown": -2.3
+            },
+            {
+                "date": "2024-02-09",
+                "drawdown": -2.62
+            },
+            {
+                "date": "2024-02-12",
+                "drawdown": -2.46
+            },
+            {
+                "date": "2024-02-13",
+                "drawdown": -2.65
+            },
+            {
+                "date": "2024-02-14",
+                "drawdown": -1.83
+            },
+            {
+                "date": "2024-02-15",
+                "drawdown": -1.74
+            },
+            {
+                "date": "2024-02-16",
+                "drawdown": -1.62
+            },
+            {
+                "date": "2024-02-19",
+                "drawdown": -1.62
+            },
+            {
+                "date": "2024-02-20",
+                "drawdown": -1.7
+            },
+            {
+                "date": "2024-02-21",
+                "drawdown": -1.9
+            },
+            {
+                "date": "2024-02-22",
+                "drawdown": -2.13
+            },
+            {
+                "date": "2024-02-23",
+                "drawdown": -2.08
+            },
+            {
+                "date": "2024-02-26",
+                "drawdown": -1.96
+            },
+            {
+                "date": "2024-02-27",
+                "drawdown": -2.22
+            },
+            {
+                "date": "2024-02-28",
+                "drawdown": -2.13
+            },
+            {
+                "date": "2024-02-29",
+                "drawdown": -2.39
+            },
+            {
+                "date": "2024-03-01",
+                "drawdown": -2.34
+            },
+            {
+                "date": "2024-03-04",
+                "drawdown": -2.56
+            },
+            {
+                "date": "2024-03-05",
+                "drawdown": -2.77
+            },
+            {
+                "date": "2024-03-06",
+                "drawdown": -2.59
+            },
+            {
+                "date": "2024-03-07",
+                "drawdown": -2.39
+            },
+            {
+                "date": "2024-03-08",
+                "drawdown": -1.66
+            },
+            {
+                "date": "2024-03-11",
+                "drawdown": -2.1
+            },
+            {
+                "date": "2024-03-12",
+                "drawdown": -2.25
+            },
+            {
+                "date": "2024-03-13",
+                "drawdown": -2.67
+            },
+            {
+                "date": "2024-03-14",
+                "drawdown": -2.65
+            },
+            {
+                "date": "2024-03-15",
+                "drawdown": -2.54
+            },
+            {
+                "date": "2024-03-18",
+                "drawdown": -2.53
+            },
+            {
+                "date": "2024-03-19",
+                "drawdown": -2.52
+            },
+            {
+                "date": "2024-03-20",
+                "drawdown": -1.93
+            },
+            {
+                "date": "2024-03-21",
+                "drawdown": -2.22
+            },
+            {
+                "date": "2024-03-22",
+                "drawdown": -1.73
+            },
+            {
+                "date": "2024-03-25",
+                "drawdown": -1.87
+            },
+            {
+                "date": "2024-03-26",
+                "drawdown": -1.89
+            },
+            {
+                "date": "2024-03-27",
+                "drawdown": -1.93
+            },
+            {
+                "date": "2024-03-28",
+                "drawdown": -1.88
+            },
+            {
+                "date": "2024-03-29",
+                "drawdown": -1.64
+            },
+            {
+                "date": "2024-04-01",
+                "drawdown": -1.64
+            },
+            {
+                "date": "2024-04-02",
+                "drawdown": -1.66
+            },
+            {
+                "date": "2024-04-03",
+                "drawdown": -2.04
+            },
+            {
+                "date": "2024-04-04",
+                "drawdown": -2.48
+            },
+            {
+                "date": "2024-04-05",
+                "drawdown": -2.27
+            },
+            {
+                "date": "2024-04-08",
+                "drawdown": -2.14
+            },
+            {
+                "date": "2024-04-09",
+                "drawdown": -1.11
+            },
+            {
+                "date": "2024-04-10",
+                "drawdown": -1.04
+            },
+            {
+                "date": "2024-04-11",
+                "drawdown": -0.41
+            },
+            {
+                "date": "2024-04-12",
+                "drawdown": -1.09
+            },
+            {
+                "date": "2024-04-15",
+                "drawdown": -1.54
+            },
+            {
+                "date": "2024-04-16",
+                "drawdown": -1.82
+            },
+            {
+                "date": "2024-04-17",
+                "drawdown": -2.04
+            },
+            {
+                "date": "2024-04-18",
+                "drawdown": -2.13
+            },
+            {
+                "date": "2024-04-19",
+                "drawdown": -2.21
+            },
+            {
+                "date": "2024-04-22",
+                "drawdown": -2.2
+            },
+            {
+                "date": "2024-04-23",
+                "drawdown": -2.27
+            },
+            {
+                "date": "2024-04-24",
+                "drawdown": -2.3
+            },
+            {
+                "date": "2024-04-25",
+                "drawdown": -2.15
+            },
+            {
+                "date": "2024-04-26",
+                "drawdown": -1.49
+            },
+            {
+                "date": "2024-04-29",
+                "drawdown": -1.84
+            },
+            {
+                "date": "2024-04-30",
+                "drawdown": -1.98
+            },
+            {
+                "date": "2024-05-01",
+                "drawdown": -2.29
+            },
+            {
+                "date": "2024-05-02",
+                "drawdown": -2.49
+            },
+            {
+                "date": "2024-05-03",
+                "drawdown": -2.26
+            },
+            {
+                "date": "2024-05-06",
+                "drawdown": -1.4
+            },
+            {
+                "date": "2024-05-07",
+                "drawdown": -1.3
+            },
+            {
+                "date": "2024-05-08",
+                "drawdown": -1.18
+            },
+            {
+                "date": "2024-05-09",
+                "drawdown": -1.21
+            },
+            {
+                "date": "2024-05-10",
+                "drawdown": -1.3
+            },
+            {
+                "date": "2024-05-13",
+                "drawdown": -1.44
+            },
+            {
+                "date": "2024-05-14",
+                "drawdown": -1.56
+            },
+            {
+                "date": "2024-05-15",
+                "drawdown": -1.58
+            },
+            {
+                "date": "2024-05-16",
+                "drawdown": -1.03
+            },
+            {
+                "date": "2024-05-17",
+                "drawdown": 0.0
+            },
+            {
+                "date": "2024-05-20",
+                "drawdown": 0.0
+            },
+            {
+                "date": "2024-05-21",
+                "drawdown": 0.0
+            },
+            {
+                "date": "2024-05-22",
+                "drawdown": -0.02
+            },
+            {
+                "date": "2024-05-23",
+                "drawdown": -0.3
+            },
+            {
+                "date": "2024-05-24",
+                "drawdown": -0.31
+            },
+            {
+                "date": "2024-05-27",
+                "drawdown": -0.4
+            },
+            {
+                "date": "2024-05-28",
+                "drawdown": -0.75
+            },
+            {
+                "date": "2024-05-29",
+                "drawdown": -1.01
+            },
+            {
+                "date": "2024-05-30",
+                "drawdown": -0.62
+            },
+            {
+                "date": "2024-05-31",
+                "drawdown": 0.0
+            },
+            {
+                "date": "2024-06-03",
+                "drawdown": -0.54
+            },
+            {
+                "date": "2024-06-04",
+                "drawdown": 0.0
+            },
+            {
+                "date": "2024-06-05",
+                "drawdown": 0.0
+            },
+            {
+                "date": "2024-06-06",
+                "drawdown": 0.0
+            },
+            {
+                "date": "2024-06-07",
+                "drawdown": -0.1
+            },
+            {
+                "date": "2024-06-10",
+                "drawdown": -0.47
+            },
+            {
+                "date": "2024-06-11",
+                "drawdown": -0.5
+            },
+            {
+                "date": "2024-06-12",
+                "drawdown": -0.34
+            },
+            {
+                "date": "2024-06-13",
+                "drawdown": -0.27
+            },
+            {
+                "date": "2024-06-14",
+                "drawdown": -0.17
+            },
+            {
+                "date": "2024-06-17",
+                "drawdown": -0.1
+            },
+            {
+                "date": "2024-06-18",
+                "drawdown": -0.42
+            },
+            {
+                "date": "2024-06-19",
+                "drawdown": -0.1
+            },
+            {
+                "date": "2024-06-20",
+                "drawdown": -0.21
+            },
+            {
+                "date": "2024-06-21",
+                "drawdown": 0.0
+            },
+            {
+                "date": "2024-06-24",
+                "drawdown": 0.0
+            },
+            {
+                "date": "2024-06-25",
+                "drawdown": 0.0
+            },
+            {
+                "date": "2024-06-26",
+                "drawdown": -0.06
+            },
+            {
+                "date": "2024-06-27",
+                "drawdown": -0.26
+            },
+            {
+                "date": "2024-06-28",
+                "drawdown": -0.3
+            },
+            {
+                "date": "2024-07-01",
+                "drawdown": -0.35
+            },
+            {
+                "date": "2024-07-02",
+                "drawdown": -0.27
+            },
+            {
+                "date": "2024-07-03",
+                "drawdown": -0.37
+            },
+            {
+                "date": "2024-07-04",
+                "drawdown": -0.43
+            },
+            {
+                "date": "2024-07-05",
+                "drawdown": -0.57
+            },
+            {
+                "date": "2024-07-08",
+                "drawdown": -0.11
+            },
+            {
+                "date": "2024-07-09",
+                "drawdown": -0.42
+            },
+            {
+                "date": "2024-07-10",
+                "drawdown": -0.43
+            },
+            {
+                "date": "2024-07-11",
+                "drawdown": -0.96
+            },
+            {
+                "date": "2024-07-12",
+                "drawdown": -1.04
+            },
+            {
+                "date": "2024-07-15",
+                "drawdown": -1.26
+            },
+            {
+                "date": "2024-07-16",
+                "drawdown": -1.24
+            },
+            {
+                "date": "2024-07-17",
+                "drawdown": -1.37
+            },
+            {
+                "date": "2024-07-18",
+                "drawdown": -0.62
+            },
+            {
+                "date": "2024-07-19",
+                "drawdown": -0.83
+            },
+            {
+                "date": "2024-07-22",
+                "drawdown": -1.02
+            },
+            {
+                "date": "2024-07-23",
+                "drawdown": -1.05
+            },
+            {
+                "date": "2024-07-24",
+                "drawdown": -0.85
+            },
+            {
+                "date": "2024-07-25",
+                "drawdown": -0.6
+            },
+            {
+                "date": "2024-07-26",
+                "drawdown": -1.23
+            },
+            {
+                "date": "2024-07-29",
+                "drawdown": -1.63
+            },
+            {
+                "date": "2024-07-30",
+                "drawdown": -1.72
+            },
+            {
+                "date": "2024-07-31",
+                "drawdown": -1.66
+            },
+            {
+                "date": "2024-08-01",
+                "drawdown": -1.41
+            },
+            {
+                "date": "2024-08-02",
+                "drawdown": -1.11
+            },
+            {
+                "date": "2024-08-05",
+                "drawdown": -0.35
+            },
+            {
+                "date": "2024-08-06",
+                "drawdown": 0.0
+            },
+            {
+                "date": "2024-08-07",
+                "drawdown": -0.09
+            },
+            {
+                "date": "2024-08-08",
+                "drawdown": 0.0
+            },
+            {
+                "date": "2024-08-09",
+                "drawdown": 0.0
+            },
+            {
+                "date": "2024-08-12",
+                "drawdown": -0.15
+            },
+            {
+                "date": "2024-08-13",
+                "drawdown": -0.06
+            },
+            {
+                "date": "2024-08-14",
+                "drawdown": -0.14
+            },
+            {
+                "date": "2024-08-15",
+                "drawdown": -0.15
+            },
+            {
+                "date": "2024-08-16",
+                "drawdown": 0.0
+            },
+            {
+                "date": "2024-08-19",
+                "drawdown": -0.28
+            },
+            {
+                "date": "2024-08-20",
+                "drawdown": -0.37
+            },
+            {
+                "date": "2024-08-21",
+                "drawdown": -0.46
+            },
+            {
+                "date": "2024-08-22",
+                "drawdown": -0.49
+            },
+            {
+                "date": "2024-08-23",
+                "drawdown": -0.46
+            },
+            {
+                "date": "2024-08-26",
+                "drawdown": -0.78
+            },
+            {
+                "date": "2024-08-27",
+                "drawdown": -0.97
+            },
+            {
+                "date": "2024-08-28",
+                "drawdown": -0.85
+            },
+            {
+                "date": "2024-08-29",
+                "drawdown": -0.87
+            },
+            {
+                "date": "2024-08-30",
+                "drawdown": -0.79
+            },
+            {
+                "date": "2024-09-02",
+                "drawdown": -1.27
+            },
+            {
+                "date": "2024-09-03",
+                "drawdown": -0.91
+            },
+            {
+                "date": "2024-09-04",
+                "drawdown": -1.42
+            },
+            {
+                "date": "2024-09-05",
+                "drawdown": -1.89
+            },
+            {
+                "date": "2024-09-06",
+                "drawdown": -1.96
+            },
+            {
+                "date": "2024-09-09",
+                "drawdown": -1.69
+            },
+            {
+                "date": "2024-09-10",
+                "drawdown": -2.13
+            },
+            {
+                "date": "2024-09-11",
+                "drawdown": -2.21
+            },
+            {
+                "date": "2024-09-12",
+                "drawdown": -2.47
+            },
+            {
+                "date": "2024-09-13",
+                "drawdown": -2.92
+            },
+            {
+                "date": "2024-09-16",
+                "drawdown": -2.87
+            },
+            {
+                "date": "2024-09-17",
+                "drawdown": -2.77
+            },
+            {
+                "date": "2024-09-18",
+                "drawdown": -2.52
+            },
+            {
+                "date": "2024-09-19",
+                "drawdown": -2.89
+            },
+            {
+                "date": "2024-09-20",
+                "drawdown": -2.7
+            },
+            {
+                "date": "2024-09-23",
+                "drawdown": -2.62
+            },
+            {
+                "date": "2024-09-24",
+                "drawdown": -2.55
+            },
+            {
+                "date": "2024-09-25",
+                "drawdown": -2.25
+            },
+            {
+                "date": "2024-09-26",
+                "drawdown": -2.42
+            },
+            {
+                "date": "2024-09-27",
+                "drawdown": -1.58
+            },
+            {
+                "date": "2024-09-30",
+                "drawdown": -1.86
+            },
+            {
+                "date": "2024-10-01",
+                "drawdown": -2.11
+            },
+            {
+                "date": "2024-10-02",
+                "drawdown": -2.43
+            },
+            {
+                "date": "2024-10-03",
+                "drawdown": -2.26
+            },
+            {
+                "date": "2024-10-04",
+                "drawdown": -2.38
+            },
+            {
+                "date": "2024-10-07",
+                "drawdown": -2.13
+            },
+            {
+                "date": "2024-10-08",
+                "drawdown": -2.13
+            },
+            {
+                "date": "2024-10-09",
+                "drawdown": -1.7
+            },
+            {
+                "date": "2024-10-10",
+                "drawdown": -0.64
+            },
+            {
+                "date": "2024-10-11",
+                "drawdown": -1.55
+            },
+            {
+                "date": "2024-10-14",
+                "drawdown": -1.52
+            },
+            {
+                "date": "2024-10-15",
+                "drawdown": -1.6
+            },
+            {
+                "date": "2024-10-16",
+                "drawdown": -1.43
+            },
+            {
+                "date": "2024-10-17",
+                "drawdown": -1.28
+            },
+            {
+                "date": "2024-10-18",
+                "drawdown": -1.21
+            },
+            {
+                "date": "2024-10-21",
+                "drawdown": -1.4
+            },
+            {
+                "date": "2024-10-22",
+                "drawdown": -0.84
+            },
+            {
+                "date": "2024-10-23",
+                "drawdown": -1.02
+            },
+            {
+                "date": "2024-10-24",
+                "drawdown": -0.16
+            },
+            {
+                "date": "2024-10-25",
+                "drawdown": -0.1
+            },
+            {
+                "date": "2024-10-27",
+                "drawdown": -0.47
+            },
+            {
+                "date": "2024-10-28",
+                "drawdown": 0.0
+            },
+            {
+                "date": "2024-10-29",
+                "drawdown": 0.0
+            },
+            {
+                "date": "2024-10-30",
+                "drawdown": 0.0
+            },
+            {
+                "date": "2024-10-31",
+                "drawdown": 0.0
+            },
+            {
+                "date": "2024-11-01",
+                "drawdown": -0.57
+            },
+            {
+                "date": "2024-11-04",
+                "drawdown": -1.07
+            },
+            {
+                "date": "2024-11-05",
+                "drawdown": -1.71
+            },
+            {
+                "date": "2024-11-06",
+                "drawdown": -1.65
+            },
+            {
+                "date": "2024-11-07",
+                "drawdown": -1.56
+            },
+            {
+                "date": "2024-11-08",
+                "drawdown": -1.95
+            },
+            {
+                "date": "2024-11-11",
+                "drawdown": -1.97
+            },
+            {
+                "date": "2024-11-12",
+                "drawdown": -1.75
+            },
+            {
+                "date": "2024-11-13",
+                "drawdown": -1.8
+            },
+            {
+                "date": "2024-11-14",
+                "drawdown": -1.52
+            },
+            {
+                "date": "2024-11-15",
+                "drawdown": -1.17
+            },
+            {
+                "date": "2024-11-18",
+                "drawdown": -1.13
+            },
+            {
+                "date": "2024-11-19",
+                "drawdown": -1.53
+            },
+            {
+                "date": "2024-11-20",
+                "drawdown": -1.3
+            },
+            {
+                "date": "2024-11-21",
+                "drawdown": -1.4
+            },
+            {
+                "date": "2024-11-22",
+                "drawdown": -1.86
+            },
+            {
+                "date": "2024-11-25",
+                "drawdown": -2.23
+            },
+            {
+                "date": "2024-11-26",
+                "drawdown": -2.63
+            },
+            {
+                "date": "2024-11-27",
+                "drawdown": -2.59
+            },
+            {
+                "date": "2024-11-28",
+                "drawdown": -2.53
+            },
+            {
+                "date": "2024-11-29",
+                "drawdown": -2.63
+            },
+            {
+                "date": "2024-12-02",
+                "drawdown": -2.56
+            },
+            {
+                "date": "2024-12-03",
+                "drawdown": -3.06
+            },
+            {
+                "date": "2024-12-04",
+                "drawdown": -3.06
+            },
+            {
+                "date": "2024-12-05",
+                "drawdown": -3.49
+            },
+            {
+                "date": "2024-12-06",
+                "drawdown": -3.05
+            },
+            {
+                "date": "2024-12-09",
+                "drawdown": -3.38
+            },
+            {
+                "date": "2024-12-10",
+                "drawdown": -3.23
+            },
+            {
+                "date": "2024-12-11",
+                "drawdown": -3.51
+            },
+            {
+                "date": "2024-12-12",
+                "drawdown": -3.49
+            },
+            {
+                "date": "2024-12-13",
+                "drawdown": -3.66
+            },
+            {
+                "date": "2024-12-16",
+                "drawdown": -3.26
+            },
+            {
+                "date": "2024-12-17",
+                "drawdown": -3.17
+            },
+            {
+                "date": "2024-12-18",
+                "drawdown": -3.2
+            },
+            {
+                "date": "2024-12-19",
+                "drawdown": -2.84
+            },
+            {
+                "date": "2024-12-20",
+                "drawdown": -2.37
+            },
+            {
+                "date": "2024-12-23",
+                "drawdown": -2.47
+            },
+            {
+                "date": "2024-12-24",
+                "drawdown": -2.24
+            },
+            {
+                "date": "2024-12-25",
+                "drawdown": -5.44
+            },
+            {
+                "date": "2024-12-26",
+                "drawdown": -2.06
+            },
+            {
+                "date": "2024-12-27",
+                "drawdown": -2.05
+            },
+            {
+                "date": "2024-12-30",
+                "drawdown": -2.07
+            },
+            {
+                "date": "2024-12-31",
+                "drawdown": -2.04
+            },
+            {
+                "date": "2025-01-01",
+                "drawdown": -4.21
+            },
+            {
+                "date": "2025-01-02",
+                "drawdown": -2.22
+            },
+            {
+                "date": "2025-01-03",
+                "drawdown": -2.35
+            },
+            {
+                "date": "2025-01-06",
+                "drawdown": -2.73
+            },
+            {
+                "date": "2025-01-07",
+                "drawdown": -2.2
+            },
+            {
+                "date": "2025-01-08",
+                "drawdown": -1.63
+            },
+            {
+                "date": "2025-01-09",
+                "drawdown": -1.13
+            },
+            {
+                "date": "2025-01-10",
+                "drawdown": -1.27
+            },
+            {
+                "date": "2025-01-13",
+                "drawdown": -1.32
+            },
+            {
+                "date": "2025-01-14",
+                "drawdown": -1.14
+            },
+            {
+                "date": "2025-01-15",
+                "drawdown": -0.73
+            },
+            {
+                "date": "2025-01-16",
+                "drawdown": -1.02
+            },
+            {
+                "date": "2025-01-17",
+                "drawdown": -1.35
+            },
+            {
+                "date": "2025-01-20",
+                "drawdown": -1.71
+            },
+            {
+                "date": "2025-01-21",
+                "drawdown": -0.87
+            },
+            {
+                "date": "2025-01-22",
+                "drawdown": -0.75
+            },
+            {
+                "date": "2025-01-23",
+                "drawdown": -0.84
+            },
+            {
+                "date": "2025-01-24",
+                "drawdown": -0.93
+            },
+            {
+                "date": "2025-01-27",
+                "drawdown": -0.75
+            },
+            {
+                "date": "2025-01-28",
+                "drawdown": -0.75
+            },
+            {
+                "date": "2025-01-29",
+                "drawdown": -0.95
+            },
+            {
+                "date": "2025-01-30",
+                "drawdown": -0.91
+            },
+            {
+                "date": "2025-01-31",
+                "drawdown": -1.0
+            },
+            {
+                "date": "2025-02-03",
+                "drawdown": -0.76
+            },
+            {
+                "date": "2025-02-04",
+                "drawdown": -0.59
+            },
+            {
+                "date": "2025-02-05",
+                "drawdown": -0.88
+            },
+            {
+                "date": "2025-02-06",
+                "drawdown": -1.08
+            },
+            {
+                "date": "2025-02-07",
+                "drawdown": -0.86
+            },
+            {
+                "date": "2025-02-10",
+                "drawdown": 0.0
+            },
+            {
+                "date": "2025-02-11",
+                "drawdown": 0.0
+            },
+            {
+                "date": "2025-02-12",
+                "drawdown": 0.0
+            },
+            {
+                "date": "2025-02-13",
+                "drawdown": 0.0
+            },
+            {
+                "date": "2025-02-14",
+                "drawdown": -0.31
+            },
+            {
+                "date": "2025-02-17",
+                "drawdown": -0.53
+            },
+            {
+                "date": "2025-02-18",
+                "drawdown": -0.59
+            },
+            {
+                "date": "2025-02-19",
+                "drawdown": -0.51
+            },
+            {
+                "date": "2025-02-20",
+                "drawdown": -0.43
+            },
+            {
+                "date": "2025-02-21",
+                "drawdown": -0.51
+            },
+            {
+                "date": "2025-02-24",
+                "drawdown": -0.36
+            },
+            {
+                "date": "2025-02-25",
+                "drawdown": -0.12
+            },
+            {
+                "date": "2025-02-26",
+                "drawdown": 0.0
+            },
+            {
+                "date": "2025-02-27",
+                "drawdown": 0.0
+            },
+            {
+                "date": "2025-02-28",
+                "drawdown": 0.0
+            },
+            {
+                "date": "2025-03-03",
+                "drawdown": -0.3
+            },
+            {
+                "date": "2025-03-04",
+                "drawdown": -0.65
+            },
+            {
+                "date": "2025-03-05",
+                "drawdown": -0.66
+            },
+            {
+                "date": "2025-03-06",
+                "drawdown": -1.01
+            },
+            {
+                "date": "2025-03-07",
+                "drawdown": -0.61
+            },
+            {
+                "date": "2025-03-10",
+                "drawdown": -0.68
+            },
+            {
+                "date": "2025-03-11",
+                "drawdown": -0.55
+            },
+            {
+                "date": "2025-03-12",
+                "drawdown": -0.56
+            },
+            {
+                "date": "2025-03-13",
+                "drawdown": -0.53
+            },
+            {
+                "date": "2025-03-14",
+                "drawdown": -0.56
+            },
+            {
+                "date": "2025-03-17",
+                "drawdown": -0.44
+            },
+            {
+                "date": "2025-03-18",
+                "drawdown": -1.16
+            },
+            {
+                "date": "2025-03-19",
+                "drawdown": -1.15
+            },
+            {
+                "date": "2025-03-20",
+                "drawdown": -1.09
+            },
+            {
+                "date": "2025-03-21",
+                "drawdown": -0.66
+            },
+            {
+                "date": "2025-03-24",
+                "drawdown": -0.4
+            },
+            {
+                "date": "2025-03-25",
+                "drawdown": -0.62
+            },
+            {
+                "date": "2025-03-26",
+                "drawdown": -0.78
+            },
+            {
+                "date": "2025-03-27",
+                "drawdown": -0.63
+            },
+            {
+                "date": "2025-03-28",
+                "drawdown": -1.03
+            },
+            {
+                "date": "2025-03-31",
+                "drawdown": -1.22
+            },
+            {
+                "date": "2025-04-01",
+                "drawdown": -0.88
+            },
+            {
+                "date": "2025-04-02",
+                "drawdown": -1.01
+            },
+            {
+                "date": "2025-04-03",
+                "drawdown": -0.64
+            },
+            {
+                "date": "2025-04-04",
+                "drawdown": -0.06
+            },
+            {
+                "date": "2025-04-07",
+                "drawdown": 0.0
+            },
+            {
+                "date": "2025-04-08",
+                "drawdown": 0.0
+            },
+            {
+                "date": "2025-04-09",
+                "drawdown": 0.0
+            },
+            {
+                "date": "2025-04-10",
+                "drawdown": -0.52
+            },
+            {
+                "date": "2025-04-11",
+                "drawdown": 0.0
+            },
+            {
+                "date": "2025-04-14",
+                "drawdown": 0.0
+            },
+            {
+                "date": "2025-04-15",
+                "drawdown": 0.0
+            },
+            {
+                "date": "2025-04-16",
+                "drawdown": 0.0
+            },
+            {
+                "date": "2025-04-17",
+                "drawdown": -0.96
+            },
+            {
+                "date": "2025-04-18",
+                "drawdown": -0.92
+            },
+            {
+                "date": "2025-04-21",
+                "drawdown": -1.19
+            },
+            {
+                "date": "2025-04-22",
+                "drawdown": -0.68
+            },
+            {
+                "date": "2025-04-23",
+                "drawdown": -0.58
+            },
+            {
+                "date": "2025-04-24",
+                "drawdown": -0.17
+            },
+            {
+                "date": "2025-04-25",
+                "drawdown": -0.67
+            },
+            {
+                "date": "2025-04-28",
+                "drawdown": -0.55
+            },
+            {
+                "date": "2025-04-29",
+                "drawdown": -1.39
+            },
+            {
+                "date": "2025-04-30",
+                "drawdown": -1.5
+            },
+            {
+                "date": "2025-05-01",
+                "drawdown": -1.27
+            }
+        ],
+        "correlation_matrix": {
+            "ADX_TrendStrength": {
+                "ADX_TrendStrength": 1.0,
+                "AVWAP_Confluence": 0.012,
+                "Bollinger Mean Reversion": 0.02,
+                "Donchian_Breakout": -0.075,
+                "Hidden_Divergence": 0.212,
+                "PriceAction_SR": -0.0,
+                "Smart_Swing_Bias": 0.0
+            },
+            "AVWAP_Confluence": {
+                "ADX_TrendStrength": 0.012,
+                "AVWAP_Confluence": 1.0,
+                "Bollinger Mean Reversion": -0.003,
+                "Donchian_Breakout": -0.063,
+                "Hidden_Divergence": 0.04,
+                "PriceAction_SR": 0.018,
+                "Smart_Swing_Bias": 0.0
+            },
+            "Bollinger Mean Reversion": {
+                "ADX_TrendStrength": 0.02,
+                "AVWAP_Confluence": -0.003,
+                "Bollinger Mean Reversion": 1.0,
+                "Donchian_Breakout": 0.033,
+                "Hidden_Divergence": 0.013,
+                "PriceAction_SR": 0.03,
+                "Smart_Swing_Bias": 0.034
+            },
+            "Donchian_Breakout": {
+                "ADX_TrendStrength": -0.075,
+                "AVWAP_Confluence": -0.063,
+                "Bollinger Mean Reversion": 0.033,
+                "Donchian_Breakout": 1.0,
+                "Hidden_Divergence": 0.057,
+                "PriceAction_SR": 0.012,
+                "Smart_Swing_Bias": 0.015
+            },
+            "Hidden_Divergence": {
+                "ADX_TrendStrength": 0.212,
+                "AVWAP_Confluence": 0.04,
+                "Bollinger Mean Reversion": 0.013,
+                "Donchian_Breakout": 0.057,
+                "Hidden_Divergence": 1.0,
+                "PriceAction_SR": -0.038,
+                "Smart_Swing_Bias": -0.023
+            },
+            "PriceAction_SR": {
+                "ADX_TrendStrength": -0.0,
+                "AVWAP_Confluence": 0.018,
+                "Bollinger Mean Reversion": 0.03,
+                "Donchian_Breakout": 0.012,
+                "Hidden_Divergence": -0.038,
+                "PriceAction_SR": 1.0,
+                "Smart_Swing_Bias": -0.004
+            },
+            "Smart_Swing_Bias": {
+                "ADX_TrendStrength": 0.0,
+                "AVWAP_Confluence": 0.0,
+                "Bollinger Mean Reversion": 0.034,
+                "Donchian_Breakout": 0.015,
+                "Hidden_Divergence": -0.023,
+                "PriceAction_SR": -0.004,
+                "Smart_Swing_Bias": 1.0
+            }
+        }
+    },
+    "equity_curve": [
+        {
+            "date": "2024-01-01",
+            "equity": 100000.0,
+            "balance": 100000.0
+        },
+        {
+            "date": "2024-01-02",
+            "equity": 100000.0,
+            "balance": 100000.0
+        },
+        {
+            "date": "2024-01-03",
+            "equity": 99923.24693716093,
+            "balance": 100000.0
+        },
+        {
+            "date": "2024-01-04",
+            "equity": 99581.46407609321,
+            "balance": 99570.7800365005
+        },
+        {
+            "date": "2024-01-05",
+            "equity": 99356.7594404951,
+            "balance": 99364.41302044301
+        },
+        {
+            "date": "2024-01-08",
+            "equity": 98961.97147504265,
+            "balance": 98738.38344640542
+        },
+        {
+            "date": "2024-01-09",
+            "equity": 98895.1955168369,
+            "balance": 98738.38344640542
+        },
+        {
+            "date": "2024-01-10",
+            "equity": 98838.81866873572,
+            "balance": 98535.10648555725
+        },
+        {
+            "date": "2024-01-11",
+            "equity": 98800.68327028437,
+            "balance": 98322.01575230218
+        },
+        {
+            "date": "2024-01-12",
+            "equity": 98602.26655766892,
+            "balance": 98116.87008790913
+        },
+        {
+            "date": "2024-01-15",
+            "equity": 98591.476345498,
+            "balance": 98116.87008790913
+        },
+        {
+            "date": "2024-01-16",
+            "equity": 98710.17147825214,
+            "balance": 98116.87008790913
+        },
+        {
+            "date": "2024-01-17",
+            "equity": 98953.49073716448,
+            "balance": 97723.0243330991
+        },
+        {
+            "date": "2024-01-18",
+            "equity": 99453.54643376486,
+            "balance": 98447.63692327452
+        },
+        {
+            "date": "2024-01-19",
+            "equity": 99912.99663508942,
+            "balance": 98226.69828644457
+        },
+        {
+            "date": "2024-01-22",
+            "equity": 100448.64255064692,
+            "balance": 98020.06861367649
+        },
+        {
+            "date": "2024-01-23",
+            "equity": 99747.45514232144,
+            "balance": 97761.06085436181
+        },
+        {
+            "date": "2024-01-24",
+            "equity": 99811.56470615965,
+            "balance": 97547.79578960431
+        },
+        {
+            "date": "2024-01-25",
+            "equity": 98417.55051934868,
+            "balance": 97304.25511939022
+        },
+        {
+            "date": "2024-01-26",
+            "equity": 98404.49420599181,
+            "balance": 97083.40376282344
+        },
+        {
+            "date": "2024-01-29",
+            "equity": 98434.63271294856,
+            "balance": 96866.57309443696
+        },
+        {
+            "date": "2024-01-30",
+            "equity": 98617.06565739987,
+            "balance": 96866.57309443696
+        },
+        {
+            "date": "2024-01-31",
+            "equity": 98632.32153085306,
+            "balance": 96665.70798137737
+        },
+        {
+            "date": "2024-02-01",
+            "equity": 98494.01658273792,
+            "balance": 96458.17952740865
+        },
+        {
+            "date": "2024-02-02",
+            "equity": 99106.78449076132,
+            "balance": 97267.45984505609
+        },
+        {
+            "date": "2024-02-05",
+            "equity": 98690.2062574689,
+            "balance": 96858.25820741126
+        },
+        {
+            "date": "2024-02-06",
+            "equity": 98477.05005049663,
+            "balance": 97123.32827259714
+        },
+        {
+            "date": "2024-02-07",
+            "equity": 98638.66049688785,
+            "balance": 96703.6841675278
+        },
+        {
+            "date": "2024-02-08",
+            "equity": 98133.98939736675,
+            "balance": 97219.22714773509
+        },
+        {
+            "date": "2024-02-09",
+            "equity": 97820.24937665314,
+            "balance": 97008.64256696889
+        },
+        {
+            "date": "2024-02-12",
+            "equity": 97974.64898817331,
+            "balance": 96802.28143242406
+        },
+        {
+            "date": "2024-02-13",
+            "equity": 97782.49832906433,
+            "balance": 96376.60085201607
+        },
+        {
+            "date": "2024-02-14",
+            "equity": 98607.37603591837,
+            "balance": 96914.38415850977
+        },
+        {
+            "date": "2024-02-15",
+            "equity": 98700.45331587121,
+            "balance": 96914.38415850977
+        },
+        {
+            "date": "2024-02-16",
+            "equity": 98817.779430893,
+            "balance": 96709.71720575781
+        },
+        {
+            "date": "2024-02-19",
+            "equity": 98824.67151488575,
+            "balance": 96709.71720575781
+        },
+        {
+            "date": "2024-02-20",
+            "equity": 98740.78915538198,
+            "balance": 96709.71720575781
+        },
+        {
+            "date": "2024-02-21",
+            "equity": 98544.30562468382,
+            "balance": 97699.70534871312
+        },
+        {
+            "date": "2024-02-22",
+            "equity": 98312.2883410152,
+            "balance": 97699.70534871312
+        },
+        {
+            "date": "2024-02-23",
+            "equity": 98361.21998905533,
+            "balance": 97053.35840263436
+        },
+        {
+            "date": "2024-02-26",
+            "equity": 98479.81819434665,
+            "balance": 97053.35840263436
+        },
+        {
+            "date": "2024-02-27",
+            "equity": 98221.13536603496,
+            "balance": 96848.31301094922
+        },
+        {
+            "date": "2024-02-28",
+            "equity": 98305.23634892264,
+            "balance": 96848.31301094922
+        },
+        {
+            "date": "2024-02-29",
+            "equity": 98051.07009212689,
+            "balance": 96848.31301094922
+        },
+        {
+            "date": "2024-03-01",
+            "equity": 98099.22789965311,
+            "balance": 96421.51306879375
+        },
+        {
+            "date": "2024-03-04",
+            "equity": 97881.97564497656,
+            "balance": 96421.51306879375
+        },
+        {
+            "date": "2024-03-05",
+            "equity": 97670.92489662635,
+            "balance": 96421.51306879375
+        },
+        {
+            "date": "2024-03-06",
+            "equity": 97849.92946327328,
+            "balance": 96421.51306879375
+        },
+        {
+            "date": "2024-03-07",
+            "equity": 98047.4018094347,
+            "balance": 96421.51306879375
+        },
+        {
+            "date": "2024-03-08",
+            "equity": 98781.35123145672,
+            "balance": 98477.75216984257
+        },
+        {
+            "date": "2024-03-11",
+            "equity": 98334.43869927096,
+            "balance": 97835.21989018455
+        },
+        {
+            "date": "2024-03-12",
+            "equity": 98188.75083685253,
+            "balance": 97630.5774797233
+        },
+        {
+            "date": "2024-03-13",
+            "equity": 97765.82075132873,
+            "balance": 97413.34589235221
+        },
+        {
+            "date": "2024-03-14",
+            "equity": 97783.72273995045,
+            "balance": 97413.34589235221
+        },
+        {
+            "date": "2024-03-15",
+            "equity": 97894.86629931633,
+            "balance": 97413.34589235221
+        },
+        {
+            "date": "2024-03-18",
+            "equity": 97902.68857840543,
+            "balance": 97010.1595278877
+        },
+        {
+            "date": "2024-03-19",
+            "equity": 97920.35890607596,
+            "balance": 96801.73011839991
+        },
+        {
+            "date": "2024-03-20",
+            "equity": 98512.71129385484,
+            "balance": 97235.10780709168
+        },
+        {
+            "date": "2024-03-21",
+            "equity": 98217.08392293938,
+            "balance": 97291.0459921523
+        },
+        {
+            "date": "2024-03-22",
+            "equity": 98708.98227560805,
+            "balance": 98354.36955229707
+        },
+        {
+            "date": "2024-03-25",
+            "equity": 98574.26519666878,
+            "balance": 98155.38076542474
+        },
+        {
+            "date": "2024-03-26",
+            "equity": 98546.14624606466,
+            "balance": 97950.71311452841
+        },
+        {
+            "date": "2024-03-27",
+            "equity": 98514.44433437058,
+            "balance": 97525.31458523324
+        },
+        {
+            "date": "2024-03-28",
+            "equity": 98563.27226677093,
+            "balance": 97309.0989502438
+        },
+        {
+            "date": "2024-03-29",
+            "equity": 98798.92119900655,
+            "balance": 97093.7001296472
+        },
+        {
+            "date": "2024-04-01",
+            "equity": 98799.75778612068,
+            "balance": 97093.7001296472
+        },
+        {
+            "date": "2024-04-02",
+            "equity": 98785.68458702222,
+            "balance": 96867.64771429448
+        },
+        {
+            "date": "2024-04-03",
+            "equity": 98400.94503831468,
+            "balance": 96838.18167686943
+        },
+        {
+            "date": "2024-04-04",
+            "equity": 97952.59119974387,
+            "balance": 96603.51947830444
+        },
+        {
+            "date": "2024-04-05",
+            "equity": 98163.74371702549,
+            "balance": 96631.15921650604
+        },
+        {
+            "date": "2024-04-08",
+            "equity": 98300.75434103995,
+            "balance": 96441.0273673202
+        },
+        {
+            "date": "2024-04-09",
+            "equity": 99329.74280865253,
+            "balance": 97606.37136757265
+        },
+        {
+            "date": "2024-04-10",
+            "equity": 99402.6415036746,
+            "balance": 98779.97639495175
+        },
+        {
+            "date": "2024-04-11",
+            "equity": 100033.06490284755,
+            "balance": 98403.80278758066
+        },
+        {
+            "date": "2024-04-12",
+            "equity": 99355.11695691386,
+            "balance": 97918.85778466253
+        },
+        {
+            "date": "2024-04-15",
+            "equity": 98901.61991573234,
+            "balance": 97247.72693902708
+        },
+        {
+            "date": "2024-04-16",
+            "equity": 98618.13870453154,
+            "balance": 96837.39896467533
+        },
+        {
+            "date": "2024-04-17",
+            "equity": 98396.95168695286,
+            "balance": 96400.91574125006
+        },
+        {
+            "date": "2024-04-18",
+            "equity": 98306.25849310913,
+            "balance": 96400.91574125006
+        },
+        {
+            "date": "2024-04-19",
+            "equity": 98233.20528799412,
+            "balance": 96400.91574125006
+        },
+        {
+            "date": "2024-04-22",
+            "equity": 98242.39738861777,
+            "balance": 96400.91574125006
+        },
+        {
+            "date": "2024-04-23",
+            "equity": 98168.98291208637,
+            "balance": 96400.91574125006
+        },
+        {
+            "date": "2024-04-24",
+            "equity": 98138.08166955387,
+            "balance": 96203.11669781292
+        },
+        {
+            "date": "2024-04-25",
+            "equity": 98292.4044849386,
+            "balance": 95987.32694302405
+        },
+        {
+            "date": "2024-04-26",
+            "equity": 98955.4231016951,
+            "balance": 97031.35550879766
+        },
+        {
+            "date": "2024-04-29",
+            "equity": 98596.64143175549,
+            "balance": 96635.28177906614
+        },
+        {
+            "date": "2024-04-30",
+            "equity": 98458.53062529032,
+            "balance": 96251.85506405953
+        },
+        {
+            "date": "2024-05-01",
+            "equity": 98152.55446180116,
+            "balance": 96038.62679646148
+        },
+        {
+            "date": "2024-05-02",
+            "equity": 97945.62819021451,
+            "balance": 97064.05927147594
+        },
+        {
+            "date": "2024-05-03",
+            "equity": 98180.19698399029,
+            "balance": 96860.00079665837
+        },
+        {
+            "date": "2024-05-06",
+            "equity": 99046.34059490057,
+            "balance": 97921.32472125774
+        },
+        {
+            "date": "2024-05-07",
+            "equity": 99139.21882439178,
+            "balance": 97921.32472125774
+        },
+        {
+            "date": "2024-05-08",
+            "equity": 99260.53968897203,
+            "balance": 97921.32472125774
+        },
+        {
+            "date": "2024-05-09",
+            "equity": 99229.46403355288,
+            "balance": 97827.02557440771
+        },
+        {
+            "date": "2024-05-10",
+            "equity": 99145.0261435679,
+            "balance": 97616.13547626506
+        },
+        {
+            "date": "2024-05-13",
+            "equity": 99005.03167833705,
+            "balance": 97616.13547626506
+        },
+        {
+            "date": "2024-05-14",
+            "equity": 98881.66766896305,
+            "balance": 97408.4296262317
+        },
+        {
+            "date": "2024-05-15",
+            "equity": 98865.01489481943,
+            "balance": 97201.51469000745
+        },
+        {
+            "date": "2024-05-16",
+            "equity": 99409.08274151801,
+            "balance": 97393.54197337848
+        },
+        {
+            "date": "2024-05-17",
+            "equity": 101123.49176296784,
+            "balance": 99292.68903877432
+        },
+        {
+            "date": "2024-05-20",
+            "equity": 101129.00667970876,
+            "balance": 99292.68903877432
+        },
+        {
+            "date": "2024-05-21",
+            "equity": 101159.6734509828,
+            "balance": 99292.68903877432
+        },
+        {
+            "date": "2024-05-22",
+            "equity": 101136.710708367,
+            "balance": 99292.68903877432
+        },
+        {
+            "date": "2024-05-23",
+            "equity": 100854.06006731991,
+            "balance": 99075.70035411023
+        },
+        {
+            "date": "2024-05-24",
+            "equity": 100848.01685494311,
+            "balance": 98861.00081026688
+        },
+        {
+            "date": "2024-05-27",
+            "equity": 100754.89090282405,
+            "balance": 98654.74283415951
+        },
+        {
+            "date": "2024-05-28",
+            "equity": 100399.51748353969,
+            "balance": 98429.13326865635
+        },
+        {
+            "date": "2024-05-29",
+            "equity": 100133.39353644419,
+            "balance": 98000.11829743662
+        },
+        {
+            "date": "2024-05-30",
+            "equity": 100531.95717870643,
+            "balance": 98000.11829743662
+        },
+        {
+            "date": "2024-05-31",
+            "equity": 101162.00445466687,
+            "balance": 98000.11829743662
+        },
+        {
+            "date": "2024-06-03",
+            "equity": 100616.67876192459,
+            "balance": 97786.07699112585
+        },
+        {
+            "date": "2024-06-04",
+            "equity": 101648.93192631418,
+            "balance": 97786.07699112585
+        },
+        {
+            "date": "2024-06-05",
+            "equity": 103767.19737171843,
+            "balance": 102282.78561483939
+        },
+        {
+            "date": "2024-06-06",
+            "equity": 104088.22290450316,
+            "balance": 102282.78561483939
+        },
+        {
+            "date": "2024-06-07",
+            "equity": 103980.40372129399,
+            "balance": 102044.729988622
+        },
+        {
+            "date": "2024-06-10",
+            "equity": 103599.27235692523,
+            "balance": 102044.729988622
+        },
+        {
+            "date": "2024-06-11",
+            "equity": 103562.6209093685,
+            "balance": 101832.67052925551
+        },
+        {
+            "date": "2024-06-12",
+            "equity": 103738.00755589147,
+            "balance": 101832.67052925551
+        },
+        {
+            "date": "2024-06-13",
+            "equity": 103810.60768282389,
+            "balance": 101615.02084721695
+        },
+        {
+            "date": "2024-06-14",
+            "equity": 103909.55268770238,
+            "balance": 101615.02084721695
+        },
+        {
+            "date": "2024-06-17",
+            "equity": 103982.38086733597,
+            "balance": 101391.20679105453
+        },
+        {
+            "date": "2024-06-18",
+            "equity": 103649.37632845859,
+            "balance": 101149.49723286301
+        },
+        {
+            "date": "2024-06-19",
+            "equity": 103984.22243786773,
+            "balance": 102392.4459146791
+        },
+        {
+            "date": "2024-06-20",
+            "equity": 103867.90874333146,
+            "balance": 102392.4459146791
+        },
+        {
+            "date": "2024-06-21",
+            "equity": 104338.30974595374,
+            "balance": 102182.30885414955
+        },
+        {
+            "date": "2024-06-24",
+            "equity": 104363.81955092169,
+            "balance": 101733.69941050862
+        },
+        {
+            "date": "2024-06-25",
+            "equity": 104615.02514667023,
+            "balance": 102122.81823940418
+        },
+        {
+            "date": "2024-06-26",
+            "equity": 104555.74252093608,
+            "balance": 101879.06734245222
+        },
+        {
+            "date": "2024-06-27",
+            "equity": 104344.90404075253,
+            "balance": 101446.93446713331
+        },
+        {
+            "date": "2024-06-28",
+            "equity": 104305.98470778056,
+            "balance": 101215.73341137521
+        },
+        {
+            "date": "2024-07-01",
+            "equity": 104249.24441200437,
+            "balance": 102694.65111099518
+        },
+        {
+            "date": "2024-07-02",
+            "equity": 104328.23283973563,
+            "balance": 102252.8947496048
+        },
+        {
+            "date": "2024-07-03",
+            "equity": 104226.51029327407,
+            "balance": 102252.8947496048
+        },
+        {
+            "date": "2024-07-04",
+            "equity": 104164.57132629378,
+            "balance": 102252.8947496048
+        },
+        {
+            "date": "2024-07-05",
+            "equity": 104022.99399659803,
+            "balance": 102252.8947496048
+        },
+        {
+            "date": "2024-07-08",
+            "equity": 104500.9608165337,
+            "balance": 102027.39191014889
+        },
+        {
+            "date": "2024-07-09",
+            "equity": 104171.37533349961,
+            "balance": 101801.93985290978
+        },
+        {
+            "date": "2024-07-10",
+            "equity": 104170.24589199861,
+            "balance": 102148.66816039455
+        },
+        {
+            "date": "2024-07-11",
+            "equity": 103606.82181773076,
+            "balance": 101929.80746327603
+        },
+        {
+            "date": "2024-07-12",
+            "equity": 103527.49322763043,
+            "balance": 101707.81614625485
+        },
+        {
+            "date": "2024-07-15",
+            "equity": 103295.45069407256,
+            "balance": 101494.47199934299
+        },
+        {
+            "date": "2024-07-16",
+            "equity": 103321.05500896204,
+            "balance": 101494.47199934299
+        },
+        {
+            "date": "2024-07-17",
+            "equity": 103186.40194864139,
+            "balance": 101494.47199934299
+        },
+        {
+            "date": "2024-07-18",
+            "equity": 103964.55721440531,
+            "balance": 101268.55353343682
+        },
+        {
+            "date": "2024-07-19",
+            "equity": 103750.83245024992,
+            "balance": 101677.49783530369
+        },
+        {
+            "date": "2024-07-22",
+            "equity": 103552.97150345416,
+            "balance": 101677.49783530369
+        },
+        {
+            "date": "2024-07-23",
+            "equity": 103514.00393409496,
+            "balance": 101677.49783530369
+        },
+        {
+            "date": "2024-07-24",
+            "equity": 103721.85988477009,
+            "balance": 101468.96517138345
+        },
+        {
+            "date": "2024-07-25",
+            "equity": 103991.53697428669,
+            "balance": 102355.27567214155
+        },
+        {
+            "date": "2024-07-26",
+            "equity": 103327.73012341835,
+            "balance": 101391.47086024823
+        },
+        {
+            "date": "2024-07-29",
+            "equity": 102914.96903464444,
+            "balance": 100905.11475903023
+        },
+        {
+            "date": "2024-07-30",
+            "equity": 102816.57388399371,
+            "balance": 100673.17116561293
+        },
+        {
+            "date": "2024-07-31",
+            "equity": 102882.10420529249,
+            "balance": 100673.17116561293
+        },
+        {
+            "date": "2024-08-01",
+            "equity": 103134.76361648703,
+            "balance": 100240.58173576329
+        },
+        {
+            "date": "2024-08-02",
+            "equity": 103453.68271924186,
+            "balance": 100800.11904149606
+        },
+        {
+            "date": "2024-08-05",
+            "equity": 104251.73860981972,
+            "balance": 102340.9126134416
+        },
+        {
+            "date": "2024-08-06",
+            "equity": 104926.71136633214,
+            "balance": 102985.31720947256
+        },
+        {
+            "date": "2024-08-07",
+            "equity": 104829.40598808166,
+            "balance": 102985.31720947256
+        },
+        {
+            "date": "2024-08-08",
+            "equity": 105227.83483338635,
+            "balance": 102774.04049380422
+        },
+        {
+            "date": "2024-08-09",
+            "equity": 105423.21457234246,
+            "balance": 102774.04049380422
+        },
+        {
+            "date": "2024-08-12",
+            "equity": 105263.46106830699,
+            "balance": 102774.04049380422
+        },
+        {
+            "date": "2024-08-13",
+            "equity": 105357.24872510157,
+            "balance": 102565.42300124296
+        },
+        {
+            "date": "2024-08-14",
+            "equity": 105271.17506777946,
+            "balance": 102340.21078255304
+        },
+        {
+            "date": "2024-08-15",
+            "equity": 105266.15818476312,
+            "balance": 102312.97319031728
+        },
+        {
+            "date": "2024-08-16",
+            "equity": 105624.68851083773,
+            "balance": 102101.00690978162
+        },
+        {
+            "date": "2024-08-19",
+            "equity": 105331.73766418002,
+            "balance": 102101.00690978162
+        },
+        {
+            "date": "2024-08-20",
+            "equity": 105229.5426783013,
+            "balance": 102101.00690978162
+        },
+        {
+            "date": "2024-08-21",
+            "equity": 105137.20627912563,
+            "balance": 102101.00690978162
+        },
+        {
+            "date": "2024-08-22",
+            "equity": 105106.31892323417,
+            "balance": 102101.00690978162
+        },
+        {
+            "date": "2024-08-23",
+            "equity": 105134.80679781389,
+            "balance": 102101.00690978162
+        },
+        {
+            "date": "2024-08-26",
+            "equity": 104801.92362710494,
+            "balance": 101767.06550240771
+        },
+        {
+            "date": "2024-08-27",
+            "equity": 104604.99930396234,
+            "balance": 101631.52611826338
+        },
+        {
+            "date": "2024-08-28",
+            "equity": 104727.44410737185,
+            "balance": 101463.8538313739
+        },
+        {
+            "date": "2024-08-29",
+            "equity": 104705.46384439302,
+            "balance": 101545.6885260771
+        },
+        {
+            "date": "2024-08-30",
+            "equity": 104785.91348962234,
+            "balance": 102319.88915178263
+        },
+        {
+            "date": "2024-09-02",
+            "equity": 104284.26455957783,
+            "balance": 102089.76190523183
+        },
+        {
+            "date": "2024-09-03",
+            "equity": 104668.22104395229,
+            "balance": 101851.31868689472
+        },
+        {
+            "date": "2024-09-04",
+            "equity": 104128.09862016414,
+            "balance": 101550.1368690688
+        },
+        {
+            "date": "2024-09-05",
+            "equity": 103630.93255611887,
+            "balance": 101099.51539936393
+        },
+        {
+            "date": "2024-09-06",
+            "equity": 103554.89514428923,
+            "balance": 100867.81247171272
+        },
+        {
+            "date": "2024-09-09",
+            "equity": 103844.85474821522,
+            "balance": 100867.81247171272
+        },
+        {
+            "date": "2024-09-10",
+            "equity": 103377.68098346671,
+            "balance": 100867.81247171272
+        },
+        {
+            "date": "2024-09-11",
+            "equity": 103294.16888827695,
+            "balance": 100867.81247171272
+        },
+        {
+            "date": "2024-09-12",
+            "equity": 103014.5849602361,
+            "balance": 100638.86438420825
+        },
+        {
+            "date": "2024-09-13",
+            "equity": 102545.3637753385,
+            "balance": 100032.36487734751
+        },
+        {
+            "date": "2024-09-16",
+            "equity": 102597.39291559998,
+            "balance": 100032.36487734751
+        },
+        {
+            "date": "2024-09-17",
+            "equity": 102699.0811357719,
+            "balance": 100032.36487734751
+        },
+        {
+            "date": "2024-09-18",
+            "equity": 102959.54765003444,
+            "balance": 100032.36487734751
+        },
+        {
+            "date": "2024-09-19",
+            "equity": 102572.16900867624,
+            "balance": 99948.46612545881
+        },
+        {
+            "date": "2024-09-20",
+            "equity": 102770.06146972647,
+            "balance": 101140.90528697353
+        },
+        {
+            "date": "2024-09-23",
+            "equity": 102854.3851003563,
+            "balance": 101140.90528697353
+        },
+        {
+            "date": "2024-09-24",
+            "equity": 102935.112876737,
+            "balance": 100914.85915070817
+        },
+        {
+            "date": "2024-09-25",
+            "equity": 103250.18799087412,
+            "balance": 100693.66309824216
+        },
+        {
+            "date": "2024-09-26",
+            "equity": 103071.23090618227,
+            "balance": 101226.33222349982
+        },
+        {
+            "date": "2024-09-27",
+            "equity": 103960.85412835823,
+            "balance": 101226.33222349982
+        },
+        {
+            "date": "2024-09-30",
+            "equity": 103656.04913141158,
+            "balance": 101064.36372519018
+        },
+        {
+            "date": "2024-10-01",
+            "equity": 103399.71796610218,
+            "balance": 100871.3546329287
+        },
+        {
+            "date": "2024-10-02",
+            "equity": 103053.03219328728,
+            "balance": 100960.52710831225
+        },
+        {
+            "date": "2024-10-03",
+            "equity": 103236.65595527513,
+            "balance": 100960.52710831225
+        },
+        {
+            "date": "2024-10-04",
+            "equity": 103114.92901161381,
+            "balance": 100737.15057838593
+        },
+        {
+            "date": "2024-10-07",
+            "equity": 103376.02254645732,
+            "balance": 100229.16531740643
+        },
+        {
+            "date": "2024-10-08",
+            "equity": 103371.19143586182,
+            "balance": 100229.16531740643
+        },
+        {
+            "date": "2024-10-09",
+            "equity": 103824.0493922789,
+            "balance": 101660.32754181541
+        },
+        {
+            "date": "2024-10-10",
+            "equity": 104943.42965821213,
+            "balance": 101660.21212274414
+        },
+        {
+            "date": "2024-10-11",
+            "equity": 103990.86574616189,
+            "balance": 101426.65810095126
+        },
+        {
+            "date": "2024-10-14",
+            "equity": 104022.28097503797,
+            "balance": 101426.65810095126
+        },
+        {
+            "date": "2024-10-15",
+            "equity": 103929.92645464702,
+            "balance": 100951.12120754487
+        },
+        {
+            "date": "2024-10-16",
+            "equity": 104112.88695332415,
+            "balance": 100937.55225756102
+        },
+        {
+            "date": "2024-10-17",
+            "equity": 104275.04517927584,
+            "balance": 100937.55225756102
+        },
+        {
+            "date": "2024-10-18",
+            "equity": 104347.91919592096,
+            "balance": 100937.55225756102
+        },
+        {
+            "date": "2024-10-21",
+            "equity": 104150.89213541607,
+            "balance": 100937.55225756102
+        },
+        {
+            "date": "2024-10-22",
+            "equity": 104732.67240894391,
+            "balance": 100937.55225756102
+        },
+        {
+            "date": "2024-10-23",
+            "equity": 104550.99735338119,
+            "balance": 100937.55225756102
+        },
+        {
+            "date": "2024-10-24",
+            "equity": 105458.0079032274,
+            "balance": 103343.22430957793
+        },
+        {
+            "date": "2024-10-25",
+            "equity": 105523.35583448784,
+            "balance": 103343.22430957793
+        },
+        {
+            "date": "2024-10-27",
+            "equity": 105125.83173296566,
+            "balance": 103103.8193158739
+        },
+        {
+            "date": "2024-10-28",
+            "equity": 105791.96738690267,
+            "balance": 102876.89496729936
+        },
+        {
+            "date": "2024-10-29",
+            "equity": 106017.74324217101,
+            "balance": 102876.89496729936
+        },
+        {
+            "date": "2024-10-30",
+            "equity": 106189.68238106872,
+            "balance": 102687.05316221139
+        },
+        {
+            "date": "2024-10-31",
+            "equity": 106486.24349488244,
+            "balance": 103949.0131981425
+        },
+        {
+            "date": "2024-11-01",
+            "equity": 105881.53485273365,
+            "balance": 103240.82017590904
+        },
+        {
+            "date": "2024-11-04",
+            "equity": 105346.69842604041,
+            "balance": 102560.02114625931
+        },
+        {
+            "date": "2024-11-05",
+            "equity": 104660.84778805789,
+            "balance": 102174.20009705097
+        },
+        {
+            "date": "2024-11-06",
+            "equity": 104731.06762136819,
+            "balance": 101953.45709352897
+        },
+        {
+            "date": "2024-11-07",
+            "equity": 104830.33845673029,
+            "balance": 101754.60659147613
+        },
+        {
+            "date": "2024-11-08",
+            "equity": 104405.32075138972,
+            "balance": 101529.67216602172
+        },
+        {
+            "date": "2024-11-11",
+            "equity": 104389.94571878132,
+            "balance": 101529.67216602172
+        },
+        {
+            "date": "2024-11-12",
+            "equity": 104620.03796255955,
+            "balance": 101529.67216602172
+        },
+        {
+            "date": "2024-11-13",
+            "equity": 104568.02444656634,
+            "balance": 101310.62034345379
+        },
+        {
+            "date": "2024-11-14",
+            "equity": 104872.42462330118,
+            "balance": 101310.62034345379
+        },
+        {
+            "date": "2024-11-15",
+            "equity": 105242.90973953273,
+            "balance": 101310.62034345379
+        },
+        {
+            "date": "2024-11-18",
+            "equity": 105277.94123475323,
+            "balance": 101310.62034345379
+        },
+        {
+            "date": "2024-11-19",
+            "equity": 104852.16191497145,
+            "balance": 101310.62034345379
+        },
+        {
+            "date": "2024-11-20",
+            "equity": 105100.41614665072,
+            "balance": 102234.08817866407
+        },
+        {
+            "date": "2024-11-21",
+            "equity": 104999.24604338993,
+            "balance": 102017.62066780234
+        },
+        {
+            "date": "2024-11-22",
+            "equity": 104508.21793361935,
+            "balance": 101785.85100123711
+        },
+        {
+            "date": "2024-11-25",
+            "equity": 104115.60315358802,
+            "balance": 101333.56945075722
+        },
+        {
+            "date": "2024-11-26",
+            "equity": 103686.0662981601,
+            "balance": 100888.76704628865
+        },
+        {
+            "date": "2024-11-27",
+            "equity": 103731.38925302887,
+            "balance": 100888.76704628865
+        },
+        {
+            "date": "2024-11-28",
+            "equity": 103791.96791998684,
+            "balance": 100888.76704628865
+        },
+        {
+            "date": "2024-11-29",
+            "equity": 103688.39004657333,
+            "balance": 100888.76704628865
+        },
+        {
+            "date": "2024-12-02",
+            "equity": 103760.18667156111,
+            "balance": 100888.76704628865
+        },
+        {
+            "date": "2024-12-03",
+            "equity": 103223.28254164998,
+            "balance": 100674.75260995862
+        },
+        {
+            "date": "2024-12-04",
+            "equity": 103231.9390924321,
+            "balance": 100674.75260995862
+        },
+        {
+            "date": "2024-12-05",
+            "equity": 102768.91716117461,
+            "balance": 100423.18600242471
+        },
+        {
+            "date": "2024-12-06",
+            "equity": 103241.2733973911,
+            "balance": 100423.18600242471
+        },
+        {
+            "date": "2024-12-09",
+            "equity": 102882.4229813074,
+            "balance": 100012.0931996507
+        },
+        {
+            "date": "2024-12-10",
+            "equity": 103048.88005492523,
+            "balance": 100012.0931996507
+        },
+        {
+            "date": "2024-12-11",
+            "equity": 102748.90046830972,
+            "balance": 99798.01558404627
+        },
+        {
+            "date": "2024-12-12",
+            "equity": 102764.79931325853,
+            "balance": 99798.01558404627
+        },
+        {
+            "date": "2024-12-13",
+            "equity": 102592.604687083,
+            "balance": 99356.82839051273
+        },
+        {
+            "date": "2024-12-16",
+            "equity": 103011.11983568768,
+            "balance": 99356.82839051273
+        },
+        {
+            "date": "2024-12-17",
+            "equity": 103115.51212446623,
+            "balance": 99356.82839051273
+        },
+        {
+            "date": "2024-12-18",
+            "equity": 103076.66243354198,
+            "balance": 99356.82839051273
+        },
+        {
+            "date": "2024-12-19",
+            "equity": 103462.01728634018,
+            "balance": 100887.76300258937
+        },
+        {
+            "date": "2024-12-20",
+            "equity": 103963.34251319733,
+            "balance": 100689.74200564834
+        },
+        {
+            "date": "2024-12-23",
+            "equity": 103856.40713697585,
+            "balance": 100689.74200564834
+        },
+        {
+            "date": "2024-12-24",
+            "equity": 104105.352046308,
+            "balance": 100689.74200564834
+        },
+        {
+            "date": "2024-12-25",
+            "equity": 100689.74200564834,
+            "balance": 100689.74200564834
+        },
+        {
+            "date": "2024-12-26",
+            "equity": 104288.07149191361,
+            "balance": 100689.74200564834
+        },
+        {
+            "date": "2024-12-27",
+            "equity": 104307.92239237139,
+            "balance": 100689.74200564834
+        },
+        {
+            "date": "2024-12-30",
+            "equity": 104287.08934243397,
+            "balance": 100689.74200564834
+        },
+        {
+            "date": "2024-12-31",
+            "equity": 104312.25816962277,
+            "balance": 102006.88520295225
+        },
+        {
+            "date": "2025-01-01",
+            "equity": 102006.88520295225,
+            "balance": 102006.88520295225
+        },
+        {
+            "date": "2025-01-02",
+            "equity": 104122.43364046022,
+            "balance": 102006.88520295225
+        },
+        {
+            "date": "2025-01-03",
+            "equity": 103980.58148839656,
+            "balance": 101808.21629367673
+        },
+        {
+            "date": "2025-01-06",
+            "equity": 103577.10212118465,
+            "balance": 101808.21629367673
+        },
+        {
+            "date": "2025-01-07",
+            "equity": 104144.67858930101,
+            "balance": 101702.47072690808
+        },
+        {
+            "date": "2025-01-08",
+            "equity": 104752.87015388864,
+            "balance": 101702.47072690808
+        },
+        {
+            "date": "2025-01-09",
+            "equity": 105279.9679663011,
+            "balance": 102777.80529920795
+        },
+        {
+            "date": "2025-01-10",
+            "equity": 105131.5110314759,
+            "balance": 102777.80529920795
+        },
+        {
+            "date": "2025-01-13",
+            "equity": 105080.36787324825,
+            "balance": 103161.8085973507
+        },
+        {
+            "date": "2025-01-14",
+            "equity": 105271.83296295916,
+            "balance": 102918.96987202996
+        },
+        {
+            "date": "2025-01-15",
+            "equity": 105712.07284209323,
+            "balance": 102698.92946273634
+        },
+        {
+            "date": "2025-01-16",
+            "equity": 105398.69624937876,
+            "balance": 102698.92946273634
+        },
+        {
+            "date": "2025-01-17",
+            "equity": 105047.51025673082,
+            "balance": 102698.92946273634
+        },
+        {
+            "date": "2025-01-20",
+            "equity": 104667.76472523759,
+            "balance": 102477.66863432451
+        },
+        {
+            "date": "2025-01-21",
+            "equity": 105558.07216711153,
+            "balance": 102260.93634583722
+        },
+        {
+            "date": "2025-01-22",
+            "equity": 105682.66283415929,
+            "balance": 102260.93634583722
+        },
+        {
+            "date": "2025-01-23",
+            "equity": 105591.95538860463,
+            "balance": 102260.93634583722
+        },
+        {
+            "date": "2025-01-24",
+            "equity": 105492.43824183648,
+            "balance": 102260.93634583722
+        },
+        {
+            "date": "2025-01-27",
+            "equity": 105690.99870044281,
+            "balance": 102055.65300426914
+        },
+        {
+            "date": "2025-01-28",
+            "equity": 105683.65706522595,
+            "balance": 103268.81096853985
+        },
+        {
+            "date": "2025-01-29",
+            "equity": 105477.31217405335,
+            "balance": 103268.81096853985
+        },
+        {
+            "date": "2025-01-30",
+            "equity": 105513.2201077636,
+            "balance": 103268.81096853985
+        },
+        {
+            "date": "2025-01-31",
+            "equity": 105423.74422059077,
+            "balance": 103268.81096853985
+        },
+        {
+            "date": "2025-02-03",
+            "equity": 105677.83267345408,
+            "balance": 104118.55849680676
+        },
+        {
+            "date": "2025-02-04",
+            "equity": 105861.57905235853,
+            "balance": 104114.05330835207
+        },
+        {
+            "date": "2025-02-05",
+            "equity": 105548.64756555378,
+            "balance": 104114.05330835207
+        },
+        {
+            "date": "2025-02-06",
+            "equity": 105334.33208714743,
+            "balance": 103898.96822333604
+        },
+        {
+            "date": "2025-02-07",
+            "equity": 105571.66011758054,
+            "balance": 103898.96822333604
+        },
+        {
+            "date": "2025-02-10",
+            "equity": 107053.20254639634,
+            "balance": 104281.71306575043
+        },
+        {
+            "date": "2025-02-11",
+            "equity": 107655.87788688323,
+            "balance": 106175.997775514
+        },
+        {
+            "date": "2025-02-12",
+            "equity": 107921.17270870265,
+            "balance": 106175.997775514
+        },
+        {
+            "date": "2025-02-13",
+            "equity": 108289.09598760866,
+            "balance": 106175.997775514
+        },
+        {
+            "date": "2025-02-14",
+            "equity": 107951.23057752133,
+            "balance": 106175.997775514
+        },
+        {
+            "date": "2025-02-17",
+            "equity": 107715.27208486498,
+            "balance": 105445.38336032092
+        },
+        {
+            "date": "2025-02-18",
+            "equity": 107649.4171030396,
+            "balance": 105445.38336032092
+        },
+        {
+            "date": "2025-02-19",
+            "equity": 107733.82826846305,
+            "balance": 105926.64865393084
+        },
+        {
+            "date": "2025-02-20",
+            "equity": 107822.27450633507,
+            "balance": 105926.64865393084
+        },
+        {
+            "date": "2025-02-21",
+            "equity": 107736.7286218188,
+            "balance": 105926.64865393084
+        },
+        {
+            "date": "2025-02-24",
+            "equity": 107896.16408261788,
+            "balance": 105926.64865393084
+        },
+        {
+            "date": "2025-02-25",
+            "equity": 108159.14341803855,
+            "balance": 105926.64865393084
+        },
+        {
+            "date": "2025-02-26",
+            "equity": 108572.74716033554,
+            "balance": 105926.64865393084
+        },
+        {
+            "date": "2025-02-27",
+            "equity": 108727.3708416879,
+            "balance": 105926.64865393084
+        },
+        {
+            "date": "2025-02-28",
+            "equity": 109049.21337933582,
+            "balance": 107993.65640530587
+        },
+        {
+            "date": "2025-03-03",
+            "equity": 108724.48272296632,
+            "balance": 107786.46177840476
+        },
+        {
+            "date": "2025-03-04",
+            "equity": 108342.41664609869,
+            "balance": 107353.80196199575
+        },
+        {
+            "date": "2025-03-05",
+            "equity": 108331.6585025239,
+            "balance": 107118.89928258023
+        },
+        {
+            "date": "2025-03-06",
+            "equity": 107950.4923851003,
+            "balance": 106426.52055639528
+        },
+        {
+            "date": "2025-03-07",
+            "equity": 108386.95318908188,
+            "balance": 107431.79054848284
+        },
+        {
+            "date": "2025-03-10",
+            "equity": 108309.95535336058,
+            "balance": 107249.84503046211
+        },
+        {
+            "date": "2025-03-11",
+            "equity": 108446.16546775294,
+            "balance": 107686.13659389426
+        },
+        {
+            "date": "2025-03-12",
+            "equity": 108440.05710419806,
+            "balance": 107686.13659389426
+        },
+        {
+            "date": "2025-03-13",
+            "equity": 108476.15457746891,
+            "balance": 107897.79067106317
+        },
+        {
+            "date": "2025-03-14",
+            "equity": 108436.06627901086,
+            "balance": 107897.79067106317
+        },
+        {
+            "date": "2025-03-17",
+            "equity": 108574.49441685065,
+            "balance": 107897.79067106317
+        },
+        {
+            "date": "2025-03-18",
+            "equity": 107786.75957044179,
+            "balance": 106856.6535525558
+        },
+        {
+            "date": "2025-03-19",
+            "equity": 107797.61569703769,
+            "balance": 106856.6535525558
+        },
+        {
+            "date": "2025-03-20",
+            "equity": 107860.73612012289,
+            "balance": 106856.6535525558
+        },
+        {
+            "date": "2025-03-21",
+            "equity": 108324.94661697977,
+            "balance": 106856.6535525558
+        },
+        {
+            "date": "2025-03-24",
+            "equity": 108609.17402703149,
+            "balance": 106906.66601508399
+        },
+        {
+            "date": "2025-03-25",
+            "equity": 108377.09325094585,
+            "balance": 106906.66601508399
+        },
+        {
+            "date": "2025-03-26",
+            "equity": 108197.84494032722,
+            "balance": 106691.91893565426
+        },
+        {
+            "date": "2025-03-27",
+            "equity": 108365.63706622973,
+            "balance": 106691.91893565426
+        },
+        {
+            "date": "2025-03-28",
+            "equity": 107930.90885767889,
+            "balance": 106727.61101138413
+        },
+        {
+            "date": "2025-03-31",
+            "equity": 107723.820474401,
+            "balance": 106298.18170045427
+        },
+        {
+            "date": "2025-04-01",
+            "equity": 108089.70590504508,
+            "balance": 106298.18170045427
+        },
+        {
+            "date": "2025-04-02",
+            "equity": 107951.93341714927,
+            "balance": 106298.18170045427
+        },
+        {
+            "date": "2025-04-03",
+            "equity": 108347.72777232034,
+            "balance": 106082.3430553568
+        },
+        {
+            "date": "2025-04-04",
+            "equity": 108983.39113861763,
+            "balance": 105831.98071300986
+        },
+        {
+            "date": "2025-04-07",
+            "equity": 109794.40578628508,
+            "balance": 105950.00783366426
+        },
+        {
+            "date": "2025-04-08",
+            "equity": 110004.02143600637,
+            "balance": 107556.40057718947
+        },
+        {
+            "date": "2025-04-09",
+            "equity": 110211.37094759387,
+            "balance": 107648.24827922319
+        },
+        {
+            "date": "2025-04-10",
+            "equity": 109642.85302222932,
+            "balance": 107427.67536769308
+        },
+        {
+            "date": "2025-04-11",
+            "equity": 110573.69237912276,
+            "balance": 107204.88212493426
+        },
+        {
+            "date": "2025-04-14",
+            "equity": 110959.62035520881,
+            "balance": 109845.22845602191
+        },
+        {
+            "date": "2025-04-15",
+            "equity": 111118.38477781012,
+            "balance": 109895.94877352411
+        },
+        {
+            "date": "2025-04-16",
+            "equity": 111704.19884569402,
+            "balance": 109656.59771266012
+        },
+        {
+            "date": "2025-04-17",
+            "equity": 110632.44222681082,
+            "balance": 109403.5260807195
+        },
+        {
+            "date": "2025-04-18",
+            "equity": 110672.52300254509,
+            "balance": 109418.39354149047
+        },
+        {
+            "date": "2025-04-21",
+            "equity": 110377.91152564141,
+            "balance": 109203.43142347374
+        },
+        {
+            "date": "2025-04-22",
+            "equity": 110947.03627163489,
+            "balance": 108755.37721259994
+        },
+        {
+            "date": "2025-04-23",
+            "equity": 111055.96116783611,
+            "balance": 108233.48987652909
+        },
+        {
+            "date": "2025-04-24",
+            "equity": 111517.51201846424,
+            "balance": 108131.57361969411
+        },
+        {
+            "date": "2025-04-25",
+            "equity": 110959.24645471996,
+            "balance": 107892.25937789177
+        },
+        {
+            "date": "2025-04-28",
+            "equity": 111091.07221236527,
+            "balance": 107865.87873274393
+        },
+        {
+            "date": "2025-04-29",
+            "equity": 110156.9799728028,
+            "balance": 107595.82421305825
+        },
+        {
+            "date": "2025-04-30",
+            "equity": 110025.46960806384,
+            "balance": 107107.16879210579
+        },
+        {
+            "date": "2025-05-01",
+            "equity": 110280.51267695935,
+            "balance": 107107.16879210579
+        }
+    ],
+    "recent_trades": [
+        {
+            "ticket": 257,
+            "symbol": "USDCAD",
+            "strategy": "PriceAction_SR",
+            "type": "BUY",
+            "lot_size": 0.44,
+            "entry_time": "2024-11-08 08:00:00",
+            "close_time": "2024-12-18 21:00:00",
+            "entry_price": 1.3884123521961957,
+            "close_price": 1.438673643681518,
+            "profit": 1530.934612076647,
+            "reason": "TP"
+        },
+        {
+            "ticket": 258,
+            "symbol": "GBPJPY",
+            "strategy": "PriceAction_SR",
+            "type": "SELL",
+            "lot_size": 0.1,
+            "entry_time": "2024-11-20 00:00:00",
+            "close_time": "2024-12-19 10:00:00",
+            "entry_price": 195.89419671959953,
+            "close_price": 198.0321668409489,
+            "profit": -198.02099694103492,
+            "reason": "SL"
+        },
+        {
+            "ticket": 274,
+            "symbol": "USDCHF",
+            "strategy": "AVWAP_Confluence",
+            "type": "SELL",
+            "lot_size": 0.8300000000000001,
+            "entry_time": "2024-12-30 00:00:00",
+            "close_time": "2024-12-30 10:00:00",
+            "entry_price": 0.9007077147539791,
+            "close_price": 0.903105925134991,
+            "profit": -226.18006135994415,
+            "reason": "SL"
+        },
+        {
+            "ticket": 253,
+            "symbol": "USDCHF",
+            "strategy": "PriceAction_SR",
+            "type": "BUY",
+            "lot_size": 0.34,
+            "entry_time": "2024-11-05 00:00:00",
+            "close_time": "2024-12-30 15:00:00",
+            "entry_price": 0.8641883529217633,
+            "close_price": 0.9053704339186236,
+            "profit": 1543.3232586638655,
+            "reason": "TP"
+        },
+        {
+            "ticket": 277,
+            "symbol": "USDCHF",
+            "strategy": "AVWAP_Confluence",
+            "type": "SELL",
+            "lot_size": 3.12,
+            "entry_time": "2025-01-02 01:00:00",
+            "close_time": "2025-01-02 14:00:00",
+            "entry_price": 0.907515312787264,
+            "close_price": 0.9080300152679005,
+            "profit": -198.6689092755309,
+            "reason": "SL"
+        },
+        {
+            "ticket": 275,
+            "symbol": "EURJPY",
+            "strategy": "Donchian_Breakout",
+            "type": "SELL",
+            "lot_size": 0.23,
+            "entry_time": "2024-12-31 08:00:00",
+            "close_time": "2025-01-06 13:00:00",
+            "entry_price": 162.67877036772597,
+            "close_price": 163.64142089961214,
+            "profit": -206.5567343803988,
+            "reason": "SL"
+        },
+        {
+            "ticket": 279,
+            "symbol": "GBPJPY",
+            "strategy": "Bollinger Mean Reversion",
+            "type": "SELL",
+            "lot_size": 0.16,
+            "entry_time": "2025-01-06 14:00:00",
+            "close_time": "2025-01-06 16:00:00",
+            "entry_price": 196.50750182072363,
+            "close_price": 195.82567658786053,
+            "profit": 100.81116761174985,
+            "reason": "TP"
+        },
+        {
+            "ticket": 278,
+            "symbol": "GBPUSD",
+            "strategy": "ADX_TrendStrength",
+            "type": "BUY",
+            "lot_size": 0.16,
+            "entry_time": "2025-01-06 04:00:00",
+            "close_time": "2025-01-08 10:15:00",
+            "entry_price": 1.2530160625068367,
+            "close_price": 1.256789949195393,
+            "profit": 59.262187016902125,
+            "reason": "Circuit Breaker"
+        },
+        {
+            "ticket": 280,
+            "symbol": "GBPJPY",
+            "strategy": "Bollinger Mean Reversion",
+            "type": "SELL",
+            "lot_size": 0.6,
+            "entry_time": "2025-01-07 03:00:00",
+            "close_time": "2025-01-08 13:00:00",
+            "entry_price": 198.16517905633225,
+            "close_price": 196.33658457482187,
+            "profit": 1016.0723852829623,
+            "reason": "TP"
+        },
+        {
+            "ticket": 282,
+            "symbol": "USDCHF",
+            "strategy": "AVWAP_Confluence",
+            "type": "SELL",
+            "lot_size": 1.04,
+            "entry_time": "2025-01-09 16:00:00",
+            "close_time": "2025-01-10 11:00:00",
+            "entry_price": 0.9113390924237361,
+            "close_price": 0.9133192664915376,
+            "profit": -232.74074933639298,
+            "reason": "SL"
+        },
+        {
+            "ticket": 276,
+            "symbol": "USDCHF",
+            "strategy": "Smart_Swing_Bias",
+            "type": "BUY",
+            "lot_size": 0.41000000000000003,
+            "entry_time": "2024-12-31 08:00:00",
+            "close_time": "2025-01-10 15:00:00",
+            "entry_price": 0.9039635299305359,
+            "close_price": 0.9178159842768853,
+            "profit": 616.744047479136,
+            "reason": "TP"
+        },
+        {
+            "ticket": 284,
+            "symbol": "USDCHF",
+            "strategy": "AVWAP_Confluence",
+            "type": "SELL",
+            "lot_size": 1.4000000000000001,
+            "entry_time": "2025-01-13 15:00:00",
+            "close_time": "2025-01-13 16:00:00",
+            "entry_price": 0.9165253626576475,
+            "close_price": 0.9180534475164452,
+            "profit": -242.83872532073033,
+            "reason": "SL"
+        },
+        {
+            "ticket": 283,
+            "symbol": "USDCHF",
+            "strategy": "Donchian_Breakout",
+            "type": "BUY",
+            "lot_size": 0.48,
+            "entry_time": "2025-01-10 16:00:00",
+            "close_time": "2025-01-14 23:00:00",
+            "entry_price": 0.9162701495378692,
+            "close_price": 0.9121526349185153,
+            "profit": -220.04040929361975,
+            "reason": "SL"
+        },
+        {
+            "ticket": 273,
+            "symbol": "USDCAD",
+            "strategy": "AVWAP_Confluence",
+            "type": "SELL",
+            "lot_size": 0.84,
+            "entry_time": "2024-12-19 04:00:00",
+            "close_time": "2025-01-17 22:00:00",
+            "entry_price": 1.4431652398112658,
+            "close_price": 1.4468744822851396,
+            "profit": -221.26082841182728,
+            "reason": "SL"
+        },
+        {
+            "ticket": 286,
+            "symbol": "USDCHF",
+            "strategy": "Smart_Swing_Bias",
+            "type": "BUY",
+            "lot_size": 0.38,
+            "entry_time": "2025-01-15 04:00:00",
+            "close_time": "2025-01-20 16:00:00",
+            "entry_price": 0.9128744793118735,
+            "close_price": 0.9077620387191079,
+            "profit": -216.73228848728183,
+            "reason": "SL"
+        },
+        {
+            "ticket": 272,
+            "symbol": "AUDUSD",
+            "strategy": "Donchian_Breakout",
+            "type": "SELL",
+            "lot_size": 0.21,
+            "entry_time": "2024-12-19 00:00:00",
+            "close_time": "2025-01-24 04:00:00",
+            "entry_price": 0.6210446027824723,
+            "close_price": 0.63075,
+            "profit": -205.28334156808214,
+            "reason": "SL"
+        },
+        {
+            "ticket": 285,
+            "symbol": "USDCHF",
+            "strategy": "AVWAP_Confluence",
+            "type": "SELL",
+            "lot_size": 0.75,
+            "entry_time": "2025-01-13 20:00:00",
+            "close_time": "2025-01-27 12:00:00",
+            "entry_price": 0.9180651420535075,
+            "close_price": 0.9008583289680924,
+            "profit": 1431.2527565548016,
+            "reason": "TP"
+        },
+        {
+            "ticket": 288,
+            "symbol": "USDCHF",
+            "strategy": "PriceAction_SR",
+            "type": "BUY",
+            "lot_size": 0.34,
+            "entry_time": "2025-01-27 00:00:00",
+            "close_time": "2025-01-27 12:00:00",
+            "entry_price": 0.9060325564334345,
+            "close_price": 0.9003328006115442,
+            "profit": -218.09479228410393,
+            "reason": "SL"
+        },
+        {
+            "ticket": 289,
+            "symbol": "USDCAD",
+            "strategy": "Smart_Swing_Bias",
+            "type": "BUY",
+            "lot_size": 0.39,
+            "entry_time": "2025-01-28 04:00:00",
+            "close_time": "2025-02-03 00:00:00",
+            "entry_price": 1.4394932184878488,
+            "close_price": 1.4717015681776255,
+            "profit": 849.7475282669096,
+            "reason": "TP"
+        },
+        {
+            "ticket": 287,
+            "symbol": "NZDUSD",
+            "strategy": "Hidden_Divergence",
+            "type": "BUY",
+            "lot_size": 0.62,
+            "entry_time": "2025-01-20 00:00:00",
+            "close_time": "2025-02-03 02:00:00",
+            "entry_price": 0.559201545453026,
+            "close_price": 0.5556476327675541,
+            "profit": -224.68258649925744,
+            "reason": "SL"
+        },
+        {
+            "ticket": 293,
+            "symbol": "AUDUSD",
+            "strategy": "Bollinger Mean Reversion",
+            "type": "BUY",
+            "lot_size": 0.36,
+            "entry_time": "2025-02-03 06:00:00",
+            "close_time": "2025-02-03 17:00:00",
+            "entry_price": 0.6117226150712034,
+            "close_price": 0.6179086539057749,
+            "profit": 220.17739804457298,
+            "reason": "TP"
+        },
+        {
+            "ticket": 291,
+            "symbol": "NZDUSD",
+            "strategy": "PriceAction_SR",
+            "type": "SELL",
+            "lot_size": 0.21,
+            "entry_time": "2025-02-03 00:00:00",
+            "close_time": "2025-02-05 10:00:00",
+            "entry_price": 0.5574718811102423,
+            "close_price": 0.5676440280157676,
+            "profit": -215.08508501603274,
+            "reason": "SL"
+        },
+        {
+            "ticket": 295,
+            "symbol": "NZDUSD",
+            "strategy": "Bollinger Mean Reversion",
+            "type": "SELL",
+            "lot_size": 0.98,
+            "entry_time": "2025-02-05 14:00:00",
+            "close_time": "2025-02-07 19:00:00",
+            "entry_price": 0.5683815419113172,
+            "close_price": 0.5644059822948437,
+            "profit": 382.74484241439757,
+            "reason": "TP"
+        },
+        {
+            "ticket": 292,
+            "symbol": "GBPUSD",
+            "strategy": "Bollinger Mean Reversion",
+            "type": "BUY",
+            "lot_size": 1.09,
+            "entry_time": "2025-02-03 04:00:00",
+            "close_time": "2025-02-10 16:45:00",
+            "entry_price": 1.2243566032947195,
+            "close_price": 1.24180536209989,
+            "profit": 1894.2847097635718,
+            "reason": "TP"
+        },
+        {
+            "ticket": 296,
+            "symbol": "NZDUSD",
+            "strategy": "PriceAction_SR",
+            "type": "SELL",
+            "lot_size": 0.41000000000000003,
+            "entry_time": "2025-02-10 16:00:00",
+            "close_time": "2025-02-14 11:00:00",
+            "entry_price": 0.565269057529177,
+            "close_price": 0.5706931522849618,
+            "profit": -225.2578849871751,
+            "reason": "SL"
+        },
+        {
+            "ticket": 290,
+            "symbol": "USDCHF",
+            "strategy": "PriceAction_SR",
+            "type": "BUY",
+            "lot_size": 0.34,
+            "entry_time": "2025-01-28 08:00:00",
+            "close_time": "2025-02-14 15:00:00",
+            "entry_price": 0.9054765056932618,
+            "close_price": 0.8997442144415619,
+            "profit": -219.19581310453123,
+            "reason": "SL"
+        },
+        {
+            "ticket": 299,
+            "symbol": "NZDUSD",
+            "strategy": "Bollinger Mean Reversion",
+            "type": "SELL",
+            "lot_size": 2.47,
+            "entry_time": "2025-02-14 16:00:00",
+            "close_time": "2025-02-14 23:00:00",
+            "entry_price": 0.5727045987271558,
+            "close_price": 0.5737931441405217,
+            "profit": -286.1607171013757,
+            "reason": "SL"
+        },
+        {
+            "ticket": 300,
+            "symbol": "USDCHF",
+            "strategy": "Bollinger Mean Reversion",
+            "type": "BUY",
+            "lot_size": 0.8300000000000001,
+            "entry_time": "2025-02-14 19:00:00",
+            "close_time": "2025-02-18 07:00:00",
+            "entry_price": 0.898216921889537,
+            "close_price": 0.9034087551250114,
+            "profit": 471.3171519380615,
+            "reason": "TP"
+        },
+        {
+            "ticket": 297,
+            "symbol": "EURUSD",
+            "strategy": "PriceAction_SR",
+            "type": "BUY",
+            "lot_size": 0.02,
+            "entry_time": "2025-02-13 20:00:00",
+            "close_time": "2025-02-18 15:45:00",
+            "entry_price": 1.1074500242544572,
+            "close_price": 1.1124940950903852,
+            "profit": 9.94814167185612,
+            "reason": "TP"
+        },
+        {
+            "ticket": 302,
+            "symbol": "USDCHF",
+            "strategy": "Bollinger Mean Reversion",
+            "type": "BUY",
+            "lot_size": 1.2,
+            "entry_time": "2025-02-25 18:00:00",
+            "close_time": "2025-02-27 12:00:00",
+            "entry_price": 0.8929913541713852,
+            "close_price": 0.8979109391862414,
+            "profit": 648.9982492207747,
+            "reason": "TP"
+        },
+        {
+            "ticket": 301,
+            "symbol": "USDCAD",
+            "strategy": "AVWAP_Confluence",
+            "type": "BUY",
+            "lot_size": 0.97,
+            "entry_time": "2025-02-14 23:00:00",
+            "close_time": "2025-02-27 15:00:00",
+            "entry_price": 1.4174851374917972,
+            "close_price": 1.4386746969332165,
+            "profit": 1418.0095021542472,
+            "reason": "TP"
+        },
+        {
+            "ticket": 187,
+            "symbol": "EURJPY",
+            "strategy": "AVWAP_Confluence",
+            "type": "BUY",
+            "lot_size": 0.27,
+            "entry_time": "2024-08-05 11:00:00",
+            "close_time": "2025-02-28 03:00:00",
+            "entry_price": 155.950258038215,
+            "close_price": 155.12997077803195,
+            "profit": -207.1946269011142,
+            "reason": "SL"
+        },
+        {
+            "ticket": 304,
+            "symbol": "USDCHF",
+            "strategy": "Donchian_Breakout",
+            "type": "BUY",
+            "lot_size": 0.38,
+            "entry_time": "2025-02-28 12:00:00",
+            "close_time": "2025-03-03 17:00:00",
+            "entry_price": 0.9029544032138618,
+            "close_price": 0.897678278714661,
+            "profit": -225.84134667233988,
+            "reason": "SL"
+        },
+        {
+            "ticket": 305,
+            "symbol": "EURJPY",
+            "strategy": "Donchian_Breakout",
+            "type": "BUY",
+            "lot_size": 0.15,
+            "entry_time": "2025-03-03 16:00:00",
+            "close_time": "2025-03-03 22:00:00",
+            "entry_price": 157.89389338823037,
+            "close_price": 156.43112802424437,
+            "profit": -206.81846973667058,
+            "reason": "SL"
+        },
+        {
+            "ticket": 306,
+            "symbol": "USDCHF",
+            "strategy": "Bollinger Mean Reversion",
+            "type": "BUY",
+            "lot_size": 0.75,
+            "entry_time": "2025-03-03 21:00:00",
+            "close_time": "2025-03-04 03:00:00",
+            "entry_price": 0.8976335266257621,
+            "close_price": 0.8948904937821086,
+            "profit": -234.90267941552278,
+            "reason": "SL"
+        },
+        {
+            "ticket": 307,
+            "symbol": "USDCHF",
+            "strategy": "Bollinger Mean Reversion",
+            "type": "BUY",
+            "lot_size": 0.48,
+            "entry_time": "2025-03-04 16:00:00",
+            "close_time": "2025-03-05 11:00:00",
+            "entry_price": 0.8900263858234778,
+            "close_price": 0.8858881109958124,
+            "profit": -227.6238182379937,
+            "reason": "SL"
+        },
+        {
+            "ticket": 303,
+            "symbol": "AUDUSD",
+            "strategy": "Donchian_Breakout",
+            "type": "SELL",
+            "lot_size": 0.38,
+            "entry_time": "2025-02-27 16:00:00",
+            "close_time": "2025-03-05 16:00:00",
+            "entry_price": 0.6252260239737701,
+            "close_price": 0.6310703849249031,
+            "profit": -224.74571614305182,
+            "reason": "SL"
+        },
+        {
+            "ticket": 309,
+            "symbol": "NZDUSD",
+            "strategy": "Bollinger Mean Reversion",
+            "type": "SELL",
+            "lot_size": 0.9500000000000001,
+            "entry_time": "2025-03-05 18:00:00",
+            "close_time": "2025-03-05 21:00:00",
+            "entry_price": 0.5702221245606884,
+            "close_price": 0.5726785371059928,
+            "profit": -240.00919180391577,
+            "reason": "SL"
+        },
+        {
+            "ticket": 298,
+            "symbol": "USDCHF",
+            "strategy": "Donchian_Breakout",
+            "type": "SELL",
+            "lot_size": 0.43,
+            "entry_time": "2025-02-13 20:00:00",
+            "close_time": "2025-03-06 16:00:00",
+            "entry_price": 0.9047716675675411,
+            "close_price": 0.884067927590478,
+            "profit": 1005.2699920875622,
+            "reason": "TP"
+        },
+        {
+            "ticket": 313,
+            "symbol": "USDCHF",
+            "strategy": "Bollinger Mean Reversion",
+            "type": "BUY",
+            "lot_size": 3.25,
+            "entry_time": "2025-03-07 10:00:00",
+            "close_time": "2025-03-07 11:00:00",
+            "entry_price": 0.8780383573107912,
+            "close_price": 0.8776080199864775,
+            "profit": -181.94551802072888,
+            "reason": "SL"
+        },
+        {
+            "ticket": 311,
+            "symbol": "AUDUSD",
+            "strategy": "Bollinger Mean Reversion",
+            "type": "SELL",
+            "lot_size": 0.71,
+            "entry_time": "2025-03-05 22:00:00",
+            "close_time": "2025-03-10 20:00:00",
+            "entry_price": 0.6338415308580615,
+            "close_price": 0.6276265792604255,
+            "profit": 436.2915634321534,
+            "reason": "TP"
+        },
+        {
+            "ticket": 314,
+            "symbol": "USDCHF",
+            "strategy": "Bollinger Mean Reversion",
+            "type": "BUY",
+            "lot_size": 0.41000000000000003,
+            "entry_time": "2025-03-07 13:00:00",
+            "close_time": "2025-03-12 15:00:00",
+            "entry_price": 0.8796966839508026,
+            "close_price": 0.884319154584336,
+            "profit": 211.6540771689045,
+            "reason": "TP"
+        },
+        {
+            "ticket": 315,
+            "symbol": "USDCAD",
+            "strategy": "Donchian_Breakout",
+            "type": "BUY",
+            "lot_size": 0.27,
+            "entry_time": "2025-03-10 20:00:00",
+            "close_time": "2025-03-17 12:00:00",
+            "entry_price": 1.4465001169264178,
+            "close_price": 1.4348254072694393,
+            "profit": -221.5152644057961,
+            "reason": "SL"
+        },
+        {
+            "ticket": 317,
+            "symbol": "AUDUSD",
+            "strategy": "Bollinger Mean Reversion",
+            "type": "SELL",
+            "lot_size": 3.25,
+            "entry_time": "2025-03-17 15:00:00",
+            "close_time": "2025-03-17 16:00:00",
+            "entry_price": 0.6354593406159338,
+            "close_price": 0.6362820708497371,
+            "profit": -290.13732598607373,
+            "reason": "SL"
+        },
+        {
+            "ticket": 316,
+            "symbol": "USDCHF",
+            "strategy": "Hidden_Divergence",
+            "type": "BUY",
+            "lot_size": 0.75,
+            "entry_time": "2025-03-14 01:00:00",
+            "close_time": "2025-03-17 17:00:00",
+            "entry_price": 0.8828400508913116,
+            "close_price": 0.8801345876828495,
+            "profit": -235.51263959176305,
+            "reason": "SL"
+        },
+        {
+            "ticket": 318,
+            "symbol": "NZDUSD",
+            "strategy": "Bollinger Mean Reversion",
+            "type": "SELL",
+            "lot_size": 2.71,
+            "entry_time": "2025-03-17 17:00:00",
+            "close_time": "2025-03-17 19:00:00",
+            "entry_price": 0.5807207780153394,
+            "close_price": 0.5817355451316631,
+            "profit": -293.9718885237379,
+            "reason": "SL"
+        },
+        {
+            "ticket": 310,
+            "symbol": "EURUSD",
+            "strategy": "Donchian_Breakout",
+            "type": "BUY",
+            "lot_size": 0.06,
+            "entry_time": "2025-03-05 20:00:00",
+            "close_time": "2025-03-21 08:45:00",
+            "entry_price": 1.1053305233379396,
+            "close_price": 1.1137359337593051,
+            "profit": 50.01246252819333,
+            "reason": "TP"
+        },
+        {
+            "ticket": 319,
+            "symbol": "USDCAD",
+            "strategy": "AVWAP_Confluence",
+            "type": "BUY",
+            "lot_size": 0.9,
+            "entry_time": "2025-03-18 17:00:00",
+            "close_time": "2025-03-25 15:00:00",
+            "entry_price": 1.4313986321436885,
+            "close_price": 1.4278060739386158,
+            "profit": -232.54903851859467,
+            "reason": "SL"
+        },
+        {
+            "ticket": 321,
+            "symbol": "EURUSD",
+            "strategy": "AVWAP_Confluence",
+            "type": "BUY",
+            "lot_size": 0.11,
+            "entry_time": "2025-03-25 12:00:00",
+            "close_time": "2025-03-25 21:45:00",
+            "entry_price": 1.0964357964935063,
+            "close_price": 1.0981241564106767,
+            "profit": 17.801959088874657,
+            "reason": "TP"
+        },
+        {
+            "ticket": 323,
+            "symbol": "XAUUSD",
+            "strategy": "AVWAP_Confluence",
+            "type": "SELL",
+            "lot_size": 0.06,
+            "entry_time": "2025-03-26 21:00:00",
+            "close_time": "2025-03-27 05:15:00",
+            "entry_price": 1670.81409287682,
+            "close_price": 1664.8304135885098,
+            "profit": 35.69207572986127,
+            "reason": "TP"
+        },
+        {
+            "ticket": 324,
+            "symbol": "XAUUSD",
+            "strategy": "AVWAP_Confluence",
+            "type": "SELL",
+            "lot_size": 0.06,
+            "entry_time": "2025-03-27 15:00:00",
+            "close_time": "2025-03-28 08:45:00",
+            "entry_price": 1667.0169342376107,
+            "close_price": 1702.0698814752361,
+            "profit": -210.52768342575243,
+            "reason": "SL"
+        },
+        {
+            "ticket": 325,
+            "symbol": "XAUUSD",
+            "strategy": "AVWAP_Confluence",
+            "type": "BUY",
+            "lot_size": 0.71,
+            "entry_time": "2025-03-28 10:00:00",
+            "close_time": "2025-03-28 10:30:00",
+            "entry_price": 1697.2384308013159,
+            "close_price": 1693.8341680871308,
+            "profit": -244.18765270713865,
+            "reason": "SL"
+        },
+        {
+            "ticket": 326,
+            "symbol": "EURUSD",
+            "strategy": "AVWAP_Confluence",
+            "type": "BUY",
+            "lot_size": 0.11,
+            "entry_time": "2025-03-28 15:00:00",
+            "close_time": "2025-03-28 17:45:00",
+            "entry_price": 1.0949865042786433,
+            "close_price": 1.0973552338425554,
+            "profit": 25.286025203033077,
+            "reason": "TP"
+        },
+        {
+            "ticket": 328,
+            "symbol": "XAUUSD",
+            "strategy": "AVWAP_Confluence",
+            "type": "BUY",
+            "lot_size": 0.1,
+            "entry_time": "2025-04-01 07:00:00",
+            "close_time": "2025-04-02 21:30:00",
+            "entry_price": 1706.6099088240126,
+            "close_price": 1685.0610443142662,
+            "profit": -215.8386450974641,
+            "reason": "SL"
+        },
+        {
+            "ticket": 320,
+            "symbol": "USDCHF",
+            "strategy": "AVWAP_Confluence",
+            "type": "BUY",
+            "lot_size": 1.1300000000000001,
+            "entry_time": "2025-03-20 07:00:00",
+            "close_time": "2025-04-03 08:00:00",
+            "entry_price": 0.8766343867986403,
+            "close_price": 0.8747967984757115,
+            "profit": -245.9996192021395,
+            "reason": "SL"
+        },
+        {
+            "ticket": 327,
+            "symbol": "EURUSD",
+            "strategy": "Smart_Swing_Bias",
+            "type": "BUY",
+            "lot_size": 0.1,
+            "entry_time": "2025-03-28 20:00:00",
+            "close_time": "2025-04-03 10:15:00",
+            "entry_price": 1.0968770751547399,
+            "close_price": 1.1051710841666476,
+            "profit": 82.24009011907688,
+            "reason": "TP"
+        },
+        {
+            "ticket": 322,
+            "symbol": "AUDUSD",
+            "strategy": "PriceAction_SR",
+            "type": "SELL",
+            "lot_size": 0.49,
+            "entry_time": "2025-03-26 00:00:00",
+            "close_time": "2025-04-03 12:00:00",
+            "entry_price": 0.6299692760846887,
+            "close_price": 0.6344676560563692,
+            "profit": -223.85061861234777,
+            "reason": "SL"
+        },
+        {
+            "ticket": 312,
+            "symbol": "USDCHF",
+            "strategy": "Donchian_Breakout",
+            "type": "SELL",
+            "lot_size": 0.25,
+            "entry_time": "2025-03-06 16:00:00",
+            "close_time": "2025-04-03 13:00:00",
+            "entry_price": 0.8827715954214406,
+            "close_price": 0.8619355562341753,
+            "profit": 601.6544733184661,
+            "reason": "TP"
+        },
+        {
+            "ticket": 331,
+            "symbol": "USDCAD",
+            "strategy": "Bollinger Mean Reversion",
+            "type": "BUY",
+            "lot_size": 0.6900000000000001,
+            "entry_time": "2025-04-03 13:00:00",
+            "close_time": "2025-04-03 14:00:00",
+            "entry_price": 1.413027288228323,
+            "close_price": 1.4084560365257848,
+            "profit": -228.63431086546836,
+            "reason": "SL"
+        },
+        {
+            "ticket": 332,
+            "symbol": "USDCAD",
+            "strategy": "Bollinger Mean Reversion",
+            "type": "BUY",
+            "lot_size": 0.93,
+            "entry_time": "2025-04-03 14:00:00",
+            "close_time": "2025-04-03 16:00:00",
+            "entry_price": 1.4095309650290324,
+            "close_price": 1.4060684624882287,
+            "profit": -235.77235710453476,
+            "reason": "SL"
+        },
+        {
+            "ticket": 333,
+            "symbol": "AUDUSD",
+            "strategy": "Bollinger Mean Reversion",
+            "type": "SELL",
+            "lot_size": 0.63,
+            "entry_time": "2025-04-03 16:00:00",
+            "close_time": "2025-04-04 05:00:00",
+            "entry_price": 0.636821912885265,
+            "close_price": 0.6277069549250817,
+            "profit": 569.8323514915515,
+            "reason": "TP"
+        },
+        {
+            "ticket": 336,
+            "symbol": "USDCHF",
+            "strategy": "AVWAP_Confluence",
+            "type": "BUY",
+            "lot_size": 0.28,
+            "entry_time": "2025-04-03 19:00:00",
+            "close_time": "2025-04-04 06:00:00",
+            "entry_price": 0.86018142164036,
+            "close_price": 0.8534080196364764,
+            "profit": -224.26001302085493,
+            "reason": "SL"
+        },
+        {
+            "ticket": 335,
+            "symbol": "EURUSD",
+            "strategy": "AVWAP_Confluence",
+            "type": "SELL",
+            "lot_size": 0.61,
+            "entry_time": "2025-04-03 19:00:00",
+            "close_time": "2025-04-04 15:45:00",
+            "entry_price": 1.1103494095431001,
+            "close_price": 1.1140096590154984,
+            "profit": -227.54521781629578,
+            "reason": "SL"
+        },
+        {
+            "ticket": 329,
+            "symbol": "XAUUSD",
+            "strategy": "AVWAP_Confluence",
+            "type": "SELL",
+            "lot_size": 0.73,
+            "entry_time": "2025-04-02 16:00:00",
+            "close_time": "2025-04-07 00:30:00",
+            "entry_price": 1698.7291713290872,
+            "close_price": 1670.6626562572123,
+            "profit": 2046.3006002468635,
+            "reason": "TP"
+        },
+        {
+            "ticket": 338,
+            "symbol": "USDCHF",
+            "strategy": "AVWAP_Confluence",
+            "type": "BUY",
+            "lot_size": 0.35000000000000003,
+            "entry_time": "2025-04-04 16:00:00",
+            "close_time": "2025-04-07 10:00:00",
+            "entry_price": 0.8528651179592645,
+            "close_price": 0.8474288492728568,
+            "profit": -226.7951958168971,
+            "reason": "SL"
+        },
+        {
+            "ticket": 334,
+            "symbol": "USDCHF",
+            "strategy": "Donchian_Breakout",
+            "type": "SELL",
+            "lot_size": 0.18,
+            "entry_time": "2025-04-03 16:00:00",
+            "close_time": "2025-04-07 17:00:00",
+            "entry_price": 0.8563377934044624,
+            "close_price": 0.86647,
+            "profit": -213.11266090474484,
+            "reason": "SL"
+        },
+        {
+            "ticket": 340,
+            "symbol": "XAUUSD",
+            "strategy": "AVWAP_Confluence",
+            "type": "BUY",
+            "lot_size": 0.1,
+            "entry_time": "2025-04-08 00:00:00",
+            "close_time": "2025-04-08 19:15:00",
+            "entry_price": 1681.853269944887,
+            "close_price": 1691.0730401482585,
+            "profit": 91.84770203371583,
+            "reason": "TP"
+        },
+        {
+            "ticket": 339,
+            "symbol": "USDCHF",
+            "strategy": "AVWAP_Confluence",
+            "type": "BUY",
+            "lot_size": 0.22,
+            "entry_time": "2025-04-07 12:00:00",
+            "close_time": "2025-04-09 03:00:00",
+            "entry_price": 0.8526494714664401,
+            "close_price": 0.8442527452425194,
+            "profit": -220.57291153010053,
+            "reason": "SL"
+        },
+        {
+            "ticket": 342,
+            "symbol": "USDCHF",
+            "strategy": "AVWAP_Confluence",
+            "type": "BUY",
+            "lot_size": 0.23,
+            "entry_time": "2025-04-09 21:00:00",
+            "close_time": "2025-04-10 11:00:00",
+            "entry_price": 0.855007763516172,
+            "close_price": 0.8468709128482111,
+            "profit": -222.79324275882888,
+            "reason": "SL"
+        },
+        {
+            "ticket": 330,
+            "symbol": "EURUSD",
+            "strategy": "Donchian_Breakout",
+            "type": "BUY",
+            "lot_size": 0.13,
+            "entry_time": "2025-04-03 12:00:00",
+            "close_time": "2025-04-11 02:15:00",
+            "entry_price": 1.107017734601637,
+            "close_price": 1.1247012767942122,
+            "profit": 228.9760485034773,
+            "reason": "Circuit Breaker"
+        },
+        {
+            "ticket": 341,
+            "symbol": "USDCHF",
+            "strategy": "AVWAP_Confluence",
+            "type": "SELL",
+            "lot_size": 0.29,
+            "entry_time": "2025-04-08 04:00:00",
+            "close_time": "2025-04-11 03:00:00",
+            "entry_price": 0.8569753430317838,
+            "close_price": 0.8146038909991932,
+            "profit": 1499.4205418506192,
+            "reason": "TP"
+        },
+        {
+            "ticket": 337,
+            "symbol": "NZDUSD",
+            "strategy": "PriceAction_SR",
+            "type": "SELL",
+            "lot_size": 0.36,
+            "entry_time": "2025-04-04 08:00:00",
+            "close_time": "2025-04-11 05:00:00",
+            "entry_price": 0.5725271180239965,
+            "close_price": 0.5787618204079886,
+            "profit": -226.96928582371748,
+            "reason": "SL"
+        },
+        {
+            "ticket": 294,
+            "symbol": "USDCAD",
+            "strategy": "Hidden_Divergence",
+            "type": "SELL",
+            "lot_size": 0.26,
+            "entry_time": "2025-02-04 08:00:00",
+            "close_time": "2025-04-11 15:00:00",
+            "entry_price": 1.4460754187245186,
+            "close_price": 1.3852806097957078,
+            "profit": 1138.9190265572704,
+            "reason": "TP"
+        },
+        {
+            "ticket": 348,
+            "symbol": "XAUUSD",
+            "strategy": "Hidden_Divergence",
+            "type": "BUY",
+            "lot_size": 0.08,
+            "entry_time": "2025-04-14 06:00:00",
+            "close_time": "2025-04-14 07:00:00",
+            "entry_price": 1699.2377645454226,
+            "close_price": 1705.31734989487,
+            "profit": 48.35668279557896,
+            "reason": "TP"
+        },
+        {
+            "ticket": 350,
+            "symbol": "XAUUSD",
+            "strategy": "Hidden_Divergence",
+            "type": "BUY",
+            "lot_size": 0.08,
+            "entry_time": "2025-04-14 15:00:00",
+            "close_time": "2025-04-14 15:15:00",
+            "entry_price": 1702.6165505331128,
+            "close_price": 1702.9470048714395,
+            "profit": 2.3636347066137384,
+            "reason": "TP"
+        },
+        {
+            "ticket": 349,
+            "symbol": "NZDUSD",
+            "strategy": "Bollinger Mean Reversion",
+            "type": "SELL",
+            "lot_size": 0.67,
+            "entry_time": "2025-04-14 11:00:00",
+            "close_time": "2025-04-15 07:00:00",
+            "entry_price": 0.5881939115489692,
+            "close_price": 0.5916963154424615,
+            "profit": -239.35106086398565,
+            "reason": "SL"
+        },
+        {
+            "ticket": 352,
+            "symbol": "USDCAD",
+            "strategy": "AVWAP_Confluence",
+            "type": "BUY",
+            "lot_size": 1.6500000000000001,
+            "entry_time": "2025-04-15 16:00:00",
+            "close_time": "2025-04-16 22:00:00",
+            "entry_price": 1.388008777830257,
+            "close_price": 1.3859796740931132,
+            "profit": -253.07163194062326,
+            "reason": "SL"
+        },
+        {
+            "ticket": 351,
+            "symbol": "XAUUSD",
+            "strategy": "Hidden_Divergence",
+            "type": "BUY",
+            "lot_size": 0.08,
+            "entry_time": "2025-04-14 22:00:00",
+            "close_time": "2025-04-17 13:30:00",
+            "entry_price": 1704.2067002556003,
+            "close_price": 1706.1001328519706,
+            "profit": 14.867460770962426,
+            "reason": "TP"
+        },
+        {
+            "ticket": 353,
+            "symbol": "XAUUSD",
+            "strategy": "AVWAP_Confluence",
+            "type": "BUY",
+            "lot_size": 0.07,
+            "entry_time": "2025-04-17 20:00:00",
+            "close_time": "2025-04-18 17:15:00",
+            "entry_price": 1702.8371859882766,
+            "close_price": 1707.4390818869074,
+            "profit": 31.968271290415604,
+            "reason": "TP"
+        },
+        {
+            "ticket": 354,
+            "symbol": "USDCAD",
+            "strategy": "AVWAP_Confluence",
+            "type": "BUY",
+            "lot_size": 1.26,
+            "entry_time": "2025-04-18 11:00:00",
+            "close_time": "2025-04-18 23:00:00",
+            "entry_price": 1.386451852267275,
+            "close_price": 1.3838360962548364,
+            "profit": -246.93038930714755,
+            "reason": "SL"
+        },
+        {
+            "ticket": 347,
+            "symbol": "USDCHF",
+            "strategy": "AVWAP_Confluence",
+            "type": "BUY",
+            "lot_size": 0.23,
+            "entry_time": "2025-04-14 01:00:00",
+            "close_time": "2025-04-21 05:00:00",
+            "entry_price": 0.8179326822352914,
+            "close_price": 0.8099711928388256,
+            "profit": -228.04318962607826,
+            "reason": "SL"
+        },
+        {
+            "ticket": 346,
+            "symbol": "EURUSD",
+            "strategy": "AVWAP_Confluence",
+            "type": "SELL",
+            "lot_size": 0.27,
+            "entry_time": "2025-04-14 01:00:00",
+            "close_time": "2025-04-21 19:30:00",
+            "entry_price": 1.1334848655500822,
+            "close_price": 1.14156342189259,
+            "profit": -220.0110212477125,
+            "reason": "SL"
+        },
+        {
+            "ticket": 355,
+            "symbol": "NZDUSD",
+            "strategy": "Bollinger Mean Reversion",
+            "type": "SELL",
+            "lot_size": 2.16,
+            "entry_time": "2025-04-21 10:00:00",
+            "close_time": "2025-04-22 08:00:00",
+            "entry_price": 0.601237762376834,
+            "close_price": 0.6024790964677427,
+            "profit": -283.24816363626894,
+            "reason": "SL"
+        },
+        {
+            "ticket": 358,
+            "symbol": "USDCAD",
+            "strategy": "AVWAP_Confluence",
+            "type": "BUY",
+            "lot_size": 0.93,
+            "entry_time": "2025-04-22 13:00:00",
+            "close_time": "2025-04-22 18:00:00",
+            "entry_price": 1.384188365598406,
+            "close_price": 1.3807436185997288,
+            "profit": -238.63917243458732,
+            "reason": "SL"
+        },
+        {
+            "ticket": 345,
+            "symbol": "USDCHF",
+            "strategy": "Smart_Swing_Bias",
+            "type": "SELL",
+            "lot_size": 0.14,
+            "entry_time": "2025-04-14 00:00:00",
+            "close_time": "2025-04-23 23:00:00",
+            "entry_price": 0.8178711376539314,
+            "close_price": 0.8308138162374529,
+            "profit": -219.0905255059234,
+            "reason": "SL"
+        },
+        {
+            "ticket": 344,
+            "symbol": "EURUSD",
+            "strategy": "Smart_Swing_Bias",
+            "type": "BUY",
+            "lot_size": 0.14,
+            "entry_time": "2025-04-14 00:00:00",
+            "close_time": "2025-04-23 23:15:00",
+            "entry_price": 1.1318132703316788,
+            "close_price": 1.1392705990853986,
+            "profit": 103.4226025520779,
+            "reason": "Circuit Breaker"
+        },
+        {
+            "ticket": 357,
+            "symbol": "EURUSD",
+            "strategy": "AVWAP_Confluence",
+            "type": "SELL",
+            "lot_size": 0.16,
+            "entry_time": "2025-04-22 04:00:00",
+            "close_time": "2025-04-23 23:15:00",
+            "entry_price": 1.1402000782178279,
+            "close_price": 1.1392705990853986,
+            "profit": 13.75166611886792,
+            "reason": "Circuit Breaker"
+        },
+        {
+            "ticket": 359,
+            "symbol": "NZDUSD",
+            "strategy": "AVWAP_Confluence",
+            "type": "SELL",
+            "lot_size": 0.6,
+            "entry_time": "2025-04-23 19:00:00",
+            "close_time": "2025-04-24 22:00:00",
+            "entry_price": 0.5957220239895374,
+            "close_price": 0.5996405946862432,
+            "profit": -239.31424180234552,
+            "reason": "SL"
+        },
+        {
+            "ticket": 362,
+            "symbol": "EURUSD",
+            "strategy": "AVWAP_Confluence",
+            "type": "SELL",
+            "lot_size": 0.4,
+            "entry_time": "2025-04-25 03:00:00",
+            "close_time": "2025-04-25 03:15:00",
+            "entry_price": 1.1355186793180538,
+            "close_price": 1.1361081954467496,
+            "profit": -26.380645147829316,
+            "reason": "Circuit Breaker"
+        },
+        {
+            "ticket": 363,
+            "symbol": "EURUSD",
+            "strategy": "Hidden_Divergence",
+            "type": "BUY",
+            "lot_size": 0.26,
+            "entry_time": "2025-04-28 02:00:00",
+            "close_time": "2025-04-28 02:30:00",
+            "entry_price": 1.1395596663427388,
+            "close_price": 1.1386451001097626,
+            "profit": -25.598722057379742,
+            "reason": "Circuit Breaker"
+        },
+        {
+            "ticket": 360,
+            "symbol": "USDCAD",
+            "strategy": "Hidden_Divergence",
+            "type": "BUY",
+            "lot_size": 1.1,
+            "entry_time": "2025-04-25 00:00:00",
+            "close_time": "2025-04-28 22:00:00",
+            "entry_price": 1.3848193978769348,
+            "close_price": 1.3818452930703822,
+            "profit": -244.4557976283163,
+            "reason": "SL"
+        },
+        {
+            "ticket": 364,
+            "symbol": "NZDUSD",
+            "strategy": "AVWAP_Confluence",
+            "type": "SELL",
+            "lot_size": 1.19,
+            "entry_time": "2025-04-29 04:00:00",
+            "close_time": "2025-04-29 05:00:00",
+            "entry_price": 0.5963409181342672,
+            "close_price": 0.5983799249753273,
+            "profit": -250.97181408616095,
+            "reason": "SL"
+        },
+        {
+            "ticket": 365,
+            "symbol": "USDCAD",
+            "strategy": "AVWAP_Confluence",
+            "type": "BUY",
+            "lot_size": 0.79,
+            "entry_time": "2025-04-29 07:00:00",
+            "close_time": "2025-04-29 10:00:00",
+            "entry_price": 1.386468834867765,
+            "close_price": 1.3824077923934255,
+            "profit": -237.68360686630263,
+            "reason": "SL"
+        },
+        {
+            "ticket": 281,
+            "symbol": "GBPJPY",
+            "strategy": "PriceAction_SR",
+            "type": "SELL",
+            "lot_size": 0.12,
+            "entry_time": "2025-01-09 04:00:00",
+            "close_time": "2025-05-01 00:00:00",
+            "entry_price": 195.37764662279412,
+            "close_price": 190.481,
+            "profit": 549.2969310207636,
+            "reason": "Circuit Breaker"
+        },
+        {
+            "ticket": 308,
+            "symbol": "EURJPY",
+            "strategy": "Donchian_Breakout",
+            "type": "BUY",
+            "lot_size": 0.1,
+            "entry_time": "2025-03-05 00:00:00",
+            "close_time": "2025-05-01 00:00:00",
+            "entry_price": 159.0234795120673,
+            "close_price": 161.927,
+            "profit": 271.28391853251213,
+            "reason": "Circuit Breaker"
+        },
+        {
+            "ticket": 343,
+            "symbol": "AUDUSD",
+            "strategy": "PriceAction_SR",
+            "type": "BUY",
+            "lot_size": 0.15,
+            "entry_time": "2025-04-14 00:00:00",
+            "close_time": "2025-05-01 00:00:00",
+            "entry_price": 0.6300528264285018,
+            "close_price": 0.64001,
+            "profit": 148.30760357247252,
+            "reason": "Circuit Breaker"
+        },
+        {
+            "ticket": 356,
+            "symbol": "USDCHF",
+            "strategy": "AVWAP_Confluence",
+            "type": "BUY",
+            "lot_size": 0.8,
+            "entry_time": "2025-04-21 14:00:00",
+            "close_time": "2025-05-01 00:00:00",
+            "entry_price": 0.8057185453305838,
+            "close_price": 0.82577,
+            "profit": 1936.9704173720197,
+            "reason": "Circuit Breaker"
+        },
+        {
+            "ticket": 361,
+            "symbol": "USDCHF",
+            "strategy": "PriceAction_SR",
+            "type": "SELL",
+            "lot_size": 0.21,
+            "entry_time": "2025-04-25 00:00:00",
+            "close_time": "2025-05-01 00:00:00",
+            "entry_price": 0.8262290001189198,
+            "close_price": 0.82577,
+            "profit": 10.202744828844292,
+            "reason": "Circuit Breaker"
+        },
+        {
+            "ticket": 366,
+            "symbol": "EURUSD",
+            "strategy": "Hidden_Divergence",
+            "type": "BUY",
+            "lot_size": 0.23,
+            "entry_time": "2025-04-29 08:00:00",
+            "close_time": "2025-05-01 00:00:00",
+            "entry_price": 1.143410636926488,
+            "close_price": 1.148292388537754,
+            "profit": 110.67028705911864,
+            "reason": "Circuit Breaker"
+        },
+        {
+            "ticket": 367,
+            "symbol": "NZDUSD",
+            "strategy": "Hidden_Divergence",
+            "type": "SELL",
+            "lot_size": 0.65,
+            "entry_time": "2025-04-29 12:00:00",
+            "close_time": "2025-05-01 00:00:00",
+            "entry_price": 0.5954840304995052,
+            "close_price": 0.59339,
+            "profit": 131.56198246783697,
+            "reason": "Circuit Breaker"
+        }
+    ],
+    "total_trades": 367
+}

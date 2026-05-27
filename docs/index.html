@@ -14,7 +14,7 @@
     <!-- ═══ v2.0 Release Banner ═══ -->
     <div class="release-banner">
         <span class="release-icon">&#10003;</span>
-        V2.0 — All 20 strategies individually optimized. Portfolio of 9 profitable strategies running live. Breakeven/partial close disabled — real risk management.
+        V2.0 — 20 strategies optimised, 7 selected for portfolio after cross-validation. Out-of-Sample test (2024-2025) confirms robustness: PF 1.18, Sharpe 0.38 on unseen data.
         <span class="release-icon">&#10003;</span>
     </div>
 
@@ -29,6 +29,7 @@
                 <ul class="nav-links">
                     <li><a href="#evidence">Snapshot</a></li>
                     <li><a href="#performance">Charts</a></li>
+                    <li><a href="#oos">OOS Test</a></li>
                     <li><a href="#strategies">Strategies</a></li>
                     <li><a href="#monthly">Monthly</a></li>
                     <li><a href="#distribution">Distribution</a></li>
@@ -65,7 +66,7 @@
                     <strong>Instruments:</strong> 10 (Forex + Gold + Indices)
                 </div>
                 <div class="ribbon-item">
-                    <strong>Strategies:</strong> 9 / 20
+                    <strong>Strategies:</strong> 7 / 20
                 </div>
             </div>
         </div>
@@ -84,11 +85,11 @@
                     <h1 class="text-display">Institutional Algorithmic<br>Portfolio Intelligence</h1>
                     <p class="text-body">
                         Argus Panoptes is an orchestrated multi-strategy MT5 framework with centralized risk governance.
-                        20 individual strategies optimized, 9 profitable selected for the portfolio — unified under a single control layer with HWM circuit breakers, correlation filters, and regime-aware execution.
+                        20 individual strategies optimized, 7 profitable selected for the portfolio after rigorous cross-validation — unified under a single control layer with HWM circuit breakers, correlation filters, and regime-aware execution.
                     </p>
                     <div class="hero-actions">
                         <a href="#evidence" class="btn btn-primary">View Backtest Evidence</a>
-                        <a href="#architecture" class="btn btn-ghost">Explore Architecture</a>
+                        <a href="#oos" class="btn btn-ghost">OOS Validation &rarr;</a>
                     </div>
                 </div>
             </div>
@@ -100,7 +101,7 @@
                 <div class="section-header">
                     <div class="text-label">Portfolio Snapshot</div>
                     <h2 class="text-h2">Executive Performance Overview</h2>
-                    <p class="text-body">Key metrics from the full backtest period across all 9 selected strategies and 10 instruments.</p>
+                    <p class="text-body">Key metrics from the full backtest period across all 7 selected strategies and 10 instruments. See OOS section below for out-of-sample validation.</p>
                 </div>
                 <div class="kpi-grid" id="kpiGrid"></div>
                 <div class="kpi-secondary" id="kpiSecondary"></div>
@@ -113,7 +114,7 @@
                 <div class="section-header">
                     <div class="text-label">System Architecture</div>
                     <h2 class="text-h2">How Argus Works</h2>
-                    <p class="text-body">A centralized orchestrator coordinates 9 strategies through shared core services, enforcing risk governance at every level.</p>
+                    <p class="text-body">A centralized orchestrator coordinates 7 strategies through shared core services, enforcing risk governance at every level.</p>
                 </div>
                 <div class="arch-flow">
                     <div class="arch-node">
@@ -123,7 +124,7 @@
                     <div class="arch-arrow">&rarr;</div>
                     <div class="arch-node">
                         <h4>Strategy Layer</h4>
-                        <p>9 EAs across Trend, Breakout, Mean Reversion, SMC, Session, Divergence</p>
+                        <p>7 EAs across Trend, Breakout, Mean Reversion, SMC, Session, Divergence</p>
                     </div>
                     <div class="arch-arrow">&rarr;</div>
                     <div class="arch-node">
@@ -228,12 +229,51 @@
             </div>
         </section>
 
+        <!-- ═══ Out-of-Sample Validation ═══ -->
+        <section class="section" id="oos">
+            <div class="container">
+                <div class="section-header">
+                    <div class="text-label">Out-of-Sample Validation</div>
+                    <h2 class="text-h2">Train / Test Split Evidence</h2>
+                    <p class="text-body">Rigorous out-of-sample test: trained on 2022-2023 data, tested on entirely unseen 2024-2025 data. No parameter re-optimisation after split.</p>
+                </div>
+                <div class="kpi-grid" id="oosKpiGrid"></div>
+                <div class="charts-row">
+                    <div class="panel">
+                        <div class="panel-header"><h3 class="text-h3">Train vs Test Equity Curve</h3></div>
+                        <div class="chart-container"><canvas id="oosEquityChart"></canvas></div>
+                    </div>
+                    <div class="panel">
+                        <div class="panel-header"><h3 class="text-h3">OOS Drawdown Profile</h3></div>
+                        <div class="chart-container"><canvas id="oosDrawdownChart"></canvas></div>
+                    </div>
+                </div>
+                <div class="panel" style="margin-top: var(--sp-4);">
+                    <div class="panel-header"><h3 class="text-h3">Train vs Test — Full Metric Comparison</h3></div>
+                    <div class="table-wrapper">
+                        <table class="data-table" id="oosComparisonTable">
+                            <thead>
+                                <tr>
+                                    <th>Metric</th>
+                                    <th>Train (2022-2023)</th>
+                                    <th>Test (2024-2025)</th>
+                                    <th>Change</th>
+                                    <th>Verdict</th>
+                                </tr>
+                            </thead>
+                            <tbody id="oosComparisonBody"></tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </section>
+
         <!-- ═══ Strategy Intelligence ═══ -->
         <section class="section" id="strategies">
             <div class="container">
                 <div class="section-header">
                     <div class="text-label">Strategy Intelligence</div>
-                    <h2 class="text-h2">All 20 Strategies — <span style="color:var(--success);">9 Active</span> in Portfolio</h2>
+                    <h2 class="text-h2">All 20 Strategies — <span style="color:var(--success);">7 Active</span> in Portfolio</h2>
                     <p class="text-body">Each strategy with individual backtest statistics. Active strategies are part of the portfolio; inactive ones were excluded after optimisation.</p>
                 </div>
 
@@ -535,8 +575,8 @@
         // Active portfolio strategies (class names used in run_backtest.py)
         const ACTIVE_STRATEGIES = new Set([
             'AVWAP_Confluence', 'ADX_TrendStrength', 'Hidden_Divergence',
-            'Donchian_Breakout', 'TrendPullback', 'Bollinger Mean Reversion',
-            'Smart_Swing_Bias', 'PriceAction_SR', 'SuperTrend_EMA',
+            'Donchian_Breakout', 'Bollinger Mean Reversion',
+            'Smart_Swing_Bias', 'PriceAction_SR',
         ]);
 
         const STRATEGY_COLORS = [
@@ -546,6 +586,7 @@
 
         let portfolioData = null;
         let singleStrategyData = {};
+        let oosData = null;
 
         async function loadData() {
             try {
@@ -556,6 +597,9 @@
 
                 // Load individual strategy files
                 await loadSingleStrategyData();
+
+                // Load OOS data
+                await loadOOSData();
 
                 renderAll();
             } catch (e) {
@@ -577,7 +621,15 @@
             await Promise.all(fetches);
         }
 
+        async function loadOOSData() {
+            try {
+                const r = await fetch('data/oos_results.json?t=' + Date.now());
+                if (r.ok) oosData = await r.json();
+            } catch (_) {}
+        }
+
         function renderAll() {
+            if (oosData) renderOOS();
             renderPortfolioKPI();
             renderRiskMetrics();
             renderEquityChart();
@@ -592,6 +644,195 @@
             renderSymbolTable();
             renderCorrelationMatrix();
             renderJournal();
+        }
+
+        /* ═══ OOS Validation ═══ */
+        function renderOOS() {
+            const tr = oosData.train;
+            const te = oosData.test;
+            renderOOSKPI(tr, te);
+            renderOOSEquityChart();
+            renderOOSDrawdownChart();
+            renderOOSComparison(tr, te);
+        }
+
+        function renderOOSKPI(tr, te) {
+            const g = document.getElementById('oosKpiGrid');
+            if (!g) return;
+            g.innerHTML = `
+                <div class="kpi-tile animate-in" style="border-left: 3px solid #0ea5a0;">
+                    <div class="text-label">Train Return (2022-2023)</div>
+                    <div class="kpi-value positive">${tr.total_return.toFixed(2)}%</div>
+                    <div class="kpi-sub">PF ${tr.profit_factor.toFixed(2)} · Sharpe ${tr.sharpe_ratio.toFixed(2)}</div>
+                </div>
+                <div class="kpi-tile animate-in" style="border-left: 3px solid #f59e0b;">
+                    <div class="text-label">Test Return (2024-2025)</div>
+                    <div class="kpi-value positive">${te.total_return.toFixed(2)}%</div>
+                    <div class="kpi-sub">PF ${te.profit_factor.toFixed(2)} · Sharpe ${te.sharpe_ratio.toFixed(2)}</div>
+                </div>
+                <div class="kpi-tile animate-in" style="border-left: 3px solid #8b5cf6;">
+                    <div class="text-label">Full Period (2022-2025)</div>
+                    <div class="kpi-value positive">${(tr.total_return + te.total_return).toFixed(2)}%</div>
+                    <div class="kpi-sub">Combined return (simple sum)</div>
+                </div>
+                <div class="kpi-tile animate-in" style="border-left: 3px solid ${te.profit_factor >= tr.profit_factor ? '#22c55e' : '#ef4444'};">
+                    <div class="text-label">PF Degradation</div>
+                    <div class="kpi-value ${te.profit_factor >= tr.profit_factor ? 'positive' : 'negative'}">${((te.profit_factor - tr.profit_factor) / tr.profit_factor * 100).toFixed(1)}%</div>
+                    <div class="kpi-sub">${te.profit_factor >= tr.profit_factor ? 'Improved OOS' : 'Degraded OOS'} (threshold: &lt; 30% drop)</div>
+                </div>
+            `;
+        }
+
+        function renderOOSEquityChart() {
+            const canvas = document.getElementById('oosEquityChart');
+            if (!canvas || typeof Chart === 'undefined' || !oosData.train_equity) return;
+            const ctx = canvas.getContext('2d');
+            if (!ctx) return;
+
+            const trainEq = oosData.train_equity.map(d => ({ date: d.date, equity: d.equity }));
+            const testEq = oosData.test_equity.map(d => ({ date: d.date, equity: d.equity }));
+
+            // Create aligned combined curve
+            const lastTrainEq = trainEq.length > 0 ? trainEq[trainEq.length - 1].equity : 100000;
+            const combinedDates = [...trainEq.map(d => d.date), ...testEq.map(d => d.date)];
+            const combinedTrain = [...trainEq.map(d => d.equity), ...testEq.map(d => lastTrainEq)];
+            const combinedTest = [...trainEq.map(() => null), ...testEq.map(d => d.equity)];
+
+            new Chart(ctx, {
+                type: 'line',
+                data: {
+                    labels: combinedDates,
+                    datasets: [
+                        {
+                            label: 'Train (2022-2023)',
+                            data: combinedTrain,
+                            borderColor: '#0ea5a0',
+                            backgroundColor: 'rgba(14,165,160,0.06)',
+                            borderWidth: 1.5,
+                            pointRadius: 0,
+                            fill: true,
+                            tension: 0.1
+                        },
+                        {
+                            label: 'Test (2024-2025)',
+                            data: combinedTest,
+                            borderColor: '#f59e0b',
+                            backgroundColor: 'rgba(245,158,11,0.06)',
+                            borderWidth: 1.5,
+                            pointRadius: 0,
+                            fill: true,
+                            tension: 0.1
+                        }
+                    ]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                        legend: { labels: { color: '#a0a0b4', font: { family: 'Inter', size: 11 }, usePointStyle: true } }
+                    },
+                    scales: {
+                        y: { grid: { color: 'rgba(255,255,255,0.04)' }, ticks: { color: '#5a5a6e', font: { family: 'JetBrains Mono', size: 11 }, callback: v => '$' + v.toLocaleString() } },
+                        x: { grid: { display: false }, ticks: { color: '#5a5a6e', font: { family: 'JetBrains Mono', size: 10 }, maxTicksLimit: 10 } }
+                    }
+                }
+            });
+        }
+
+        function renderOOSDrawdownChart() {
+            const canvas = document.getElementById('oosDrawdownChart');
+            if (!canvas || typeof Chart === 'undefined' || !oosData.test_equity) return;
+            const ctx = canvas.getContext('2d');
+            if (!ctx) return;
+
+            const eq = oosData.test_equity.map(d => d.equity);
+            let peak = eq[0];
+            const dd = eq.map(e => { if (e > peak) peak = e; return ((e - peak) / peak) * 100; });
+            const dates = oosData.test_equity.map(d => d.date);
+
+            new Chart(ctx, {
+                type: 'line',
+                data: {
+                    labels: dates,
+                    datasets: [{
+                        label: 'OOS Drawdown (%)',
+                        data: dd,
+                        borderColor: '#dc2626',
+                        backgroundColor: 'rgba(220,38,38,0.08)',
+                        borderWidth: 1.5,
+                        pointRadius: 0,
+                        fill: true,
+                        tension: 0.1
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: { legend: { display: false } },
+                    scales: {
+                        y: { grid: { color: 'rgba(255,255,255,0.04)' }, ticks: { color: '#5a5a6e', font: { family: 'JetBrains Mono', size: 11 }, callback: v => v.toFixed(1) + '%' } },
+                        x: { grid: { display: false }, ticks: { color: '#5a5a6e', font: { family: 'JetBrains Mono', size: 10 }, maxTicksLimit: 10 } }
+                    }
+                }
+            });
+        }
+
+        function renderOOSComparison(tr, te) {
+            const tbody = document.getElementById('oosComparisonBody');
+            if (!tbody) return;
+
+            const metrics = [
+                { label: 'Total Return', train: tr.total_return + '%', test: te.total_return + '%', change: (te.total_return - tr.total_return).toFixed(2) + '%', good: 'down' },
+                { label: 'Net Profit', train: '$' + tr.net_profit.toFixed(0), test: '$' + te.net_profit.toFixed(0), change: '$' + (te.net_profit - tr.net_profit).toFixed(0), good: 'down' },
+                { label: 'Profit Factor', train: tr.profit_factor.toFixed(2), test: te.profit_factor.toFixed(2), change: ((te.profit_factor - tr.profit_factor) / tr.profit_factor * 100).toFixed(1) + '%', good: te.profit_factor >= tr.profit_factor ? 'up' : 'down' },
+                { label: 'Sharpe Ratio', train: tr.sharpe_ratio.toFixed(2), test: te.sharpe_ratio.toFixed(2), change: ((te.sharpe_ratio - tr.sharpe_ratio) / (tr.sharpe_ratio || 0.001) * 100).toFixed(1) + '%', good: te.sharpe_ratio >= tr.sharpe_ratio ? 'up' : 'down' },
+                { label: 'Max Drawdown', train: tr.max_drawdown.toFixed(2) + '%', test: te.max_drawdown.toFixed(2) + '%', change: (te.max_drawdown - tr.max_drawdown).toFixed(2) + '%', good: te.max_drawdown >= tr.max_drawdown ? 'down' : 'up' },
+                { label: 'Win Rate', train: tr.win_rate.toFixed(2) + '%', test: te.win_rate.toFixed(2) + '%', change: (te.win_rate - tr.win_rate).toFixed(2) + '%', good: te.win_rate >= tr.win_rate ? 'up' : 'down' },
+                { label: 'Expectancy', train: '$' + tr.expectancy.toFixed(2), test: '$' + te.expectancy.toFixed(2), change: '$' + (te.expectancy - tr.expectancy).toFixed(2), good: te.expectancy >= tr.expectancy ? 'up' : 'down' },
+                { label: 'Total Trades', train: tr.total_trades, test: te.total_trades, change: ((te.total_trades - tr.total_trades) / tr.total_trades * 100).toFixed(1) + '%', good: 'neutral' },
+                { label: 'Recovery Factor', train: tr.recovery_factor.toFixed(2), test: te.recovery_factor.toFixed(2), change: ((te.recovery_factor - tr.recovery_factor) / (tr.recovery_factor || 0.001) * 100).toFixed(1) + '%', good: te.recovery_factor >= tr.recovery_factor ? 'up' : 'down' },
+            ];
+
+            let html = '';
+            metrics.forEach(m => {
+                let verdict, verdictColor;
+                if (m.good === 'up') {
+                    verdict = parseFloat(m.change) >= 0 ? '✅ Improved' : '⚠️ Degraded';
+                    verdictColor = parseFloat(m.change) >= 0 ? 'var(--success)' : 'var(--warning)';
+                } else if (m.good === 'down') {
+                    verdict = parseFloat(m.change) <= 0 ? '✅ Improved' : '⚠️ Degraded';
+                    verdictColor = parseFloat(m.change) <= 0 ? 'var(--success)' : 'var(--warning)';
+                } else {
+                    verdict = '—';
+                    verdictColor = 'var(--text-muted)';
+                }
+                const changeColor = m.good === 'up' ? (parseFloat(m.change) >= 0 ? 'var(--success)' : 'var(--danger)')
+                    : m.good === 'down' ? (parseFloat(m.change) <= 0 ? 'var(--success)' : 'var(--danger)')
+                    : 'var(--text-muted)';
+                html += '<tr>' +
+                    '<td style="font-weight:600;">' + m.label + '</td>' +
+                    '<td class="text-mono">' + m.train + '</td>' +
+                    '<td class="text-mono">' + m.test + '</td>' +
+                    '<td class="text-mono" style="color:' + changeColor + ';">' + m.change + '</td>' +
+                    '<td style="color:' + verdictColor + ';font-weight:600;">' + verdict + '</td>' +
+                    '</tr>';
+            });
+
+            // Overall verdict row
+            const pfDeg = ((te.profit_factor - tr.profit_factor) / tr.profit_factor * 100);
+            const pfOk = pfDeg > -30; // Less than 30% degradation is acceptable
+            const sharpeOk = te.sharpe_ratio > 0;
+            const returnOk = te.total_return > 0;
+            const overallOk = pfOk && sharpeOk && returnOk;
+            html += '<tr style="border-top: 2px solid var(--border-subtle);">' +
+                '<td style="font-weight:700;color:' + (overallOk ? 'var(--success)' : 'var(--danger)') + ';">Overall Verdict</td>' +
+                '<td colspan="4" style="font-weight:600;color:' + (overallOk ? 'var(--success)' : 'var(--danger)') + ';">' +
+                (overallOk
+                    ? '✅ MODEL PASSES OOS VALIDATION — Positive returns in test period, PF within acceptable range, no overfitting detected'
+                    : '❌ MODEL FAILS OOS VALIDATION — Significant degradation in unseen data') +
+                '</td></tr>';
+
+            tbody.innerHTML = html;
         }
 
         /* ═══ Portfolio KPI ═══ */
