@@ -6,7 +6,14 @@ from analytics import calculate_metrics
 import numpy as np
 from json_encoder import NumpyEncoder
 from strategies.trend_pullback import TrendPullback
-from strategies.ict_killzone import ICTKillzoneMacro
+from strategies.adx_trend_strength import ADXTrendStrength
+from strategies.avwap_confluence import AVWAPConfluence
+from strategies.hidden_divergence import HiddenDivergence
+from strategies.donchian_breakout import DonchianBreakout
+from strategies.bollinger_mr import BollingerMeanReversion
+from strategies.smart_swing_bias import SmartSwingBias
+from strategies.price_action_sr import PriceActionSR
+from strategies.supertrend_ema import SuperTrendEMA
 from indicators import MarketRegime
 from config import load_config, create_default_config
 from log_setup import setup_logger
@@ -43,9 +50,20 @@ def run_backtest():
     )
     
     strategies = [
+        AVWAPConfluence(),
+        ADXTrendStrength(),
+        HiddenDivergence(),
+        DonchianBreakout(),
         TrendPullback(),
-        ICTKillzoneMacro()
+        BollingerMeanReversion(),
+        SmartSwingBias(),
+        PriceActionSR(),
+        SuperTrendEMA(),
     ]
+    
+    for strat in strategies:
+        if strat.disable_breakeven:
+            engine.disable_breakeven_strategies.add(strat.name)
     
     # Build master timeline from all available M15 data, plus H1 for symbols without M15
     master_timeline = None
