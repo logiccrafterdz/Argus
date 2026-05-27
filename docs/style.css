@@ -496,7 +496,7 @@ body {
 /* ─── Charts Row ─── */
 .charts-row {
   display: grid;
-  grid-template-columns: 2fr 1fr;
+  grid-template-columns: 1fr 1fr;
   gap: var(--sp-4);
 }
 
@@ -1058,6 +1058,107 @@ details summary {
 .footer-bottom .text-small {
   max-width: 480px;
 }
+
+/* ─── Strategy Cards Grid ─── */
+.strategy-cards-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: var(--sp-4);
+}
+
+.strategy-card {
+  background: var(--bg-raised);
+  border: 1px solid var(--border-default);
+  border-left: 3px solid var(--accent-teal);
+  border-radius: var(--radius-md);
+  padding: var(--sp-5);
+  transition: all var(--duration-fast) var(--ease-out);
+}
+
+.strategy-card:hover {
+  border-color: var(--border-medium);
+  transform: translateY(-1px);
+}
+
+.strategy-card-header {
+  display: flex;
+  align-items: center;
+  gap: var(--sp-3);
+  margin-bottom: var(--sp-4);
+}
+
+.strategy-rank {
+  font-family: var(--font-mono);
+  font-size: 0.75rem;
+  font-weight: 700;
+  color: var(--text-muted);
+  background: var(--bg-surface);
+  padding: 2px 6px;
+  border-radius: var(--radius-sm);
+  border: 1px solid var(--border-subtle);
+}
+
+.strategy-card-header h4 {
+  font-size: 0.875rem;
+  font-weight: 600;
+  color: var(--text-primary);
+  flex: 1;
+}
+
+.strategy-card-metrics {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: var(--sp-2);
+  margin-bottom: var(--sp-3);
+}
+
+.sc-metric {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.sc-label {
+  font-size: 0.625rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  color: var(--text-muted);
+}
+
+.sc-value {
+  font-family: var(--font-mono);
+  font-size: 0.813rem;
+  font-weight: 700;
+  color: var(--text-primary);
+}
+
+.sc-value.positive { color: var(--success); }
+.sc-value.negative { color: var(--danger); }
+.sc-value.neutral { color: var(--text-primary); }
+
+.strategy-card-params {
+  padding-top: var(--sp-3);
+  border-top: 1px solid var(--border-subtle);
+}
+
+/* ─── Charts Row: 1-1 split ─── */
+.charts-row .panel:first-child {
+  grid-column: 1;
+}
+
+.charts-row .panel:last-child:nth-child(2) {
+  grid-column: 2;
+}
+
+/* ─── Profit cell color (journal) ─── */
+.profit-cell {
+  font-family: var(--font-mono);
+  font-weight: 600;
+}
+
+.profit-cell.positive { color: var(--success); }
+.profit-cell.negative { color: var(--danger); }
 
 /* ─── Scrollbar ─── */
 ::-webkit-scrollbar {

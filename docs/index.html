@@ -13,9 +13,9 @@
 
     <!-- ═══ v2.0 Release Banner ═══ -->
     <div class="release-banner">
-        <span class="release-icon">✓</span>
+        <span class="release-icon">&#10003;</span>
         V2.0 — All 20 strategies individually optimized. Portfolio of 9 profitable strategies running live. Breakeven/partial close disabled — real risk management.
-        <span class="release-icon">✓</span>
+        <span class="release-icon">&#10003;</span>
     </div>
 
     <!-- ═══ Header ═══ -->
@@ -27,10 +27,12 @@
             </a>
             <nav>
                 <ul class="nav-links">
-                    <li><a href="#evidence">Evidence</a></li>
-                    <li><a href="#architecture">Architecture</a></li>
-                    <li><a href="#risk">Risk Governance</a></li>
+                    <li><a href="#evidence">Snapshot</a></li>
+                    <li><a href="#performance">Charts</a></li>
                     <li><a href="#strategies">Strategies</a></li>
+                    <li><a href="#monthly">Monthly</a></li>
+                    <li><a href="#distribution">Distribution</a></li>
+                    <li><a href="#correlation">Correlation</a></li>
                     <li><a href="#journal">Journal</a></li>
                     <li><a href="#methodology">Methodology</a></li>
                 </ul>
@@ -100,12 +102,8 @@
                     <h2 class="text-h2">Executive Performance Overview</h2>
                     <p class="text-body">Key metrics from the full backtest period across all 9 selected strategies and 10 instruments.</p>
                 </div>
-                <div class="kpi-grid" id="kpiGrid">
-                    <!-- Populated by JS -->
-                </div>
-                <div class="kpi-secondary" id="kpiSecondary">
-                    <!-- Populated by JS -->
-                </div>
+                <div class="kpi-grid" id="kpiGrid"></div>
+                <div class="kpi-secondary" id="kpiSecondary"></div>
             </div>
         </section>
 
@@ -120,29 +118,29 @@
                 <div class="arch-flow">
                     <div class="arch-node">
                         <h4>Data Pipeline</h4>
-                        <p>Real OHLCV from MT5 — 10 instruments × 3 timeframes (M15, H1, H4)</p>
+                        <p>Real OHLCV from MT5 — 10 instruments x 3 timeframes (M15, H1, H4)</p>
                     </div>
-                    <div class="arch-arrow">→</div>
+                    <div class="arch-arrow">&rarr;</div>
                     <div class="arch-node">
                         <h4>Strategy Layer</h4>
                         <p>9 EAs across Trend, Breakout, Mean Reversion, SMC, Session, Divergence</p>
                     </div>
-                    <div class="arch-arrow">→</div>
+                    <div class="arch-arrow">&rarr;</div>
                     <div class="arch-node">
                         <h4>Shared Core</h4>
                         <p>Logging, telemetry, trade journal, unified architecture</p>
                     </div>
-                    <div class="arch-arrow">→</div>
+                    <div class="arch-arrow">&rarr;</div>
                     <div class="arch-node" style="border-color: var(--accent-teal);">
                         <h4>Orchestrator</h4>
                         <p>Central coordination, regime filtering, correlation control</p>
                     </div>
-                    <div class="arch-arrow">→</div>
+                    <div class="arch-arrow">&rarr;</div>
                     <div class="arch-node">
                         <h4>Risk Governors</h4>
                         <p>HWM breaker, exposure limits, news blockade, prop firm mode</p>
                     </div>
-                    <div class="arch-arrow">→</div>
+                    <div class="arch-arrow">&rarr;</div>
                     <div class="arch-node">
                         <h4>Evidence Layer</h4>
                         <p>Analytics, equity curves, drawdown, correlation, journal</p>
@@ -161,45 +159,33 @@
                 </div>
                 <div class="risk-grid">
                     <div class="risk-card">
-                        <div class="risk-card-header">
-                            <h4>High Water Mark Breaker</h4>
-                        </div>
+                        <div class="risk-card-header"><h4>High Water Mark Breaker</h4></div>
                         <p>Multi-timeframe circuit breaker: 3% daily, 8% weekly, 15% monthly drawdown limits. Trading halts automatically when thresholds are breached.</p>
                         <span class="risk-badge">Active</span>
                     </div>
                     <div class="risk-card">
-                        <div class="risk-card-header">
-                            <h4>Pearson Correlation Filter</h4>
-                        </div>
+                        <div class="risk-card-header"><h4>Pearson Correlation Filter</h4></div>
                         <p>Prevents opening trades on instruments with correlation > 0.8 to existing positions. Eliminates hidden concentration risk.</p>
                         <span class="risk-badge">Active</span>
                     </div>
                     <div class="risk-card">
-                        <div class="risk-card-header">
-                            <h4>Exposure Limits</h4>
-                        </div>
+                        <div class="risk-card-header"><h4>Exposure Limits</h4></div>
                         <p>Maximum 2 concurrent positions per instrument. Lot sizing dynamically calculated based on risk distance and account equity.</p>
                         <span class="risk-badge">Active</span>
                     </div>
                     <div class="risk-card">
-                        <div class="risk-card-header">
-                            <h4>News Blockade</h4>
-                        </div>
+                        <div class="risk-card-header"><h4>News Blockade</h4></div>
                         <p>Prop firm mode blocks trading during high-impact news windows: US early/mid news, FOMC, NFP releases.</p>
                         <span class="risk-badge">Prop Firm Mode</span>
                     </div>
                     <div class="risk-card">
-                        <div class="risk-card-header">
-                            <h4>Session Enforcement</h4>
-                        </div>
+                        <div class="risk-card-header"><h4>Session Enforcement</h4></div>
                         <p>Strategies are filtered by session: Asian, London, NY. Weekend closure auto-closes all positions Friday 20:00 UTC.</p>
                         <span class="risk-badge">Active</span>
                     </div>
                     <div class="risk-card">
-                        <div class="risk-card-header">
-                            <h4>Break-Even + Partial Close</h4>
-                        </div>
-                        <p>SL moves to entry at 1R profit. 50% position closes at 1.5R. Now disabled — pure TP/SL execution for cleaner strategy evaluation.</p>
+                        <div class="risk-card-header"><h4>Break-Even + Partial Close</h4></div>
+                        <p>SL moves to entry at 1R profit. 50% position closes at 1.5R. Now disabled -- pure TP/SL execution for cleaner strategy evaluation.</p>
                         <span class="risk-badge">Disabled</span>
                     </div>
                 </div>
@@ -211,35 +197,33 @@
             <div class="container">
                 <div class="section-header">
                     <div class="text-label">Performance Evidence</div>
-                    <h2 class="text-h2">Equity & Drawdown</h2>
+                    <h2 class="text-h2">Equity, Drawdown &amp; Contribution</h2>
                 </div>
                 <div class="charts-row">
                     <div class="panel">
-                        <div class="panel-header">
-                            <h3 class="text-h3">Portfolio Equity Curve</h3>
-                        </div>
-                        <div class="chart-container">
-                            <canvas id="equityChart"></canvas>
-                        </div>
+                        <div class="panel-header"><h3 class="text-h3">Portfolio Equity Curve</h3></div>
+                        <div class="chart-container"><canvas id="equityChart"></canvas></div>
                     </div>
                     <div class="panel">
-                        <div class="panel-header">
-                            <h3 class="text-h3">Drawdown Profile</h3>
-                        </div>
-                        <div class="chart-container">
-                            <canvas id="drawdownChart"></canvas>
-                        </div>
+                        <div class="panel-header"><h3 class="text-h3">Drawdown Profile</h3></div>
+                        <div class="chart-container"><canvas id="drawdownChart"></canvas></div>
+                    </div>
+                </div>
+                <div class="charts-row" style="margin-top: var(--sp-4);">
+                    <div class="panel">
+                        <div class="panel-header"><h3 class="text-h3">Strategy Contribution (Net Profit)</h3></div>
+                        <div class="chart-container"><canvas id="contributionChart"></canvas></div>
+                    </div>
+                    <div class="panel">
+                        <div class="panel-header"><h3 class="text-h3">Monthly Returns</h3></div>
+                        <div class="chart-container"><canvas id="monthlyBarChart"></canvas></div>
                     </div>
                 </div>
 
                 <!-- Risk Metrics -->
                 <div class="panel" style="margin-top: var(--sp-4);">
-                    <div class="panel-header">
-                        <h3 class="text-h3">Risk Analytics</h3>
-                    </div>
-                    <div class="metrics-grid" id="riskMetrics">
-                        <!-- Populated by JS -->
-                    </div>
+                    <div class="panel-header"><h3 class="text-h3">Risk Analytics</h3></div>
+                    <div class="metrics-grid" id="riskMetrics"></div>
                 </div>
             </div>
         </section>
@@ -249,13 +233,19 @@
             <div class="container">
                 <div class="section-header">
                     <div class="text-label">Strategy Intelligence</div>
-                    <h2 class="text-h2">9 Strategies — One Portfolio</h2>
-                    <p class="text-body">Each strategy operates within its regime and session constraints, coordinated by the orchestrator.</p>
+                    <h2 class="text-h2">9 Strategies in Detail</h2>
+                    <p class="text-body">Each strategy with its individual backtest statistics, parameters, and equity curve.</p>
                 </div>
-                <div class="panel">
+
+                <!-- Strategy cards -->
+                <div id="strategyCards"></div>
+
+                <!-- Strategy table -->
+                <div class="panel" style="margin-top: var(--sp-4);">
+                    <div class="panel-header"><h3 class="text-h3">Strategy Comparison Table</h3></div>
                     <div class="strategy-filters" id="strategyFilters">
                         <button class="filter-chip active" data-filter="all">All</button>
-                        <button class="filter-chip" data-filter="Trend">Trend</button>
+                        <button class="filter-chip" data-filter="Trend Following">Trend</button>
                         <button class="filter-chip" data-filter="Breakout">Breakout</button>
                         <button class="filter-chip" data-filter="Mean Reversion">Mean Reversion</button>
                         <button class="filter-chip" data-filter="Smart Money">Smart Money</button>
@@ -266,12 +256,17 @@
                         <table class="data-table" id="strategyTable">
                             <thead>
                                 <tr>
+                                    <th>Rank</th>
                                     <th>Strategy</th>
                                     <th>Category</th>
+                                    <th>TF</th>
                                     <th>Trades</th>
                                     <th>Win Rate</th>
                                     <th>Profit Factor</th>
                                     <th>Net Profit</th>
+                                    <th>Max DD</th>
+                                    <th>Sharpe</th>
+                                    <th>Return</th>
                                 </tr>
                             </thead>
                             <tbody></tbody>
@@ -287,12 +282,53 @@
                 <div class="section-header">
                     <div class="text-label">Monthly Returns</div>
                     <h2 class="text-h2">Consistency Heatmap</h2>
+                    <p class="text-body">Monthly percentage returns. Green = profitable month, Red = losing month.</p>
                 </div>
                 <div class="panel">
                     <div class="table-wrapper">
                         <table class="data-table heatmap-table" id="monthlyTable">
                             <thead><tr id="monthlyHeader"></tr></thead>
                             <tbody id="monthlyBody"></tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ═══ Profit Distribution ═══ -->
+        <section class="section" id="distribution">
+            <div class="container">
+                <div class="section-header">
+                    <div class="text-label">Trade Distribution</div>
+                    <h2 class="text-h2">Win / Loss Analysis</h2>
+                    <p class="text-body">Distribution of trade profits across all closed trades in the portfolio.</p>
+                </div>
+                <div class="charts-row">
+                    <div class="panel">
+                        <div class="panel-header"><h3 class="text-h3">Profit Distribution</h3></div>
+                        <div class="chart-container"><canvas id="distributionChart"></canvas></div>
+                    </div>
+                    <div class="panel">
+                        <div class="panel-header"><h3 class="text-h3">Win / Loss / Breakeven</h3></div>
+                        <div class="chart-container"><canvas id="winLossChart"></canvas></div>
+                    </div>
+                </div>
+                <div class="panel" style="margin-top: var(--sp-4);">
+                    <div class="panel-header"><h3 class="text-h3">Per-Symbol Performance</h3></div>
+                    <div class="table-wrapper">
+                        <table class="data-table" id="symbolTable">
+                            <thead>
+                                <tr>
+                                    <th>Symbol</th>
+                                    <th>Trades</th>
+                                    <th>Net Profit</th>
+                                    <th>Win Rate</th>
+                                    <th>Profit Factor</th>
+                                    <th>Avg Win</th>
+                                    <th>Avg Loss</th>
+                                </tr>
+                            </thead>
+                            <tbody></tbody>
                         </table>
                     </div>
                 </div>
@@ -334,20 +370,20 @@
                 <div class="section-header">
                     <div class="text-label">Execution Log</div>
                     <h2 class="text-h2">Trade Journal</h2>
-                    <p class="text-body">Last 20 closed trades with entry/exit details and close reason.</p>
+                    <p class="text-body">All closed trades with entry/exit details and close reason.</p>
                 </div>
                 <div class="panel">
                     <div class="table-wrapper">
                         <table class="data-table journal-table" id="journalTable">
                             <thead>
                                 <tr>
-                                    <th>Ticket</th>
-                                    <th>Open</th>
-                                    <th>Close</th>
+                                    <th>#</th>
                                     <th>Symbol</th>
                                     <th>Strategy</th>
                                     <th>Type</th>
                                     <th>Lots</th>
+                                    <th>Entry</th>
+                                    <th>Exit</th>
                                     <th>Profit</th>
                                     <th>Reason</th>
                                 </tr>
@@ -356,14 +392,14 @@
                         </table>
                     </div>
                     <div style="text-align: center; margin-top: var(--sp-4);">
-                        <button class="btn btn-ghost" id="loadMoreBtn" style="display: none;">Load More Trades</button>
+                        <button class="btn btn-ghost" id="loadMoreBtn">Load More Trades</button>
                         <span class="text-small" id="journalCount" style="margin-left: var(--sp-3);"></span>
                     </div>
                     <div class="glossary" style="margin-top: var(--sp-6); padding-top: var(--sp-4); border-top: 1px solid var(--border-subtle);">
                         <h4 class="text-h3" style="margin-bottom: var(--sp-3);">Exit Reasons</h4>
                         <div class="glossary-grid">
-                            <div class="glossary-item"><span class="glossary-term">TP</span> Take Profit — target reached</div>
-                            <div class="glossary-item"><span class="glossary-term">SL</span> Stop Loss — risk limit hit</div>
+                            <div class="glossary-item"><span class="glossary-term">TP</span> Take Profit -- target reached</div>
+                            <div class="glossary-item"><span class="glossary-term">SL</span> Stop Loss -- risk limit hit</div>
                             <div class="glossary-item"><span class="glossary-term">Trailing</span> Trailing stop triggered</div>
                             <div class="glossary-item"><span class="glossary-term">Manual</span> Manually closed by orchestrator</div>
                             <div class="glossary-item"><span class="glossary-term">Circuit Breaker</span> HWM drawdown limit triggered</div>
@@ -378,7 +414,7 @@
             <div class="container">
                 <div class="section-header">
                     <div class="text-label">Methodology</div>
-                    <h2 class="text-h2">Backtest Assumptions & Parameters</h2>
+                    <h2 class="text-h2">Backtest Assumptions &amp; Parameters</h2>
                     <p class="text-body">Transparent documentation of simulation conditions, data sources, and risk parameters.</p>
                 </div>
                 <div class="method-grid">
@@ -388,7 +424,7 @@
                             <div class="param-row"><span class="param-label">Broker</span><span class="param-value">FBS MetaTrader 5</span></div>
                             <div class="param-row"><span class="param-label">Instruments</span><span class="param-value">10 (Forex + Gold + Indices)</span></div>
                             <div class="param-row"><span class="param-label">Timeframes</span><span class="param-value">M15, H1, H4</span></div>
-                            <div class="param-row"><span class="param-label">Period</span><span class="param-value">Jan 2022 — May 2025</span></div>
+                            <div class="param-row"><span class="param-label">Period</span><span class="param-value">Jan 2022 -- May 2025</span></div>
                         </div>
                     </div>
                     <div class="method-card">
@@ -471,162 +507,139 @@
 
     <!-- ═══ Dashboard Logic ═══ -->
     <script>
+        // Strategy data file mapping (from single_*.json files)
+        const STRATEGY_FILES = [
+            'single_AVWAP_Confluence.json',
+            'single_ADX_TrendStrength.json',
+            'single_Hidden_Divergence.json',
+            'single_Donchian_Breakout.json',
+            'single_TrendPullback.json',
+            'single_Bollinger Mean Reversion.json',
+            'single_Smart_Swing_Bias.json',
+            'single_PriceAction_SR.json',
+            'single_SuperTrend_EMA.json',
+        ];
+
+        const STRATEGY_COLORS = [
+            '#0ea5a0', '#f59e0b', '#8b5cf6', '#ef4444', '#22c55e',
+            '#3b82f6', '#ec4899', '#f97316', '#14b8a6'
+        ];
+
+        let portfolioData = null;
+        let singleStrategyData = {};
+
         async function loadData() {
             try {
-                const response = await fetch('data/results.json?t=' + Date.now());
-                if (!response.ok) throw new Error('HTTP ' + response.status);
-                const data = await response.json();
-                if (!data || !data.portfolio || !data.equity_curve) {
-                    throw new Error('Invalid data structure');
-                }
-                renderDashboard(data);
-            } catch (error) {
-                console.error('Failed to load results data:', error);
-                document.getElementById('kpiGrid').innerHTML = '<p class="text-body" style="color: var(--danger);">Failed to load backtest data. Please check that results.json exists in docs/data/.</p>';
+                const resp = await fetch('data/results.json?t=' + Date.now());
+                if (!resp.ok) throw new Error('HTTP ' + resp.status);
+                portfolioData = await resp.json();
+                if (!portfolioData || !portfolioData.portfolio) throw new Error('Invalid structure');
+
+                // Load individual strategy files
+                await loadSingleStrategyData();
+
+                renderAll();
+            } catch (e) {
+                console.error('Failed to load data:', e);
+                document.getElementById('kpiGrid').innerHTML = '<p style="color: var(--danger);">Failed to load data. Check results.json.</p>';
             }
         }
 
-        function renderDashboard(data) {
-            try {
-                const port = data.portfolio;
-                if (!port) throw new Error('Missing portfolio data');
-
-                // KPIs - 3 primary
-                const kpiGrid = document.getElementById('kpiGrid');
-                if (kpiGrid) {
-                    kpiGrid.innerHTML = `
-                        <div class="kpi-tile animate-in">
-                            <div class="text-label">Total Return</div>
-                            <div class="kpi-value ${port.total_return >= 0 ? 'positive' : 'negative'}">${(port.total_return || 0).toFixed(2)}%</div>
-                            <div class="kpi-sub">${port.net_profit >= 0 ? '+' : ''}$${Math.abs(port.net_profit || 0).toLocaleString(undefined, {maximumFractionDigits: 0})}</div>
-                        </div>
-                        <div class="kpi-tile animate-in">
-                            <div class="text-label">Max Drawdown</div>
-                            <div class="kpi-value negative">${(port.max_drawdown || 0).toFixed(2)}%</div>
-                            <div class="kpi-sub">${port.max_dd_duration || 'N/A'} bars duration</div>
-                        </div>
-                        <div class="kpi-tile animate-in">
-                            <div class="text-label">Recovery Factor</div>
-                            <div class="kpi-value neutral">${port.recovery_factor || 'N/A'}</div>
-                            <div class="kpi-sub">Net profit / Max DD</div>
-                        </div>
-                    `;
-                }
-
-                // KPIs - 3 secondary
-                const kpiSecondary = document.getElementById('kpiSecondary');
-                if (kpiSecondary) {
-                    kpiSecondary.innerHTML = `
-                        <div class="kpi-tile animate-in">
-                            <div class="text-label">Profit Factor</div>
-                            <div class="kpi-value neutral">${(port.profit_factor || 0).toFixed(2)}</div>
-                        </div>
-                        <div class="kpi-tile animate-in">
-                            <div class="text-label">Win Rate</div>
-                            <div class="kpi-value neutral">${(port.win_rate || 0).toFixed(2)}%</div>
-                        </div>
-                        <div class="kpi-tile animate-in">
-                            <div class="text-label">Sharpe Ratio</div>
-                            <div class="kpi-value neutral">${(port.sharpe_ratio || 0).toFixed(2)}</div>
-                        </div>
-                    `;
-                }
-
-                // Risk Metrics
-                const riskMetrics = document.getElementById('riskMetrics');
-                if (riskMetrics) {
-                    riskMetrics.innerHTML = `
-                        <div class="metric-item">
-                            <span class="text-label">Annualized Return</span>
-                            <span class="metric-val">${port.annualized_return ? port.annualized_return.toFixed(2) + '%' : 'N/A'}</span>
-                        </div>
-                        <div class="metric-item">
-                            <span class="text-label">Calmar Ratio</span>
-                            <span class="metric-val">${port.calmar_ratio ? port.calmar_ratio.toFixed(2) : 'N/A'}</span>
-                        </div>
-                        <div class="metric-item">
-                            <span class="text-label">Expectancy</span>
-                            <span class="metric-val">$${port.expectancy ? port.expectancy.toFixed(2) : 'N/A'}</span>
-                        </div>
-                        <div class="metric-item">
-                            <span class="text-label">Avg Win</span>
-                            <span class="metric-val" style="color: var(--success);">$${port.avg_win ? port.avg_win.toFixed(2) : 'N/A'}</span>
-                        </div>
-                        <div class="metric-item">
-                            <span class="text-label">Avg Loss</span>
-                            <span class="metric-val" style="color: var(--danger);">$${port.avg_loss ? port.avg_loss.toFixed(2) : 'N/A'}</span>
-                        </div>
-                        <div class="metric-item">
-                            <span class="text-label">Max DD Duration</span>
-                            <span class="metric-val">${port.max_dd_duration || 'N/A'} bars</span>
-                        </div>
-                        <div class="metric-item">
-                            <span class="text-label">Sortino Ratio</span>
-                            <span class="metric-val">${port.sortino_ratio ? port.sortino_ratio.toFixed(2) : 'N/A'}</span>
-                        </div>
-                        <div class="metric-item">
-                            <span class="text-label">Active Strategies</span>
-                            <span class="metric-val">${data.strategies ? data.strategies.length : 0}</span>
-                        </div>
-                    `;
-                }
-
-                // Monthly Heatmap
-                if (port.monthly_returns) {
-                    try { renderMonthlyHeatmap(port.monthly_returns); } catch (e) { console.error('Monthly heatmap failed:', e); }
-                }
-
-                // Strategy Table
-                if (data.strategies) {
-                    try { renderStrategyTable(data.strategies); } catch (e) { console.error('Strategy table failed:', e); }
-                }
-
-                // Correlation Matrix
-                if (port.correlation_matrix) {
-                    try { renderCorrelationMatrix(port.correlation_matrix); } catch (e) { console.error('Correlation matrix failed:', e); }
-                }
-
-                // Trade Journal
-                if (data.recent_trades) {
-                    try { renderJournal(data.recent_trades); } catch (e) { console.error('Trade journal failed:', e); }
-                }
-
-                // Charts
-                if (data.equity_curve && data.equity_curve.length > 0) {
-                    try { renderEquityChart(data); } catch (e) { console.error('Equity chart failed:', e); renderChartFallback('equityChart', 'Equity data unavailable'); }
-                    try { renderDrawdownChart(data); } catch (e) { console.error('Drawdown chart failed:', e); renderChartFallback('drawdownChart', 'Drawdown data unavailable'); }
-                } else {
-                    renderChartFallback('equityChart', 'No equity curve data');
-                    renderChartFallback('drawdownChart', 'No drawdown data');
-                }
-            } catch (error) {
-                console.error('Dashboard render error:', error);
-            }
+        async function loadSingleStrategyData() {
+            const fetches = STRATEGY_FILES.map(async (file) => {
+                try {
+                    const r = await fetch('data/' + file + '?t=' + Date.now());
+                    if (r.ok) {
+                        const d = await r.json();
+                        singleStrategyData[d.strategy] = d;
+                    }
+                } catch (_) {}
+            });
+            await Promise.all(fetches);
         }
 
-        function renderChartFallback(canvasId, message) {
-            const container = document.getElementById(canvasId);
-            if (container) {
-                const parent = container.parentElement;
-                if (parent) {
-                    parent.innerHTML = '<p class="text-body" style="text-align: center; color: var(--text-muted); padding: 40px 0;">' + message + '</p>';
-                }
-            }
+        function renderAll() {
+            renderPortfolioKPI();
+            renderRiskMetrics();
+            renderEquityChart();
+            renderDrawdownChart();
+            renderContributionChart();
+            renderMonthlyBarChart();
+            renderStrategyCards();
+            renderStrategyTable();
+            renderMonthlyHeatmap();
+            renderDistributionChart();
+            renderWinLossChart();
+            renderSymbolTable();
+            renderCorrelationMatrix();
+            renderJournal();
         }
 
-        function renderEquityChart(data) {
+        /* ═══ Portfolio KPI ═══ */
+        function renderPortfolioKPI() {
+            const p = portfolioData.portfolio;
+            const g = document.getElementById('kpiGrid');
+            g.innerHTML = `
+                <div class="kpi-tile animate-in">
+                    <div class="text-label">Total Return</div>
+                    <div class="kpi-value ${p.total_return >= 0 ? 'positive' : 'negative'}">${p.total_return.toFixed(2)}%</div>
+                    <div class="kpi-sub">${p.net_profit >= 0 ? '+' : ''}$${Math.abs(p.net_profit).toLocaleString(undefined, {maximumFractionDigits: 0})}</div>
+                </div>
+                <div class="kpi-tile animate-in">
+                    <div class="text-label">Max Drawdown</div>
+                    <div class="kpi-value negative">${p.max_drawdown.toFixed(2)}%</div>
+                    <div class="kpi-sub">${p.max_dd_duration} bars duration</div>
+                </div>
+                <div class="kpi-tile animate-in">
+                    <div class="text-label">Recovery Factor</div>
+                    <div class="kpi-value neutral">${p.recovery_factor.toFixed(2)}</div>
+                    <div class="kpi-sub">Net profit / Max DD</div>
+                </div>`;
+            const s = document.getElementById('kpiSecondary');
+            s.innerHTML = `
+                <div class="kpi-tile animate-in">
+                    <div class="text-label">Profit Factor</div>
+                    <div class="kpi-value neutral">${p.profit_factor.toFixed(2)}</div>
+                </div>
+                <div class="kpi-tile animate-in">
+                    <div class="text-label">Win Rate</div>
+                    <div class="kpi-value neutral">${p.win_rate.toFixed(2)}%</div>
+                </div>
+                <div class="kpi-tile animate-in">
+                    <div class="text-label">Sharpe Ratio</div>
+                    <div class="kpi-value neutral">${p.sharpe_ratio.toFixed(2)}</div>
+                </div>`;
+        }
+
+        /* ═══ Risk Metrics ═══ */
+        function renderRiskMetrics() {
+            const p = portfolioData.portfolio;
+            const el = document.getElementById('riskMetrics');
+            const items = [
+                ['Annualized Return', p.annualized_return ? p.annualized_return.toFixed(2) + '%' : 'N/A'],
+                ['Calmar Ratio', p.calmar_ratio ? p.calmar_ratio.toFixed(2) : 'N/A'],
+                ['Sortino Ratio', p.sortino_ratio ? p.sortino_ratio.toFixed(2) : 'N/A'],
+                ['Expectancy', ' $' + (p.expectancy ? p.expectancy.toFixed(2) : 'N/A')],
+                ['Avg Win', '<span style="color:var(--success);"> $' + (p.avg_win ? p.avg_win.toFixed(2) : 'N/A') + '</span>'],
+                ['Avg Loss', '<span style="color:var(--danger);"> $' + (p.avg_loss ? p.avg_loss.toFixed(2) : 'N/A') + '</span>'],
+                ['Max DD Duration', (p.max_dd_duration || 'N/A') + ' bars'],
+                ['Total Trades', p.total_trades],
+                ['Active Strategies', portfolioData.strategies ? portfolioData.strategies.length : 0],
+            ];
+            el.innerHTML = items.map(item =>
+                '<div class="metric-item"><span class="text-label">' + item[0] + '</span><span class="metric-val">' + item[1] + '</span></div>'
+            ).join('');
+        }
+
+        /* ═══ Equity Chart ═══ */
+        function renderEquityChart() {
+            if (!portfolioData.equity_curve || !portfolioData.equity_curve.length) return;
             const canvas = document.getElementById('equityChart');
-            if (!canvas) return;
+            if (!canvas || typeof Chart === 'undefined') return;
             const ctx = canvas.getContext('2d');
             if (!ctx) return;
-            if (typeof Chart === 'undefined') {
-                renderChartFallback('equityChart', 'Chart.js not loaded');
-                return;
-            }
-
-            const dates = data.equity_curve.map(d => d.date);
-            const equity = data.equity_curve.map(d => d.equity);
-
+            const dates = portfolioData.equity_curve.map(d => d.date);
+            const equity = portfolioData.equity_curve.map(d => d.equity);
             new Chart(ctx, {
                 type: 'line',
                 data: {
@@ -635,7 +648,7 @@
                         label: 'Portfolio Equity ($)',
                         data: equity,
                         borderColor: '#0ea5a0',
-                        backgroundColor: 'rgba(14, 165, 160, 0.06)',
+                        backgroundColor: 'rgba(14,165,160,0.06)',
                         borderWidth: 1.5,
                         pointRadius: 0,
                         fill: true,
@@ -647,47 +660,33 @@
                     maintainAspectRatio: false,
                     plugins: { legend: { display: false } },
                     scales: {
-                        y: {
-                            grid: { color: 'rgba(255,255,255,0.04)' },
-                            ticks: { color: '#5a5a6e', font: { family: 'JetBrains Mono', size: 11 }, callback: v => '$' + v.toLocaleString() }
-                        },
-                        x: {
-                            grid: { display: false },
-                            ticks: { color: '#5a5a6e', font: { family: 'JetBrains Mono', size: 10 }, maxTicksLimit: 10 }
-                        }
+                        y: { grid: { color: 'rgba(255,255,255,0.04)' }, ticks: { color: '#5a5a6e', font: { family: 'JetBrains Mono', size: 11 }, callback: v => '$' + v.toLocaleString() } },
+                        x: { grid: { display: false }, ticks: { color: '#5a5a6e', font: { family: 'JetBrains Mono', size: 10 }, maxTicksLimit: 10 } }
                     }
                 }
             });
         }
 
-        function renderDrawdownChart(data) {
+        /* ═══ Drawdown Chart ═══ */
+        function renderDrawdownChart() {
+            if (!portfolioData.equity_curve || !portfolioData.equity_curve.length) return;
             const canvas = document.getElementById('drawdownChart');
-            if (!canvas) return;
+            if (!canvas || typeof Chart === 'undefined') return;
             const ctx = canvas.getContext('2d');
             if (!ctx) return;
-            if (typeof Chart === 'undefined') {
-                renderChartFallback('drawdownChart', 'Chart.js not loaded');
-                return;
-            }
-
-            const dates = data.equity_curve.map(d => d.date);
-            const equity = data.equity_curve.map(d => d.equity);
-
+            const dates = portfolioData.equity_curve.map(d => d.date);
+            const equity = portfolioData.equity_curve.map(d => d.equity);
             let peak = equity[0];
-            const drawdown = equity.map(e => {
-                if (e > peak) peak = e;
-                return ((e - peak) / peak) * 100;
-            });
-
+            const dd = equity.map(e => { if (e > peak) peak = e; return ((e - peak) / peak) * 100; });
             new Chart(ctx, {
                 type: 'line',
                 data: {
                     labels: dates,
                     datasets: [{
                         label: 'Drawdown (%)',
-                        data: drawdown,
+                        data: dd,
                         borderColor: '#dc2626',
-                        backgroundColor: 'rgba(220, 38, 38, 0.08)',
+                        backgroundColor: 'rgba(220,38,38,0.08)',
                         borderWidth: 1.5,
                         pointRadius: 0,
                         fill: true,
@@ -699,72 +698,142 @@
                     maintainAspectRatio: false,
                     plugins: { legend: { display: false } },
                     scales: {
-                        y: {
-                            grid: { color: 'rgba(255,255,255,0.04)' },
-                            ticks: { color: '#5a5a6e', font: { family: 'JetBrains Mono', size: 11 }, callback: v => v.toFixed(1) + '%' }
-                        },
-                        x: {
-                            grid: { display: false },
-                            ticks: { color: '#5a5a6e', font: { family: 'JetBrains Mono', size: 10 }, maxTicksLimit: 10 }
-                        }
+                        y: { grid: { color: 'rgba(255,255,255,0.04)' }, ticks: { color: '#5a5a6e', font: { family: 'JetBrains Mono', size: 11 }, callback: v => v.toFixed(1) + '%' } },
+                        x: { grid: { display: false }, ticks: { color: '#5a5a6e', font: { family: 'JetBrains Mono', size: 10 }, maxTicksLimit: 10 } }
                     }
                 }
             });
         }
 
-        function renderMonthlyHeatmap(monthlyReturns) {
-            const headerRow = document.getElementById('monthlyHeader');
-            const body = document.getElementById('monthlyBody');
-            if (!headerRow || !body) return;
-
-            const months = Object.keys(monthlyReturns).sort();
-            const years = {};
-            months.forEach(m => {
-                const [y, mo] = m.split('-');
-                if (!years[y]) years[y] = {};
-                years[y][parseInt(mo)] = monthlyReturns[m];
-            });
-
-            headerRow.innerHTML = '<th>Year</th>';
-            const monthNames = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
-            monthNames.forEach(n => { headerRow.innerHTML += '<th>' + n + '</th>'; });
-            headerRow.innerHTML += '<th>Total</th>';
-
-            body.innerHTML = '';
-            Object.keys(years).sort().forEach(year => {
-                let row = '<tr><td style="color: var(--text-secondary); font-weight: 600;">' + year + '</td>';
-                let yearTotal = 0;
-                for (let m = 1; m <= 12; m++) {
-                    const val = years[year][m];
-                    if (val !== undefined) {
-                        yearTotal += val;
-                        const cls = val >= 0 ? 'heatmap-positive' : 'heatmap-negative';
-                        row += '<td class="' + cls + '">' + val.toFixed(1) + '</td>';
-                    } else {
-                        row += '<td class="heatmap-empty">—</td>';
-                    }
+        /* ═══ Contribution Pie ═══ */
+        function renderContributionChart() {
+            if (!portfolioData.strategies || !portfolioData.strategies.length) return;
+            const canvas = document.getElementById('contributionChart');
+            if (!canvas || typeof Chart === 'undefined') return;
+            const ctx = canvas.getContext('2d');
+            if (!ctx) return;
+            const sorted = [...portfolioData.strategies].sort((a, b) => b.net_profit - a.net_profit);
+            new Chart(ctx, {
+                type: 'doughnut',
+                data: {
+                    labels: sorted.map(s => s.name.replace(/_/g, ' ')),
+                    datasets: [{
+                        data: sorted.map(s => Math.max(0, s.net_profit)),
+                        backgroundColor: STRATEGY_COLORS.slice(0, sorted.length),
+                        borderWidth: 0
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                        legend: { position: 'right', labels: { color: '#a0a0b4', font: { family: 'Inter', size: 11 }, padding: 12, usePointStyle: true } },
+                        tooltip: { callbacks: { label: function(c) { return c.label + ': $' + c.raw.toFixed(2); } } }
+                    },
+                    cutout: '55%'
                 }
-                const totalCls = yearTotal >= 0 ? 'positive' : 'negative';
-                row += '<td style="color: var(--' + (totalCls === 'positive' ? 'success' : 'danger') + '); font-weight: 700;">' + yearTotal.toFixed(1) + '</td></tr>';
-                body.innerHTML += row;
             });
         }
 
-        function renderStrategyTable(strategies) {
+        /* ═══ Monthly Bar Chart ═══ */
+        function renderMonthlyBarChart() {
+            const p = portfolioData.portfolio;
+            if (!p.monthly_returns) return;
+            const canvas = document.getElementById('monthlyBarChart');
+            if (!canvas || typeof Chart === 'undefined') return;
+            const ctx = canvas.getContext('2d');
+            if (!ctx) return;
+            const months = Object.keys(p.monthly_returns).sort();
+            const values = months.map(m => p.monthly_returns[m]);
+            new Chart(ctx, {
+                type: 'bar',
+                data: {
+                    labels: months.map(m => m.substring(5) + '/' + m.substring(2, 4)),
+                    datasets: [{
+                        label: 'Monthly Return (%)',
+                        data: values,
+                        backgroundColor: values.map(v => v >= 0 ? 'rgba(34,197,94,0.6)' : 'rgba(239,68,68,0.6)'),
+                        borderColor: values.map(v => v >= 0 ? '#22c55e' : '#ef4444'),
+                        borderWidth: 1,
+                        borderRadius: 2
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: { legend: { display: false } },
+                    scales: {
+                        y: { grid: { color: 'rgba(255,255,255,0.04)' }, ticks: { color: '#5a5a6e', font: { family: 'JetBrains Mono', size: 10 }, callback: v => v + '%' } },
+                        x: { grid: { display: false }, ticks: { color: '#5a5a6e', font: { size: 9 }, maxTicksLimit: 20 } }
+                    }
+                }
+            });
+        }
+
+        /* ═══ Strategy Cards ═══ */
+        function renderStrategyCards() {
+            const container = document.getElementById('strategyCards');
+            if (!container || !portfolioData.strategies) return;
+            const sorted = [...portfolioData.strategies].sort((a, b) => b.net_profit - a.net_profit);
+            let html = '<div class="strategy-cards-grid">';
+            sorted.forEach((s, i) => {
+                const sd = singleStrategyData[s.name];
+                const dd = sd && sd.portfolio ? sd.portfolio.max_drawdown.toFixed(2) : 'N/A';
+                const ret = sd && sd.portfolio ? sd.portfolio.total_return.toFixed(2) + '%' : 'N/A';
+                const sharpe = sd && sd.portfolio ? sd.portfolio.sharpe_ratio.toFixed(2) : 'N/A';
+                const tf = sd ? sd.tf : 'N/A';
+                const params = sd && sd.params ? sd.params : {};
+                const paramStr = Object.entries(params)
+                    .filter(([k]) => !['name', 'category', 'regime_mask', 'session_mask', 'disable_breakeven'].includes(k))
+                    .map(([k, v]) => k.replace(/_/g, ' ') + ': ' + v)
+                    .join(', ');
+                html += '<div class="strategy-card" style="border-left-color: ' + STRATEGY_COLORS[i % STRATEGY_COLORS.length] + ';">' +
+                    '<div class="strategy-card-header">' +
+                    '<span class="strategy-rank">#' + (i + 1) + '</span>' +
+                    '<h4>' + s.name.replace(/_/g, ' ') + '</h4>' +
+                    '<span class="category-badge">' + s.category + '</span>' +
+                    '</div>' +
+                    '<div class="strategy-card-metrics">' +
+                    '<div class="sc-metric"><span class="sc-label">Return</span><span class="sc-value positive">' + ret + '</span></div>' +
+                    '<div class="sc-metric"><span class="sc-label">Max DD</span><span class="sc-value negative">' + dd + '%</span></div>' +
+                    '<div class="sc-metric"><span class="sc-label">Sharpe</span><span class="sc-value neutral">' + sharpe + '</span></div>' +
+                    '<div class="sc-metric"><span class="sc-label">PF</span><span class="sc-value neutral">' + s.profit_factor + '</span></div>' +
+                    '<div class="sc-metric"><span class="sc-label">WR</span><span class="sc-value neutral">' + s.win_rate + '%</span></div>' +
+                    '<div class="sc-metric"><span class="sc-label">Trades</span><span class="sc-value">' + s.total_trades + '</span></div>' +
+                    '<div class="sc-metric"><span class="sc-label">Net Profit</span><span class="sc-value ' + (s.net_profit >= 0 ? 'positive' : 'negative') + '">$' + s.net_profit.toFixed(2) + '</span></div>' +
+                    '<div class="sc-metric"><span class="sc-label">TF</span><span class="sc-value">' + tf + '</span></div>' +
+                    '</div>' +
+                    (paramStr ? '<div class="strategy-card-params"><span class="sc-label">Params:</span> <span class="text-small" style="color:var(--text-muted);">' + paramStr + '</span></div>' : '') +
+                    '</div>';
+            });
+            html += '</div>';
+            container.innerHTML = html;
+        }
+
+        /* ═══ Strategy Table ═══ */
+        function renderStrategyTable() {
             const tbody = document.querySelector('#strategyTable tbody');
-            if (!tbody) return;
-
+            if (!tbody || !portfolioData.strategies) return;
+            const sorted = [...portfolioData.strategies].sort((a, b) => b.net_profit - a.net_profit);
             let html = '';
-            const sorted = [...strategies].sort((a, b) => b.net_profit - a.net_profit);
-            sorted.forEach(s => {
-                const profitClass = s.net_profit >= 0 ? 'positive' : 'negative';
+            sorted.forEach((s, i) => {
+                const sd = singleStrategyData[s.name];
+                const dd = sd && sd.portfolio ? sd.portfolio.max_drawdown.toFixed(2) : 'N/A';
+                const sharpe = sd && sd.portfolio ? sd.portfolio.sharpe_ratio.toFixed(2) : 'N/A';
+                const ret = sd && sd.portfolio ? sd.portfolio.total_return.toFixed(2) : 'N/A';
+                const tf = sd ? sd.tf : 'N/A';
                 html += '<tr data-category="' + s.category + '">' +
+                    '<td style="color:var(--text-muted);font-weight:600;">#' + (i + 1) + '</td>' +
                     '<td class="strategy-name">' + s.name.replace(/_/g, ' ') + '</td>' +
                     '<td><span class="category-badge">' + s.category + '</span></td>' +
+                    '<td class="text-mono">' + tf + '</td>' +
                     '<td class="text-mono">' + s.total_trades + '</td>' +
                     '<td class="text-mono">' + s.win_rate + '%</td>' +
                     '<td class="text-mono">' + s.profit_factor + '</td>' +
-                    '<td class="text-mono ' + profitClass + '">$' + s.net_profit.toFixed(2) + '</td>' +
+                    '<td class="text-mono ' + (s.net_profit >= 0 ? 'positive' : 'negative') + '">$' + s.net_profit.toFixed(2) + '</td>' +
+                    '<td class="text-mono negative">' + dd + '%</td>' +
+                    '<td class="text-mono">' + sharpe + '</td>' +
+                    '<td class="text-mono ' + (parseFloat(ret) >= 0 ? 'positive' : 'negative') + '">' + ret + '</td>' +
                     '</tr>';
             });
             tbody.innerHTML = html;
@@ -781,111 +850,216 @@
             });
         }
 
-        function renderCorrelationMatrix(corrMatrix) {
+        /* ═══ Monthly Heatmap ═══ */
+        function renderMonthlyHeatmap() {
+            const p = portfolioData.portfolio;
+            if (!p.monthly_returns) return;
+            const headerRow = document.getElementById('monthlyHeader');
+            const body = document.getElementById('monthlyBody');
+            if (!headerRow || !body) return;
+            const months = Object.keys(p.monthly_returns).sort();
+            const years = {};
+            months.forEach(m => { const [y, mo] = m.split('-'); if (!years[y]) years[y] = {}; years[y][parseInt(mo)] = p.monthly_returns[m]; });
+            headerRow.innerHTML = '<th>Year</th>';
+            const mn = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
+            mn.forEach(n => { headerRow.innerHTML += '<th>' + n + '</th>'; });
+            headerRow.innerHTML += '<th>Total</th>';
+            body.innerHTML = '';
+            Object.keys(years).sort().forEach(year => {
+                let row = '<tr><td style="color:var(--text-secondary);font-weight:600;">' + year + '</td>';
+                let yt = 0;
+                for (let m = 1; m <= 12; m++) {
+                    const v = years[year][m];
+                    if (v !== undefined) { yt += v; row += '<td class="' + (v >= 0 ? 'heatmap-positive' : 'heatmap-negative') + '">' + v.toFixed(1) + '</td>'; }
+                    else { row += '<td class="heatmap-empty">--</td>'; }
+                }
+                row += '<td style="color:var(--' + (yt >= 0 ? 'success' : 'danger') + ');font-weight:700;">' + yt.toFixed(1) + '</td></tr>';
+                body.innerHTML += row;
+            });
+        }
+
+        /* ═══ Profit Distribution ═══ */
+        function renderDistributionChart() {
+            if (!portfolioData.recent_trades || !portfolioData.recent_trades.length) return;
+            const canvas = document.getElementById('distributionChart');
+            if (!canvas || typeof Chart === 'undefined') return;
+            const ctx = canvas.getContext('2d');
+            if (!ctx) return;
+            const profits = portfolioData.recent_trades.map(t => t.profit);
+            const min = Math.min(...profits);
+            const max = Math.max(...profits);
+            const bins = 20;
+            const binSize = (max - min) / bins || 1;
+            const counts = new Array(bins).fill(0);
+            profits.forEach(p => { const idx = Math.min(bins - 1, Math.floor((p - min) / binSize)); counts[idx]++; });
+            const labels = [];
+            for (let i = 0; i < bins; i++) { labels.push('$' + (min + i * binSize).toFixed(0) + ' - $' + (min + (i + 1) * binSize).toFixed(0)); }
+            new Chart(ctx, {
+                type: 'bar',
+                data: {
+                    labels: labels,
+                    datasets: [{
+                        label: 'Trades',
+                        data: counts,
+                        backgroundColor: counts.map(c => 'rgba(14,165,160,0.6)'),
+                        borderWidth: 0,
+                        borderRadius: 2
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: { legend: { display: false } },
+                    scales: {
+                        y: { grid: { color: 'rgba(255,255,255,0.04)' }, ticks: { color: '#5a5a6e', font: { size: 10 } } },
+                        x: { grid: { display: false }, ticks: { color: '#5a5a6e', font: { size: 8 }, maxTicksLimit: 10, callback: function(v) { const lbl = this.getLabelForValue(v); return lbl.split('-')[0] + '...'; } } }
+                    }
+                }
+            });
+        }
+
+        /* ═══ Win/Loss Pie ═══ */
+        function renderWinLossChart() {
+            if (!portfolioData.recent_trades || !portfolioData.recent_trades.length) return;
+            const canvas = document.getElementById('winLossChart');
+            if (!canvas || typeof Chart === 'undefined') return;
+            const ctx = canvas.getContext('2d');
+            if (!ctx) return;
+            const wins = portfolioData.recent_trades.filter(t => t.profit > 0).length;
+            const losses = portfolioData.recent_trades.filter(t => t.profit < 0).length;
+            const flat = portfolioData.recent_trades.filter(t => t.profit === 0).length;
+            new Chart(ctx, {
+                type: 'doughnut',
+                data: {
+                    labels: ['Wins (' + wins + ')', 'Losses (' + losses + ')', 'Flat (' + flat + ')'],
+                    datasets: [{
+                        data: [wins, losses, flat],
+                        backgroundColor: ['rgba(34,197,94,0.7)', 'rgba(239,68,68,0.7)', 'rgba(255,255,255,0.15)'],
+                        borderWidth: 0
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                        legend: { position: 'right', labels: { color: '#a0a0b4', font: { family: 'Inter', size: 11 }, usePointStyle: true } }
+                    },
+                    cutout: '55%'
+                }
+            });
+        }
+
+        /* ═══ Per-Symbol Table ═══ */
+        function renderSymbolTable() {
+            const tbody = document.querySelector('#symbolTable tbody');
+            if (!tbody || !portfolioData.recent_trades) return;
+            const trades = portfolioData.recent_trades;
+            const bySymbol = {};
+            trades.forEach(t => {
+                if (!bySymbol[t.symbol]) bySymbol[t.symbol] = [];
+                bySymbol[t.symbol].push(t);
+            });
+            let html = '';
+            Object.keys(bySymbol).sort().forEach(sym => {
+                const st = bySymbol[sym];
+                const total = st.length;
+                const wins = st.filter(t => t.profit > 0);
+                const losses = st.filter(t => t.profit <= 0);
+                const net = st.reduce((s, t) => s + t.profit, 0);
+                const wr = total ? (wins.length / total * 100).toFixed(1) : '0.0';
+                const gp = wins.length ? wins.reduce((s, t) => s + t.profit, 0) : 0;
+                const gl = losses.length ? Math.abs(losses.reduce((s, t) => s + t.profit, 0)) : 0;
+                const pf = gl ? (gp / gl).toFixed(2) : 'inf';
+                const aw = wins.length ? (wins.reduce((s, t) => s + t.profit, 0) / wins.length).toFixed(2) : 'N/A';
+                const al = losses.length ? (losses.reduce((s, t) => s + t.profit, 0) / losses.length).toFixed(2) : 'N/A';
+                html += '<tr>' +
+                    '<td style="font-weight:600;">' + sym + '</td>' +
+                    '<td class="text-mono">' + total + '</td>' +
+                    '<td class="text-mono ' + (net >= 0 ? 'positive' : 'negative') + '">$' + net.toFixed(2) + '</td>' +
+                    '<td class="text-mono">' + wr + '%</td>' +
+                    '<td class="text-mono">' + pf + '</td>' +
+                    '<td class="text-mono positive">$' + aw + '</td>' +
+                    '<td class="text-mono negative">$' + al + '</td>' +
+                    '</tr>';
+            });
+            tbody.innerHTML = html;
+        }
+
+        /* ═══ Correlation Matrix ═══ */
+        function renderCorrelationMatrix() {
+            const p = portfolioData.portfolio;
+            const corrMatrix = p.correlation_matrix;
             if (!corrMatrix || Object.keys(corrMatrix).length === 0) {
                 const table = document.getElementById('correlationTable');
                 if (table) table.style.display = 'none';
                 return;
             }
-
             const strategies = Object.keys(corrMatrix);
             const n = strategies.length;
             const cellSize = 'minmax(32px, 1fr)';
-            const gridTemplate = '120px ' + 'repeat(' + n + ', ' + cellSize + ')';
-
+            const gridTemplate = '120px repeat(' + n + ', ' + cellSize + ')';
             const wrapper = document.getElementById('corrHeatmap');
             if (!wrapper) return;
-
             let html = '<div class="corr-heatmap" style="grid-template-columns: ' + gridTemplate + ';">';
-
-            // Corner cell
             html += '<div class="corr-corner"></div>';
-
-            // Column headers
-            strategies.forEach(s => {
-                html += '<div class="corr-cell-header">' + s.replace(/_/g, ' ') + '</div>';
-            });
-
-            // Rows
-            strategies.forEach(rowStrat => {
-                // Row label
-                html += '<div class="corr-cell-label" title="' + rowStrat.replace(/_/g, ' ') + '">' + rowStrat.replace(/_/g, ' ') + '</div>';
-
-                strategies.forEach(colStrat => {
-                    const val = corrMatrix[rowStrat][colStrat];
+            strategies.forEach(s => { html += '<div class="corr-cell-header" title="' + s.replace(/_/g, ' ') + '">' + s.replace(/_/g, ' ') + '</div>'; });
+            strategies.forEach(row => {
+                html += '<div class="corr-cell-label" title="' + row.replace(/_/g, ' ') + '">' + row.replace(/_/g, ' ') + '</div>';
+                strategies.forEach(col => {
+                    const val = corrMatrix[row][col];
                     const absVal = Math.abs(val);
-                    let bgStyle;
-                    if (rowStrat === colStrat) {
-                        bgStyle = 'background: rgba(14, 165, 160, 0.25); color: #0ea5a0;';
-                    } else if (val >= 0.7) {
-                        bgStyle = 'background: rgba(220, 38, 38, ' + (0.15 + absVal * 0.25) + '); color: #fca5a5;';
-                    } else if (val <= -0.3) {
-                        bgStyle = 'background: rgba(22, 163, 74, ' + (0.1 + absVal * 0.2) + '); color: #86efac;';
-                    } else {
-                        bgStyle = 'background: rgba(255, 255, 255, ' + (0.02 + absVal * 0.06) + '); color: #8a8a9e;';
-                    }
-                    html += '<div class="corr-cell" style="' + bgStyle + '" title="' + rowStrat + ' vs ' + colStrat + ': ' + val.toFixed(2) + '">' + val.toFixed(2) + '</div>';
+                    let bg;
+                    if (row === col) bg = 'background:rgba(14,165,160,0.25);color:#0ea5a0;';
+                    else if (val >= 0.7) bg = 'background:rgba(220,38,38,' + (0.15 + absVal * 0.25) + ');color:#fca5a5;';
+                    else if (val <= -0.3) bg = 'background:rgba(22,163,74,' + (0.1 + absVal * 0.2) + ');color:#86efac;';
+                    else bg = 'background:rgba(255,255,255,' + (0.02 + absVal * 0.06) + ');color:#8a8a9e;';
+                    html += '<div class="corr-cell" style="' + bg + '" title="' + row + ' vs ' + col + ': ' + val.toFixed(2) + '">' + val.toFixed(2) + '</div>';
                 });
             });
-
             html += '</div>';
             wrapper.innerHTML = html;
 
-            // Also render the raw table (hidden in details)
             const headerRow = document.getElementById('corrHeader');
             const body = document.getElementById('corrBody');
             if (headerRow && body) {
                 headerRow.innerHTML = '<th>Strategy</th>';
-                strategies.forEach(s => {
-                    headerRow.innerHTML += '<th class="corr-header-cell"><span>' + s.replace(/_/g, ' ') + '</span></th>';
-                });
-
+                strategies.forEach(s => { headerRow.innerHTML += '<th class="corr-header-cell"><span>' + s.replace(/_/g, ' ') + '</span></th>'; });
                 body.innerHTML = '';
-                strategies.forEach(rowStrat => {
-                    let row = '<tr><td style="color: var(--text-secondary); font-weight: 600; font-size: 0.75rem;">' + rowStrat.replace(/_/g, ' ') + '</td>';
-                    strategies.forEach(colStrat => {
-                        const val = corrMatrix[rowStrat][colStrat];
+                strategies.forEach(row => {
+                    let r = '<tr><td style="color:var(--text-secondary);font-weight:600;font-size:0.75rem;">' + row.replace(/_/g, ' ') + '</td>';
+                    strategies.forEach(col => {
+                        const val = corrMatrix[row][col];
                         const absVal = Math.abs(val);
-                        let bgStyle;
-                        if (rowStrat === colStrat) {
-                            bgStyle = 'background: rgba(14, 165, 160, 0.15); color: #0ea5a0;';
-                        } else if (val >= 0.7) {
-                            bgStyle = 'background: rgba(220, 38, 38, ' + (absVal * 0.2) + '); color: #fca5a5;';
-                        } else if (val <= -0.3) {
-                            bgStyle = 'background: rgba(22, 163, 74, ' + (absVal * 0.15) + '); color: #86efac;';
-                        } else {
-                            bgStyle = 'background: rgba(255, 255, 255, ' + (absVal * 0.04) + '); color: #8a8a9e;';
-                        }
-                        row += '<td style="' + bgStyle + '">' + val.toFixed(2) + '</td>';
+                        let bg;
+                        if (row === col) bg = 'background:rgba(14,165,160,0.15);color:#0ea5a0;';
+                        else if (val >= 0.7) bg = 'background:rgba(220,38,38,' + (absVal * 0.2) + ');color:#fca5a5;';
+                        else if (val <= -0.3) bg = 'background:rgba(22,163,74,' + (absVal * 0.15) + ');color:#86efac;';
+                        else bg = 'background:rgba(255,255,255,' + (absVal * 0.04) + ');color:#8a8a9e;';
+                        r += '<td style="' + bg + '">' + val.toFixed(2) + '</td>';
                     });
-                    row += '</tr>';
-                    body.innerHTML += row;
+                    r += '</tr>';
+                    body.innerHTML += r;
                 });
             }
         }
 
-        // Journal pagination state
+        /* ═══ Trade Journal ═══ */
         let allTrades = [];
         let journalPage = 0;
-        const JOURNAL_PAGE_SIZE = 20;
+        const PAGE_SIZE = 50;
 
-        function renderJournal(trades) {
-            allTrades = trades.slice().reverse();
+        function renderJournal() {
+            if (!portfolioData.recent_trades || !portfolioData.recent_trades.length) {
+                document.getElementById('journalBody').innerHTML = '<tr><td colspan="9" style="text-align:center;color:var(--text-muted);">No trades recorded</td></tr>';
+                return;
+            }
+            allTrades = portfolioData.recent_trades.slice().reverse();
             journalPage = 0;
             renderJournalPage();
-
             const loadMoreBtn = document.getElementById('loadMoreBtn');
             if (loadMoreBtn) {
-                if (allTrades.length > JOURNAL_PAGE_SIZE) {
-                    loadMoreBtn.style.display = 'inline-flex';
-                    loadMoreBtn.onclick = () => {
-                        journalPage++;
-                        renderJournalPage();
-                        if ((journalPage + 1) * JOURNAL_PAGE_SIZE >= allTrades.length) {
-                            loadMoreBtn.style.display = 'none';
-                        }
-                    };
-                }
+                loadMoreBtn.style.display = allTrades.length > PAGE_SIZE ? 'inline-flex' : 'none';
+                loadMoreBtn.onclick = () => { journalPage++; renderJournalPage(); if ((journalPage + 1) * PAGE_SIZE >= allTrades.length) loadMoreBtn.style.display = 'none'; };
             }
             updateJournalCount();
         }
@@ -893,23 +1067,21 @@
         function renderJournalPage() {
             const tbody = document.getElementById('journalBody');
             if (!tbody) return;
-
-            const start = journalPage * JOURNAL_PAGE_SIZE;
-            const end = Math.min(start + JOURNAL_PAGE_SIZE, allTrades.length);
-            const pageTrades = allTrades.slice(start, end);
-
+            const start = journalPage * PAGE_SIZE;
+            const end = Math.min(start + PAGE_SIZE, allTrades.length);
+            const page = allTrades.slice(start, end);
             let html = '';
-            pageTrades.forEach(t => {
+            page.forEach((t, i) => {
                 html += '<tr>' +
-                    '<td class="text-mono">#' + t.ticket + '</td>' +
-                    '<td class="text-mono">' + t.entry_time + '</td>' +
-                    '<td class="text-mono">' + t.close_time + '</td>' +
-                    '<td style="font-weight: 600;">' + t.symbol + '</td>' +
+                    '<td class="text-mono">' + (start + i + 1) + '</td>' +
+                    '<td style="font-weight:600;">' + t.symbol + '</td>' +
                     '<td class="text-mono">' + t.strategy.replace(/_/g, ' ') + '</td>' +
                     '<td><span class="type-badge ' + t.type.toLowerCase() + '">' + t.type + '</span></td>' +
-                    '<td class="text-mono">' + t.lot_size.toFixed(2) + '</td>' +
+                    '<td class="text-mono">' + (t.lot_size || '0').toFixed(2) + '</td>' +
+                    '<td class="text-mono">' + (t.entry_time || '') + '</td>' +
+                    '<td class="text-mono">' + (t.close_time || '') + '</td>' +
                     '<td class="profit-cell ' + (t.profit >= 0 ? 'positive' : 'negative') + '">$' + t.profit.toFixed(2) + '</td>' +
-                    '<td class="text-mono" style="color: var(--text-muted);">' + t.reason + '</td>' +
+                    '<td class="text-mono" style="color:var(--text-muted);">' + (t.reason || '') + '</td>' +
                     '</tr>';
             });
             tbody.innerHTML += html;
@@ -917,10 +1089,10 @@
         }
 
         function updateJournalCount() {
-            const countEl = document.getElementById('journalCount');
-            if (countEl) {
-                const shown = Math.min((journalPage + 1) * JOURNAL_PAGE_SIZE, allTrades.length);
-                countEl.textContent = 'Showing ' + shown + ' of ' + allTrades.length + ' trades';
+            const el = document.getElementById('journalCount');
+            if (el) {
+                const shown = Math.min((journalPage + 1) * PAGE_SIZE, allTrades.length);
+                el.textContent = 'Showing ' + shown + ' of ' + allTrades.length + ' trades';
             }
         }
 
