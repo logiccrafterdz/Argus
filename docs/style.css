@@ -1133,26 +1133,21 @@ details summary {
 }
 
 /* ─── Maintenance Banner ─── */
-.maintenance-banner {
-  background: linear-gradient(135deg, #1a0a0a, #2a1515);
-  color: #f0b0b0;
+.release-banner {
+  background: linear-gradient(135deg, #0a1a0f, #152a1a);
+  color: #b0f0c0;
   text-align: center;
   padding: 12px 20px;
   font-size: 14px;
   font-weight: 500;
   letter-spacing: 0.3px;
-  border-bottom: 1px solid rgba(255, 80, 80, 0.15);
+  border-bottom: 1px solid rgba(80, 255, 120, 0.15);
   display: flex;
   align-items: center;
   justify-content: center;
   gap: 12px;
 }
-.maintenance-icon {
+.release-icon {
   display: inline-block;
-  animation: spin 3s linear infinite;
   font-size: 18px;
-}
-@keyframes spin {
-  from { transform: rotate(0deg); }
-  to { transform: rotate(360deg); }
 }

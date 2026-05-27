@@ -11,11 +11,11 @@
 </head>
 <body>
 
-    <!-- ═══ Maintenance Banner ═══ -->
-    <div class="maintenance-banner">
-        <span class="maintenance-icon">⚙</span>
-        Under Update — Backtest results reflect ongoing engine improvements. Portfolio metrics are being refined for accuracy.
-        <span class="maintenance-icon">⚙</span>
+    <!-- ═══ v2.0 Release Banner ═══ -->
+    <div class="release-banner">
+        <span class="release-icon">✓</span>
+        V2.0 — All 20 strategies individually optimized. Portfolio of 9 profitable strategies running live. Breakeven/partial close disabled — real risk management.
+        <span class="release-icon">✓</span>
     </div>
 
     <!-- ═══ Header ═══ -->
@@ -63,7 +63,7 @@
                     <strong>Instruments:</strong> 10 (Forex + Gold + Indices)
                 </div>
                 <div class="ribbon-item">
-                    <strong>Strategies:</strong> 20
+                    <strong>Strategies:</strong> 9
                 </div>
             </div>
         </div>
@@ -82,7 +82,7 @@
                     <h1 class="text-display">Institutional Algorithmic<br>Portfolio Intelligence</h1>
                     <p class="text-body">
                         Argus Panoptes is an orchestrated multi-strategy MT5 framework with centralized risk governance.
-                        20 strategies, unified under a single control layer with HWM circuit breakers, correlation filters, and regime-aware execution.
+                        20 individual strategies optimized, 9 profitable selected for the portfolio — unified under a single control layer with HWM circuit breakers, correlation filters, and regime-aware execution.
                     </p>
                     <div class="hero-actions">
                         <a href="#evidence" class="btn btn-primary">View Backtest Evidence</a>
@@ -98,7 +98,7 @@
                 <div class="section-header">
                     <div class="text-label">Portfolio Snapshot</div>
                     <h2 class="text-h2">Executive Performance Overview</h2>
-                    <p class="text-body">Key metrics from the full backtest period across all 20 strategies and 10 instruments.</p>
+                    <p class="text-body">Key metrics from the full backtest period across all 9 selected strategies and 10 instruments.</p>
                 </div>
                 <div class="kpi-grid" id="kpiGrid">
                     <!-- Populated by JS -->
@@ -115,7 +115,7 @@
                 <div class="section-header">
                     <div class="text-label">System Architecture</div>
                     <h2 class="text-h2">How Argus Works</h2>
-                    <p class="text-body">A centralized orchestrator coordinates 20 strategies through shared core services, enforcing risk governance at every level.</p>
+                    <p class="text-body">A centralized orchestrator coordinates 9 strategies through shared core services, enforcing risk governance at every level.</p>
                 </div>
                 <div class="arch-flow">
                     <div class="arch-node">
@@ -125,7 +125,7 @@
                     <div class="arch-arrow">→</div>
                     <div class="arch-node">
                         <h4>Strategy Layer</h4>
-                        <p>20 EAs across Trend, Breakout, Mean Reversion, SMC, Session, Divergence</p>
+                        <p>9 EAs across Trend, Breakout, Mean Reversion, SMC, Session, Divergence</p>
                     </div>
                     <div class="arch-arrow">→</div>
                     <div class="arch-node">
@@ -199,8 +199,8 @@
                         <div class="risk-card-header">
                             <h4>Break-Even + Partial Close</h4>
                         </div>
-                        <p>SL moves to entry at 1R profit. 50% position closes at 1.5R. Protects capital while letting winners run.</p>
-                        <span class="risk-badge">Active</span>
+                        <p>SL moves to entry at 1R profit. 50% position closes at 1.5R. Now disabled — pure TP/SL execution for cleaner strategy evaluation.</p>
+                        <span class="risk-badge">Disabled</span>
                     </div>
                 </div>
             </div>
@@ -249,7 +249,7 @@
             <div class="container">
                 <div class="section-header">
                     <div class="text-label">Strategy Intelligence</div>
-                    <h2 class="text-h2">20 Strategies — One Portfolio</h2>
+                    <h2 class="text-h2">9 Strategies — One Portfolio</h2>
                     <p class="text-body">Each strategy operates within its regime and session constraints, coordinated by the orchestrator.</p>
                 </div>
                 <div class="panel">
@@ -364,8 +364,8 @@
                         <div class="glossary-grid">
                             <div class="glossary-item"><span class="glossary-term">TP</span> Take Profit — target reached</div>
                             <div class="glossary-item"><span class="glossary-term">SL</span> Stop Loss — risk limit hit</div>
-                            <div class="glossary-item"><span class="glossary-term">Break-Even</span> SL moved to entry at 1R</div>
-                            <div class="glossary-item"><span class="glossary-term">Partial TP 1.5R</span> 50% closed at 1.5 risk-reward</div>
+                            <div class="glossary-item"><span class="glossary-term">Trailing</span> Trailing stop triggered</div>
+                            <div class="glossary-item"><span class="glossary-term">Manual</span> Manually closed by orchestrator</div>
                             <div class="glossary-item"><span class="glossary-term">Circuit Breaker</span> HWM drawdown limit triggered</div>
                         </div>
                     </div>
@@ -404,12 +404,12 @@
                         <h4>Risk Parameters</h4>
                         <div class="param-grid">
                             <div class="param-row"><span class="param-label">Initial Balance</span><span class="param-value">$100,000</span></div>
-                            <div class="param-row"><span class="param-label">Risk / Trade</span><span class="param-value">1% of equity</span></div>
+                            <div class="param-row"><span class="param-label">Risk / Trade</span><span class="param-value">0.2% of equity</span></div>
                             <div class="param-row"><span class="param-label">Max Exposure</span><span class="param-value">2 positions / symbol</span></div>
                             <div class="param-row"><span class="param-label">HWM Breaker</span><span class="param-value">3% daily / 8% weekly / 15% monthly</span></div>
                             <div class="param-row"><span class="param-label">Correlation</span><span class="param-value">Threshold 0.8</span></div>
-                            <div class="param-row"><span class="param-label">Break-Even</span><span class="param-value">Triggered at 1R</span></div>
-                            <div class="param-row"><span class="param-label">Partial Close</span><span class="param-value">50% at 1.5R</span></div>
+                            <div class="param-row"><span class="param-label">Break-Even</span><span class="param-value">Disabled</span></div>
+                            <div class="param-row"><span class="param-label">Partial Close</span><span class="param-value">Disabled</span></div>
                         </div>
                     </div>
                 </div>
