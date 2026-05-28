@@ -46,17 +46,17 @@ class ORBSession(BaseStrategy):
             sl = np.nan
             tp = np.nan
             
-            if not in_orb and not traded_today and not np.isnan(orb_high):
-                close = df['close'].iloc[i]
+            if not in_orb and not traded_today and not np.isnan(orb_high) and i > 0:
+                close = df['close'].iloc[i-1]
                 if close > orb_high:
                     signal = 1
-                    sl = close - self._atr_buf(df, i, 2.0)
-                    tp = close + self._atr_buf(df, i, 4.0)
+                    sl = close - self._atr_buf(df, i-1, 2.0)
+                    tp = close + self._atr_buf(df, i-1, 4.0)
                     traded_today = True
                 elif close < orb_low:
                     signal = -1
-                    sl = close + self._atr_buf(df, i, 2.0)
-                    tp = close - self._atr_buf(df, i, 4.0)
+                    sl = close + self._atr_buf(df, i-1, 2.0)
+                    tp = close - self._atr_buf(df, i-1, 4.0)
                     traded_today = True
                     
             signals.append(signal)
