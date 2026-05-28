@@ -14,6 +14,9 @@ class SRBreakoutRetest(BaseStrategy):
             session_mask=7
         )
         self.lookback = 50
+        self.sl_atr = 2.0
+        self.tp_atr = 14.0
+        self.entry_buffer = 0.0
         self.disable_breakeven = True
 
     def prepare_data(self, df):
@@ -28,6 +31,8 @@ class SRBreakoutRetest(BaseStrategy):
         
         for i in range(start_idx, len(df)):
             close1 = df['close'].iloc[i-1]
+            open1 = df['open'].iloc[i-1]
+
             
             recent_high = df['high'].iloc[i-self.lookback:i-1].max()
             recent_low = df['low'].iloc[i-self.lookback:i-1].min()
@@ -38,15 +43,15 @@ class SRBreakoutRetest(BaseStrategy):
             
             ema200 = df['ema200'].iloc[i-1]
             
-            # Breakout: price closed above recent high, confirm above EMA200
-            if close1 > recent_high and not np.isnan(ema200) and close1 > ema200:
+            # Breakout: price closed above recent high, confirm above EMA200, require directional candle
+            if close1 > recent_high + self.entry_buffer and not np.isnan(ema200) and close1 > ema200 and close1 > open1:
                 signal = 1
-                sl = close1 - self._atr_buf(df, i-1, 2.0)
-                tp = close1 + self._atr_buf(df, i-1, 14.0)
-            elif close1 < recent_low and not np.isnan(ema200) and close1 < ema200:
+                sl = close1 - self._atr_buf(df, i-1, self.sl_atr)
+                tp = close1 + self._atr_buf(df, i-1, self.tp_atr)
+            elif close1 < recent_low - self.entry_buffer and not np.isnan(ema200) and close1 < ema200 and close1 < open1:
                 signal = -1
-                sl = close1 + self._atr_buf(df, i-1, 2.0)
-                tp = close1 - self._atr_buf(df, i-1, 14.0)
+                sl = close1 + self._atr_buf(df, i-1, self.sl_atr)
+                tp = close1 - self._atr_buf(df, i-1, self.tp_atr)
                 
             signals.append(signal)
             sl_prices.append(sl)
