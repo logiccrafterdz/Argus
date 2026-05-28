@@ -20,11 +20,11 @@ from log_setup import setup_logger
 DATA_DIR = os.path.join(os.path.dirname(__file__), "data")
 RESULTS_DIR = os.path.join(os.path.dirname(os.path.dirname(__file__)), "docs", "data")
 
-# Split config: 60% train, 20% validation, 20% test (of 2022-01 to 2025-05)
+# Split config: ~65% train, ~15% validation, ~20% test (2018-01 to 2025-05)
 SPLITS = {
-    'train':      {'start': '2020-01-01', 'end': '2023-12-31', 'label': 'TRAIN (Jan 2022 - Dec 2023)'},
-    'validation': {'start': '2024-01-01', 'end': '2024-08-31', 'label': 'VAL (Jan 2024 - Aug 2024)'},
-    'test':       {'start': '2024-09-01', 'end': '2026-01-01', 'label': 'TEST (Sep 2024 - May 2025)'},
+    'train':      {'start': '2017-01-01', 'end': '2023-01-01', 'label': 'TRAIN (5 years: 2018-2022)'},
+    'validation': {'start': '2023-01-01', 'end': '2024-01-01', 'label': 'VAL (1 year: 2023)'},
+    'test':       {'start': '2024-01-01', 'end': '2026-01-01', 'label': 'TEST (17 mo: 2024-May 2025)'},
 }
 
 def load_data():

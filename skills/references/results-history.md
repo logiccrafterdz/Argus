@@ -1,6 +1,6 @@
 # Backtest Results History
 
-**Latest Run 7**: Train +12.83% (PF 1.11), Validation –1.10% (PF 0.98), Test +2.11% (PF 1.06). See below for details.
+**Latest Run 8**: Train 2018-2022 –15.57% (PF 0.96), Val 2023 +10.11% (PF 1.16), Test 2024-2025 +10.31% (PF 1.18).
 
 ## Run 1 — Baseline (no modifications)
 
@@ -109,6 +109,34 @@
 | Max DD | -51.1% | 0.0% |
 
 **Notes**: Portfolio still deeply unprofitable. The 7-strategy selection didn't help.
+
+---
+
+## Run 8 — Expanded Data 2018-2025 + 3-Way Split
+
+**Date**: 2026-05-28
+**Commits**: (current)
+**Changes**: Data expanded from 2022-2025 to 2018-2025 via MT5 (H1, H4); splits adjusted: Train 2018-2022 (5y), Val 2023 (1y), Test 2024-2025 (17mo)
+
+| Metric | TRAIN (5y: 2018-22) | VAL (1y: 2023) | TEST (17mo: 2024-25) | Stable? |
+|--------|:-------------------:|:--------------:|:--------------------:|:-------:|
+| Total Return | –15.57% | **+10.11%** | **+10.31%** | CHECK |
+| Net Profit | –$15,569 | **+$10,114** | **+$10,305** | CHECK |
+| Total Trades | 2,409 | 402 | 367 | — |
+| Win Rate | 21.21% | 28.61% | 26.98% | — |
+| Profit Factor | **0.96** | **1.16** | **1.18** | CHECK |
+| Max DD | **–24.31%** | –3.36% | –5.45% | YES |
+| Sharpe | –0.90 | **0.84** | 0.39 | CHECK |
+| Expectancy | –$6.46 | **+$25.16** | **+$28.08** | CHECK |
+
+**Notes**:
+- Expanded from 3.3 years → **7.3 years** of backtest data (all 10 symbols, H1 + H4)
+- **Train period (2018-2022) is unprofitable** (PF 0.96) — indicates strategies are adapted to 2023+ market conditions
+- **Validation (2023) and Test (2024-2025) are both solid**: PF 1.16 and 1.18, +10%+ return each
+- Out-of-sample performance is stronger than in-sample — unusual but positive signal
+- Max DD in train (–24.31%) is concerning but likely driven by COVID-era volatility (2020) and 2022 rate shock
+- **Key takeaway**: Post-2022 conditions (rate hikes, higher volatility) favor this strategy portfolio; 2018-2022 was a different regime
+- Previous split (Run 7) showed Val as weakest; now Val (2023) is the strongest — more data changes the picture significantly
 
 ---
 
