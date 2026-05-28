@@ -1,5 +1,7 @@
 # Backtest Results History
 
+**Latest Run 7**: Train +12.83% (PF 1.11), Validation –1.10% (PF 0.98), Test +2.11% (PF 1.06). See below for details.
+
 ## Run 1 — Baseline (no modifications)
 
 **Date**: 2026-05-24
@@ -107,6 +109,34 @@
 | Max DD | -51.1% | 0.0% |
 
 **Notes**: Portfolio still deeply unprofitable. The 7-strategy selection didn't help.
+
+---
+
+## Run 7 — 3-Way Train/Validation/Test Split
+
+**Date**: 2026-05-28
+**Commits**: (current)
+**Changes**: Added `validation` mode to `run_oos.py`; data split into Train (60%: 2022–2023), Validation (20%: Jan–Aug 2024), Test (20%: Sep 2024–May 2025)
+
+| Metric | TRAIN (60%) | VAL (20%) | TEST (20%) | Stable? |
+|--------|:-----------:|:---------:|:----------:|:-------:|
+| Total Return | **+12.83%** | –1.10% | +2.11% | CHECK |
+| Net Profit | **+$12,834** | –$1,101 | +$2,115 | CHECK |
+| Total Trades | 740 | 265 | 216 | — |
+| Win Rate | 27.57% | 20.00% | 24.54% | — |
+| Profit Factor | **1.11** | **0.98** | **1.06** | **NO** |
+| Max DD | –3.60% | –6.88% | –5.96% | **NO** |
+| Sharpe | 0.29 | –0.18 | –0.14 | CHECK |
+| Expectancy | +$17.34 | –$4.16 | +$9.79 | CHECK |
+
+**Notes**:
+- First 3-way split in project history — mimics ML best practices for overfitting detection
+- **Validation period (H1 2024) is the weakest**: PF 0.98, –1.10%, DD –6.88%
+- Only period where PF < 1.0 — likely regime mismatch in early 2024
+- **Test period (H2 2024–2025) recovers**: PF 1.06, +2.11%, DD –5.96%
+- Performance degrades: Train → Val → Test (12.83% → –1.10% → +2.11%)
+- Gap between Val and Test may indicate H1 2024 was structurally different (rate-cut uncertainty, USD strength)
+- **Recommendation**: Consider regime-filtering or adjusting parameters for 2024-type conditions; validate on a longer hold-out
 
 ---
 

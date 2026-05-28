@@ -20,6 +20,13 @@ from log_setup import setup_logger
 DATA_DIR = os.path.join(os.path.dirname(__file__), "data")
 RESULTS_DIR = os.path.join(os.path.dirname(os.path.dirname(__file__)), "docs", "data")
 
+# Split config: 60% train, 20% validation, 20% test (of 2022-01 to 2025-05)
+SPLITS = {
+    'train':      {'start': '2020-01-01', 'end': '2023-12-31', 'label': 'TRAIN (Jan 2022 - Dec 2023)'},
+    'validation': {'start': '2024-01-01', 'end': '2024-08-31', 'label': 'VAL (Jan 2024 - Aug 2024)'},
+    'test':       {'start': '2024-09-01', 'end': '2026-01-01', 'label': 'TEST (Sep 2024 - May 2025)'},
+}
+
 def load_data():
     symbols_data = {}
     for filename in os.listdir(DATA_DIR):
@@ -33,8 +40,13 @@ def load_data():
             symbols_data[symbol][tf] = df
     return symbols_data
 
+def filter_by_period(df, mode):
+    s = SPLITS[mode]
+    return df[(df.index >= s['start']) & (df.index < s['end'])].copy()
+
 def run_oos(mode):
     logger = setup_logger('oos_' + mode)
+    s = SPLITS[mode]
     config = load_config()
     if config is None:
         config = create_default_config()
@@ -76,14 +88,8 @@ def run_oos(mode):
             master_timeline = master_timeline.combine_first(idx)
 
     master_timeline = master_timeline.sort_index()
-
-    # Split by period
-    if mode == 'train':
-        master_timeline = master_timeline[master_timeline.index < '2024-01-01']
-        logger.info("TRAIN period: Jan 2022 - Dec 2023")
-    else:
-        master_timeline = master_timeline[master_timeline.index >= '2024-01-01']
-        logger.info("TEST period: Jan 2024 - May 2025")
+    master_timeline = filter_by_period(master_timeline.to_frame(), mode)
+    logger.info(f"{s['label']} — {len(master_timeline)} bars")
 
     logger.info("Pre-calculating strategy signals...")
     precalc_data = {}
@@ -102,11 +108,7 @@ def run_oos(mode):
                 df.reset_index(inplace=True)
                 df = strat.prepare_data(df)
                 df.set_index('time', inplace=True)
-                # Filter to same period
-                if mode == 'train':
-                    df = df[df.index < '2024-01-01']
-                else:
-                    df = df[df.index >= '2024-01-01']
+                df = filter_by_period(df, mode)
                 if tf not in precalc_data[symbol]:
                     precalc_data[symbol][tf] = {}
                 precalc_data[symbol][tf][strat.name] = df
@@ -115,11 +117,7 @@ def run_oos(mode):
     regimes_dict = {}
     for sym in data.keys():
         if 'H4' in data[sym]:
-            h4_df = data[sym]['H4']
-            if mode == 'train':
-                h4_df = h4_df[h4_df.index < '2024-01-01']
-            else:
-                h4_df = h4_df[h4_df.index >= '2024-01-01']
+            h4_df = filter_by_period(data[sym]['H4'], mode)
             if len(h4_df) < 20:
                 regimes_dict[sym] = {}
                 continue
@@ -127,11 +125,7 @@ def run_oos(mode):
             m_regime = MarketRegime(d1_df)
             regimes_dict[sym] = m_regime.to_dict()
         elif 'H1' in data[sym]:
-            h1_df = data[sym]['H1']
-            if mode == 'train':
-                h1_df = h1_df[h1_df.index < '2024-01-01']
-            else:
-                h1_df = h1_df[h1_df.index >= '2024-01-01']
+            h1_df = filter_by_period(data[sym]['H1'], mode)
             if len(h1_df) < 20:
                 regimes_dict[sym] = {}
                 continue
@@ -146,11 +140,7 @@ def run_oos(mode):
     h1_closes = {}
     for sym in all_symbols:
         if 'H1' in data[sym]:
-            h1_df = data[sym]['H1']
-            if mode == 'train':
-                h1_df = h1_df[h1_df.index < '2024-01-01']
-            else:
-                h1_df = h1_df[h1_df.index >= '2024-01-01']
+            h1_df = filter_by_period(data[sym]['H1'], mode)
             h1_closes[sym] = h1_df['close']
     corr_df = pd.DataFrame(h1_closes)
     corr_matrix = corr_df.corr()
@@ -161,11 +151,7 @@ def run_oos(mode):
     for symbol, tfs in data.items():
         dict_data[symbol] = {}
         for tf_name, df in tfs.items():
-            if mode == 'train':
-                df = df[df.index < '2024-01-01']
-            else:
-                df = df[df.index >= '2024-01-01']
-            dict_data[symbol][tf_name] = df.to_dict('index')
+            dict_data[symbol][tf_name] = filter_by_period(df, mode).to_dict('index')
 
     logger.info("Converting strategy precalculated data to fast dict lookups...")
     dict_precalc = {}
@@ -277,35 +263,45 @@ def run_oos(mode):
 
     logger.info(f"Results saved to {out_path}")
     logger.info(f"OOS {mode} metrics: {port_metrics}")
-    print(f"\n========== OOS {mode.upper()} ==========")
-    print(f"Return: {port_metrics.get('total_return', 'N/A'):>7.2f}%")
-    print(f"Net Profit: ${port_metrics.get('net_profit', 0):>8.2f}")
-    print(f"Trades: {port_metrics.get('total_trades', 0)}")
-    print(f"Win Rate: {port_metrics.get('win_rate', 0):.2f}%")
-    print(f"Profit Factor: {port_metrics.get('profit_factor', 0):.2f}")
-    print(f"Max DD: {port_metrics.get('max_drawdown', 0):.2f}%")
-    print(f"Sharpe: {port_metrics.get('sharpe_ratio', 0):.2f}")
-    print(f"Expectancy: ${port_metrics.get('expectancy', 0):.2f}")
+    print(f"\n========== OOS {mode.upper()} ({s['label']}) ==========")
+    print(f"Return:       {port_metrics.get('total_return', 'N/A'):>7.2f}%")
+    print(f"Net Profit:   ${port_metrics.get('net_profit', 0):>8.2f}")
+    print(f"Trades:       {port_metrics.get('total_trades', 0)}")
+    print(f"Win Rate:     {port_metrics.get('win_rate', 0):.2f}%")
+    print(f"Profit Factor:{port_metrics.get('profit_factor', 0):.2f}")
+    print(f"Max DD:       {port_metrics.get('max_drawdown', 0):.2f}%")
+    print(f"Sharpe:       {port_metrics.get('sharpe_ratio', 0):.2f}")
+    print(f"Expectancy:   ${port_metrics.get('expectancy', 0):.2f}")
     print(f"====================================\n")
 
     return port_metrics
 
+def fmt_val(k, v):
+    if k in ('net_profit', 'expectancy'):
+        return f"${v:>8.2f}"
+    if k in ('total_return', 'win_rate', 'max_drawdown'):
+        return f"{v:>7.2f}%"
+    return f"{v:>8.2f}"
+
 if __name__ == "__main__":
     mode = sys.argv[1] if len(sys.argv) > 1 else 'all'
     if mode == 'all':
-        train_metrics = run_oos('train')
-        test_metrics = run_oos('test')
-        print("\n\n========== OOS COMPARISON ==========")
-        print(f"{'Metric':<20} {'TRAIN (2022-2023)':<20} {'TEST (2024-2025)':<20}")
-        print("-" * 60)
-        for k in ['total_return', 'net_profit', 'total_trades', 'win_rate', 'profit_factor', 'max_drawdown', 'sharpe_ratio', 'expectancy']:
-            tv = train_metrics.get(k, 0)
-            tsv = test_metrics.get(k, 0)
-            if k in ('net_profit', 'expectancy'):
-                print(f"{k:<20} ${tv:<10.2f}        ${tsv:<10.2f}")
-            elif k in ('total_return', 'win_rate', 'max_drawdown'):
-                print(f"{k:<20} {tv:<10.2f}%        {tsv:<10.2f}%")
-            else:
-                print(f"{k:<20} {tv:<20.2f} {tsv:<20.2f}")
+        modes = ['train', 'validation', 'test']
+        results = {m: run_oos(m) for m in modes}
+        print("\n\n========== 3-WAY SPLIT COMPARISON ==========")
+        print(f"{'Metric':<20} {'TRAIN (60%)':<20} {'VAL (20%)':<20} {'TEST (20%)':<20} {'STABLE?':<10}")
+        print("-" * 90)
+        keys = ['total_return', 'net_profit', 'total_trades', 'win_rate', 'profit_factor', 'max_drawdown', 'sharpe_ratio', 'expectancy']
+        for k in keys:
+            tv = results['train'].get(k, 0)
+            vv = results['validation'].get(k, 0)
+            tsv = results['test'].get(k, 0)
+            vals = [results[m].get(k, 0) for m in modes]
+            stable = "YES" if all(v > 0 for v in vals[:2]) and abs(vals[1] - vals[2]) / max(abs(vals[2]), 0.01) < 0.5 else "CHECK"
+            if k == 'max_drawdown':
+                stable = "YES" if max(vals) < -3 else "CHECK"
+            if k == 'profit_factor':
+                stable = "YES" if all(v > 1.0 for v in vals) else "NO" if any(v < 1.0 for v in vals) else "CHECK"
+            print(f"{k:<20} {fmt_val(k, tv):<20} {fmt_val(k, vv):<20} {fmt_val(k, tsv):<20} {stable:<10}")
     else:
         run_oos(mode)
