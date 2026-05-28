@@ -113,6 +113,53 @@ Record every parameter change: what, why, and what happened.
 
 ---
 
-## Batch 4 — TBD (Portfolio-level changes)
+## Batch 4 — Portfolio-Level Changes (Deferred)
 
-Next changes should focus on portfolio-level risk, not individual strategies.
+Not yet attempted. Individual strategy improvements took priority.
+
+---
+
+## Batch 5 — Individual Strategy Improvements (May 2026)
+
+4 strategies modified independently, tested single-strategy, then reverted from portfolio.
+
+### SR_Breakout_Retest (e53ab8f)
+- **Added**: Candle body confirmation filter (close > open for longs, close < open for shorts)
+- **Added**: Configurable params: lookback, sl_atr, tp_atr, entry_buffer
+- **Why**: Was zero-trade strategy. Candle filter ensures trend confirmation on entry bar.
+- **Single result**: PF 1.023, +4.10%, DD -21.8%
+- **Verdict**: Profitable individually but not added to portfolio (too high DD)
+
+### VWAP_MultiBand_Regime (d07d57c)
+- **Added**: EMA200 trend filter (long only above EMA200, short only below)
+- **TP**: Increased to 20 ATR from 2.0x
+- **Why**: Was losing -$3,763 in prior runs. EMA200 prevents trend-fading in strong trends.
+- **Single result**: PF 1.089, +7.79%, DD -13.9%
+- **Verdict**: Profitable individually but not added to portfolio (high DD, portfolio interaction)
+
+### Liquidity_Sweep_Breakout (022db8c)
+- **Removed**: MSB (Market Structure Break) condition
+- **TP**: Increased to 18 ATR from 2.0x
+- **Why**: MSB was too restrictive, preventing trades. Wider TP for better R:R.
+- **Single result**: PF 1.045, +3.50%, DD -12.5%
+- **Verdict**: Removing MSB was positive. Not added to portfolio due to interaction effects.
+
+### ICT_Killzone_Macro (7584207)
+- **Killzone**: Shifted from 8-11 UTC (multiple sessions) to pure London session (7-9 UTC)
+- **TP**: Increased to 16 ATR from 2.0x
+- **Why**: Was over-trading across sessions. Focus on London only for higher-probability setups.
+- **Single result**: PF 1.300, +11.60%, DD -4.85%
+- **Verdict**: Best single improvement. Not added to portfolio — kills diversification.
+
+### Portfolio Integration Test (reverted)
+- **Test**: Added all 4 improved strategies to portfolio with original 7
+- **Result**: Portfolio PF dropped from 1.17 to 0.98, -5.25% return
+- **Conclusion**: Improved strategies don't improve portfolio. Each adds unique DD periods.
+- **Action**: Reverted to original 7 strategies. Portfolio remains at PF 1.17, +29.60%.
+
+### Key Learnings
+1. **EMA200 filter**: Good for mean-reversion strategies (VWAP), bad for breakout strategies (LIQ)
+2. **TP=16-20 ATR**: Effective for low-win-rate strategies, too wide for high-win-rate strategies
+3. **Removing MSB**: Positive for LIQ but increased trade frequency too much for portfolio context
+4. **Single-strategy improvement != portfolio improvement**: Always validate in portfolio context
+5. **Candle body filter**: Simple and effective for trend confirmation without complex indicators

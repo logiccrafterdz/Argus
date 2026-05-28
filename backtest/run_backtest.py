@@ -300,8 +300,36 @@ def run_backtest():
             
         with open(os.path.join(abs_results_dir, 'results.json'), 'w') as f:
             json.dump(results, f, indent=4, cls=NumpyEncoder)
-            
         logger.info(f"Results saved to {os.path.join(abs_results_dir, 'results.json')}")
+
+        # Generate run_manifest.json
+        import subprocess
+        try:
+            commit = subprocess.run(["git", "rev-parse", "--short", "HEAD"], capture_output=True, text=True).stdout.strip()
+        except:
+            commit = "unknown"
+        try:
+            diff = subprocess.run(["git", "diff", "--stat"], capture_output=True, text=True).stdout.strip()[:300]
+        except:
+            diff = ""
+
+        data_start = master_timeline.index[0].strftime('%Y-%m-%d') if len(master_timeline) > 0 else "unknown"
+        data_end = master_timeline.index[-1].strftime('%Y-%m-%d') if len(master_timeline) > 0 else "unknown"
+
+        manifest = {
+            "run_id": len(os.listdir(abs_results_dir)) if os.path.exists(abs_results_dir) else 0,
+            "date": pd.Timestamp.now().strftime('%Y-%m-%d %H:%M'),
+            "commit": commit,
+            "changes": diff,
+            "data_range": {"start": data_start, "end": data_end},
+            "n_strategies": len(strategies),
+            "active_strategies": [s.name for s in strategies],
+            "portfolio": port_metrics,
+            "strategies": strat_metrics,
+        }
+        with open(os.path.join(abs_results_dir, 'run_manifest.json'), 'w') as f:
+            json.dump(manifest, f, indent=2, cls=NumpyEncoder)
+        logger.info(f"Run manifest saved to {os.path.join(abs_results_dir, 'run_manifest.json')}")
     except Exception as e:
         logger.error(f"FAILED TO SAVE JSON: {e}")
         
