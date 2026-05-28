@@ -14,11 +14,14 @@ class LiquiditySweepBreakout(BaseStrategy):
             session_mask=7
         )
         self.lookback = 50
+        self.sl_atr = 2.0
+        self.tp_atr = 12.0
+        self.msb_lookback = 10
         self.disable_breakeven = True
         
     def prepare_data(self, df):
         # Precompute swing arrays once
-        swing_highs, swing_lows = precompute_swings(df)
+        swing_highs, swing_lows =         precompute_swings(df)
         self._add_atr_col(df)
         
         signals = []
@@ -37,21 +40,15 @@ class LiquiditySweepBreakout(BaseStrategy):
             tp = np.nan
             
             if not np.isnan(liq_low) and df['low'].iloc[i-2] < liq_low and close1 > liq_low:
-                # Swept liquidity and closed back above, now check MSB (Market Structure Break)
-                # Simple MSB: close > recent swing high
-                recent_high = df['high'].iloc[i-10:i-1].max()
-                if close1 > recent_high:
-                    signal = 1
-                    sl = close1 - self._atr_buf(df, i-1, 2.0)
-                    tp = close1 + self._atr_buf(df, i-1, 12.0)
-                    traded_today = True
+                # Swept liquidity and closed back above
+                signal = 1
+                sl = close1 - self._atr_buf(df, i-1, self.sl_atr)
+                tp = close1 + self._atr_buf(df, i-1, self.tp_atr)
                     
             elif not np.isnan(liq_high) and df['high'].iloc[i-2] > liq_high and close1 < liq_high:
-                recent_low = df['low'].iloc[i-10:i-1].min()
-                if close1 < recent_low:
-                    signal = -1
-                    sl = close1 + self._atr_buf(df, i-1, 2.0)
-                    tp = close1 - self._atr_buf(df, i-1, 12.0)
+                signal = -1
+                sl = close1 + self._atr_buf(df, i-1, self.sl_atr)
+                tp = close1 - self._atr_buf(df, i-1, self.tp_atr)
                     
             signals.append(signal)
             sl_prices.append(sl)
