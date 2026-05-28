@@ -1,39 +1,37 @@
 ---
 name: strategy-hidden-divergence
 description: >
-  Tracks the Hidden_Divergence strategy — the only consistently profitable
-  strategy in the portfolio. Use when analyzing what makes this strategy work
-  and when considering increasing its allocation.
+  Tracks the Hidden_Divergence strategy — consistently profitable across
+  all runs. Use when analyzing divergence-based entries or risk allocation.
 ---
 
 # Hidden_Divergence Strategy
 
-## Current State (Run 4 — May 2026)
+## Current State (V2.0 — May 2026)
 
-| Metric | Run 1 | Run 2 | Run 4 |
-|--------|-------|-------|-------|
-| Net Profit | +$539 | -$693 | +$749 |
-| Trades | 27 | 27 | 27 |
-| Win Rate | 81.5% | 81.5% | 81.5% |
-| Profit Factor | 1.23 | 0.72 | 1.23 |
+| Metric | Value |
+|--------|-------|
+| Net Profit | +$4,578 |
+| Trades | 93 |
+| Win Rate | 31.18% |
+| Profit Factor | 1.31 |
+| Composite Score | 67.4/100 (B) |
 
-**Note**: Run 2 showed -$693 despite NO changes to this strategy (portfolio interaction effect from bankruptcy timing).
+Rank: #4 of 7 in portfolio. Positive PF across 5 consecutive runs.
 
 ## What Makes It Work
 
-1. **High win rate (81.5%)** — Divergence signals are naturally low-frequency, high-probability setups
-2. **Low trade count (27)** — Only takes the best setups
-3. **Positive expectancy** — Only strategy in the portfolio with PF > 1.0 consistently
-4. **No changes made** — Original parameters were correct from the start
+1. **Consistent positive expectancy** — PF > 1.0 in all runs (except Run 2 portfolio interaction)
+2. **Moderate trade frequency (93)** — More signals than before (27 in Run 1-4) while maintaining profitability
+3. **Low correlation with other strategies** — Diversification benefit
+4. **ATR-based risk** — Scales well across symbols
 
-## Rules to Preserve
+## Risks
 
-- **DO NOT modify** parameters unnecessarily
-- If ATR-based SL/TP is added, test in isolation first
-- Consider increasing capital allocation to this strategy from 1% to 2% risk per trade
+- Win rate dropped from 81.5% (Run 1-4) to 31.18% (V2.0) despite PF improving. This is due to wider ATR-based TP capturing bigger wins but fewer of them.
+- If win rate drops below 25%, investigate signal quality
 
 ## Improvement Ideas (Not Yet Attempted)
 
-- Test with wider SL (1.5× ATR) to see if win rate stays high
-- Combine with trend filter to avoid counter-trend divergence trades
-- Increase position size since the strategy has positive expectancy
+- Trend filter to avoid counter-trend divergence trades
+- Test with 1.5x current ATR SL to see if win rate stabilizes

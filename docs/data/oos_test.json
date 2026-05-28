@@ -1,38 +1,38 @@
 {
     "mode": "test",
     "portfolio": {
-        "total_return": 10.27,
-        "net_profit": 10265.46,
+        "total_return": 10.28,
+        "net_profit": 10277.63,
         "total_trades": 367,
         "win_rate": 26.98,
         "profit_factor": 1.18,
-        "max_drawdown": -5.44,
+        "max_drawdown": -5.47,
         "max_dd_duration": 83,
         "sharpe_ratio": 0.38,
         "sortino_ratio": 0.54,
         "calmar_ratio": 1.35,
-        "annualized_return": 7.29,
-        "recovery_factor": 1.89,
-        "expectancy": 27.97,
-        "avg_win": 677.74,
-        "avg_loss": -212.06,
+        "annualized_return": 7.3,
+        "recovery_factor": 1.88,
+        "expectancy": 28.0,
+        "avg_win": 677.8,
+        "avg_loss": -212.03,
         "monthly_returns": {
             "2024-01": -1.36,
-            "2024-02": -0.58,
+            "2024-02": -0.59,
             "2024-03": 0.77,
-            "2024-04": -0.33,
+            "2024-04": -0.34,
             "2024-05": 2.73,
             "2024-06": 3.09,
             "2024-07": -1.36,
-            "2024-08": 1.84,
+            "2024-08": 1.85,
             "2024-09": -1.07,
             "2024-10": 2.72,
-            "2024-11": -2.65,
-            "2024-12": 0.73,
+            "2024-11": -2.66,
+            "2024-12": 0.71,
             "2025-01": 1.12,
-            "2025-02": 3.4,
-            "2025-03": -1.21,
-            "2025-04": 2.14,
+            "2025-02": 3.41,
+            "2025-03": -1.19,
+            "2025-04": 2.13,
             "2025-05": 0.23
         },
         "drawdown_curve": [
@@ -46,7 +46,7 @@
             },
             {
                 "date": "2024-01-03",
-                "drawdown": -0.08
+                "drawdown": -0.07
             },
             {
                 "date": "2024-01-04",
@@ -58,7 +58,7 @@
             },
             {
                 "date": "2024-01-08",
-                "drawdown": -1.04
+                "drawdown": -1.03
             },
             {
                 "date": "2024-01-09",
@@ -74,7 +74,7 @@
             },
             {
                 "date": "2024-01-12",
-                "drawdown": -1.4
+                "drawdown": -1.39
             },
             {
                 "date": "2024-01-15",
@@ -86,11 +86,11 @@
             },
             {
                 "date": "2024-01-17",
-                "drawdown": -1.05
+                "drawdown": -1.04
             },
             {
                 "date": "2024-01-18",
-                "drawdown": -0.55
+                "drawdown": -0.54
             },
             {
                 "date": "2024-01-19",
@@ -114,11 +114,11 @@
             },
             {
                 "date": "2024-01-26",
-                "drawdown": -2.04
+                "drawdown": -2.03
             },
             {
                 "date": "2024-01-29",
-                "drawdown": -2.01
+                "drawdown": -2.0
             },
             {
                 "date": "2024-01-30",
@@ -162,7 +162,7 @@
             },
             {
                 "date": "2024-02-13",
-                "drawdown": -2.65
+                "drawdown": -2.66
             },
             {
                 "date": "2024-02-14",
@@ -194,27 +194,27 @@
             },
             {
                 "date": "2024-02-23",
-                "drawdown": -2.08
+                "drawdown": -2.09
             },
             {
                 "date": "2024-02-26",
-                "drawdown": -1.96
+                "drawdown": -1.97
             },
             {
                 "date": "2024-02-27",
-                "drawdown": -2.22
+                "drawdown": -2.23
             },
             {
                 "date": "2024-02-28",
-                "drawdown": -2.13
+                "drawdown": -2.14
             },
             {
                 "date": "2024-02-29",
-                "drawdown": -2.39
+                "drawdown": -2.4
             },
             {
                 "date": "2024-03-01",
-                "drawdown": -2.34
+                "drawdown": -2.35
             },
             {
                 "date": "2024-03-04",
@@ -222,67 +222,67 @@
             },
             {
                 "date": "2024-03-05",
-                "drawdown": -2.77
+                "drawdown": -2.78
             },
             {
                 "date": "2024-03-06",
-                "drawdown": -2.59
+                "drawdown": -2.6
             },
             {
                 "date": "2024-03-07",
-                "drawdown": -2.39
+                "drawdown": -2.4
             },
             {
                 "date": "2024-03-08",
-                "drawdown": -1.66
+                "drawdown": -1.67
             },
             {
                 "date": "2024-03-11",
-                "drawdown": -2.1
+                "drawdown": -2.11
             },
             {
                 "date": "2024-03-12",
-                "drawdown": -2.25
+                "drawdown": -2.26
             },
             {
                 "date": "2024-03-13",
-                "drawdown": -2.67
+                "drawdown": -2.68
             },
             {
                 "date": "2024-03-14",
-                "drawdown": -2.65
+                "drawdown": -2.66
             },
             {
                 "date": "2024-03-15",
-                "drawdown": -2.54
+                "drawdown": -2.55
             },
             {
                 "date": "2024-03-18",
-                "drawdown": -2.53
+                "drawdown": -2.55
             },
             {
                 "date": "2024-03-19",
-                "drawdown": -2.52
+                "drawdown": -2.53
             },
             {
                 "date": "2024-03-20",
-                "drawdown": -1.93
+                "drawdown": -1.94
             },
             {
                 "date": "2024-03-21",
-                "drawdown": -2.22
+                "drawdown": -2.23
             },
             {
                 "date": "2024-03-22",
-                "drawdown": -1.73
+                "drawdown": -1.75
             },
             {
                 "date": "2024-03-25",
-                "drawdown": -1.87
+                "drawdown": -1.88
             },
             {
                 "date": "2024-03-26",
-                "drawdown": -1.89
+                "drawdown": -1.9
             },
             {
                 "date": "2024-03-27",
@@ -294,11 +294,11 @@
             },
             {
                 "date": "2024-03-29",
-                "drawdown": -1.64
+                "drawdown": -1.65
             },
             {
                 "date": "2024-04-01",
-                "drawdown": -1.64
+                "drawdown": -1.65
             },
             {
                 "date": "2024-04-02",
@@ -306,131 +306,131 @@
             },
             {
                 "date": "2024-04-03",
-                "drawdown": -2.04
+                "drawdown": -2.05
             },
             {
                 "date": "2024-04-04",
-                "drawdown": -2.48
+                "drawdown": -2.5
             },
             {
                 "date": "2024-04-05",
-                "drawdown": -2.27
+                "drawdown": -2.28
             },
             {
                 "date": "2024-04-08",
-                "drawdown": -2.14
-            },
-            {
-                "date": "2024-04-09",
-                "drawdown": -1.11
-            },
-            {
-                "date": "2024-04-10",
-                "drawdown": -1.04
-            },
-            {
-                "date": "2024-04-11",
-                "drawdown": -0.41
-            },
-            {
-                "date": "2024-04-12",
-                "drawdown": -1.09
-            },
-            {
-                "date": "2024-04-15",
-                "drawdown": -1.54
-            },
-            {
-                "date": "2024-04-16",
-                "drawdown": -1.82
-            },
-            {
-                "date": "2024-04-17",
-                "drawdown": -2.04
-            },
-            {
-                "date": "2024-04-18",
-                "drawdown": -2.13
-            },
-            {
-                "date": "2024-04-19",
-                "drawdown": -2.21
-            },
-            {
-                "date": "2024-04-22",
-                "drawdown": -2.2
-            },
-            {
-                "date": "2024-04-23",
-                "drawdown": -2.27
-            },
-            {
-                "date": "2024-04-24",
-                "drawdown": -2.3
-            },
-            {
-                "date": "2024-04-25",
                 "drawdown": -2.15
             },
             {
-                "date": "2024-04-26",
-                "drawdown": -1.49
+                "date": "2024-04-09",
+                "drawdown": -1.13
             },
             {
-                "date": "2024-04-29",
-                "drawdown": -1.84
+                "date": "2024-04-10",
+                "drawdown": -1.05
             },
             {
-                "date": "2024-04-30",
-                "drawdown": -1.98
+                "date": "2024-04-11",
+                "drawdown": -0.43
             },
             {
-                "date": "2024-05-01",
-                "drawdown": -2.29
+                "date": "2024-04-12",
+                "drawdown": -1.1
             },
             {
-                "date": "2024-05-02",
-                "drawdown": -2.49
-            },
-            {
-                "date": "2024-05-03",
-                "drawdown": -2.26
-            },
-            {
-                "date": "2024-05-06",
-                "drawdown": -1.4
-            },
-            {
-                "date": "2024-05-07",
-                "drawdown": -1.3
-            },
-            {
-                "date": "2024-05-08",
-                "drawdown": -1.18
-            },
-            {
-                "date": "2024-05-09",
-                "drawdown": -1.21
-            },
-            {
-                "date": "2024-05-10",
-                "drawdown": -1.3
-            },
-            {
-                "date": "2024-05-13",
-                "drawdown": -1.44
-            },
-            {
-                "date": "2024-05-14",
+                "date": "2024-04-15",
                 "drawdown": -1.56
             },
             {
+                "date": "2024-04-16",
+                "drawdown": -1.84
+            },
+            {
+                "date": "2024-04-17",
+                "drawdown": -2.06
+            },
+            {
+                "date": "2024-04-18",
+                "drawdown": -2.15
+            },
+            {
+                "date": "2024-04-19",
+                "drawdown": -2.22
+            },
+            {
+                "date": "2024-04-22",
+                "drawdown": -2.21
+            },
+            {
+                "date": "2024-04-23",
+                "drawdown": -2.29
+            },
+            {
+                "date": "2024-04-24",
+                "drawdown": -2.32
+            },
+            {
+                "date": "2024-04-25",
+                "drawdown": -2.16
+            },
+            {
+                "date": "2024-04-26",
+                "drawdown": -1.5
+            },
+            {
+                "date": "2024-04-29",
+                "drawdown": -1.86
+            },
+            {
+                "date": "2024-04-30",
+                "drawdown": -2.0
+            },
+            {
+                "date": "2024-05-01",
+                "drawdown": -2.3
+            },
+            {
+                "date": "2024-05-02",
+                "drawdown": -2.51
+            },
+            {
+                "date": "2024-05-03",
+                "drawdown": -2.27
+            },
+            {
+                "date": "2024-05-06",
+                "drawdown": -1.41
+            },
+            {
+                "date": "2024-05-07",
+                "drawdown": -1.32
+            },
+            {
+                "date": "2024-05-08",
+                "drawdown": -1.2
+            },
+            {
+                "date": "2024-05-09",
+                "drawdown": -1.23
+            },
+            {
+                "date": "2024-05-10",
+                "drawdown": -1.31
+            },
+            {
+                "date": "2024-05-13",
+                "drawdown": -1.45
+            },
+            {
+                "date": "2024-05-14",
+                "drawdown": -1.57
+            },
+            {
                 "date": "2024-05-15",
-                "drawdown": -1.58
+                "drawdown": -1.59
             },
             {
                 "date": "2024-05-16",
-                "drawdown": -1.03
+                "drawdown": -1.05
             },
             {
                 "date": "2024-05-17",
@@ -462,19 +462,19 @@
             },
             {
                 "date": "2024-05-28",
-                "drawdown": -0.75
+                "drawdown": -0.76
             },
             {
                 "date": "2024-05-29",
-                "drawdown": -1.01
+                "drawdown": -1.02
             },
             {
                 "date": "2024-05-30",
-                "drawdown": -0.62
+                "drawdown": -0.63
             },
             {
                 "date": "2024-05-31",
-                "drawdown": 0.0
+                "drawdown": -0.0
             },
             {
                 "date": "2024-06-03",
@@ -506,11 +506,11 @@
             },
             {
                 "date": "2024-06-12",
-                "drawdown": -0.34
+                "drawdown": -0.33
             },
             {
                 "date": "2024-06-13",
-                "drawdown": -0.27
+                "drawdown": -0.26
             },
             {
                 "date": "2024-06-14",
@@ -562,7 +562,7 @@
             },
             {
                 "date": "2024-07-02",
-                "drawdown": -0.27
+                "drawdown": -0.28
             },
             {
                 "date": "2024-07-03",
@@ -582,7 +582,7 @@
             },
             {
                 "date": "2024-07-09",
-                "drawdown": -0.42
+                "drawdown": -0.43
             },
             {
                 "date": "2024-07-10",
@@ -590,7 +590,7 @@
             },
             {
                 "date": "2024-07-11",
-                "drawdown": -0.96
+                "drawdown": -0.97
             },
             {
                 "date": "2024-07-12",
@@ -630,15 +630,15 @@
             },
             {
                 "date": "2024-07-25",
-                "drawdown": -0.6
+                "drawdown": -0.59
             },
             {
                 "date": "2024-07-26",
-                "drawdown": -1.23
+                "drawdown": -1.22
             },
             {
                 "date": "2024-07-29",
-                "drawdown": -1.63
+                "drawdown": -1.62
             },
             {
                 "date": "2024-07-30",
@@ -686,7 +686,7 @@
             },
             {
                 "date": "2024-08-14",
-                "drawdown": -0.14
+                "drawdown": -0.15
             },
             {
                 "date": "2024-08-15",
@@ -722,7 +722,7 @@
             },
             {
                 "date": "2024-08-27",
-                "drawdown": -0.97
+                "drawdown": -0.96
             },
             {
                 "date": "2024-08-28",
@@ -730,7 +730,7 @@
             },
             {
                 "date": "2024-08-29",
-                "drawdown": -0.87
+                "drawdown": -0.86
             },
             {
                 "date": "2024-08-30",
@@ -738,107 +738,107 @@
             },
             {
                 "date": "2024-09-02",
-                "drawdown": -1.27
+                "drawdown": -1.26
             },
             {
                 "date": "2024-09-03",
-                "drawdown": -0.91
+                "drawdown": -0.9
             },
             {
                 "date": "2024-09-04",
-                "drawdown": -1.42
+                "drawdown": -1.4
             },
             {
                 "date": "2024-09-05",
-                "drawdown": -1.89
+                "drawdown": -1.88
             },
             {
                 "date": "2024-09-06",
-                "drawdown": -1.96
+                "drawdown": -1.95
             },
             {
                 "date": "2024-09-09",
-                "drawdown": -1.69
+                "drawdown": -1.67
             },
             {
                 "date": "2024-09-10",
-                "drawdown": -2.13
-            },
-            {
-                "date": "2024-09-11",
-                "drawdown": -2.21
-            },
-            {
-                "date": "2024-09-12",
-                "drawdown": -2.47
-            },
-            {
-                "date": "2024-09-13",
-                "drawdown": -2.92
-            },
-            {
-                "date": "2024-09-16",
-                "drawdown": -2.87
-            },
-            {
-                "date": "2024-09-17",
-                "drawdown": -2.77
-            },
-            {
-                "date": "2024-09-18",
-                "drawdown": -2.52
-            },
-            {
-                "date": "2024-09-19",
-                "drawdown": -2.89
-            },
-            {
-                "date": "2024-09-20",
-                "drawdown": -2.7
-            },
-            {
-                "date": "2024-09-23",
-                "drawdown": -2.62
-            },
-            {
-                "date": "2024-09-24",
-                "drawdown": -2.55
-            },
-            {
-                "date": "2024-09-25",
-                "drawdown": -2.25
-            },
-            {
-                "date": "2024-09-26",
-                "drawdown": -2.42
-            },
-            {
-                "date": "2024-09-27",
-                "drawdown": -1.58
-            },
-            {
-                "date": "2024-09-30",
-                "drawdown": -1.86
-            },
-            {
-                "date": "2024-10-01",
                 "drawdown": -2.11
             },
             {
+                "date": "2024-09-11",
+                "drawdown": -2.19
+            },
+            {
+                "date": "2024-09-12",
+                "drawdown": -2.46
+            },
+            {
+                "date": "2024-09-13",
+                "drawdown": -2.9
+            },
+            {
+                "date": "2024-09-16",
+                "drawdown": -2.85
+            },
+            {
+                "date": "2024-09-17",
+                "drawdown": -2.76
+            },
+            {
+                "date": "2024-09-18",
+                "drawdown": -2.51
+            },
+            {
+                "date": "2024-09-19",
+                "drawdown": -2.88
+            },
+            {
+                "date": "2024-09-20",
+                "drawdown": -2.69
+            },
+            {
+                "date": "2024-09-23",
+                "drawdown": -2.61
+            },
+            {
+                "date": "2024-09-24",
+                "drawdown": -2.53
+            },
+            {
+                "date": "2024-09-25",
+                "drawdown": -2.24
+            },
+            {
+                "date": "2024-09-26",
+                "drawdown": -2.41
+            },
+            {
+                "date": "2024-09-27",
+                "drawdown": -1.56
+            },
+            {
+                "date": "2024-09-30",
+                "drawdown": -1.85
+            },
+            {
+                "date": "2024-10-01",
+                "drawdown": -2.09
+            },
+            {
                 "date": "2024-10-02",
-                "drawdown": -2.43
+                "drawdown": -2.42
             },
             {
                 "date": "2024-10-03",
-                "drawdown": -2.26
+                "drawdown": -2.25
             },
             {
                 "date": "2024-10-04",
-                "drawdown": -2.38
+                "drawdown": -2.37
             },
             {
                 "date": "2024-10-07",
-                "drawdown": -2.13
+                "drawdown": -2.12
             },
             {
                 "date": "2024-10-08",
@@ -854,11 +854,11 @@
             },
             {
                 "date": "2024-10-11",
-                "drawdown": -1.55
+                "drawdown": -1.54
             },
             {
                 "date": "2024-10-14",
-                "drawdown": -1.52
+                "drawdown": -1.51
             },
             {
                 "date": "2024-10-15",
@@ -866,19 +866,19 @@
             },
             {
                 "date": "2024-10-16",
-                "drawdown": -1.43
+                "drawdown": -1.42
             },
             {
                 "date": "2024-10-17",
-                "drawdown": -1.28
+                "drawdown": -1.27
             },
             {
                 "date": "2024-10-18",
-                "drawdown": -1.21
+                "drawdown": -1.2
             },
             {
                 "date": "2024-10-21",
-                "drawdown": -1.4
+                "drawdown": -1.39
             },
             {
                 "date": "2024-10-22",
@@ -886,19 +886,19 @@
             },
             {
                 "date": "2024-10-23",
-                "drawdown": -1.02
+                "drawdown": -1.01
             },
             {
                 "date": "2024-10-24",
-                "drawdown": -0.16
+                "drawdown": -0.15
             },
             {
                 "date": "2024-10-25",
-                "drawdown": -0.1
+                "drawdown": -0.08
             },
             {
                 "date": "2024-10-27",
-                "drawdown": -0.47
+                "drawdown": -0.46
             },
             {
                 "date": "2024-10-28",
@@ -922,71 +922,71 @@
             },
             {
                 "date": "2024-11-04",
-                "drawdown": -1.07
+                "drawdown": -1.08
             },
             {
                 "date": "2024-11-05",
-                "drawdown": -1.71
+                "drawdown": -1.72
             },
             {
                 "date": "2024-11-06",
-                "drawdown": -1.65
+                "drawdown": -1.66
             },
             {
                 "date": "2024-11-07",
-                "drawdown": -1.56
+                "drawdown": -1.57
             },
             {
                 "date": "2024-11-08",
-                "drawdown": -1.95
-            },
-            {
-                "date": "2024-11-11",
                 "drawdown": -1.97
             },
             {
+                "date": "2024-11-11",
+                "drawdown": -1.98
+            },
+            {
                 "date": "2024-11-12",
-                "drawdown": -1.75
+                "drawdown": -1.76
             },
             {
                 "date": "2024-11-13",
-                "drawdown": -1.8
+                "drawdown": -1.81
             },
             {
                 "date": "2024-11-14",
-                "drawdown": -1.52
-            },
-            {
-                "date": "2024-11-15",
-                "drawdown": -1.17
-            },
-            {
-                "date": "2024-11-18",
-                "drawdown": -1.13
-            },
-            {
-                "date": "2024-11-19",
                 "drawdown": -1.53
             },
             {
+                "date": "2024-11-15",
+                "drawdown": -1.18
+            },
+            {
+                "date": "2024-11-18",
+                "drawdown": -1.15
+            },
+            {
+                "date": "2024-11-19",
+                "drawdown": -1.55
+            },
+            {
                 "date": "2024-11-20",
-                "drawdown": -1.3
+                "drawdown": -1.31
             },
             {
                 "date": "2024-11-21",
-                "drawdown": -1.4
+                "drawdown": -1.41
             },
             {
                 "date": "2024-11-22",
-                "drawdown": -1.86
+                "drawdown": -1.87
             },
             {
                 "date": "2024-11-25",
-                "drawdown": -2.23
+                "drawdown": -2.24
             },
             {
                 "date": "2024-11-26",
-                "drawdown": -2.63
+                "drawdown": -2.64
             },
             {
                 "date": "2024-11-27",
@@ -994,19 +994,19 @@
             },
             {
                 "date": "2024-11-28",
-                "drawdown": -2.53
+                "drawdown": -2.54
             },
             {
                 "date": "2024-11-29",
-                "drawdown": -2.63
+                "drawdown": -2.64
             },
             {
                 "date": "2024-12-02",
-                "drawdown": -2.56
+                "drawdown": -2.57
             },
             {
                 "date": "2024-12-03",
-                "drawdown": -3.06
+                "drawdown": -3.07
             },
             {
                 "date": "2024-12-04",
@@ -1014,191 +1014,191 @@
             },
             {
                 "date": "2024-12-05",
-                "drawdown": -3.49
+                "drawdown": -3.5
             },
             {
                 "date": "2024-12-06",
-                "drawdown": -3.05
+                "drawdown": -3.06
             },
             {
                 "date": "2024-12-09",
-                "drawdown": -3.38
+                "drawdown": -3.41
             },
             {
                 "date": "2024-12-10",
-                "drawdown": -3.23
+                "drawdown": -3.25
             },
             {
                 "date": "2024-12-11",
-                "drawdown": -3.51
+                "drawdown": -3.53
             },
             {
                 "date": "2024-12-12",
-                "drawdown": -3.49
+                "drawdown": -3.52
             },
             {
                 "date": "2024-12-13",
-                "drawdown": -3.66
+                "drawdown": -3.68
             },
             {
                 "date": "2024-12-16",
-                "drawdown": -3.26
+                "drawdown": -3.29
             },
             {
                 "date": "2024-12-17",
-                "drawdown": -3.17
+                "drawdown": -3.19
             },
             {
                 "date": "2024-12-18",
-                "drawdown": -3.2
+                "drawdown": -3.23
             },
             {
                 "date": "2024-12-19",
-                "drawdown": -2.84
+                "drawdown": -2.86
             },
             {
                 "date": "2024-12-20",
-                "drawdown": -2.37
+                "drawdown": -2.39
             },
             {
                 "date": "2024-12-23",
-                "drawdown": -2.47
+                "drawdown": -2.5
             },
             {
                 "date": "2024-12-24",
-                "drawdown": -2.24
+                "drawdown": -2.26
             },
             {
                 "date": "2024-12-25",
-                "drawdown": -5.44
+                "drawdown": -5.47
             },
             {
                 "date": "2024-12-26",
-                "drawdown": -2.06
+                "drawdown": -2.09
             },
             {
                 "date": "2024-12-27",
-                "drawdown": -2.05
-            },
-            {
-                "date": "2024-12-30",
                 "drawdown": -2.07
             },
             {
+                "date": "2024-12-30",
+                "drawdown": -2.09
+            },
+            {
                 "date": "2024-12-31",
-                "drawdown": -2.04
+                "drawdown": -2.07
             },
             {
                 "date": "2025-01-01",
-                "drawdown": -4.21
+                "drawdown": -4.23
             },
             {
                 "date": "2025-01-02",
-                "drawdown": -2.22
+                "drawdown": -2.25
             },
             {
                 "date": "2025-01-03",
-                "drawdown": -2.35
+                "drawdown": -2.37
             },
             {
                 "date": "2025-01-06",
-                "drawdown": -2.73
+                "drawdown": -2.75
             },
             {
                 "date": "2025-01-07",
-                "drawdown": -2.2
+                "drawdown": -2.22
             },
             {
                 "date": "2025-01-08",
-                "drawdown": -1.63
+                "drawdown": -1.65
             },
             {
                 "date": "2025-01-09",
-                "drawdown": -1.13
+                "drawdown": -1.15
             },
             {
                 "date": "2025-01-10",
-                "drawdown": -1.27
+                "drawdown": -1.29
             },
             {
                 "date": "2025-01-13",
-                "drawdown": -1.32
+                "drawdown": -1.34
             },
             {
                 "date": "2025-01-14",
-                "drawdown": -1.14
+                "drawdown": -1.16
             },
             {
                 "date": "2025-01-15",
-                "drawdown": -0.73
+                "drawdown": -0.75
             },
             {
                 "date": "2025-01-16",
-                "drawdown": -1.02
+                "drawdown": -1.04
             },
             {
                 "date": "2025-01-17",
-                "drawdown": -1.35
+                "drawdown": -1.37
             },
             {
                 "date": "2025-01-20",
-                "drawdown": -1.71
+                "drawdown": -1.73
             },
             {
                 "date": "2025-01-21",
-                "drawdown": -0.87
+                "drawdown": -0.89
             },
             {
                 "date": "2025-01-22",
-                "drawdown": -0.75
+                "drawdown": -0.77
             },
             {
                 "date": "2025-01-23",
-                "drawdown": -0.84
+                "drawdown": -0.86
             },
             {
                 "date": "2025-01-24",
-                "drawdown": -0.93
-            },
-            {
-                "date": "2025-01-27",
-                "drawdown": -0.75
-            },
-            {
-                "date": "2025-01-28",
-                "drawdown": -0.75
-            },
-            {
-                "date": "2025-01-29",
                 "drawdown": -0.95
             },
             {
+                "date": "2025-01-27",
+                "drawdown": -0.77
+            },
+            {
+                "date": "2025-01-28",
+                "drawdown": -0.77
+            },
+            {
+                "date": "2025-01-29",
+                "drawdown": -0.97
+            },
+            {
                 "date": "2025-01-30",
-                "drawdown": -0.91
+                "drawdown": -0.93
             },
             {
                 "date": "2025-01-31",
-                "drawdown": -1.0
+                "drawdown": -1.02
             },
             {
                 "date": "2025-02-03",
-                "drawdown": -0.76
+                "drawdown": -0.78
             },
             {
                 "date": "2025-02-04",
-                "drawdown": -0.59
+                "drawdown": -0.6
             },
             {
                 "date": "2025-02-05",
-                "drawdown": -0.88
+                "drawdown": -0.9
             },
             {
                 "date": "2025-02-06",
-                "drawdown": -1.08
+                "drawdown": -1.1
             },
             {
                 "date": "2025-02-07",
-                "drawdown": -0.86
+                "drawdown": -0.87
             },
             {
                 "date": "2025-02-10",
@@ -1222,11 +1222,11 @@
             },
             {
                 "date": "2025-02-17",
-                "drawdown": -0.53
+                "drawdown": -0.52
             },
             {
                 "date": "2025-02-18",
-                "drawdown": -0.59
+                "drawdown": -0.58
             },
             {
                 "date": "2025-02-19",
@@ -1234,11 +1234,11 @@
             },
             {
                 "date": "2025-02-20",
-                "drawdown": -0.43
+                "drawdown": -0.42
             },
             {
                 "date": "2025-02-21",
-                "drawdown": -0.51
+                "drawdown": -0.5
             },
             {
                 "date": "2025-02-24",
@@ -1246,7 +1246,7 @@
             },
             {
                 "date": "2025-02-25",
-                "drawdown": -0.12
+                "drawdown": -0.11
             },
             {
                 "date": "2025-02-26",
@@ -1282,83 +1282,83 @@
             },
             {
                 "date": "2025-03-10",
-                "drawdown": -0.68
+                "drawdown": -0.67
             },
             {
                 "date": "2025-03-11",
-                "drawdown": -0.55
+                "drawdown": -0.54
             },
             {
                 "date": "2025-03-12",
-                "drawdown": -0.56
+                "drawdown": -0.55
             },
             {
                 "date": "2025-03-13",
-                "drawdown": -0.53
+                "drawdown": -0.52
             },
             {
                 "date": "2025-03-14",
-                "drawdown": -0.56
+                "drawdown": -0.55
             },
             {
                 "date": "2025-03-17",
-                "drawdown": -0.44
+                "drawdown": -0.43
             },
             {
                 "date": "2025-03-18",
-                "drawdown": -1.16
+                "drawdown": -1.13
             },
             {
                 "date": "2025-03-19",
-                "drawdown": -1.15
+                "drawdown": -1.12
             },
             {
                 "date": "2025-03-20",
-                "drawdown": -1.09
+                "drawdown": -1.06
             },
             {
                 "date": "2025-03-21",
-                "drawdown": -0.66
-            },
-            {
-                "date": "2025-03-24",
-                "drawdown": -0.4
-            },
-            {
-                "date": "2025-03-25",
-                "drawdown": -0.62
-            },
-            {
-                "date": "2025-03-26",
-                "drawdown": -0.78
-            },
-            {
-                "date": "2025-03-27",
-                "drawdown": -0.63
-            },
-            {
-                "date": "2025-03-28",
-                "drawdown": -1.03
-            },
-            {
-                "date": "2025-03-31",
-                "drawdown": -1.22
-            },
-            {
-                "date": "2025-04-01",
-                "drawdown": -0.88
-            },
-            {
-                "date": "2025-04-02",
-                "drawdown": -1.01
-            },
-            {
-                "date": "2025-04-03",
                 "drawdown": -0.64
             },
             {
+                "date": "2025-03-24",
+                "drawdown": -0.38
+            },
+            {
+                "date": "2025-03-25",
+                "drawdown": -0.59
+            },
+            {
+                "date": "2025-03-26",
+                "drawdown": -0.75
+            },
+            {
+                "date": "2025-03-27",
+                "drawdown": -0.6
+            },
+            {
+                "date": "2025-03-28",
+                "drawdown": -1.0
+            },
+            {
+                "date": "2025-03-31",
+                "drawdown": -1.19
+            },
+            {
+                "date": "2025-04-01",
+                "drawdown": -0.85
+            },
+            {
+                "date": "2025-04-02",
+                "drawdown": -0.98
+            },
+            {
+                "date": "2025-04-03",
+                "drawdown": -0.61
+            },
+            {
                 "date": "2025-04-04",
-                "drawdown": -0.06
+                "drawdown": -0.03
             },
             {
                 "date": "2025-04-07",
@@ -1402,39 +1402,39 @@
             },
             {
                 "date": "2025-04-21",
-                "drawdown": -1.19
+                "drawdown": -1.2
             },
             {
                 "date": "2025-04-22",
-                "drawdown": -0.68
+                "drawdown": -0.7
             },
             {
                 "date": "2025-04-23",
-                "drawdown": -0.58
+                "drawdown": -0.6
             },
             {
                 "date": "2025-04-24",
-                "drawdown": -0.17
+                "drawdown": -0.19
             },
             {
                 "date": "2025-04-25",
-                "drawdown": -0.67
+                "drawdown": -0.69
             },
             {
                 "date": "2025-04-28",
-                "drawdown": -0.55
+                "drawdown": -0.57
             },
             {
                 "date": "2025-04-29",
-                "drawdown": -1.39
+                "drawdown": -1.4
             },
             {
                 "date": "2025-04-30",
-                "drawdown": -1.5
+                "drawdown": -1.52
             },
             {
                 "date": "2025-05-01",
-                "drawdown": -1.27
+                "drawdown": -1.29
             }
         ],
         "correlation_matrix": {
@@ -1450,25 +1450,25 @@
             "AVWAP_Confluence": {
                 "ADX_TrendStrength": 0.012,
                 "AVWAP_Confluence": 1.0,
-                "Bollinger Mean Reversion": -0.003,
-                "Donchian_Breakout": -0.063,
+                "Bollinger Mean Reversion": -0.002,
+                "Donchian_Breakout": -0.062,
                 "Hidden_Divergence": 0.04,
                 "PriceAction_SR": 0.018,
                 "Smart_Swing_Bias": 0.0
             },
             "Bollinger Mean Reversion": {
                 "ADX_TrendStrength": 0.02,
-                "AVWAP_Confluence": -0.003,
+                "AVWAP_Confluence": -0.002,
                 "Bollinger Mean Reversion": 1.0,
-                "Donchian_Breakout": 0.033,
+                "Donchian_Breakout": 0.032,
                 "Hidden_Divergence": 0.013,
                 "PriceAction_SR": 0.03,
                 "Smart_Swing_Bias": 0.034
             },
             "Donchian_Breakout": {
                 "ADX_TrendStrength": -0.075,
-                "AVWAP_Confluence": -0.063,
-                "Bollinger Mean Reversion": 0.033,
+                "AVWAP_Confluence": -0.062,
+                "Bollinger Mean Reversion": 0.032,
                 "Donchian_Breakout": 1.0,
                 "Hidden_Divergence": 0.057,
                 "PriceAction_SR": 0.012,
@@ -1481,7 +1481,7 @@
                 "Donchian_Breakout": 0.057,
                 "Hidden_Divergence": 1.0,
                 "PriceAction_SR": -0.038,
-                "Smart_Swing_Bias": -0.023
+                "Smart_Swing_Bias": -0.024
             },
             "PriceAction_SR": {
                 "ADX_TrendStrength": -0.0,
@@ -1497,7 +1497,7 @@
                 "AVWAP_Confluence": 0.0,
                 "Bollinger Mean Reversion": 0.034,
                 "Donchian_Breakout": 0.015,
-                "Hidden_Divergence": -0.023,
+                "Hidden_Divergence": -0.024,
                 "PriceAction_SR": -0.004,
                 "Smart_Swing_Bias": 1.0
             }
@@ -1516,1743 +1516,1743 @@
         },
         {
             "date": "2024-01-03",
-            "equity": 99923.24693716093,
+            "equity": 99925.47505270677,
             "balance": 100000.0
         },
         {
             "date": "2024-01-04",
-            "equity": 99581.46407609321,
-            "balance": 99570.7800365005
+            "equity": 99582.7909022657,
+            "balance": 99572.30825484906
         },
         {
             "date": "2024-01-05",
-            "equity": 99356.7594404951,
-            "balance": 99364.41302044301
+            "equity": 99359.29582350864,
+            "balance": 99365.7166042058
         },
         {
             "date": "2024-01-08",
-            "equity": 98961.97147504265,
-            "balance": 98738.38344640542
+            "equity": 98967.00841087158,
+            "balance": 98740.93102217233
         },
         {
             "date": "2024-01-09",
-            "equity": 98895.1955168369,
-            "balance": 98738.38344640542
+            "equity": 98900.22933772631,
+            "balance": 98740.93102217233
         },
         {
             "date": "2024-01-10",
-            "equity": 98838.81866873572,
-            "balance": 98535.10648555725
+            "equity": 98843.0863953799,
+            "balance": 98537.62259997506
         },
         {
             "date": "2024-01-11",
-            "equity": 98800.68327028437,
-            "balance": 98322.01575230218
+            "equity": 98804.95734951977,
+            "balance": 98326.95906394417
         },
         {
             "date": "2024-01-12",
-            "equity": 98602.26655766892,
-            "balance": 98116.87008790913
+            "equity": 98605.78480555033,
+            "balance": 98121.23450387662
         },
         {
             "date": "2024-01-15",
-            "equity": 98591.476345498,
-            "balance": 98116.87008790913
+            "equity": 98594.99057630522,
+            "balance": 98121.23450387662
         },
         {
             "date": "2024-01-16",
-            "equity": 98710.17147825214,
-            "balance": 98116.87008790913
+            "equity": 98713.68512699143,
+            "balance": 98121.23450387662
         },
         {
             "date": "2024-01-17",
-            "equity": 98953.49073716448,
-            "balance": 97723.0243330991
+            "equity": 98957.00716074552,
+            "balance": 97727.69860020741
         },
         {
             "date": "2024-01-18",
-            "equity": 99453.54643376486,
-            "balance": 98447.63692327452
+            "equity": 99457.062413732,
+            "balance": 98451.35727237545
         },
         {
             "date": "2024-01-19",
-            "equity": 99912.99663508942,
-            "balance": 98226.69828644457
+            "equity": 99914.95582658448,
+            "balance": 98227.97133572423
         },
         {
             "date": "2024-01-22",
-            "equity": 100448.64255064692,
-            "balance": 98020.06861367649
+            "equity": 100451.50140475121,
+            "balance": 98021.36842730507
         },
         {
             "date": "2024-01-23",
-            "equity": 99747.45514232144,
-            "balance": 97761.06085436181
+            "equity": 99750.06511178544,
+            "balance": 97762.11608331854
         },
         {
             "date": "2024-01-24",
-            "equity": 99811.56470615965,
-            "balance": 97547.79578960431
+            "equity": 99815.16522779738,
+            "balance": 97549.83900214118
         },
         {
             "date": "2024-01-25",
-            "equity": 98417.55051934868,
-            "balance": 97304.25511939022
+            "equity": 98423.888755662,
+            "balance": 97307.86468833778
         },
         {
             "date": "2024-01-26",
-            "equity": 98404.49420599181,
-            "balance": 97083.40376282344
+            "equity": 98409.95668753718,
+            "balance": 97089.75352976669
         },
         {
             "date": "2024-01-29",
-            "equity": 98434.63271294856,
-            "balance": 96866.57309443696
+            "equity": 98440.33823097452,
+            "balance": 96872.05577848345
         },
         {
             "date": "2024-01-30",
-            "equity": 98617.06565739987,
-            "balance": 96866.57309443696
+            "equity": 98620.28233157589,
+            "balance": 96872.05577848345
         },
         {
             "date": "2024-01-31",
-            "equity": 98632.32153085306,
-            "balance": 96665.70798137737
+            "equity": 98635.28951596207,
+            "balance": 96670.48921811751
         },
         {
             "date": "2024-02-01",
-            "equity": 98494.01658273792,
-            "balance": 96458.17952740865
+            "equity": 98496.98517146673,
+            "balance": 96462.71191675137
         },
         {
             "date": "2024-02-02",
-            "equity": 99106.78449076132,
-            "balance": 97267.45984505609
+            "equity": 99110.34391098039,
+            "balance": 97272.87870918198
         },
         {
             "date": "2024-02-05",
-            "equity": 98690.2062574689,
-            "balance": 96858.25820741126
+            "equity": 98693.76266885186,
+            "balance": 96862.02166852776
         },
         {
             "date": "2024-02-06",
-            "equity": 98477.05005049663,
-            "balance": 97123.32827259714
+            "equity": 98483.28967713403,
+            "balance": 97129.85861056653
         },
         {
             "date": "2024-02-07",
-            "equity": 98638.66049688785,
-            "balance": 96703.6841675278
+            "equity": 98645.90617619538,
+            "balance": 96710.92754584884
         },
         {
             "date": "2024-02-08",
-            "equity": 98133.98939736675,
-            "balance": 97219.22714773509
+            "equity": 98138.54030773342,
+            "balance": 97223.07313282871
         },
         {
             "date": "2024-02-09",
-            "equity": 97820.24937665314,
-            "balance": 97008.64256696889
+            "equity": 97824.57671426798,
+            "balance": 97013.7036793788
         },
         {
             "date": "2024-02-12",
-            "equity": 97974.64898817331,
-            "balance": 96802.28143242406
+            "equity": 97980.91144485773,
+            "balance": 96807.71253114905
         },
         {
             "date": "2024-02-13",
-            "equity": 97782.49832906433,
-            "balance": 96376.60085201607
+            "equity": 97783.92235221919,
+            "balance": 96381.31097401718
         },
         {
             "date": "2024-02-14",
-            "equity": 98607.37603591837,
-            "balance": 96914.38415850977
+            "equity": 98608.81556939376,
+            "balance": 96918.68160267713
         },
         {
             "date": "2024-02-15",
-            "equity": 98700.45331587121,
-            "balance": 96914.38415850977
+            "equity": 98702.34354380521,
+            "balance": 96918.68160267713
         },
         {
             "date": "2024-02-16",
-            "equity": 98817.779430893,
-            "balance": 96709.71720575781
+            "equity": 98819.28970727486,
+            "balance": 96713.85690936702
         },
         {
             "date": "2024-02-19",
-            "equity": 98824.67151488575,
-            "balance": 96709.71720575781
+            "equity": 98822.9067742703,
+            "balance": 96713.85690936702
         },
         {
             "date": "2024-02-20",
-            "equity": 98740.78915538198,
-            "balance": 96709.71720575781
+            "equity": 98739.03011498452,
+            "balance": 96713.85690936702
         },
         {
             "date": "2024-02-21",
-            "equity": 98544.30562468382,
-            "balance": 97699.70534871312
+            "equity": 98540.58996903367,
+            "balance": 97698.99688730395
         },
         {
             "date": "2024-02-22",
-            "equity": 98312.2883410152,
-            "balance": 97699.70534871312
+            "equity": 98308.56670067087,
+            "balance": 97698.99688730395
         },
         {
             "date": "2024-02-23",
-            "equity": 98361.21998905533,
-            "balance": 97053.35840263436
+            "equity": 98354.4582055415,
+            "balance": 97051.47558090923
         },
         {
             "date": "2024-02-26",
-            "equity": 98479.81819434665,
-            "balance": 97053.35840263436
+            "equity": 98473.07400751872,
+            "balance": 97051.47558090923
         },
         {
             "date": "2024-02-27",
-            "equity": 98221.13536603496,
-            "balance": 96848.31301094922
+            "equity": 98214.3901583744,
+            "balance": 96844.59309938773
         },
         {
             "date": "2024-02-28",
-            "equity": 98305.23634892264,
-            "balance": 96848.31301094922
+            "equity": 98297.56581161544,
+            "balance": 96844.59309938773
         },
         {
             "date": "2024-02-29",
-            "equity": 98051.07009212689,
-            "balance": 96848.31301094922
+            "equity": 98043.39961252575,
+            "balance": 96844.59309938773
         },
         {
             "date": "2024-03-01",
-            "equity": 98099.22789965311,
-            "balance": 96421.51306879375
+            "equity": 98091.56742101075,
+            "balance": 96416.33628959005
         },
         {
             "date": "2024-03-04",
-            "equity": 97881.97564497656,
-            "balance": 96421.51306879375
+            "equity": 97874.96779127678,
+            "balance": 96416.33628959005
         },
         {
             "date": "2024-03-05",
-            "equity": 97670.92489662635,
-            "balance": 96421.51306879375
+            "equity": 97663.91251531377,
+            "balance": 96416.33628959005
         },
         {
             "date": "2024-03-06",
-            "equity": 97849.92946327328,
-            "balance": 96421.51306879375
+            "equity": 97842.92349836064,
+            "balance": 96416.33628959005
         },
         {
             "date": "2024-03-07",
-            "equity": 98047.4018094347,
-            "balance": 96421.51306879375
+            "equity": 98040.40859038741,
+            "balance": 96416.33628959005
         },
         {
             "date": "2024-03-08",
-            "equity": 98781.35123145672,
-            "balance": 98477.75216984257
+            "equity": 98775.49820357366,
+            "balance": 98470.35381515183
         },
         {
             "date": "2024-03-11",
-            "equity": 98334.43869927096,
-            "balance": 97835.21989018455
+            "equity": 98328.7803470006,
+            "balance": 97827.6576519828
         },
         {
             "date": "2024-03-12",
-            "equity": 98188.75083685253,
-            "balance": 97630.5774797233
+            "equity": 98179.21275102838,
+            "balance": 97623.95729978695
         },
         {
             "date": "2024-03-13",
-            "equity": 97765.82075132873,
-            "balance": 97413.34589235221
+            "equity": 97757.62372218855,
+            "balance": 97402.84317114248
         },
         {
             "date": "2024-03-14",
-            "equity": 97783.72273995045,
-            "balance": 97413.34589235221
+            "equity": 97775.52590186796,
+            "balance": 97402.84317114248
         },
         {
             "date": "2024-03-15",
-            "equity": 97894.86629931633,
-            "balance": 97413.34589235221
+            "equity": 97886.67092850637,
+            "balance": 97402.84317114248
         },
         {
             "date": "2024-03-18",
-            "equity": 97902.68857840543,
-            "balance": 97010.1595278877
+            "equity": 97894.49321451517,
+            "balance": 97000.85694266907
         },
         {
             "date": "2024-03-19",
-            "equity": 97920.35890607596,
-            "balance": 96801.73011839991
+            "equity": 97912.16386445847,
+            "balance": 96793.71935805357
         },
         {
             "date": "2024-03-20",
-            "equity": 98512.71129385484,
-            "balance": 97235.10780709168
+            "equity": 98505.31415797296,
+            "balance": 97227.10168338401
         },
         {
             "date": "2024-03-21",
-            "equity": 98217.08392293938,
-            "balance": 97291.0459921523
+            "equity": 98207.01571769858,
+            "balance": 97284.30069209408
         },
         {
             "date": "2024-03-22",
-            "equity": 98708.98227560805,
-            "balance": 98354.36955229707
+            "equity": 98697.98810930605,
+            "balance": 98343.14202910235
         },
         {
             "date": "2024-03-25",
-            "equity": 98574.26519666878,
-            "balance": 98155.38076542474
+            "equity": 98565.23619802433,
+            "balance": 98144.09703310169
         },
         {
             "date": "2024-03-26",
-            "equity": 98546.14624606466,
-            "balance": 97950.71311452841
+            "equity": 98538.10061901575,
+            "balance": 97940.41279086622
         },
         {
             "date": "2024-03-27",
-            "equity": 98514.44433437058,
-            "balance": 97525.31458523324
+            "equity": 98509.89152050017,
+            "balance": 97516.36250444318
         },
         {
             "date": "2024-03-28",
-            "equity": 98563.27226677093,
-            "balance": 97309.0989502438
+            "equity": 98559.80558884956,
+            "balance": 97302.700128907
         },
         {
             "date": "2024-03-29",
-            "equity": 98798.92119900655,
-            "balance": 97093.7001296472
+            "equity": 98795.4557373469,
+            "balance": 97088.5088788515
         },
         {
             "date": "2024-04-01",
-            "equity": 98799.75778612068,
-            "balance": 97093.7001296472
+            "equity": 98796.29013515207,
+            "balance": 97088.5088788515
         },
         {
             "date": "2024-04-02",
-            "equity": 98785.68458702222,
-            "balance": 96867.64771429448
+            "equity": 98781.97221525952,
+            "balance": 96861.72535403595
         },
         {
             "date": "2024-04-03",
-            "equity": 98400.94503831468,
-            "balance": 96838.18167686943
+            "equity": 98396.50044646981,
+            "balance": 96835.695041427
         },
         {
             "date": "2024-04-04",
-            "equity": 97952.59119974387,
-            "balance": 96603.51947830444
+            "equity": 97944.82471414901,
+            "balance": 96598.439653332
         },
         {
             "date": "2024-04-05",
-            "equity": 98163.74371702549,
-            "balance": 96631.15921650604
+            "equity": 98156.68697087366,
+            "balance": 96627.03919750704
         },
         {
             "date": "2024-04-08",
-            "equity": 98300.75434103995,
-            "balance": 96441.0273673202
+            "equity": 98291.00531419962,
+            "balance": 96437.0775236208
         },
         {
             "date": "2024-04-09",
-            "equity": 99329.74280865253,
-            "balance": 97606.37136757265
+            "equity": 99319.99713520276,
+            "balance": 97599.72836794167
         },
         {
             "date": "2024-04-10",
-            "equity": 99402.6415036746,
-            "balance": 98779.97639495175
+            "equity": 99392.54485135378,
+            "balance": 98771.69017417595
         },
         {
             "date": "2024-04-11",
-            "equity": 100033.06490284755,
-            "balance": 98403.80278758066
+            "equity": 100022.1431244002,
+            "balance": 98395.09904644874
         },
         {
             "date": "2024-04-12",
-            "equity": 99355.11695691386,
-            "balance": 97918.85778466253
+            "equity": 99341.7069222967,
+            "balance": 97907.95912524317
         },
         {
             "date": "2024-04-15",
-            "equity": 98901.61991573234,
-            "balance": 97247.72693902708
+            "equity": 98882.8649009157,
+            "balance": 97226.30342161618
         },
         {
             "date": "2024-04-16",
-            "equity": 98618.13870453154,
-            "balance": 96837.39896467533
+            "equity": 98598.47416551618,
+            "balance": 96818.11973796134
         },
         {
             "date": "2024-04-17",
-            "equity": 98396.95168695286,
-            "balance": 96400.91574125006
+            "equity": 98381.76530653756,
+            "balance": 96383.10989235289
         },
         {
             "date": "2024-04-18",
-            "equity": 98306.25849310913,
-            "balance": 96400.91574125006
+            "equity": 98291.08140817987,
+            "balance": 96383.10989235289
         },
         {
             "date": "2024-04-19",
-            "equity": 98233.20528799412,
-            "balance": 96400.91574125006
+            "equity": 98218.02638571236,
+            "balance": 96383.10989235289
         },
         {
             "date": "2024-04-22",
-            "equity": 98242.39738861777,
-            "balance": 96400.91574125006
+            "equity": 98229.21346160145,
+            "balance": 96383.10989235289
         },
         {
             "date": "2024-04-23",
-            "equity": 98168.98291208637,
-            "balance": 96400.91574125006
+            "equity": 98155.95120472381,
+            "balance": 96383.10989235289
         },
         {
             "date": "2024-04-24",
-            "equity": 98138.08166955387,
-            "balance": 96203.11669781292
+            "equity": 98125.05429812557,
+            "balance": 96185.45797424145
         },
         {
             "date": "2024-04-25",
-            "equity": 98292.4044849386,
-            "balance": 95987.32694302405
+            "equity": 98279.36839868278,
+            "balance": 95971.76540153388
         },
         {
             "date": "2024-04-26",
-            "equity": 98955.4231016951,
-            "balance": 97031.35550879766
+            "equity": 98943.54335288452,
+            "balance": 97015.70986586683
         },
         {
             "date": "2024-04-29",
-            "equity": 98596.64143175549,
-            "balance": 96635.28177906614
+            "equity": 98583.58658495998,
+            "balance": 96618.62583576
         },
         {
             "date": "2024-04-30",
-            "equity": 98458.53062529032,
-            "balance": 96251.85506405953
+            "equity": 98445.62689544224,
+            "balance": 96235.18533178579
         },
         {
             "date": "2024-05-01",
-            "equity": 98152.55446180116,
-            "balance": 96038.62679646148
+            "equity": 98139.63831346526,
+            "balance": 96023.05930219563
         },
         {
             "date": "2024-05-02",
-            "equity": 97945.62819021451,
-            "balance": 97064.05927147594
+            "equity": 97932.05824738911,
+            "balance": 97046.93862561273
         },
         {
             "date": "2024-05-03",
-            "equity": 98180.19698399029,
-            "balance": 96860.00079665837
+            "equity": 98168.34914916495,
+            "balance": 96842.86974312074
         },
         {
             "date": "2024-05-06",
-            "equity": 99046.34059490057,
-            "balance": 97921.32472125774
+            "equity": 99036.73051812375,
+            "balance": 97906.18454723248
         },
         {
             "date": "2024-05-07",
-            "equity": 99139.21882439178,
-            "balance": 97921.32472125774
+            "equity": 99129.60871440991,
+            "balance": 97906.18454723248
         },
         {
             "date": "2024-05-08",
-            "equity": 99260.53968897203,
-            "balance": 97921.32472125774
+            "equity": 99250.91623413475,
+            "balance": 97906.18454723248
         },
         {
             "date": "2024-05-09",
-            "equity": 99229.46403355288,
-            "balance": 97827.02557440771
+            "equity": 99219.07531242516,
+            "balance": 97813.43864600665
         },
         {
             "date": "2024-05-10",
-            "equity": 99145.0261435679,
-            "balance": 97616.13547626506
+            "equity": 99135.06917616815,
+            "balance": 97601.67305695669
         },
         {
             "date": "2024-05-13",
-            "equity": 99005.03167833705,
-            "balance": 97616.13547626506
+            "equity": 98995.07612250464,
+            "balance": 97601.67305695669
         },
         {
             "date": "2024-05-14",
-            "equity": 98881.66766896305,
-            "balance": 97408.4296262317
+            "equity": 98872.5880769163,
+            "balance": 97394.38916342071
         },
         {
             "date": "2024-05-15",
-            "equity": 98865.01489481943,
-            "balance": 97201.51469000745
+            "equity": 98857.24258732457,
+            "balance": 97188.35812175508
         },
         {
             "date": "2024-05-16",
-            "equity": 99409.08274151801,
-            "balance": 97393.54197337848
+            "equity": 99401.32707469432,
+            "balance": 97382.64831784822
         },
         {
             "date": "2024-05-17",
-            "equity": 101123.49176296784,
-            "balance": 99292.68903877432
+            "equity": 101111.81415590906,
+            "balance": 99277.88028965394
         },
         {
             "date": "2024-05-20",
-            "equity": 101129.00667970876,
-            "balance": 99292.68903877432
+            "equity": 101117.99187857912,
+            "balance": 99277.88028965394
         },
         {
             "date": "2024-05-21",
-            "equity": 101159.6734509828,
-            "balance": 99292.68903877432
+            "equity": 101148.80372833327,
+            "balance": 99277.88028965394
         },
         {
             "date": "2024-05-22",
-            "equity": 101136.710708367,
-            "balance": 99292.68903877432
+            "equity": 101125.83652875041,
+            "balance": 99277.88028965394
         },
         {
             "date": "2024-05-23",
-            "equity": 100854.06006731991,
-            "balance": 99075.70035411023
+            "equity": 100841.6626457363,
+            "balance": 99061.03888219502
         },
         {
             "date": "2024-05-24",
-            "equity": 100848.01685494311,
-            "balance": 98861.00081026688
+            "equity": 100834.86421296085,
+            "balance": 98844.83752967394
         },
         {
             "date": "2024-05-27",
-            "equity": 100754.89090282405,
-            "balance": 98654.74283415951
+            "equity": 100741.03473513297,
+            "balance": 98637.81846791743
         },
         {
             "date": "2024-05-28",
-            "equity": 100399.51748353969,
-            "balance": 98429.13326865635
+            "equity": 100384.70874642936,
+            "balance": 98411.49645367422
         },
         {
             "date": "2024-05-29",
-            "equity": 100133.39353644419,
-            "balance": 98000.11829743662
+            "equity": 100115.67745356902,
+            "balance": 97978.61672292258
         },
         {
             "date": "2024-05-30",
-            "equity": 100531.95717870643,
-            "balance": 98000.11829743662
+            "equity": 100514.24781360048,
+            "balance": 97978.61672292258
         },
         {
             "date": "2024-05-31",
-            "equity": 101162.00445466687,
-            "balance": 98000.11829743662
+            "equity": 101144.32348703,
+            "balance": 97978.61672292258
         },
         {
             "date": "2024-06-03",
-            "equity": 100616.67876192459,
-            "balance": 97786.07699112585
+            "equity": 100599.00674678563,
+            "balance": 97765.24907796171
         },
         {
             "date": "2024-06-04",
-            "equity": 101648.93192631418,
-            "balance": 97786.07699112585
+            "equity": 101631.27032208853,
+            "balance": 97765.24907796171
         },
         {
             "date": "2024-06-05",
-            "equity": 103767.19737171843,
-            "balance": 102282.78561483939
+            "equity": 103749.53669435329,
+            "balance": 102263.4507043439
         },
         {
             "date": "2024-06-06",
-            "equity": 104088.22290450316,
-            "balance": 102282.78561483939
+            "equity": 104070.70806508312,
+            "balance": 102263.4507043439
         },
         {
             "date": "2024-06-07",
-            "equity": 103980.40372129399,
-            "balance": 102044.729988622
+            "equity": 103966.9927054502,
+            "balance": 102029.30763334074
         },
         {
             "date": "2024-06-10",
-            "equity": 103599.27235692523,
-            "balance": 102044.729988622
+            "equity": 103586.51592480282,
+            "balance": 102029.30763334074
         },
         {
             "date": "2024-06-11",
-            "equity": 103562.6209093685,
-            "balance": 101832.67052925551
+            "equity": 103549.86888453696,
+            "balance": 101817.43374569408
         },
         {
             "date": "2024-06-12",
-            "equity": 103738.00755589147,
-            "balance": 101832.67052925551
+            "equity": 103723.8856347714,
+            "balance": 101817.43374569408
         },
         {
             "date": "2024-06-13",
-            "equity": 103810.60768282389,
-            "balance": 101615.02084721695
+            "equity": 103796.38390029095,
+            "balance": 101600.45506322077
         },
         {
             "date": "2024-06-14",
-            "equity": 103909.55268770238,
-            "balance": 101615.02084721695
+            "equity": 103895.32504519992,
+            "balance": 101600.45506322077
         },
         {
             "date": "2024-06-17",
-            "equity": 103982.38086733597,
-            "balance": 101391.20679105453
+            "equity": 103968.14935595346,
+            "balance": 101376.53413522376
         },
         {
             "date": "2024-06-18",
-            "equity": 103649.37632845859,
-            "balance": 101149.49723286301
+            "equity": 103633.13753989911,
+            "balance": 101132.819557958
         },
         {
             "date": "2024-06-19",
-            "equity": 103984.22243786773,
-            "balance": 102392.4459146791
+            "equity": 103965.52891423415,
+            "balance": 102374.38134371747
         },
         {
             "date": "2024-06-20",
-            "equity": 103867.90874333146,
-            "balance": 102392.4459146791
+            "equity": 103849.21767298866,
+            "balance": 102374.38134371747
         },
         {
             "date": "2024-06-21",
-            "equity": 104338.30974595374,
-            "balance": 102182.30885414955
+            "equity": 104321.30133033304,
+            "balance": 102163.70369129637
         },
         {
             "date": "2024-06-24",
-            "equity": 104363.81955092169,
-            "balance": 101733.69941050862
+            "equity": 104346.81446567643,
+            "balance": 101716.90342305542
         },
         {
             "date": "2024-06-25",
-            "equity": 104615.02514667023,
-            "balance": 102122.81823940418
+            "equity": 104598.5614074795,
+            "balance": 102106.13443059711
         },
         {
             "date": "2024-06-26",
-            "equity": 104555.74252093608,
-            "balance": 101879.06734245222
+            "equity": 104539.27677827502,
+            "balance": 101862.43194910295
         },
         {
             "date": "2024-06-27",
-            "equity": 104344.90404075253,
-            "balance": 101446.93446713331
+            "equity": 104325.16727379091,
+            "balance": 101429.02793981745
         },
         {
             "date": "2024-06-28",
-            "equity": 104305.98470778056,
-            "balance": 101215.73341137521
+            "equity": 104287.09920677316,
+            "balance": 101196.20267580659
         },
         {
             "date": "2024-07-01",
-            "equity": 104249.24441200437,
-            "balance": 102694.65111099518
+            "equity": 104230.36125040513,
+            "balance": 102674.09265225129
         },
         {
             "date": "2024-07-02",
-            "equity": 104328.23283973563,
-            "balance": 102252.8947496048
+            "equity": 104309.74079664602,
+            "balance": 102232.5237111491
         },
         {
             "date": "2024-07-03",
-            "equity": 104226.51029327407,
-            "balance": 102252.8947496048
+            "equity": 104208.02536564287,
+            "balance": 102232.5237111491
         },
         {
             "date": "2024-07-04",
-            "equity": 104164.57132629378,
-            "balance": 102252.8947496048
+            "equity": 104145.76910075366,
+            "balance": 102232.5237111491
         },
         {
             "date": "2024-07-05",
-            "equity": 104022.99399659803,
-            "balance": 102252.8947496048
+            "equity": 104004.19354301457,
+            "balance": 102232.5237111491
         },
         {
             "date": "2024-07-08",
-            "equity": 104500.9608165337,
-            "balance": 102027.39191014889
+            "equity": 104480.4271735701,
+            "balance": 102007.23269273233
         },
         {
             "date": "2024-07-09",
-            "equity": 104171.37533349961,
-            "balance": 101801.93985290978
+            "equity": 104153.09913831217,
+            "balance": 101781.45669738752
         },
         {
             "date": "2024-07-10",
-            "equity": 104170.24589199861,
-            "balance": 102148.66816039455
+            "equity": 104151.96102398088,
+            "balance": 102130.95573061975
         },
         {
             "date": "2024-07-11",
-            "equity": 103606.82181773076,
-            "balance": 101929.80746327603
+            "equity": 103588.68764546793,
+            "balance": 101911.57070045783
         },
         {
             "date": "2024-07-12",
-            "equity": 103527.49322763043,
-            "balance": 101707.81614625485
+            "equity": 103510.1411602031,
+            "balance": 101689.72336166131
         },
         {
             "date": "2024-07-15",
-            "equity": 103295.45069407256,
-            "balance": 101494.47199934299
+            "equity": 103278.0961914989,
+            "balance": 101477.06799628327
         },
         {
             "date": "2024-07-16",
-            "equity": 103321.05500896204,
-            "balance": 101494.47199934299
+            "equity": 103303.69586322951,
+            "balance": 101477.06799628327
         },
         {
             "date": "2024-07-17",
-            "equity": 103186.40194864139,
-            "balance": 101494.47199934299
+            "equity": 103169.04153796706,
+            "balance": 101477.06799628327
         },
         {
             "date": "2024-07-18",
-            "equity": 103964.55721440531,
-            "balance": 101268.55353343682
+            "equity": 103946.60861142959,
+            "balance": 101251.25151249937
         },
         {
             "date": "2024-07-19",
-            "equity": 103750.83245024992,
-            "balance": 101677.49783530369
+            "equity": 103732.60537085902,
+            "balance": 101659.34651663653
         },
         {
             "date": "2024-07-22",
-            "equity": 103552.97150345416,
-            "balance": 101677.49783530369
+            "equity": 103535.50797063098,
+            "balance": 101659.34651663653
         },
         {
             "date": "2024-07-23",
-            "equity": 103514.00393409496,
-            "balance": 101677.49783530369
+            "equity": 103496.53926073262,
+            "balance": 101659.34651663653
         },
         {
             "date": "2024-07-24",
-            "equity": 103721.85988477009,
-            "balance": 101468.96517138345
+            "equity": 103708.64392853393,
+            "balance": 101450.84394611038
         },
         {
             "date": "2024-07-25",
-            "equity": 103991.53697428669,
-            "balance": 102355.27567214155
+            "equity": 103980.66385529892,
+            "balance": 102344.647344709
         },
         {
             "date": "2024-07-26",
-            "equity": 103327.73012341835,
-            "balance": 101391.47086024823
+            "equity": 103319.65297125565,
+            "balance": 101382.0159198121
         },
         {
             "date": "2024-07-29",
-            "equity": 102914.96903464444,
-            "balance": 100905.11475903023
+            "equity": 102899.69239563389,
+            "balance": 100888.46108071404
         },
         {
             "date": "2024-07-30",
-            "equity": 102816.57388399371,
-            "balance": 100673.17116561293
+            "equity": 102797.60229473995,
+            "balance": 100652.82436749493
         },
         {
             "date": "2024-07-31",
-            "equity": 102882.10420529249,
-            "balance": 100673.17116561293
+            "equity": 102863.52277104527,
+            "balance": 100652.82436749493
         },
         {
             "date": "2024-08-01",
-            "equity": 103134.76361648703,
-            "balance": 100240.58173576329
+            "equity": 103118.78561858795,
+            "balance": 100221.95093358659
         },
         {
             "date": "2024-08-02",
-            "equity": 103453.68271924186,
-            "balance": 100800.11904149606
+            "equity": 103439.45623855761,
+            "balance": 100785.9211573707
         },
         {
             "date": "2024-08-05",
-            "equity": 104251.73860981972,
-            "balance": 102340.9126134416
+            "equity": 104235.0431854221,
+            "balance": 102324.93894533016
         },
         {
             "date": "2024-08-06",
-            "equity": 104926.71136633214,
-            "balance": 102985.31720947256
+            "equity": 104909.70712615048,
+            "balance": 102966.71070871179
         },
         {
             "date": "2024-08-07",
-            "equity": 104829.40598808166,
-            "balance": 102985.31720947256
+            "equity": 104812.40641695463,
+            "balance": 102966.71070871179
         },
         {
             "date": "2024-08-08",
-            "equity": 105227.83483338635,
-            "balance": 102774.04049380422
+            "equity": 105211.95232408418,
+            "balance": 102754.9789253258
         },
         {
             "date": "2024-08-09",
-            "equity": 105423.21457234246,
-            "balance": 102774.04049380422
+            "equity": 105407.32627487926,
+            "balance": 102754.9789253258
         },
         {
             "date": "2024-08-12",
-            "equity": 105263.46106830699,
-            "balance": 102774.04049380422
+            "equity": 105247.57790357801,
+            "balance": 102754.9789253258
         },
         {
             "date": "2024-08-13",
-            "equity": 105357.24872510157,
-            "balance": 102565.42300124296
+            "equity": 105340.38691804018,
+            "balance": 102547.62997065886
         },
         {
             "date": "2024-08-14",
-            "equity": 105271.17506777946,
-            "balance": 102340.21078255304
+            "equity": 105254.26678593944,
+            "balance": 102321.44848492857
         },
         {
             "date": "2024-08-15",
-            "equity": 105266.15818476312,
-            "balance": 102312.97319031728
+            "equity": 105249.03057120708,
+            "balance": 102294.18554745794
         },
         {
             "date": "2024-08-16",
-            "equity": 105624.68851083773,
-            "balance": 102101.00690978162
+            "equity": 105607.55637043266,
+            "balance": 102081.97476474247
         },
         {
             "date": "2024-08-19",
-            "equity": 105331.73766418002,
-            "balance": 102101.00690978162
+            "equity": 105314.61511084753,
+            "balance": 102081.97476474247
         },
         {
             "date": "2024-08-20",
-            "equity": 105229.5426783013,
-            "balance": 102101.00690978162
+            "equity": 105212.4291791461,
+            "balance": 102081.97476474247
         },
         {
             "date": "2024-08-21",
-            "equity": 105137.20627912563,
-            "balance": 102101.00690978162
+            "equity": 105119.79147725106,
+            "balance": 102081.97476474247
         },
         {
             "date": "2024-08-22",
-            "equity": 105106.31892323417,
-            "balance": 102101.00690978162
+            "equity": 105088.90818729515,
+            "balance": 102081.97476474247
         },
         {
             "date": "2024-08-23",
-            "equity": 105134.80679781389,
-            "balance": 102101.00690978162
+            "equity": 105117.8568099227,
+            "balance": 102081.97476474247
         },
         {
             "date": "2024-08-26",
-            "equity": 104801.92362710494,
-            "balance": 101767.06550240771
+            "equity": 104784.98670296495,
+            "balance": 101750.08128334401
         },
         {
             "date": "2024-08-27",
-            "equity": 104604.99930396234,
-            "balance": 101631.52611826338
+            "equity": 104590.04940137985,
+            "balance": 101616.52916759369
         },
         {
             "date": "2024-08-28",
-            "equity": 104727.44410737185,
-            "balance": 101463.8538313739
+            "equity": 104713.86091605824,
+            "balance": 101450.92873153838
         },
         {
             "date": "2024-08-29",
-            "equity": 104705.46384439302,
-            "balance": 101545.6885260771
+            "equity": 104695.57267107203,
+            "balance": 101536.45494806509
         },
         {
             "date": "2024-08-30",
-            "equity": 104785.91348962234,
-            "balance": 102319.88915178263
+            "equity": 104776.0226028617,
+            "balance": 102310.34124165568
         },
         {
             "date": "2024-09-02",
-            "equity": 104284.26455957783,
-            "balance": 102089.76190523183
+            "equity": 104275.23891745578,
+            "balance": 102079.354567846
         },
         {
             "date": "2024-09-03",
-            "equity": 104668.22104395229,
-            "balance": 101851.31868689472
+            "equity": 104658.64380309102,
+            "balance": 101841.55959348682
         },
         {
             "date": "2024-09-04",
-            "equity": 104128.09862016414,
-            "balance": 101550.1368690688
+            "equity": 104125.72202969818,
+            "balance": 101547.02714618204
         },
         {
             "date": "2024-09-05",
-            "equity": 103630.93255611887,
-            "balance": 101099.51539936393
+            "equity": 103627.0983584806,
+            "balance": 101095.56407770181
         },
         {
             "date": "2024-09-06",
-            "equity": 103554.89514428923,
-            "balance": 100867.81247171272
+            "equity": 103551.06356942032,
+            "balance": 100861.44620355754
         },
         {
             "date": "2024-09-09",
-            "equity": 103844.85474821522,
-            "balance": 100867.81247171272
+            "equity": 103841.0240324192,
+            "balance": 100861.44620355754
         },
         {
             "date": "2024-09-10",
-            "equity": 103377.68098346671,
-            "balance": 100867.81247171272
+            "equity": 103374.9170668007,
+            "balance": 100861.44620355754
         },
         {
             "date": "2024-09-11",
-            "equity": 103294.16888827695,
-            "balance": 100867.81247171272
+            "equity": 103291.41081883393,
+            "balance": 100861.44620355754
         },
         {
             "date": "2024-09-12",
-            "equity": 103014.5849602361,
-            "balance": 100638.86438420825
+            "equity": 103011.81563132242,
+            "balance": 100633.4460501861
         },
         {
             "date": "2024-09-13",
-            "equity": 102545.3637753385,
-            "balance": 100032.36487734751
+            "equity": 102542.86528411426,
+            "balance": 100027.57836150491
         },
         {
             "date": "2024-09-16",
-            "equity": 102597.39291559998,
-            "balance": 100032.36487734751
+            "equity": 102594.89966438043,
+            "balance": 100027.57836150491
         },
         {
             "date": "2024-09-17",
-            "equity": 102699.0811357719,
-            "balance": 100032.36487734751
+            "equity": 102696.5932974931,
+            "balance": 100027.57836150491
         },
         {
             "date": "2024-09-18",
-            "equity": 102959.54765003444,
-            "balance": 100032.36487734751
+            "equity": 102956.83008636266,
+            "balance": 100027.57836150491
         },
         {
             "date": "2024-09-19",
-            "equity": 102572.16900867624,
-            "balance": 99948.46612545881
+            "equity": 102569.40831271993,
+            "balance": 99944.53245758793
         },
         {
             "date": "2024-09-20",
-            "equity": 102770.06146972647,
-            "balance": 101140.90528697353
+            "equity": 102768.83390909777,
+            "balance": 101138.26960658257
         },
         {
             "date": "2024-09-23",
-            "equity": 102854.3851003563,
-            "balance": 101140.90528697353
+            "equity": 102853.8238841716,
+            "balance": 101138.26960658257
         },
         {
             "date": "2024-09-24",
-            "equity": 102935.112876737,
-            "balance": 100914.85915070817
+            "equity": 102932.3129455144,
+            "balance": 100915.24197456824
         },
         {
             "date": "2024-09-25",
-            "equity": 103250.18799087412,
-            "balance": 100693.66309824216
+            "equity": 103246.1261801517,
+            "balance": 100692.19161795043
         },
         {
             "date": "2024-09-26",
-            "equity": 103071.23090618227,
-            "balance": 101226.33222349982
+            "equity": 103067.16149692096,
+            "balance": 101223.60486992837
         },
         {
             "date": "2024-09-27",
-            "equity": 103960.85412835823,
-            "balance": 101226.33222349982
+            "equity": 103956.79342359192,
+            "balance": 101223.60486992837
         },
         {
             "date": "2024-09-30",
-            "equity": 103656.04913141158,
-            "balance": 101064.36372519018
+            "equity": 103651.47504370812,
+            "balance": 101060.7186185644
         },
         {
             "date": "2024-10-01",
-            "equity": 103399.71796610218,
-            "balance": 100871.3546329287
+            "equity": 103395.22049387524,
+            "balance": 100867.79253463629
         },
         {
             "date": "2024-10-02",
-            "equity": 103053.03219328728,
-            "balance": 100960.52710831225
+            "equity": 103047.7093283591,
+            "balance": 100957.0647494097
         },
         {
             "date": "2024-10-03",
-            "equity": 103236.65595527513,
-            "balance": 100960.52710831225
+            "equity": 103231.17514923243,
+            "balance": 100957.0647494097
         },
         {
             "date": "2024-10-04",
-            "equity": 103114.92901161381,
-            "balance": 100737.15057838593
+            "equity": 103109.44304641569,
+            "balance": 100731.34041552882
         },
         {
             "date": "2024-10-07",
-            "equity": 103376.02254645732,
-            "balance": 100229.16531740643
+            "equity": 103367.2949102196,
+            "balance": 100220.4064481991
         },
         {
             "date": "2024-10-08",
-            "equity": 103371.19143586182,
-            "balance": 100229.16531740643
+            "equity": 103362.46921535357,
+            "balance": 100220.4064481991
         },
         {
             "date": "2024-10-09",
-            "equity": 103824.0493922789,
-            "balance": 101660.32754181541
+            "equity": 103815.32326008815,
+            "balance": 101650.64481427216
         },
         {
             "date": "2024-10-10",
-            "equity": 104943.42965821213,
-            "balance": 101660.21212274414
+            "equity": 104932.17130207636,
+            "balance": 101649.96202128976
         },
         {
             "date": "2024-10-11",
-            "equity": 103990.86574616189,
-            "balance": 101426.65810095126
+            "equity": 103979.96511777383,
+            "balance": 101416.75969340866
         },
         {
             "date": "2024-10-14",
-            "equity": 104022.28097503797,
-            "balance": 101426.65810095126
+            "equity": 104014.7183993937,
+            "balance": 101416.75969340866
         },
         {
             "date": "2024-10-15",
-            "equity": 103929.92645464702,
-            "balance": 100951.12120754487
+            "equity": 103922.37012966613,
+            "balance": 100944.57469264827
         },
         {
             "date": "2024-10-16",
-            "equity": 104112.88695332415,
-            "balance": 100937.55225756102
+            "equity": 104105.27177415583,
+            "balance": 100930.94631750642
         },
         {
             "date": "2024-10-17",
-            "equity": 104275.04517927584,
-            "balance": 100937.55225756102
+            "equity": 104267.42724182765,
+            "balance": 100930.94631750642
         },
         {
             "date": "2024-10-18",
-            "equity": 104347.91919592096,
-            "balance": 100937.55225756102
+            "equity": 104340.30025066409,
+            "balance": 100930.94631750642
         },
         {
             "date": "2024-10-21",
-            "equity": 104150.89213541607,
-            "balance": 100937.55225756102
+            "equity": 104143.27430624238,
+            "balance": 100930.94631750642
         },
         {
             "date": "2024-10-22",
-            "equity": 104732.67240894391,
-            "balance": 100937.55225756102
+            "equity": 104725.05304146,
+            "balance": 100930.94631750642
         },
         {
             "date": "2024-10-23",
-            "equity": 104550.99735338119,
-            "balance": 100937.55225756102
+            "equity": 104543.37882270549,
+            "balance": 100930.94631750642
         },
         {
             "date": "2024-10-24",
-            "equity": 105458.0079032274,
-            "balance": 103343.22430957793
+            "equity": 105450.38563810175,
+            "balance": 103335.905070454
         },
         {
             "date": "2024-10-25",
-            "equity": 105523.35583448784,
-            "balance": 103343.22430957793
+            "equity": 105520.50025067077,
+            "balance": 103335.905070454
         },
         {
             "date": "2024-10-27",
-            "equity": 105125.83173296566,
-            "balance": 103103.8193158739
+            "equity": 105123.0609864341,
+            "balance": 103100.60067148559
         },
         {
             "date": "2024-10-28",
-            "equity": 105791.96738690267,
-            "balance": 102876.89496729936
+            "equity": 105789.11124238133,
+            "balance": 102872.41792383161
         },
         {
             "date": "2024-10-29",
-            "equity": 106017.74324217101,
-            "balance": 102876.89496729936
+            "equity": 106014.89264738346,
+            "balance": 102872.41792383161
         },
         {
             "date": "2024-10-30",
-            "equity": 106189.68238106872,
-            "balance": 102687.05316221139
+            "equity": 106191.30811937156,
+            "balance": 102687.05396989782
         },
         {
             "date": "2024-10-31",
-            "equity": 106486.24349488244,
-            "balance": 103949.0131981425
+            "equity": 106487.86995799658,
+            "balance": 103949.53249742303
         },
         {
             "date": "2024-11-01",
-            "equity": 105881.53485273365,
-            "balance": 103240.82017590904
+            "equity": 105880.46524924807,
+            "balance": 103241.07126391992
         },
         {
             "date": "2024-11-04",
-            "equity": 105346.69842604041,
-            "balance": 102560.02114625931
+            "equity": 105340.79442293898,
+            "balance": 102553.70244229033
         },
         {
             "date": "2024-11-05",
-            "equity": 104660.84778805789,
-            "balance": 102174.20009705097
+            "equity": 104653.52020983583,
+            "balance": 102169.74956917074
         },
         {
             "date": "2024-11-06",
-            "equity": 104731.06762136819,
-            "balance": 101953.45709352897
+            "equity": 104723.18514614698,
+            "balance": 101948.32544533482
         },
         {
             "date": "2024-11-07",
-            "equity": 104830.33845673029,
-            "balance": 101754.60659147613
+            "equity": 104820.35922599275,
+            "balance": 101748.20622717617
         },
         {
             "date": "2024-11-08",
-            "equity": 104405.32075138972,
-            "balance": 101529.67216602172
+            "equity": 104395.17119732097,
+            "balance": 101521.16859894103
         },
         {
             "date": "2024-11-11",
-            "equity": 104389.94571878132,
-            "balance": 101529.67216602172
+            "equity": 104379.37150904787,
+            "balance": 101521.16859894103
         },
         {
             "date": "2024-11-12",
-            "equity": 104620.03796255955,
-            "balance": 101529.67216602172
+            "equity": 104609.46629837979,
+            "balance": 101521.16859894103
         },
         {
             "date": "2024-11-13",
-            "equity": 104568.02444656634,
-            "balance": 101310.62034345379
+            "equity": 104557.45028847622,
+            "balance": 101301.94452586846
         },
         {
             "date": "2024-11-14",
-            "equity": 104872.42462330118,
-            "balance": 101310.62034345379
+            "equity": 104861.85252259293,
+            "balance": 101301.94452586846
         },
         {
             "date": "2024-11-15",
-            "equity": 105242.90973953273,
-            "balance": 101310.62034345379
+            "equity": 105232.3388524081,
+            "balance": 101301.94452586846
         },
         {
             "date": "2024-11-18",
-            "equity": 105277.94123475323,
-            "balance": 101310.62034345379
+            "equity": 105267.36904538672,
+            "balance": 101301.94452586846
         },
         {
             "date": "2024-11-19",
-            "equity": 104852.16191497145,
-            "balance": 101310.62034345379
+            "equity": 104841.59388590157,
+            "balance": 101301.94452586846
         },
         {
             "date": "2024-11-20",
-            "equity": 105100.41614665072,
-            "balance": 102234.08817866407
+            "equity": 105089.8442444383,
+            "balance": 102224.83257040064
         },
         {
             "date": "2024-11-21",
-            "equity": 104999.24604338993,
-            "balance": 102017.62066780234
+            "equity": 104984.95951373527,
+            "balance": 102006.96247937216
         },
         {
             "date": "2024-11-22",
-            "equity": 104508.21793361935,
-            "balance": 101785.85100123711
+            "equity": 104493.93902417194,
+            "balance": 101773.09459957636
         },
         {
             "date": "2024-11-25",
-            "equity": 104115.60315358802,
-            "balance": 101333.56945075722
+            "equity": 104102.44142554901,
+            "balance": 101321.924424554
         },
         {
             "date": "2024-11-26",
-            "equity": 103686.0662981601,
-            "balance": 100888.76704628865
+            "equity": 103680.23812282406,
+            "balance": 100884.46074473683
         },
         {
             "date": "2024-11-27",
-            "equity": 103731.38925302887,
-            "balance": 100888.76704628865
+            "equity": 103725.56323723888,
+            "balance": 100884.46074473683
         },
         {
             "date": "2024-11-28",
-            "equity": 103791.96791998684,
-            "balance": 100888.76704628865
+            "equity": 103784.20123949602,
+            "balance": 100884.46074473683
         },
         {
             "date": "2024-11-29",
-            "equity": 103688.39004657333,
-            "balance": 100888.76704628865
+            "equity": 103680.62541619554,
+            "balance": 100884.46074473683
         },
         {
             "date": "2024-12-02",
-            "equity": 103760.18667156111,
-            "balance": 100888.76704628865
+            "equity": 103752.4183396541,
+            "balance": 100884.46074473683
         },
         {
             "date": "2024-12-03",
-            "equity": 103223.28254164998,
-            "balance": 100674.75260995862
+            "equity": 103215.5191113455,
+            "balance": 100670.43902566751
         },
         {
             "date": "2024-12-04",
-            "equity": 103231.9390924321,
-            "balance": 100674.75260995862
+            "equity": 103224.14247339926,
+            "balance": 100670.43902566751
         },
         {
             "date": "2024-12-05",
-            "equity": 102768.91716117461,
-            "balance": 100423.18600242471
+            "equity": 102758.26841170325,
+            "balance": 100416.94432681499
         },
         {
             "date": "2024-12-06",
-            "equity": 103241.2733973911,
-            "balance": 100423.18600242471
+            "equity": 103230.61006625016,
+            "balance": 100416.94432681499
         },
         {
             "date": "2024-12-09",
-            "equity": 102882.4229813074,
-            "balance": 100012.0931996507
+            "equity": 102859.6601406181,
+            "balance": 99990.89046520251
         },
         {
             "date": "2024-12-10",
-            "equity": 103048.88005492523,
-            "balance": 100012.0931996507
+            "equity": 103027.07920478749,
+            "balance": 99990.89046520251
         },
         {
             "date": "2024-12-11",
-            "equity": 102748.90046830972,
-            "balance": 99798.01558404627
+            "equity": 102727.103651899,
+            "balance": 99777.77517197664
         },
         {
             "date": "2024-12-12",
-            "equity": 102764.79931325853,
-            "balance": 99798.01558404627
+            "equity": 102741.63958551633,
+            "balance": 99777.77517197664
         },
         {
             "date": "2024-12-13",
-            "equity": 102592.604687083,
-            "balance": 99356.82839051273
+            "equity": 102569.457893181,
+            "balance": 99335.1980599242
         },
         {
             "date": "2024-12-16",
-            "equity": 103011.11983568768,
-            "balance": 99356.82839051273
+            "equity": 102987.97671564145,
+            "balance": 99335.1980599242
         },
         {
             "date": "2024-12-17",
-            "equity": 103115.51212446623,
-            "balance": 99356.82839051273
+            "equity": 103092.37219302122,
+            "balance": 99335.1980599242
         },
         {
             "date": "2024-12-18",
-            "equity": 103076.66243354198,
-            "balance": 99356.82839051273
+            "equity": 103053.52277943782,
+            "balance": 99335.1980599242
         },
         {
             "date": "2024-12-19",
-            "equity": 103462.01728634018,
-            "balance": 100887.76300258937
+            "equity": 103438.88612859903,
+            "balance": 100865.71562778583
         },
         {
             "date": "2024-12-20",
-            "equity": 103963.34251319733,
-            "balance": 100689.74200564834
+            "equity": 103937.6667208097,
+            "balance": 100667.48611909665
         },
         {
             "date": "2024-12-23",
-            "equity": 103856.40713697585,
-            "balance": 100689.74200564834
+            "equity": 103830.72299847574,
+            "balance": 100667.48611909665
         },
         {
             "date": "2024-12-24",
-            "equity": 104105.352046308,
-            "balance": 100689.74200564834
+            "equity": 104079.6727027735,
+            "balance": 100667.48611909665
         },
         {
             "date": "2024-12-25",
-            "equity": 100689.74200564834,
-            "balance": 100689.74200564834
+            "equity": 100667.48611909665,
+            "balance": 100667.48611909665
         },
         {
             "date": "2024-12-26",
-            "equity": 104288.07149191361,
-            "balance": 100689.74200564834
+            "equity": 104262.3886987795,
+            "balance": 100667.48611909665
         },
         {
             "date": "2024-12-27",
-            "equity": 104307.92239237139,
-            "balance": 100689.74200564834
+            "equity": 104282.24741705999,
+            "balance": 100667.48611909665
         },
         {
             "date": "2024-12-30",
-            "equity": 104287.08934243397,
-            "balance": 100689.74200564834
+            "equity": 104261.41695851157,
+            "balance": 100667.48611909665
         },
         {
             "date": "2024-12-31",
-            "equity": 104312.25816962277,
-            "balance": 102006.88520295225
+            "equity": 104285.69083811594,
+            "balance": 101983.18061246623
         },
         {
             "date": "2025-01-01",
-            "equity": 102006.88520295225,
-            "balance": 102006.88520295225
+            "equity": 101983.18061246623,
+            "balance": 101983.18061246623
         },
         {
             "date": "2025-01-02",
-            "equity": 104122.43364046022,
-            "balance": 102006.88520295225
+            "equity": 104095.28587048792,
+            "balance": 101983.18061246623
         },
         {
             "date": "2025-01-03",
-            "equity": 103980.58148839656,
-            "balance": 101808.21629367673
+            "equity": 103961.76017598313,
+            "balance": 101792.83334852784
         },
         {
             "date": "2025-01-06",
-            "equity": 103577.10212118465,
-            "balance": 101808.21629367673
+            "equity": 103558.28654810124,
+            "balance": 101792.83334852784
         },
         {
             "date": "2025-01-07",
-            "equity": 104144.67858930101,
-            "balance": 101702.47072690808
+            "equity": 104125.68721154977,
+            "balance": 101686.66176996812
         },
         {
             "date": "2025-01-08",
-            "equity": 104752.87015388864,
-            "balance": 101702.47072690808
+            "equity": 104735.32724029488,
+            "balance": 101686.66176996812
         },
         {
             "date": "2025-01-09",
-            "equity": 105279.9679663011,
-            "balance": 102777.80529920795
+            "equity": 105262.42583268277,
+            "balance": 102763.46978751633
         },
         {
             "date": "2025-01-10",
-            "equity": 105131.5110314759,
-            "balance": 102777.80529920795
+            "equity": 105115.62913180015,
+            "balance": 102763.46978751633
         },
         {
             "date": "2025-01-13",
-            "equity": 105080.36787324825,
-            "balance": 103161.8085973507
+            "equity": 105064.56043238498,
+            "balance": 103148.31131548322
         },
         {
             "date": "2025-01-14",
-            "equity": 105271.83296295916,
-            "balance": 102918.96987202996
+            "equity": 105252.30585104229,
+            "balance": 102903.68140687053
         },
         {
             "date": "2025-01-15",
-            "equity": 105712.07284209323,
-            "balance": 102698.92946273634
+            "equity": 105692.53696171581,
+            "balance": 102683.71243933354
         },
         {
             "date": "2025-01-16",
-            "equity": 105398.69624937876,
-            "balance": 102698.92946273634
+            "equity": 105379.69028958406,
+            "balance": 102683.71243933354
         },
         {
             "date": "2025-01-17",
-            "equity": 105047.51025673082,
-            "balance": 102698.92946273634
+            "equity": 105028.51171471782,
+            "balance": 102683.71243933354
         },
         {
             "date": "2025-01-20",
-            "equity": 104667.76472523759,
-            "balance": 102477.66863432451
+            "equity": 104648.78471250921,
+            "balance": 102460.00316458257
         },
         {
             "date": "2025-01-21",
-            "equity": 105558.07216711153,
-            "balance": 102260.93634583722
+            "equity": 105538.57271624173,
+            "balance": 102243.80488447548
         },
         {
             "date": "2025-01-22",
-            "equity": 105682.66283415929,
-            "balance": 102260.93634583722
+            "equity": 105663.15937762178,
+            "balance": 102243.80488447548
         },
         {
             "date": "2025-01-23",
-            "equity": 105591.95538860463,
-            "balance": 102260.93634583722
+            "equity": 105572.45390531755,
+            "balance": 102243.80488447548
         },
         {
             "date": "2025-01-24",
-            "equity": 105492.43824183648,
-            "balance": 102260.93634583722
+            "equity": 105472.9388414208,
+            "balance": 102243.80488447548
         },
         {
             "date": "2025-01-27",
-            "equity": 105690.99870044281,
-            "balance": 102055.65300426914
+            "equity": 105671.49632905991,
+            "balance": 102038.4380316419
         },
         {
             "date": "2025-01-28",
-            "equity": 105683.65706522595,
-            "balance": 103268.81096853985
+            "equity": 105663.72803484464,
+            "balance": 103249.22900363116
         },
         {
             "date": "2025-01-29",
-            "equity": 105477.31217405335,
-            "balance": 103268.81096853985
+            "equity": 105457.5666573432,
+            "balance": 103249.22900363116
         },
         {
             "date": "2025-01-30",
-            "equity": 105513.2201077636,
-            "balance": 103268.81096853985
+            "equity": 105493.47492713107,
+            "balance": 103249.22900363116
         },
         {
             "date": "2025-01-31",
-            "equity": 105423.74422059077,
-            "balance": 103268.81096853985
+            "equity": 105403.99815742085,
+            "balance": 103249.22900363116
         },
         {
             "date": "2025-02-03",
-            "equity": 105677.83267345408,
-            "balance": 104118.55849680676
+            "equity": 105658.08423270092,
+            "balance": 104099.07436535561
         },
         {
             "date": "2025-02-04",
-            "equity": 105861.57905235853,
-            "balance": 104114.05330835207
+            "equity": 105845.2072268999,
+            "balance": 104094.02930940894
         },
         {
             "date": "2025-02-05",
-            "equity": 105548.64756555378,
-            "balance": 104114.05330835207
+            "equity": 105532.4620818463,
+            "balance": 104094.02930940894
         },
         {
             "date": "2025-02-06",
-            "equity": 105334.33208714743,
-            "balance": 103898.96822333604
+            "equity": 105320.49600798849,
+            "balance": 103878.19378943014
         },
         {
             "date": "2025-02-07",
-            "equity": 105571.66011758054,
-            "balance": 103898.96822333604
+            "equity": 105557.82348020587,
+            "balance": 103878.19378943014
         },
         {
             "date": "2025-02-10",
-            "equity": 107053.20254639634,
-            "balance": 104281.71306575043
+            "equity": 107039.36463830755,
+            "balance": 104263.28808845663
         },
         {
             "date": "2025-02-11",
-            "equity": 107655.87788688323,
-            "balance": 106175.997775514
+            "equity": 107642.27149747193,
+            "balance": 106161.7327256558
         },
         {
             "date": "2025-02-12",
-            "equity": 107921.17270870265,
-            "balance": 106175.997775514
+            "equity": 107907.56792513325,
+            "balance": 106161.7327256558
         },
         {
             "date": "2025-02-13",
-            "equity": 108289.09598760866,
-            "balance": 106175.997775514
+            "equity": 108275.49178153781,
+            "balance": 106161.7327256558
         },
         {
             "date": "2025-02-14",
-            "equity": 107951.23057752133,
-            "balance": 106175.997775514
+            "equity": 107938.06079990999,
+            "balance": 106161.7327256558
         },
         {
             "date": "2025-02-17",
-            "equity": 107715.27208486498,
-            "balance": 105445.38336032092
+            "equity": 107709.5567097916,
+            "balance": 105436.51752423783
         },
         {
             "date": "2025-02-18",
-            "equity": 107649.4171030396,
-            "balance": 105445.38336032092
+            "equity": 107643.69661633586,
+            "balance": 105436.51752423783
         },
         {
             "date": "2025-02-19",
-            "equity": 107733.82826846305,
-            "balance": 105926.64865393084
+            "equity": 107728.10129480972,
+            "balance": 105919.39663844665
         },
         {
             "date": "2025-02-20",
-            "equity": 107822.27450633507,
-            "balance": 105926.64865393084
+            "equity": 107816.54410623273,
+            "balance": 105919.39663844665
         },
         {
             "date": "2025-02-21",
-            "equity": 107736.7286218188,
-            "balance": 105926.64865393084
+            "equity": 107731.00499447781,
+            "balance": 105919.39663844665
         },
         {
             "date": "2025-02-24",
-            "equity": 107896.16408261788,
-            "balance": 105926.64865393084
+            "equity": 107890.43799400135,
+            "balance": 105919.39663844665
         },
         {
             "date": "2025-02-25",
-            "equity": 108159.14341803855,
-            "balance": 105926.64865393084
+            "equity": 108153.41434862667,
+            "balance": 105919.39663844665
         },
         {
             "date": "2025-02-26",
-            "equity": 108572.74716033554,
-            "balance": 105926.64865393084
+            "equity": 108567.3466702019,
+            "balance": 105919.39663844665
         },
         {
             "date": "2025-02-27",
-            "equity": 108727.3708416879,
-            "balance": 105926.64865393084
+            "equity": 108721.96768209769,
+            "balance": 105919.39663844665
         },
         {
             "date": "2025-02-28",
-            "equity": 109049.21337933582,
-            "balance": 107993.65640530587
+            "equity": 109044.42470855088,
+            "balance": 107987.44561929572
         },
         {
             "date": "2025-03-03",
-            "equity": 108724.48272296632,
-            "balance": 107786.46177840476
+            "equity": 108719.2241961147,
+            "balance": 107779.9392146513
         },
         {
             "date": "2025-03-04",
-            "equity": 108342.41664609869,
-            "balance": 107353.80196199575
+            "equity": 108335.71471424497,
+            "balance": 107346.82684338164
         },
         {
             "date": "2025-03-05",
-            "equity": 108331.6585025239,
-            "balance": 107118.89928258023
+            "equity": 108325.03307967342,
+            "balance": 107110.45567700399
         },
         {
             "date": "2025-03-06",
-            "equity": 107950.4923851003,
-            "balance": 106426.52055639528
+            "equity": 107946.0666065089,
+            "balance": 106419.89151219846
         },
         {
             "date": "2025-03-07",
-            "equity": 108386.95318908188,
-            "balance": 107431.79054848284
+            "equity": 108382.69213836154,
+            "balance": 107425.6237714464
         },
         {
             "date": "2025-03-10",
-            "equity": 108309.95535336058,
-            "balance": 107249.84503046211
+            "equity": 108315.97933937544,
+            "balance": 107254.18006880644
         },
         {
             "date": "2025-03-11",
-            "equity": 108446.16546775294,
-            "balance": 107686.13659389426
+            "equity": 108451.93096085968,
+            "balance": 107691.50707781813
         },
         {
             "date": "2025-03-12",
-            "equity": 108440.05710419806,
-            "balance": 107686.13659389426
+            "equity": 108445.82462379782,
+            "balance": 107691.50707781813
         },
         {
             "date": "2025-03-13",
-            "equity": 108476.15457746891,
-            "balance": 107897.79067106317
+            "equity": 108481.92628130878,
+            "balance": 107902.9430020437
         },
         {
             "date": "2025-03-14",
-            "equity": 108436.06627901086,
-            "balance": 107897.79067106317
+            "equity": 108441.83323226722,
+            "balance": 107902.9430020437
         },
         {
             "date": "2025-03-17",
-            "equity": 108574.49441685065,
-            "balance": 107897.79067106317
+            "equity": 108579.469265387,
+            "balance": 107902.9430020437
         },
         {
             "date": "2025-03-18",
-            "equity": 107786.75957044179,
-            "balance": 106856.6535525558
+            "equity": 107809.70842749385,
+            "balance": 106878.72956304882
         },
         {
             "date": "2025-03-19",
-            "equity": 107797.61569703769,
-            "balance": 106856.6535525558
+            "equity": 107821.49014236908,
+            "balance": 106878.72956304882
         },
         {
             "date": "2025-03-20",
-            "equity": 107860.73612012289,
-            "balance": 106856.6535525558
+            "equity": 107884.60530590492,
+            "balance": 106878.72956304882
         },
         {
             "date": "2025-03-21",
-            "equity": 108324.94661697977,
-            "balance": 106856.6535525558
+            "equity": 108349.18028192407,
+            "balance": 106878.72956304882
         },
         {
             "date": "2025-03-24",
-            "equity": 108609.17402703149,
-            "balance": 106906.66601508399
+            "equity": 108633.40603117703,
+            "balance": 106928.65683079185
         },
         {
             "date": "2025-03-25",
-            "equity": 108377.09325094585,
-            "balance": 106906.66601508399
+            "equity": 108401.32611169163,
+            "balance": 106928.65683079185
         },
         {
             "date": "2025-03-26",
-            "equity": 108197.84494032722,
-            "balance": 106691.91893565426
+            "equity": 108221.94856908836,
+            "balance": 106714.70207330475
         },
         {
             "date": "2025-03-27",
-            "equity": 108365.63706622973,
-            "balance": 106691.91893565426
+            "equity": 108388.42480568957,
+            "balance": 106714.70207330475
         },
         {
             "date": "2025-03-28",
-            "equity": 107930.90885767889,
-            "balance": 106727.61101138413
+            "equity": 107953.75794432993,
+            "balance": 106749.97768892098
         },
         {
             "date": "2025-03-31",
-            "equity": 107723.820474401,
-            "balance": 106298.18170045427
+            "equity": 107746.73953413319,
+            "balance": 106320.63490601174
         },
         {
             "date": "2025-04-01",
-            "equity": 108089.70590504508,
-            "balance": 106298.18170045427
+            "equity": 108112.62036252371,
+            "balance": 106320.63490601174
         },
         {
             "date": "2025-04-02",
-            "equity": 107951.93341714927,
-            "balance": 106298.18170045427
+            "equity": 107975.0200061054,
+            "balance": 106320.63490601174
         },
         {
             "date": "2025-04-03",
-            "equity": 108347.72777232034,
-            "balance": 106082.3430553568
+            "equity": 108374.69421507072,
+            "balance": 106104.9713892613
         },
         {
             "date": "2025-04-04",
-            "equity": 108983.39113861763,
-            "balance": 105831.98071300986
+            "equity": 109011.37867113267,
+            "balance": 105855.99811564072
         },
         {
             "date": "2025-04-07",
-            "equity": 109794.40578628508,
-            "balance": 105950.00783366426
+            "equity": 109822.23415141163,
+            "balance": 105973.7836860402
         },
         {
             "date": "2025-04-08",
-            "equity": 110004.02143600637,
-            "balance": 107556.40057718947
+            "equity": 110032.14433859983,
+            "balance": 107583.95455606103
         },
         {
             "date": "2025-04-09",
-            "equity": 110211.37094759387,
-            "balance": 107648.24827922319
+            "equity": 110238.8063064398,
+            "balance": 107675.42479556063
         },
         {
             "date": "2025-04-10",
-            "equity": 109642.85302222932,
-            "balance": 107427.67536769308
+            "equity": 109669.82220879213,
+            "balance": 107455.14100890108
         },
         {
             "date": "2025-04-11",
-            "equity": 110573.69237912276,
-            "balance": 107204.88212493426
+            "equity": 110600.6443971674,
+            "balance": 107231.87194151888
         },
         {
             "date": "2025-04-14",
-            "equity": 110959.62035520881,
-            "balance": 109845.22845602191
+            "equity": 110986.56876162092,
+            "balance": 109871.58508124606
         },
         {
             "date": "2025-04-15",
-            "equity": 111118.38477781012,
-            "balance": 109895.94877352411
+            "equity": 111151.122841408,
+            "balance": 109921.43880405131
         },
         {
             "date": "2025-04-16",
-            "equity": 111704.19884569402,
-            "balance": 109656.59771266012
+            "equity": 111737.72903670964,
+            "balance": 109681.50923432418
         },
         {
             "date": "2025-04-17",
-            "equity": 110632.44222681082,
-            "balance": 109403.5260807195
+            "equity": 110666.85464929239,
+            "balance": 109424.62692734638
         },
         {
             "date": "2025-04-18",
-            "equity": 110672.52300254509,
-            "balance": 109418.39354149047
+            "equity": 110705.66833204271,
+            "balance": 109439.60620437842
         },
         {
             "date": "2025-04-21",
-            "equity": 110377.91152564141,
-            "balance": 109203.43142347374
+            "equity": 110400.32205533638,
+            "balance": 109223.56117968353
         },
         {
             "date": "2025-04-22",
-            "equity": 110947.03627163489,
-            "balance": 108755.37721259994
+            "equity": 110958.13786255648,
+            "balance": 108767.61175951212
         },
         {
             "date": "2025-04-23",
-            "equity": 111055.96116783611,
-            "balance": 108233.48987652909
+            "equity": 111067.79794686486,
+            "balance": 108244.56765963799
         },
         {
             "date": "2025-04-24",
-            "equity": 111517.51201846424,
-            "balance": 108131.57361969411
+            "equity": 111529.5312467472,
+            "balance": 108142.569681966
         },
         {
             "date": "2025-04-25",
-            "equity": 110959.24645471996,
-            "balance": 107892.25937789177
+            "equity": 110971.2664025066,
+            "balance": 107903.43160353231
         },
         {
             "date": "2025-04-28",
-            "equity": 111091.07221236527,
-            "balance": 107865.87873274393
+            "equity": 111102.96826845914,
+            "balance": 107877.13306894225
         },
         {
             "date": "2025-04-29",
-            "equity": 110156.9799728028,
-            "balance": 107595.82421305825
+            "equity": 110169.36454806215,
+            "balance": 107607.14748392979
         },
         {
             "date": "2025-04-30",
-            "equity": 110025.46960806384,
-            "balance": 107107.16879210579
+            "equity": 110037.64161987985,
+            "balance": 107118.4059663027
         },
         {
             "date": "2025-05-01",
-            "equity": 110280.51267695935,
-            "balance": 107107.16879210579
+            "equity": 110292.68200449516,
+            "balance": 107118.4059663027
         }
     ],
     "recent_trades": [
@@ -3264,9 +3264,9 @@
             "lot_size": 0.44,
             "entry_time": "2024-11-08 08:00:00",
             "close_time": "2024-12-18 21:00:00",
-            "entry_price": 1.3884123521961957,
+            "entry_price": 1.388426016460335,
             "close_price": 1.438673643681518,
-            "profit": 1530.934612076647,
+            "profit": 1530.5175678616356,
             "reason": "TP"
         },
         {
@@ -3277,9 +3277,9 @@
             "lot_size": 0.1,
             "entry_time": "2024-11-20 00:00:00",
             "close_time": "2024-12-19 10:00:00",
-            "entry_price": 195.89419671959953,
+            "entry_price": 195.8919414980729,
             "close_price": 198.0321668409489,
-            "profit": -198.02099694103492,
+            "profit": -198.2295086891842,
             "reason": "SL"
         },
         {
@@ -3290,9 +3290,9 @@
             "lot_size": 0.8300000000000001,
             "entry_time": "2024-12-30 00:00:00",
             "close_time": "2024-12-30 10:00:00",
-            "entry_price": 0.9007077147539791,
+            "entry_price": 0.9006980662917003,
             "close_price": 0.903105925134991,
-            "profit": -226.18006135994415,
+            "profit": -227.0666525619684,
             "reason": "SL"
         },
         {
@@ -3303,9 +3303,9 @@
             "lot_size": 0.34,
             "entry_time": "2024-11-05 00:00:00",
             "close_time": "2024-12-30 15:00:00",
-            "entry_price": 0.8641883529217633,
+            "entry_price": 0.8642033292582249,
             "close_price": 0.9053704339186236,
-            "profit": 1543.3232586638655,
+            "profit": 1542.7611459315535,
             "reason": "TP"
         },
         {
@@ -3316,9 +3316,9 @@
             "lot_size": 3.12,
             "entry_time": "2025-01-02 01:00:00",
             "close_time": "2025-01-02 14:00:00",
-            "entry_price": 0.907515312787264,
+            "entry_price": 0.9075395349097414,
             "close_price": 0.9080300152679005,
-            "profit": -198.6689092755309,
+            "profit": -190.34726393838926,
             "reason": "SL"
         },
         {
@@ -3329,9 +3329,9 @@
             "lot_size": 0.23,
             "entry_time": "2024-12-31 08:00:00",
             "close_time": "2025-01-06 13:00:00",
-            "entry_price": 162.67877036772597,
+            "entry_price": 162.67764414555802,
             "close_price": 163.64142089961214,
-            "profit": -206.5567343803988,
+            "profit": -206.79744703434628,
             "reason": "SL"
         },
         {
@@ -3342,9 +3342,9 @@
             "lot_size": 0.16,
             "entry_time": "2025-01-06 14:00:00",
             "close_time": "2025-01-06 16:00:00",
-            "entry_price": 196.50750182072363,
+            "entry_price": 196.50625549368314,
             "close_price": 195.82567658786053,
-            "profit": 100.81116761174985,
+            "profit": 100.6258684746233,
             "reason": "TP"
         },
         {
@@ -3355,9 +3355,9 @@
             "lot_size": 0.16,
             "entry_time": "2025-01-06 04:00:00",
             "close_time": "2025-01-08 10:15:00",
-            "entry_price": 1.2530160625068367,
+            "entry_price": 1.2530141431026276,
             "close_price": 1.256789949195393,
-            "profit": 59.262187016902125,
+            "profit": 59.29289748424816,
             "reason": "Circuit Breaker"
         },
         {
@@ -3368,9 +3368,9 @@
             "lot_size": 0.6,
             "entry_time": "2025-01-07 03:00:00",
             "close_time": "2025-01-08 13:00:00",
-            "entry_price": 198.16517905633225,
+            "entry_price": 198.16777014689504,
             "close_price": 196.33658457482187,
-            "profit": 1016.0723852829623,
+            "profit": 1017.5151200639505,
             "reason": "TP"
         },
         {
@@ -3381,9 +3381,9 @@
             "lot_size": 1.04,
             "entry_time": "2025-01-09 16:00:00",
             "close_time": "2025-01-10 11:00:00",
-            "entry_price": 0.9113390924237361,
+            "entry_price": 0.911349479083216,
             "close_price": 0.9133192664915376,
-            "profit": -232.74074933639298,
+            "profit": -231.5581340969029,
             "reason": "SL"
         },
         {
@@ -3394,9 +3394,9 @@
             "lot_size": 0.41000000000000003,
             "entry_time": "2024-12-31 08:00:00",
             "close_time": "2025-01-10 15:00:00",
-            "entry_price": 0.9039635299305359,
+            "entry_price": 0.9039712292124724,
             "close_price": 0.9178159842768853,
-            "profit": 616.744047479136,
+            "profit": 616.3996620638072,
             "reason": "TP"
         },
         {
@@ -3407,9 +3407,9 @@
             "lot_size": 1.4000000000000001,
             "entry_time": "2025-01-13 15:00:00",
             "close_time": "2025-01-13 16:00:00",
-            "entry_price": 0.9165253626576475,
+            "entry_price": 0.9165136174849771,
             "close_price": 0.9180534475164452,
-            "profit": -242.83872532073033,
+            "profit": -244.62990861270075,
             "reason": "SL"
         },
         {
@@ -3420,9 +3420,9 @@
             "lot_size": 0.48,
             "entry_time": "2025-01-10 16:00:00",
             "close_time": "2025-01-14 23:00:00",
-            "entry_price": 0.9162701495378692,
+            "entry_price": 0.9162687919510051,
             "close_price": 0.9121526349185153,
-            "profit": -220.04040929361975,
+            "profit": -219.9689675369852,
             "reason": "SL"
         },
         {
@@ -3433,9 +3433,9 @@
             "lot_size": 0.84,
             "entry_time": "2024-12-19 04:00:00",
             "close_time": "2025-01-17 22:00:00",
-            "entry_price": 1.4431652398112658,
+            "entry_price": 1.44312307319308,
             "close_price": 1.4468744822851396,
-            "profit": -221.26082841182728,
+            "profit": -223.70927475097858,
             "reason": "SL"
         },
         {
@@ -3446,9 +3446,9 @@
             "lot_size": 0.38,
             "entry_time": "2025-01-15 04:00:00",
             "close_time": "2025-01-20 16:00:00",
-            "entry_price": 0.9128744793118735,
+            "entry_price": 0.9128617262080546,
             "close_price": 0.9077620387191079,
-            "profit": -216.73228848728183,
+            "profit": -216.19828010707974,
             "reason": "SL"
         },
         {
@@ -3459,9 +3459,9 @@
             "lot_size": 0.21,
             "entry_time": "2024-12-19 00:00:00",
             "close_time": "2025-01-24 04:00:00",
-            "entry_price": 0.6210446027824723,
+            "entry_price": 0.621040626055544,
             "close_price": 0.63075,
-            "profit": -205.28334156808214,
+            "profit": -205.3668528335767,
             "reason": "SL"
         },
         {
@@ -3472,9 +3472,9 @@
             "lot_size": 0.75,
             "entry_time": "2025-01-13 20:00:00",
             "close_time": "2025-01-27 12:00:00",
-            "entry_price": 0.9180651420535075,
+            "entry_price": 0.9180417104432489,
             "close_price": 0.9008583289680924,
-            "profit": 1431.2527565548016,
+            "profit": 1429.2965795126054,
             "reason": "TP"
         },
         {
@@ -3485,9 +3485,9 @@
             "lot_size": 0.34,
             "entry_time": "2025-01-27 00:00:00",
             "close_time": "2025-01-27 12:00:00",
-            "entry_price": 0.9060325564334345,
+            "entry_price": 0.9060434112595073,
             "close_price": 0.9003328006115442,
-            "profit": -218.09479228410393,
+            "profit": -218.50560752334187,
             "reason": "SL"
         },
         {
@@ -3498,9 +3498,9 @@
             "lot_size": 0.39,
             "entry_time": "2025-01-28 04:00:00",
             "close_time": "2025-02-03 00:00:00",
-            "entry_price": 1.4394932184878488,
+            "entry_price": 1.439489522139139,
             "close_price": 1.4717015681776255,
-            "profit": 849.7475282669096,
+            "profit": 849.8453617244472,
             "reason": "TP"
         },
         {
@@ -3511,9 +3511,9 @@
             "lot_size": 0.62,
             "entry_time": "2025-01-20 00:00:00",
             "close_time": "2025-02-03 02:00:00",
-            "entry_price": 0.559201545453026,
+            "entry_price": 0.5592097390465831,
             "close_price": 0.5556476327675541,
-            "profit": -224.68258649925744,
+            "profit": -225.1905892997965,
             "reason": "SL"
         },
         {
@@ -3524,9 +3524,9 @@
             "lot_size": 0.36,
             "entry_time": "2025-02-03 06:00:00",
             "close_time": "2025-02-03 17:00:00",
-            "entry_price": 0.6117226150712034,
+            "entry_price": 0.6117235002015216,
             "close_price": 0.6179086539057749,
-            "profit": 220.17739804457298,
+            "profit": 220.14553335311953,
             "reason": "TP"
         },
         {
@@ -3537,9 +3537,9 @@
             "lot_size": 0.21,
             "entry_time": "2025-02-03 00:00:00",
             "close_time": "2025-02-05 10:00:00",
-            "entry_price": 0.5574718811102423,
+            "entry_price": 0.557436146112015,
             "close_price": 0.5676440280157676,
-            "profit": -215.08508501603274,
+            "profit": -215.8355199788058,
             "reason": "SL"
         },
         {
@@ -3550,9 +3550,9 @@
             "lot_size": 0.98,
             "entry_time": "2025-02-05 14:00:00",
             "close_time": "2025-02-07 19:00:00",
-            "entry_price": 0.5683815419113172,
+            "entry_price": 0.5684055159583794,
             "close_price": 0.5644059822948437,
-            "profit": 382.74484241439757,
+            "profit": 385.09429902649566,
             "reason": "TP"
         },
         {
@@ -3563,9 +3563,9 @@
             "lot_size": 1.09,
             "entry_time": "2025-02-03 04:00:00",
             "close_time": "2025-02-10 16:45:00",
-            "entry_price": 1.2243566032947195,
+            "entry_price": 1.2243184388228332,
             "close_price": 1.24180536209989,
-            "profit": 1894.2847097635718,
+            "profit": 1898.44463719918,
             "reason": "TP"
         },
         {
@@ -3576,9 +3576,9 @@
             "lot_size": 0.41000000000000003,
             "entry_time": "2025-02-10 16:00:00",
             "close_time": "2025-02-14 11:00:00",
-            "entry_price": 0.565269057529177,
+            "entry_price": 0.5652746863745024,
             "close_price": 0.5706931522849618,
-            "profit": -225.2578849871751,
+            "profit": -225.02710232883368,
             "reason": "SL"
         },
         {
@@ -3589,9 +3589,9 @@
             "lot_size": 0.34,
             "entry_time": "2025-01-28 08:00:00",
             "close_time": "2025-02-14 15:00:00",
-            "entry_price": 0.9054765056932618,
+            "entry_price": 0.9054743160837989,
             "close_price": 0.8997442144415619,
-            "profit": -219.19581310453123,
+            "profit": -219.11299422195447,
             "reason": "SL"
         },
         {
@@ -3602,9 +3602,9 @@
             "lot_size": 2.47,
             "entry_time": "2025-02-14 16:00:00",
             "close_time": "2025-02-14 23:00:00",
-            "entry_price": 0.5727045987271558,
+            "entry_price": 0.5727251882503712,
             "close_price": 0.5737931441405217,
-            "profit": -286.1607171013757,
+            "profit": -281.075104867178,
             "reason": "SL"
         },
         {
@@ -3615,9 +3615,9 @@
             "lot_size": 0.8300000000000001,
             "entry_time": "2025-02-14 19:00:00",
             "close_time": "2025-02-18 07:00:00",
-            "entry_price": 0.898216921889537,
+            "entry_price": 0.8981991607440419,
             "close_price": 0.9034087551250114,
-            "profit": 471.3171519380615,
+            "profit": 472.9493932641674,
             "reason": "TP"
         },
         {
@@ -3628,9 +3628,9 @@
             "lot_size": 0.02,
             "entry_time": "2025-02-13 20:00:00",
             "close_time": "2025-02-18 15:45:00",
-            "entry_price": 1.1074500242544572,
+            "entry_price": 1.1074592346180567,
             "close_price": 1.1124940950903852,
-            "profit": 9.94814167185612,
+            "profit": 9.929720944656967,
             "reason": "TP"
         },
         {
@@ -3641,9 +3641,9 @@
             "lot_size": 1.2,
             "entry_time": "2025-02-25 18:00:00",
             "close_time": "2025-02-27 12:00:00",
-            "entry_price": 0.8929913541713852,
+            "entry_price": 0.8929888997426126,
             "close_price": 0.8979109391862414,
-            "profit": 648.9982492207747,
+            "profit": 649.326231595923,
             "reason": "TP"
         },
         {
@@ -3654,9 +3654,9 @@
             "lot_size": 0.97,
             "entry_time": "2025-02-14 23:00:00",
             "close_time": "2025-02-27 15:00:00",
-            "entry_price": 1.4174851374917972,
+            "entry_price": 1.4174745301103546,
             "close_price": 1.4386746969332165,
-            "profit": 1418.0095021542472,
+            "profit": 1418.7227492531438,
             "reason": "TP"
         },
         {
@@ -3667,9 +3667,9 @@
             "lot_size": 0.27,
             "entry_time": "2024-08-05 11:00:00",
             "close_time": "2025-02-28 03:00:00",
-            "entry_price": 155.950258038215,
+            "entry_price": 155.95149802741972,
             "close_price": 155.12997077803195,
-            "profit": -207.1946269011142,
+            "profit": -207.50640464441085,
             "reason": "SL"
         },
         {
@@ -3680,9 +3680,9 @@
             "lot_size": 0.38,
             "entry_time": "2025-02-28 12:00:00",
             "close_time": "2025-03-03 17:00:00",
-            "entry_price": 0.9029544032138618,
+            "entry_price": 0.9029656587545218,
             "close_price": 0.897678278714661,
-            "profit": -225.84134667233988,
+            "profit": -226.31745877364037,
             "reason": "SL"
         },
         {
@@ -3693,9 +3693,9 @@
             "lot_size": 0.15,
             "entry_time": "2025-03-03 16:00:00",
             "close_time": "2025-03-03 22:00:00",
-            "entry_price": 157.89389338823037,
+            "entry_price": 157.8937263508746,
             "close_price": 156.43112802424437,
-            "profit": -206.81846973667058,
+            "profit": -206.79491249601872,
             "reason": "SL"
         },
         {
@@ -3706,9 +3706,9 @@
             "lot_size": 0.75,
             "entry_time": "2025-03-03 21:00:00",
             "close_time": "2025-03-04 03:00:00",
-            "entry_price": 0.8976335266257621,
+            "entry_price": 0.8976510666256342,
             "close_price": 0.8948904937821086,
-            "profit": -234.90267941552278,
+            "profit": -236.37116637764282,
             "reason": "SL"
         },
         {
@@ -3719,9 +3719,9 @@
             "lot_size": 0.48,
             "entry_time": "2025-03-04 16:00:00",
             "close_time": "2025-03-05 11:00:00",
-            "entry_price": 0.8900263858234778,
+            "entry_price": 0.8900250689331206,
             "close_price": 0.8858881109958124,
-            "profit": -227.6238182379937,
+            "profit": -227.55245254286552,
             "reason": "SL"
         },
         {
@@ -3732,9 +3732,9 @@
             "lot_size": 0.38,
             "entry_time": "2025-02-27 16:00:00",
             "close_time": "2025-03-05 16:00:00",
-            "entry_price": 0.6252260239737701,
+            "entry_price": 0.6252424797475197,
             "close_price": 0.6310703849249031,
-            "profit": -224.74571614305182,
+            "profit": -224.1203967405695,
             "reason": "SL"
         },
         {
@@ -3745,9 +3745,9 @@
             "lot_size": 0.9500000000000001,
             "entry_time": "2025-03-05 18:00:00",
             "close_time": "2025-03-05 21:00:00",
-            "entry_price": 0.5702221245606884,
+            "entry_price": 0.5702338916794445,
             "close_price": 0.5726785371059928,
-            "profit": -240.00919180391577,
+            "profit": -238.8913155220904,
             "reason": "SL"
         },
         {
@@ -3758,9 +3758,9 @@
             "lot_size": 0.43,
             "entry_time": "2025-02-13 20:00:00",
             "close_time": "2025-03-06 16:00:00",
-            "entry_price": 0.9047716675675411,
+            "entry_price": 0.9047811596324072,
             "close_price": 0.884067927590478,
-            "profit": 1005.2699920875622,
+            "profit": 1005.7322592479256,
             "reason": "TP"
         },
         {
@@ -3771,9 +3771,9 @@
             "lot_size": 3.25,
             "entry_time": "2025-03-07 10:00:00",
             "close_time": "2025-03-07 11:00:00",
-            "entry_price": 0.8780383573107912,
+            "entry_price": 0.8780099688034538,
             "close_price": 0.8776080199864775,
-            "profit": -181.94551802072888,
+            "profit": -171.4437026399472,
             "reason": "SL"
         },
         {
@@ -3784,9 +3784,9 @@
             "lot_size": 0.71,
             "entry_time": "2025-03-05 22:00:00",
             "close_time": "2025-03-10 20:00:00",
-            "entry_price": 0.6338415308580615,
+            "entry_price": 0.6338561145986183,
             "close_price": 0.6276265792604255,
-            "profit": 436.2915634321534,
+            "profit": 437.3270090116898,
             "reason": "TP"
         },
         {
@@ -3797,9 +3797,9 @@
             "lot_size": 0.41000000000000003,
             "entry_time": "2025-03-07 13:00:00",
             "close_time": "2025-03-12 15:00:00",
-            "entry_price": 0.8796966839508026,
+            "entry_price": 0.8797013846146511,
             "close_price": 0.884319154584336,
-            "profit": 211.6540771689045,
+            "profit": 211.4359242255704,
             "reason": "TP"
         },
         {
@@ -3810,9 +3810,9 @@
             "lot_size": 0.27,
             "entry_time": "2025-03-10 20:00:00",
             "close_time": "2025-03-17 12:00:00",
-            "entry_price": 1.4465001169264178,
+            "entry_price": 1.4465137730306206,
             "close_price": 1.4348254072694393,
-            "profit": -221.5152644057961,
+            "profit": -221.7721637706979,
             "reason": "SL"
         },
         {
@@ -3823,9 +3823,9 @@
             "lot_size": 3.25,
             "entry_time": "2025-03-17 15:00:00",
             "close_time": "2025-03-17 16:00:00",
-            "entry_price": 0.6354593406159338,
+            "entry_price": 0.6354848444335662,
             "close_price": 0.6362820708497371,
-            "profit": -290.13732598607373,
+            "profit": -281.84858525552943,
             "reason": "SL"
         },
         {
@@ -3836,9 +3836,9 @@
             "lot_size": 0.75,
             "entry_time": "2025-03-14 01:00:00",
             "close_time": "2025-03-17 17:00:00",
-            "entry_price": 0.8828400508913116,
+            "entry_price": 0.8828493935741928,
             "close_price": 0.8801345876828495,
-            "profit": -235.51263959176305,
+            "profit": -236.30779763138065,
             "reason": "SL"
         },
         {
@@ -3849,9 +3849,9 @@
             "lot_size": 2.71,
             "entry_time": "2025-03-17 17:00:00",
             "close_time": "2025-03-17 19:00:00",
-            "entry_price": 0.5807207780153394,
+            "entry_price": 0.5807565233887212,
             "close_price": 0.5817355451316631,
-            "profit": -293.9718885237379,
+            "profit": -284.28489233726964,
             "reason": "SL"
         },
         {
@@ -3862,9 +3862,9 @@
             "lot_size": 0.06,
             "entry_time": "2025-03-05 20:00:00",
             "close_time": "2025-03-21 08:45:00",
-            "entry_price": 1.1053305233379396,
+            "entry_price": 1.1053447224688018,
             "close_price": 1.1137359337593051,
-            "profit": 50.01246252819333,
+            "profit": 49.92726774302012,
             "reason": "TP"
         },
         {
@@ -3875,9 +3875,9 @@
             "lot_size": 0.9,
             "entry_time": "2025-03-18 17:00:00",
             "close_time": "2025-03-25 15:00:00",
-            "entry_price": 1.4313986321436885,
+            "entry_price": 1.4313839351437934,
             "close_price": 1.4278060739386158,
-            "profit": -232.54903851859467,
+            "profit": -231.6234635089324,
             "reason": "SL"
         },
         {
@@ -3888,9 +3888,9 @@
             "lot_size": 0.11,
             "entry_time": "2025-03-25 12:00:00",
             "close_time": "2025-03-25 21:45:00",
-            "entry_price": 1.0964357964935063,
+            "entry_price": 1.0964479104086917,
             "close_price": 1.0981241564106767,
-            "profit": 17.801959088874657,
+            "profit": 17.668706021835174,
             "reason": "TP"
         },
         {
@@ -3901,9 +3901,9 @@
             "lot_size": 0.06,
             "entry_time": "2025-03-26 21:00:00",
             "close_time": "2025-03-27 05:15:00",
-            "entry_price": 1670.81409287682,
+            "entry_price": 1670.74468285788,
             "close_price": 1664.8304135885098,
-            "profit": 35.69207572986127,
+            "profit": 35.27561561622091,
             "reason": "TP"
         },
         {
@@ -3914,9 +3914,9 @@
             "lot_size": 0.06,
             "entry_time": "2025-03-27 15:00:00",
             "close_time": "2025-03-28 08:45:00",
-            "entry_price": 1667.0169342376107,
+            "entry_price": 1667.027154932351,
             "close_price": 1702.0698814752361,
-            "profit": -210.52768342575243,
+            "profit": -210.46635925731013,
             "reason": "SL"
         },
         {
@@ -3927,9 +3927,9 @@
             "lot_size": 0.71,
             "entry_time": "2025-03-28 10:00:00",
             "close_time": "2025-03-28 10:30:00",
-            "entry_price": 1697.2384308013159,
+            "entry_price": 1697.2408118367423,
             "close_price": 1693.8341680871308,
-            "profit": -244.18765270713865,
+            "profit": -244.35670622241477,
             "reason": "SL"
         },
         {
@@ -3940,9 +3940,9 @@
             "lot_size": 0.11,
             "entry_time": "2025-03-28 15:00:00",
             "close_time": "2025-03-28 17:45:00",
-            "entry_price": 1.0949865042786433,
+            "entry_price": 1.0949688445179655,
             "close_price": 1.0973552338425554,
-            "profit": 25.286025203033077,
+            "profit": 25.480282570488892,
             "reason": "TP"
         },
         {
@@ -3953,9 +3953,9 @@
             "lot_size": 0.1,
             "entry_time": "2025-04-01 07:00:00",
             "close_time": "2025-04-02 21:30:00",
-            "entry_price": 1706.6099088240126,
+            "entry_price": 1706.592395989309,
             "close_price": 1685.0610443142662,
-            "profit": -215.8386450974641,
+            "profit": -215.66351675042742,
             "reason": "SL"
         },
         {
@@ -3966,9 +3966,9 @@
             "lot_size": 1.1300000000000001,
             "entry_time": "2025-03-20 07:00:00",
             "close_time": "2025-04-03 08:00:00",
-            "entry_price": 0.8766343867986403,
+            "entry_price": 0.8766314967059596,
             "close_price": 0.8747967984757115,
-            "profit": -245.9996192021395,
+            "profit": -245.6251604307153,
             "reason": "SL"
         },
         {
@@ -3979,9 +3979,9 @@
             "lot_size": 0.1,
             "entry_time": "2025-03-28 20:00:00",
             "close_time": "2025-04-03 10:15:00",
-            "entry_price": 1.0968770751547399,
+            "entry_price": 1.0968722258933044,
             "close_price": 1.1051710841666476,
-            "profit": 82.24009011907688,
+            "profit": 82.28858273343202,
             "reason": "TP"
         },
         {
@@ -3992,9 +3992,9 @@
             "lot_size": 0.49,
             "entry_time": "2025-03-26 00:00:00",
             "close_time": "2025-04-03 12:00:00",
-            "entry_price": 0.6299692760846887,
+            "entry_price": 0.6299509631117656,
             "close_price": 0.6344676560563692,
-            "profit": -223.85061861234777,
+            "profit": -224.74795428557943,
             "reason": "SL"
         },
         {
@@ -4005,9 +4005,9 @@
             "lot_size": 0.25,
             "entry_time": "2025-03-06 16:00:00",
             "close_time": "2025-04-03 13:00:00",
-            "entry_price": 0.8827715954214406,
+            "entry_price": 0.8827771934070556,
             "close_price": 0.8619355562341753,
-            "profit": 601.6544733184661,
+            "profit": 601.8165890416772,
             "reason": "TP"
         },
         {
@@ -4018,9 +4018,9 @@
             "lot_size": 0.6900000000000001,
             "entry_time": "2025-04-03 13:00:00",
             "close_time": "2025-04-03 14:00:00",
-            "entry_price": 1.413027288228323,
+            "entry_price": 1.4130315401422038,
             "close_price": 1.4084560365257848,
-            "profit": -228.63431086546836,
+            "profit": -228.8424806880608,
             "reason": "SL"
         },
         {
@@ -4031,9 +4031,9 @@
             "lot_size": 0.93,
             "entry_time": "2025-04-03 14:00:00",
             "close_time": "2025-04-03 16:00:00",
-            "entry_price": 1.4095309650290324,
+            "entry_price": 1.4095021261332161,
             "close_price": 1.4060684624882287,
-            "profit": -235.77235710453476,
+            "profit": -233.86284999133593,
             "reason": "SL"
         },
         {
@@ -4044,9 +4044,9 @@
             "lot_size": 0.63,
             "entry_time": "2025-04-03 16:00:00",
             "close_time": "2025-04-04 05:00:00",
-            "entry_price": 0.636821912885265,
+            "entry_price": 0.6368219973108168,
             "close_price": 0.6277069549250817,
-            "profit": 569.8323514915515,
+            "profit": 569.8376703013131,
             "reason": "TP"
         },
         {
@@ -4057,9 +4057,9 @@
             "lot_size": 0.28,
             "entry_time": "2025-04-03 19:00:00",
             "close_time": "2025-04-04 06:00:00",
-            "entry_price": 0.86018142164036,
+            "entry_price": 0.8601716670237377,
             "close_price": 0.8534080196364764,
-            "profit": -224.26001302085493,
+            "profit": -223.93987088239692,
             "reason": "SL"
         },
         {
@@ -4070,9 +4070,9 @@
             "lot_size": 0.61,
             "entry_time": "2025-04-03 19:00:00",
             "close_time": "2025-04-04 15:45:00",
-            "entry_price": 1.1103494095431001,
+            "entry_price": 1.110340114277475,
             "close_price": 1.1140096590154984,
-            "profit": -227.54521781629578,
+            "profit": -228.11222901943353,
             "reason": "SL"
         },
         {
@@ -4083,9 +4083,9 @@
             "lot_size": 0.73,
             "entry_time": "2025-04-02 16:00:00",
             "close_time": "2025-04-07 00:30:00",
-            "entry_price": 1698.7291713290872,
+            "entry_price": 1698.78227159136,
             "close_price": 1670.6626562572123,
-            "profit": 2046.3006002468635,
+            "profit": 2050.176919392785,
             "reason": "TP"
         },
         {
@@ -4096,9 +4096,9 @@
             "lot_size": 0.35000000000000003,
             "entry_time": "2025-04-04 16:00:00",
             "close_time": "2025-04-07 10:00:00",
-            "entry_price": 0.8528651179592645,
+            "entry_price": 0.8528547130839913,
             "close_price": 0.8474288492728568,
-            "profit": -226.7951958168971,
+            "profit": -226.3658050131567,
             "reason": "SL"
         },
         {
@@ -4109,9 +4109,9 @@
             "lot_size": 0.18,
             "entry_time": "2025-04-03 16:00:00",
             "close_time": "2025-04-07 17:00:00",
-            "entry_price": 0.8563377934044624,
+            "entry_price": 0.8563125608464666,
             "close_price": 0.86647,
-            "profit": -213.11266090474484,
+            "profit": -213.64024435879702,
             "reason": "SL"
         },
         {
@@ -4122,9 +4122,9 @@
             "lot_size": 0.1,
             "entry_time": "2025-04-08 00:00:00",
             "close_time": "2025-04-08 19:15:00",
-            "entry_price": 1681.853269944887,
+            "entry_price": 1681.8910161982988,
             "close_price": 1691.0730401482585,
-            "profit": 91.84770203371583,
+            "profit": 91.47023949959787,
             "reason": "TP"
         },
         {
@@ -4135,9 +4135,9 @@
             "lot_size": 0.22,
             "entry_time": "2025-04-07 12:00:00",
             "close_time": "2025-04-09 03:00:00",
-            "entry_price": 0.8526494714664401,
+            "entry_price": 0.852638387733107,
             "close_price": 0.8442527452425194,
-            "profit": -220.57291153010053,
+            "profit": -220.2837866595451,
             "reason": "SL"
         },
         {
@@ -4148,9 +4148,9 @@
             "lot_size": 0.23,
             "entry_time": "2025-04-09 21:00:00",
             "close_time": "2025-04-10 11:00:00",
-            "entry_price": 0.855007763516172,
+            "entry_price": 0.8550252680696642,
             "close_price": 0.8468709128482111,
-            "profit": -222.79324275882888,
+            "profit": -223.26906738219117,
             "reason": "SL"
         },
         {
@@ -4161,9 +4161,9 @@
             "lot_size": 0.13,
             "entry_time": "2025-04-03 12:00:00",
             "close_time": "2025-04-11 02:15:00",
-            "entry_price": 1.107017734601637,
+            "entry_price": 1.1070115954333548,
             "close_price": 1.1247012767942122,
-            "profit": 228.9760485034773,
+            "profit": 229.05585769114566,
             "reason": "Circuit Breaker"
         },
         {
@@ -4174,9 +4174,9 @@
             "lot_size": 0.29,
             "entry_time": "2025-04-08 04:00:00",
             "close_time": "2025-04-11 03:00:00",
-            "entry_price": 0.8569753430317838,
+            "entry_price": 0.8569662001732079,
             "close_price": 0.8146038909991932,
-            "profit": 1499.4205418506192,
+            "profit": 1499.0965607429555,
             "reason": "TP"
         },
         {
@@ -4187,9 +4187,9 @@
             "lot_size": 0.36,
             "entry_time": "2025-04-04 08:00:00",
             "close_time": "2025-04-11 05:00:00",
-            "entry_price": 0.5725271180239965,
+            "entry_price": 0.5725109806207782,
             "close_price": 0.5787618204079886,
-            "profit": -226.96928582371748,
+            "profit": -227.550232339575,
             "reason": "SL"
         },
         {
@@ -4200,9 +4200,9 @@
             "lot_size": 0.26,
             "entry_time": "2025-02-04 08:00:00",
             "close_time": "2025-04-11 15:00:00",
-            "entry_price": 1.4460754187245186,
+            "entry_price": 1.4460856473303652,
             "close_price": 1.3852806097957078,
-            "profit": 1138.9190265572704,
+            "profit": 1139.1109536326576,
             "reason": "TP"
         },
         {
@@ -4213,9 +4213,9 @@
             "lot_size": 0.08,
             "entry_time": "2025-04-14 06:00:00",
             "close_time": "2025-04-14 07:00:00",
-            "entry_price": 1699.2377645454226,
+            "entry_price": 1699.3323921025365,
             "close_price": 1705.31734989487,
-            "profit": 48.35668279557896,
+            "profit": 47.59966233866791,
             "reason": "TP"
         },
         {
@@ -4226,9 +4226,9 @@
             "lot_size": 0.08,
             "entry_time": "2025-04-14 15:00:00",
             "close_time": "2025-04-14 15:15:00",
-            "entry_price": 1702.6165505331128,
+            "entry_price": 1702.6302473131168,
             "close_price": 1702.9470048714395,
-            "profit": 2.3636347066137384,
+            "profit": 2.2540604665816497,
             "reason": "TP"
         },
         {
@@ -4239,9 +4239,9 @@
             "lot_size": 0.67,
             "entry_time": "2025-04-14 11:00:00",
             "close_time": "2025-04-15 07:00:00",
-            "entry_price": 0.5881939115489692,
+            "entry_price": 0.5881852770883252,
             "close_price": 0.5916963154424615,
-            "profit": -239.35106086398565,
+            "profit": -239.92956972712827,
             "reason": "SL"
         },
         {
@@ -4252,9 +4252,9 @@
             "lot_size": 1.6500000000000001,
             "entry_time": "2025-04-15 16:00:00",
             "close_time": "2025-04-16 22:00:00",
-            "entry_price": 1.388008777830257,
+            "entry_price": 1.3880407925814693,
             "close_price": 1.3859796740931132,
-            "profit": -253.07163194062326,
+            "profit": -256.882306977794,
             "reason": "SL"
         },
         {
@@ -4265,9 +4265,9 @@
             "lot_size": 0.08,
             "entry_time": "2025-04-14 22:00:00",
             "close_time": "2025-04-17 13:30:00",
-            "entry_price": 1704.2067002556003,
+            "entry_price": 1704.1927232229668,
             "close_price": 1706.1001328519706,
-            "profit": 14.867460770962426,
+            "profit": 14.979277032029787,
             "reason": "TP"
         },
         {
@@ -4278,9 +4278,9 @@
             "lot_size": 0.07,
             "entry_time": "2025-04-17 20:00:00",
             "close_time": "2025-04-18 17:15:00",
-            "entry_price": 1702.8371859882766,
+            "entry_price": 1702.7806199762888,
             "close_price": 1707.4390818869074,
-            "profit": 31.968271290415604,
+            "profit": 32.3642333743302,
             "reason": "TP"
         },
         {
@@ -4291,9 +4291,9 @@
             "lot_size": 1.26,
             "entry_time": "2025-04-18 11:00:00",
             "close_time": "2025-04-18 23:00:00",
-            "entry_price": 1.386451852267275,
+            "entry_price": 1.3864680983448496,
             "close_price": 1.3838360962548364,
-            "profit": -246.93038930714755,
+            "profit": -248.40925806921723,
             "reason": "SL"
         },
         {
@@ -4304,9 +4304,9 @@
             "lot_size": 0.23,
             "entry_time": "2025-04-14 01:00:00",
             "close_time": "2025-04-21 05:00:00",
-            "entry_price": 0.8179326822352914,
+            "entry_price": 0.8179413824594335,
             "close_price": 0.8099711928388256,
-            "profit": -228.04318962607826,
+            "profit": -228.29063321418843,
             "reason": "SL"
         },
         {
@@ -4314,12 +4314,12 @@
             "symbol": "EURUSD",
             "strategy": "AVWAP_Confluence",
             "type": "SELL",
-            "lot_size": 0.27,
+            "lot_size": 0.28,
             "entry_time": "2025-04-14 01:00:00",
             "close_time": "2025-04-21 19:30:00",
-            "entry_price": 1.1334848655500822,
+            "entry_price": 1.1335027509298319,
             "close_price": 1.14156342189259,
-            "profit": -220.0110212477125,
+            "profit": -227.6587869572296,
             "reason": "SL"
         },
         {
@@ -4330,9 +4330,9 @@
             "lot_size": 2.16,
             "entry_time": "2025-04-21 10:00:00",
             "close_time": "2025-04-22 08:00:00",
-            "entry_price": 0.601237762376834,
+            "entry_price": 0.6012285876347795,
             "close_price": 0.6024790964677427,
-            "profit": -283.24816363626894,
+            "profit": -285.2299079200473,
             "reason": "SL"
         },
         {
@@ -4343,9 +4343,9 @@
             "lot_size": 0.93,
             "entry_time": "2025-04-22 13:00:00",
             "close_time": "2025-04-22 18:00:00",
-            "entry_price": 1.384188365598406,
+            "entry_price": 1.3841761230654903,
             "close_price": 1.3807436185997288,
-            "profit": -238.63917243458732,
+            "profit": -237.8141919540746,
             "reason": "SL"
         },
         {
@@ -4356,9 +4356,9 @@
             "lot_size": 0.14,
             "entry_time": "2025-04-14 00:00:00",
             "close_time": "2025-04-23 23:00:00",
-            "entry_price": 0.8178711376539314,
+            "entry_price": 0.8178469510205107,
             "close_price": 0.8308138162374529,
-            "profit": -219.0905255059234,
+            "profit": -219.4981195979462,
             "reason": "SL"
         },
         {
@@ -4369,9 +4369,9 @@
             "lot_size": 0.14,
             "entry_time": "2025-04-14 00:00:00",
             "close_time": "2025-04-23 23:15:00",
-            "entry_price": 1.1318132703316788,
+            "entry_price": 1.1317834570978158,
             "close_price": 1.1392705990853986,
-            "profit": 103.4226025520779,
+            "profit": 103.83998782615954,
             "reason": "Circuit Breaker"
         },
         {
@@ -4382,9 +4382,9 @@
             "lot_size": 0.16,
             "entry_time": "2025-04-22 04:00:00",
             "close_time": "2025-04-23 23:15:00",
-            "entry_price": 1.1402000782178279,
+            "entry_price": 1.1401943587166359,
             "close_price": 1.1392705990853986,
-            "profit": 13.75166611886792,
+            "profit": 13.660154099796053,
             "reason": "Circuit Breaker"
         },
         {
@@ -4395,9 +4395,9 @@
             "lot_size": 0.6,
             "entry_time": "2025-04-23 19:00:00",
             "close_time": "2025-04-24 22:00:00",
-            "entry_price": 0.5957220239895374,
+            "entry_price": 0.5957249600456818,
             "close_price": 0.5996405946862432,
-            "profit": -239.31424180234552,
+            "profit": -239.1380784336863,
             "reason": "SL"
         },
         {
@@ -4408,9 +4408,9 @@
             "lot_size": 0.4,
             "entry_time": "2025-04-25 03:00:00",
             "close_time": "2025-04-25 03:15:00",
-            "entry_price": 1.1355186793180538,
+            "entry_price": 1.135520732081998,
             "close_price": 1.1361081954467496,
-            "profit": -26.380645147829316,
+            "profit": -26.298534590062907,
             "reason": "Circuit Breaker"
         },
         {
@@ -4421,9 +4421,9 @@
             "lot_size": 0.26,
             "entry_time": "2025-04-28 02:00:00",
             "close_time": "2025-04-28 02:30:00",
-            "entry_price": 1.1395596663427388,
+            "entry_price": 1.1395407893083944,
             "close_price": 1.1386451001097626,
-            "profit": -25.598722057379742,
+            "profit": -25.107919164427074,
             "reason": "Circuit Breaker"
         },
         {
@@ -4434,9 +4434,9 @@
             "lot_size": 1.1,
             "entry_time": "2025-04-25 00:00:00",
             "close_time": "2025-04-28 22:00:00",
-            "entry_price": 1.3848193978769348,
+            "entry_price": 1.3848246973471592,
             "close_price": 1.3818452930703822,
-            "profit": -244.4557976283163,
+            "profit": -244.87766584803336,
             "reason": "SL"
         },
         {
@@ -4447,9 +4447,9 @@
             "lot_size": 1.19,
             "entry_time": "2025-04-29 04:00:00",
             "close_time": "2025-04-29 05:00:00",
-            "entry_price": 0.5963409181342672,
+            "entry_price": 0.5963345923479375,
             "close_price": 0.5983799249753273,
-            "profit": -250.97181408616095,
+            "profit": -251.72458265938826,
             "reason": "SL"
         },
         {
@@ -4460,9 +4460,9 @@
             "lot_size": 0.79,
             "entry_time": "2025-04-29 07:00:00",
             "close_time": "2025-04-29 10:00:00",
-            "entry_price": 1.386468834867765,
+            "entry_price": 1.386457172835315,
             "close_price": 1.3824077923934255,
-            "profit": -237.68360686630263,
+            "profit": -237.01693496770613,
             "reason": "SL"
         },
         {
@@ -4473,9 +4473,9 @@
             "lot_size": 0.12,
             "entry_time": "2025-01-09 04:00:00",
             "close_time": "2025-05-01 00:00:00",
-            "entry_price": 195.37764662279412,
+            "entry_price": 195.38186244730028,
             "close_price": 190.481,
-            "profit": 549.2969310207636,
+            "profit": 549.7702161662469,
             "reason": "Circuit Breaker"
         },
         {
@@ -4486,9 +4486,9 @@
             "lot_size": 0.1,
             "entry_time": "2025-03-05 00:00:00",
             "close_time": "2025-05-01 00:00:00",
-            "entry_price": 159.0234795120673,
+            "entry_price": 159.0220482457604,
             "close_price": 161.927,
-            "profit": 271.28391853251213,
+            "profit": 271.41781821636874,
             "reason": "Circuit Breaker"
         },
         {
@@ -4499,9 +4499,9 @@
             "lot_size": 0.15,
             "entry_time": "2025-04-14 00:00:00",
             "close_time": "2025-05-01 00:00:00",
-            "entry_price": 0.6300528264285018,
+            "entry_price": 0.6300468013494264,
             "close_price": 0.64001,
-            "profit": 148.30760357247252,
+            "profit": 148.397979758604,
             "reason": "Circuit Breaker"
         },
         {
@@ -4512,9 +4512,9 @@
             "lot_size": 0.8,
             "entry_time": "2025-04-21 14:00:00",
             "close_time": "2025-05-01 00:00:00",
-            "entry_price": 0.8057185453305838,
+            "entry_price": 0.8057170778076869,
             "close_price": 0.82577,
-            "profit": 1936.9704173720197,
+            "profit": 1937.1125899282501,
             "reason": "Circuit Breaker"
         },
         {
@@ -4525,9 +4525,9 @@
             "lot_size": 0.21,
             "entry_time": "2025-04-25 00:00:00",
             "close_time": "2025-05-01 00:00:00",
-            "entry_price": 0.8262290001189198,
+            "entry_price": 0.8262374858611068,
             "close_price": 0.82577,
-            "profit": 10.202744828844292,
+            "profit": 10.418544126382066,
             "reason": "Circuit Breaker"
         },
         {
@@ -4538,9 +4538,9 @@
             "lot_size": 0.23,
             "entry_time": "2025-04-29 08:00:00",
             "close_time": "2025-05-01 00:00:00",
-            "entry_price": 1.143410636926488,
+            "entry_price": 1.1434231186277448,
             "close_price": 1.148292388537754,
-            "profit": 110.67028705911864,
+            "profit": 110.38320793021262,
             "reason": "Circuit Breaker"
         },
         {
@@ -4551,9 +4551,9 @@
             "lot_size": 0.65,
             "entry_time": "2025-04-29 12:00:00",
             "close_time": "2025-05-01 00:00:00",
-            "entry_price": 0.5954840304995052,
+            "entry_price": 0.5954865489548675,
             "close_price": 0.59339,
-            "profit": 131.56198246783697,
+            "profit": 131.72568206639073,
             "reason": "Circuit Breaker"
         }
     ],

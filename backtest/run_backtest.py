@@ -317,7 +317,7 @@ def run_backtest():
         data_end = master_timeline.index[-1].strftime('%Y-%m-%d') if len(master_timeline) > 0 else "unknown"
 
         manifest = {
-            "run_id": len(os.listdir(abs_results_dir)) if os.path.exists(abs_results_dir) else 0,
+            "run_id": f"run-{pd.Timestamp.now().strftime('%Y%m%d-%H%M%S')}",
             "date": pd.Timestamp.now().strftime('%Y-%m-%d %H:%M'),
             "commit": commit,
             "changes": diff,

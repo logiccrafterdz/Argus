@@ -1,14 +1,19 @@
 ---
 name: strategy-trend-pullback
 description: >
-  Tracks the TrendPullback strategy — one of only two profitable strategies.
-  Use as a template for what works in this portfolio and when considering
-  changes to trend-following strategies.
+  Historical reference for the TrendPullback strategy — removed from active
+  portfolio in V2.0. Retained as a template for what works in trend following.
 ---
 
-# TrendPullback Strategy
+# TrendPullback Strategy (INACTIVE)
 
-## Current State (Run 4 — May 2026)
+## Status: Removed from Portfolio (V2.0)
+
+TrendPullback was part of the original 20-strategy set but was removed when the
+portfolio was trimmed to 7 strategies. It was profitable individually but didn't
+survive cross-validation with the final 7.
+
+## Historical Performance (Run 4 — May 2026)
 
 | Metric | Value |
 |--------|-------|
@@ -17,31 +22,22 @@ description: >
 | Win Rate | 81.25% |
 | Profit Factor | 1.32 |
 
-## What Makes It Work
+## What Made It Work
 
-1. **Selective entry**: Only 16 trades — waits for pullbacks in strong trends
-2. **High win rate**: 81.25% — trades with the trend, not against it
-3. **EMA structure**: Uses 50/200 EMA to identify trend direction
-4. **Market structure confirmation**: Requires pullback to structure level
+1. **Selective entry**: Only 16 trades over 3 years
+2. **High win rate**: 81.25%
+3. **EMA structure**: Uses 50/200 EMA for trend direction
+4. **Market structure confirmation**: Pullback to structure level
 
-## Key Parameters
+## Key Parameters (for reference)
 
-```python
-class TrendPullback:
-    fast_ema_period = 50
-    slow_ema_period = 200
-    market_structure_period = 30
-    tp_multiplier = 2.0  # R:R ratio
-```
+- fast_ema_period = 50
+- slow_ema_period = 200
+- market_structure_period = 30
+- tp_multiplier = 2.0
 
-## Lessons for Other Strategies
+## Lessons Retained
 
-1. **Low frequency + high win rate** beats high frequency + low win rate in this portfolio
-2. **Trend following with structure** works better than pure breakout strategies
-3. **EMA trend filter** (50/200) is a simple but effective regime filter
-
-## Improvement Ideas (Not Yet Attempted)
-
-1. Increase TP to 3.0× ATR to capture larger moves
-2. Add partial close at 1.5R (like the engine's default)
-3. Add trailing stop after 2R profit
+1. Low frequency + high WR can be profitable but hard to scale
+2. EMA 50/200 is a simple but effective regime filter
+3. Market structure adds edge to pure trend-following
