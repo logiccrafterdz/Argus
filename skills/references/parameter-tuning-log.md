@@ -121,7 +121,7 @@ Not yet attempted. Individual strategy improvements took priority.
 
 ## Batch 12 — HiddenDivergence v2 (Run 9, 2026-05-29)
 
-**Commit**: `80dd038`
+**Commit**: `046ffbb`
 
 ### HiddenDivergence
 - **TP multiplier**: 14× → 10× ATR (R:R 5:1 instead of 7:1)
