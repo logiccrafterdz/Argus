@@ -1,7 +1,7 @@
 """
 Single-strategy backtest runner for iterative optimization.
-Usage: python backtest/run_single.py StrategyName
-Example: python backtest/run_single.py SuperTrendEMA
+Usage: python backtest/run_single.py StrategyName --mode all|train|validation|test
+Example: python backtest/run_single.py SuperTrendEMA --mode all
 """
 import os, sys, json, argparse, importlib
 import pandas as pd
@@ -17,6 +17,12 @@ from log_setup import setup_logger
 DATA_DIR = os.path.join(os.path.dirname(os.path.abspath(__file__)), "data")
 RESULTS_DIR = os.path.join(os.path.dirname(os.path.dirname(os.path.abspath(__file__))), "docs", "data")
 STRATEGY_DIR = os.path.join(os.path.dirname(os.path.abspath(__file__)), "strategies")
+
+SPLITS = {
+    'train':      {'start': '2017-01-01', 'end': '2023-01-01', 'label': 'TRAIN (2018-2022)'},
+    'validation': {'start': '2023-01-01', 'end': '2024-01-01', 'label': 'VAL (2023)'},
+    'test':       {'start': '2024-01-01', 'end': '2026-01-01', 'label': 'TEST (2024-May2025)'},
+}
 
 def load_data():
     symbols_data = {}
@@ -55,7 +61,13 @@ def build_master_timeline(data):
             master = master.combine_first(idx)
     return master.sort_index()
 
-def run_single(strat_class, label=None):
+def filter_by_period(df, mode):
+    if mode not in SPLITS:
+        return df
+    s = SPLITS[mode]
+    return df[(df.index >= s['start']) & (df.index < s['end'])].copy()
+
+def run_single(strat_class, label=None, mode='all'):
     logger = setup_logger('single')
     config = load_config() or create_default_config()
     init_balance = config.get('backtest', {}).get('initial_balance', 100000.0)
@@ -72,6 +84,9 @@ def run_single(strat_class, label=None):
     if strat.disable_breakeven:
         engine.disable_breakeven_strategies.add(name)
     master_timeline = build_master_timeline(data)
+    if mode in SPLITS:
+        s = SPLITS[mode]
+        master_timeline = master_timeline[(master_timeline.index >= s['start']) & (master_timeline.index < s['end'])]
 
     # Precalculate signals for this strategy only
     logger.info("Precalculating signals...")
@@ -83,6 +98,9 @@ def run_single(strat_class, label=None):
         df.reset_index(inplace=True)
         df = strat.prepare_data(df)
         df.set_index('time', inplace=True)
+        if mode in SPLITS:
+            s = SPLITS[mode]
+            df = df[(df.index >= s['start']) & (df.index < s['end'])]
         precalc[symbol] = {tf: {name: df.to_dict('index')}}
 
     # Regime
@@ -90,11 +108,17 @@ def run_single(strat_class, label=None):
     for sym in data:
         if 'H4' in data[sym]:
             h4 = data[sym]['H4']
+            if mode in SPLITS:
+                s = SPLITS[mode]
+                h4 = h4[(h4.index >= s['start']) & (h4.index < s['end'])]
             d1 = h4.resample('D').agg({'open':'first','high':'max','low':'min','close':'last'}).dropna()
             mr = MarketRegime(d1)
             regimes[sym] = mr.to_dict()
         elif 'H1' in data[sym]:
             h1 = data[sym]['H1']
+            if mode in SPLITS:
+                s = SPLITS[mode]
+                h1 = h1[(h1.index >= s['start']) & (h1.index < s['end'])]
             d1 = h1.resample('D').agg({'open':'first','high':'max','low':'min','close':'last'}).dropna()
             mr = MarketRegime(d1)
             regimes[sym] = mr.to_dict()
@@ -106,7 +130,11 @@ def run_single(strat_class, label=None):
     h1c = {}
     for sym in symbols:
         if 'H1' in data[sym]:
-            h1c[sym] = data[sym]['H1']['close']
+            h1 = data[sym]['H1']
+            if mode in SPLITS:
+                s = SPLITS[mode]
+                h1 = h1[(h1.index >= s['start']) & (h1.index < s['end'])]
+            h1c[sym] = h1['close']
     corr_df = pd.DataFrame(h1c)
     corr_matrix = corr_df.corr()
 
@@ -115,7 +143,11 @@ def run_single(strat_class, label=None):
     for sym, tfs in data.items():
         data_dict[sym] = {}
         for tfn, df in tfs.items():
-            data_dict[sym][tfn] = df.to_dict('index')
+            d = df.copy()
+            if mode in SPLITS:
+                s = SPLITS[mode]
+                d = d[(d.index >= s['start']) & (d.index < s['end'])]
+            data_dict[sym][tfn] = d.to_dict('index')
 
     # Execute
     logger.info("Executing backtest...")
@@ -231,8 +263,9 @@ def run_single(strat_class, label=None):
         json.dump(result, f, indent=2, cls=NumpyEncoder)
     logger.info(f"Results saved to {results_file}")
 
+    mode_label = SPLITS[mode]['label'] if mode in SPLITS else 'FULL'
     print(f"\n{'='*60}")
-    print(f"  {name} (tf={tf})")
+    print(f"  {name} (tf={tf}) — {mode_label}")
     print(f"  Params: {result['params']}")
     print(f"{'='*60}")
     print(f"  Trades:      {trades}")
@@ -255,6 +288,8 @@ if __name__ == '__main__':
     parser = argparse.ArgumentParser()
     parser.add_argument('strategy', help='Strategy class name (e.g. SuperTrendEMA)')
     parser.add_argument('--label', help='Override strategy name for TF lookup')
+    parser.add_argument('--mode', default='all', choices=['all', 'train', 'validation', 'test'],
+                        help='Period mode: all (default), train, validation, test')
     args = parser.parse_args()
 
     # Dynamically import
@@ -266,7 +301,7 @@ if __name__ == '__main__':
                 mod = importlib.import_module(modpath)
                 if hasattr(mod, args.strategy):
                     cls = getattr(mod, args.strategy)
-                    run_single(cls, label=args.label)
+                    run_single(cls, label=args.label, mode=args.mode)
                     sys.exit(0)
             except Exception:
                 continue
