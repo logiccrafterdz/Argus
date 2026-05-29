@@ -42,17 +42,16 @@ class ADXTrendStrength(BaseStrategy):
             close1 = df['close'].iloc[i-1]
             ema1 = df['ema'].iloc[i-1]
             
-            # Trend is strong
-            if adx1 > 20:
-                # DI crossover
+            # Strong trend with DI crossover
+            if adx1 > 25:
                 if pdi1 > mdi1 and pdi2 <= mdi2 and close1 > ema1:
                     signal = 1
-                    sl = close1 - self._atr_buf(df, i-1, 2.0)
-                    tp = close1 + self._atr_buf(df, i-1, 12.0)
+                    sl = close1 - self._atr_buf(df, i-1, 2.5)
+                    tp = close1 + self._atr_buf(df, i-1, 8.0)
                 elif mdi1 > pdi1 and mdi2 <= pdi2 and close1 < ema1:
                     signal = -1
-                    sl = close1 + self._atr_buf(df, i-1, 2.0)
-                    tp = close1 - self._atr_buf(df, i-1, 12.0)
+                    sl = close1 + self._atr_buf(df, i-1, 2.5)
+                    tp = close1 - self._atr_buf(df, i-1, 8.0)
             
             signals.append(signal)
             sl_prices.append(sl)
