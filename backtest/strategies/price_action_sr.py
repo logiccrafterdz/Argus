@@ -16,6 +16,7 @@ class PriceActionSR(BaseStrategy):
         )
         self.lookback = 100
         self.disable_breakeven = True
+        self.vol_period = 20
         
     def prepare_data(self, df):
         signals = []
@@ -26,8 +27,9 @@ class PriceActionSR(BaseStrategy):
         is_low = get_swing_lows(df, 3)
         self._add_atr_col(df)
         df['ema200'] = EMA(df['close'], 200)
+        df['vol_ma'] = df['tick_volume'].rolling(self.vol_period).mean()
         
-        start_idx = self.lookback
+        start_idx = max(self.lookback, self.vol_period)
         
         for i in range(start_idx, len(df)):
             close1 = df['close'].iloc[i-1]
@@ -47,13 +49,13 @@ class PriceActionSR(BaseStrategy):
                 sup = max([l for l in recent_lows if l < close1], default=np.nan)
                 
                 # Reversal off support with ATR buffer, only in uptrend
-                if not np.isnan(sup) and close1 <= sup + self._atr_buf(df, i-1, 1.0) and df['close'].iloc[i-1] > df['open'].iloc[i-1] and not np.isnan(ema200) and close1 > ema200:
+                if not np.isnan(sup) and close1 <= sup + self._atr_buf(df, i-1, 1.0) and df['close'].iloc[i-1] > df['open'].iloc[i-1] and not np.isnan(ema200) and close1 > ema200 and df['tick_volume'].iloc[i-1] > df['vol_ma'].iloc[i-1]:
                     signal = 1
                     sl = sup - self._atr_buf(df, i-1, 2.0)
                     tp = close1 + (close1 - sl) * 4.0
                     
                 # Reversal off resistance with ATR buffer, only in downtrend
-                elif not np.isnan(res) and close1 >= res - self._atr_buf(df, i-1, 1.0) and df['close'].iloc[i-1] < df['open'].iloc[i-1] and not np.isnan(ema200) and close1 < ema200:
+                elif not np.isnan(res) and close1 >= res - self._atr_buf(df, i-1, 1.0) and df['close'].iloc[i-1] < df['open'].iloc[i-1] and not np.isnan(ema200) and close1 < ema200 and df['tick_volume'].iloc[i-1] > df['vol_ma'].iloc[i-1]:
                     signal = -1
                     sl = res + self._atr_buf(df, i-1, 2.0)
                     tp = close1 - (sl - close1) * 4.0

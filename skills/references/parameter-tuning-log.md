@@ -194,7 +194,18 @@ Not yet attempted. Individual strategy improvements took priority.
 | Val | 0.37 | –5.32% | 10.8% | **0.704** | –2.37% | –4.68% |
 | Test | 1.20 | +0.93% | 17.9% | 1.068 | +0.98% | –2.55% |
 
-- **Verdict**: Val WR jumped 10.8%→28.6% (4→16 winners). Still negative in Val but ~55% better. Test positive.
+- **Iterations**: v2 (TP 8→5), v3 (+ volume filter, worse), v4 (+ ADX>20 filter)
+- **Final**: v4 — TP 5× ATR, SL 2.0 ATR, ADX>20 filter
+
+| Period | v1 PF | v1 Return | v2 PF | v2 Return | **v4 PF** | **v4 Return** |
+|--------|-------|-----------|-------|-----------|-----------|---------------|
+| Train | 0.91 | –$10,157 | 0.934 | –$6,488 | **0.953** | –$3,987 |
+| Val | 0.37 | –$5,323 | 0.704 | –$2,372 | 0.644 | –$2,365 |
+| Test | 1.20 | +$931 | 1.068 | +$977 | **1.112** | +$1,451 |
+
+- **Verdict**: Net P&L from –$14,549 → –$4,901 (–66%). Test still positive.
+
+---
 
 ---
 
@@ -213,13 +224,15 @@ Not yet attempted. Individual strategy improvements took priority.
   - v3: TP 4, buf 1.0, LB 50 → Test PF 0.844
 - **Final**: v2 — TP 4×, entry buf 1.0 ATR, lookback 100
 
-| Period | v1 PF | v1 Return | v1 DD | vFinal PF | vFinal Return | vFinal DD |
-|--------|-------|-----------|-------|-----------|---------------|-----------|
-| Train | 0.815 | –13.80% | –17.25% | 0.894 | –9.75% | –14.54% |
-| Val | 0.868 | –1.60% | –4.98% | 0.776 | –3.62% | –5.98% |
-| Test | 0.604 | –5.50% | –5.85% | **0.937** | –1.04% | –3.21% |
+| Period | v1 PF | v1 Return | v2 PF | v2 Return | **v3 PF** | **v3 Return** |
+|--------|-------|-----------|-------|-----------|-----------|---------------|
+| Train | 0.815 | –$13,797 | 0.894 | –$9,752 | **0.928** | –$6,533 |
+| Val | 0.868 | –$1,598 | 0.776 | –$3,624 | 0.714 | –$3,948 |
+| Test | 0.604 | –$5,484 | 0.937 | –$1,037 | **1.139** | **+$2,179** |
 
-- **Verdict**: Still negative but Test nearly breakeven. Net P&L from –$20,879 to –$14,414 (–31%).
+- **Iterations**: v2 (TP 8→4, buf 0.5→1.0), v3 (+ volume filter)
+- **Final**: v3 — TP 4×, entry buf 1.0 ATR, lookback 100, volume filter
+- **Verdict**: Net P&L from –$20,879 → –$8,302 (–60%). Test now profitable.
 
 ---
 
