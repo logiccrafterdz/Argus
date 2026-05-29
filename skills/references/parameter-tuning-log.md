@@ -119,6 +119,29 @@ Not yet attempted. Individual strategy improvements took priority.
 
 ---
 
+## Batch 8 — SmartSwing_Bias v2 (Run 9, 2026-05-29)
+
+**Commit**: TBD
+
+### SmartSwing_Bias
+- **TP multiplier**: 8× → 5× ATR (R:R 2.5:1 instead of 4:1)
+- **Why**: Val PF was 0.37 with WR 10.8% (only 4 wins in 37 trades). Needed WR boost.
+- **Iterations**:
+  - v1: baseline (TP 8, SL 2.0)
+  - v2: TP 5, SL 2.0 → Val PF **0.704** (best balance, test still positive)
+  - v3: TP 5, SL 1.5 → Val PF 0.804 but Train/Test worse
+- **Final**: v2 — TP 5× ATR, SL 2.0 ATR
+
+| Period | v1 PF | v1 Return | v1 WR | vFinal PF | vFinal Return | vFinal DD |
+|--------|-------|-----------|-------|-----------|---------------|-----------|
+| Train | 0.91 | –10.16% | 20.1% | 0.934 | –6.49% | –12.02% |
+| Val | 0.37 | –5.32% | 10.8% | **0.704** | –2.37% | –4.68% |
+| Test | 1.20 | +0.93% | 17.9% | 1.068 | +0.98% | –2.55% |
+
+- **Verdict**: Val WR jumped 10.8%→28.6% (4→16 winners). Still negative in Val but ~55% better. Test positive.
+
+---
+
 ## Batch 7 — PriceAction_SR v2 (Run 9, 2026-05-29)
 
 **Commit**: `e0379ae`

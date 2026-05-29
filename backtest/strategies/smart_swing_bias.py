@@ -49,11 +49,11 @@ class SmartSwingBias(BaseStrategy):
             if bull_htf and bull_ltf and close2 < close1 and not np.isnan(ema200) and close1 > ema200:
                 signal = 1
                 sl = close1 - self._atr_buf(df, i-1, 2.0)
-                tp = close1 + self._atr_buf(df, i-1, 8.0)
+                tp = close1 + self._atr_buf(df, i-1, 5.0)
             elif bear_htf and bear_ltf and close2 > close1 and not np.isnan(ema200) and close1 < ema200:
                 signal = -1
                 sl = close1 + self._atr_buf(df, i-1, 2.0)
-                tp = close1 - self._atr_buf(df, i-1, 8.0)
+                tp = close1 - self._atr_buf(df, i-1, 5.0)
 
             signals.append(signal)
             sl_prices.append(sl)
