@@ -119,6 +119,31 @@ Not yet attempted. Individual strategy improvements took priority.
 
 ---
 
+## Batch 7 — PriceAction_SR v2 (Run 9, 2026-05-29)
+
+**Commit**: `e0379ae`
+
+### PriceAction_SR
+- **TP multiplier**: 8× → 4× SL (R:R 4:1)
+- **Entry buffer**: 0.5 → 1.0 ATR
+- **lookback**: kept at 100 (50 was worse)
+- **Why**: WR 10-21% couldn't support 8:1 R:R. Avg loss ~$190, avg win ~$700, need WR > 21%.
+- **Iterations**:
+  - v1: baseline (TP 8, buf 0.5, LB 100)
+  - v2: TP 4, buf 1.0, LB 100 → Test PF **0.937** (best)
+  - v3: TP 4, buf 1.0, LB 50 → Test PF 0.844
+- **Final**: v2 — TP 4×, entry buf 1.0 ATR, lookback 100
+
+| Period | v1 PF | v1 Return | v1 DD | vFinal PF | vFinal Return | vFinal DD |
+|--------|-------|-----------|-------|-----------|---------------|-----------|
+| Train | 0.815 | –13.80% | –17.25% | 0.894 | –9.75% | –14.54% |
+| Val | 0.868 | –1.60% | –4.98% | 0.776 | –3.62% | –5.98% |
+| Test | 0.604 | –5.50% | –5.85% | **0.937** | –1.04% | –3.21% |
+
+- **Verdict**: Still negative but Test nearly breakeven. Net P&L from –$20,879 to –$14,414 (–31%).
+
+---
+
 ## Batch 6 — ADX_TrendStrength v2 (Run 9, 2026-05-29)
 
 **Commit**: `8f85b81`, `196775f`
