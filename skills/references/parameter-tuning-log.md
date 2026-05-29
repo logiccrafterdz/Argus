@@ -119,6 +119,32 @@ Not yet attempted. Individual strategy improvements took priority.
 
 ---
 
+## Batch 6 — ADX_TrendStrength v2 (Run 9, 2026-05-29)
+
+**Commit**: `8f85b81`, `196775f`
+
+### ADX_TrendStrength
+- **ADX threshold**: 20 → 25
+- **SL**: 2.0× → 2.5× ATR
+- **TP**: 12.0× → 8.0× ATR (R:R from 6:1 to 3.2:1)
+- **Why**: Baseline showed PF 0.47–0.80 across all 3 splits. Low win rate (10–17%) couldn't support 6:1 R:R.
+- **Iterations**:
+  - v1: ADX>25, SL 2.5, TP 8 → Test PF **0.944** (best balance)
+  - v2: ADX>30, SL 2.5, TP 6 → Test PF 0.996 but only 11 trades in val
+  - v3: ADX>25, SL 2.5, TP 6 → Test PF 0.925
+- **Final**: v1 — ADX>25, SL 2.5 ATR, TP 8 ATR
+- **Results**:
+
+| Period | v0 PF | v0 Return | v0 DD | vFinal PF | vFinal Return | vFinal DD |
+|--------|-------|-----------|-------|-----------|---------------|-----------|
+| Train | 0.800 | –28.6% | –31.2% | 0.762 | –20.5% | –21.7% |
+| Val | 0.469 | –5.4% | –5.5% | 0.625 | –1.7% | –2.5% |
+| Test | 0.758 | –6.2% | –9.1% | **0.944** | –0.7% | –3.9% |
+
+- **Verdict**: Improved but still losing. Losses reduced from –$40,244 total to –$22,874 (–43%). Next strategy priority.
+
+---
+
 ## Batch 5 — Individual Strategy Improvements (May 2026)
 
 4 strategies modified independently, tested single-strategy, then reverted from portfolio.
