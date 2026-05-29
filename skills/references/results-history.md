@@ -1,6 +1,6 @@
 # Backtest Results History
 
-**Latest Run 8**: Train 2018-2022 –15.57% (PF 0.96), Val 2023 +10.11% (PF 1.16), Test 2024-2025 +10.31% (PF 1.18).
+**Latest Run 9**: Train 2018-2022 –2.23% (PF 1.00), Val 2023 +8.65% (PF 1.13), Test 2024-2025 +5.51% (PF 1.06).
 
 ## Run 1 — Baseline (no modifications)
 
