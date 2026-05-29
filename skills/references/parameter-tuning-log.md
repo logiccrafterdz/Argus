@@ -119,9 +119,31 @@ Not yet attempted. Individual strategy improvements took priority.
 
 ---
 
-## Batch 8 — SmartSwing_Bias v2 (Run 9, 2026-05-29)
+## Batch 9 — AVWAP_Confluence v2 (Run 9, 2026-05-29)
 
 **Commit**: TBD
+
+### AVWAP_Confluence
+- **TP multiplier**: 14× → 7× ATR (R:R 3.5:1 instead of 7:1)
+- **Why**: Val PF 0.80 with WR 10.8%. R:R 7:1 was too ambitious for a crossover strategy.
+- **Iterations**:
+  - v1: baseline (TP 14, buffer 0.5)
+  - v2: TP 7, buffer 0.5 → all 3 splits near/above 1.0 ✅
+- **Final**: v2 — TP 7× ATR, buffer 0.5 ATR
+
+| Period | v1 PF | v1 Return | v1 DD | vFinal PF | vFinal Return | vFinal DD |
+|--------|-------|-----------|-------|-----------|---------------|-----------|
+| Train | 1.19 | +10.79% | –16.56% | 1.133 | +54.85% | –12.03% |
+| Val | 0.80 | –4.63% | –7.76% | **0.986** | –0.38% | –4.12% |
+| Test | 0.98 | –0.22% | –5.53% | **1.107** | +5.88% | –3.88% |
+
+- **Verdict**: Now positive in Train and Test, nearly breakeven in Val. Total net P&L went from +$5,945 to +$60,350. AVWAP is now a contributor, not a drag.
+
+---
+
+## Batch 8 — SmartSwing_Bias v2 (Run 9, 2026-05-29)
+
+**Commit**: `6c4a760`
 
 ### SmartSwing_Bias
 - **TP multiplier**: 8× → 5× ATR (R:R 2.5:1 instead of 4:1)

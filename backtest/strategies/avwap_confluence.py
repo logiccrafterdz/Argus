@@ -56,11 +56,11 @@ class AVWAPConfluence(BaseStrategy):
                 if close2 < avwap and close1 > avwap + buffer:
                     signal = 1
                     sl = close1 - self._atr_buf(df, i-1, 2.0)
-                    tp = close1 + self._atr_buf(df, i-1, 14.0)
+                    tp = close1 + self._atr_buf(df, i-1, 7.0)
                 elif close2 > avwap and close1 < avwap - buffer:
                     signal = -1
                     sl = close1 + self._atr_buf(df, i-1, 2.0)
-                    tp = close1 - self._atr_buf(df, i-1, 14.0)
+                    tp = close1 - self._atr_buf(df, i-1, 7.0)
                     
             signals.append(signal)
             sl_prices.append(sl)
