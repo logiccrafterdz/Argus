@@ -119,6 +119,40 @@ Not yet attempted. Individual strategy improvements took priority.
 
 ---
 
+## Batch 12 — HiddenDivergence v2 (Run 9, 2026-05-29)
+
+**Commit**: `80dd038`
+
+### HiddenDivergence
+- **TP multiplier**: 14× → 10× ATR (R:R 5:1 instead of 7:1)
+- **Why**: Already profitable everywhere but TP 14 ATR meant low WR (15-23%). Reducing TP increases WR for more robustness.
+- **Iterations**:
+  - v1: baseline (TP 14) — profitable all 3 splits
+  - v2: TP 10 — all 3 splits still profitable, higher WR, ~37% more total net profit
+- **Final**: v2 — TP 10× ATR, SL 2.0 ATR
+
+| Period | v1 PF | v1 Return | v1 WR | vFinal PF | vFinal Return | vFinal DD |
+|--------|-------|-----------|-------|-----------|---------------|-----------|
+| Train | 1.16 | +$16,227 | 15.9% | 1.141 | +$26,887 | –9.43% |
+| Val | 1.13 | +$2,590 | 22.6% | 1.047 | +$667 | –3.84% |
+| Test | 1.24 | +$3,974 | 17.4% | 1.114 | +$3,620 | –5.12% |
+
+- **Verdict**: Total net P&L from +$22,791 to +$31,174 (+37%). More conservative, more robust.
+
+---
+
+## Batch 11 — Donchian_Breakout v1 retained
+
+- Tested TP 8→6 ATR — no improvement, reverted.
+- **Verdict**: v1 baseline is the best version.
+
+## Batch 10 — BollingerMR v1 retained
+
+- Tested SL 2.0→1.5 ATR (worse) and TP 4→5 ATR (worse)
+- **Verdict**: v1 baseline (TP 4 ATR, SL 2.0 ATR) is the best. Train weakness is structural (2018-2022 includes COVID/rate hikes).
+
+---
+
 ## Batch 9 — AVWAP_Confluence v2 (Run 9, 2026-05-29)
 
 **Commit**: TBD

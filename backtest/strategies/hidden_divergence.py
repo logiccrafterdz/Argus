@@ -48,9 +48,9 @@ class HiddenDivergence(BaseStrategy):
                     if curr_low_price > prev_low_price and rsi1 < prev_rsi:
                         signal = 1
                         sl = close1 - self._atr_buf(df, i-1, 2.0)
-                        tp = close1 + self._atr_buf(df, i-1, 14.0)
-
-            # Hidden Bearish Div: price makes lower high, RSI makes higher high
+                        tp = close1 + self._atr_buf(df, i-1, 10.0)
+ 
+             # Hidden Bearish Div: price makes lower high, RSI makes higher high
             elif is_high[i-1]:
                 prev_high_idx = next((j for j in range(i-2, i-self.lookback, -1) if is_high[j]), None)
                 if prev_high_idx is not None:
@@ -61,7 +61,7 @@ class HiddenDivergence(BaseStrategy):
                     if curr_high_price < prev_high_price and rsi1 > prev_rsi:
                         signal = -1
                         sl = close1 + self._atr_buf(df, i-1, 2.0)
-                        tp = close1 - self._atr_buf(df, i-1, 14.0)
+                        tp = close1 - self._atr_buf(df, i-1, 10.0)
 
             signals.append(signal)
             sl_prices.append(sl)
