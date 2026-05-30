@@ -119,7 +119,19 @@ Not yet attempted. Individual strategy improvements took priority.
 
 ---
 
-## Batch 12 — HiddenDivergence v2 (Run 9, 2026-05-29)
+## Batch 12 — BollingerMR v1 retained (Round 2)
+
+- Tested RSI 25/75 + BB dev 2.5 (worse) and RSI 35/65 (worse)
+- **Verdict**: v1 (RSI 30/70, BB dev 2.0, TP 4, SL 2) is the best. The Train weakness is structural.
+
+## Batch 11 — Donchian_Breakout v1 retained (Round 2)
+
+- Tested DC period 10→5 — Val improved (+$223→+$1,825) but Train/Test worse overall
+- **Verdict**: v1 (DC period 10, TP 8, SL 2) is the best overall.
+
+---
+
+## Batch 10 — HiddenDivergence v2 (Run 9, 2026-05-29)
 
 **Commit**: `046ffbb`
 
@@ -138,18 +150,6 @@ Not yet attempted. Individual strategy improvements took priority.
 | Test | 1.24 | +$3,974 | 17.4% | 1.114 | +$3,620 | –5.12% |
 
 - **Verdict**: Total net P&L from +$22,791 to +$31,174 (+37%). More conservative, more robust.
-
----
-
-## Batch 11 — Donchian_Breakout v1 retained
-
-- Tested TP 8→6 ATR — no improvement, reverted.
-- **Verdict**: v1 baseline is the best version.
-
-## Batch 10 — BollingerMR v1 retained
-
-- Tested SL 2.0→1.5 ATR (worse) and TP 4→5 ATR (worse)
-- **Verdict**: v1 baseline (TP 4 ATR, SL 2.0 ATR) is the best. Train weakness is structural (2018-2022 includes COVID/rate hikes).
 
 ---
 
