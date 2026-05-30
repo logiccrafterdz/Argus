@@ -2,7 +2,7 @@ from .base_strategy import BaseStrategy
 import sys
 import os
 sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
-from indicators import BollingerBands, RSI, ADX
+from indicators import BollingerBands, RSI
 import numpy as np
 
 class BollingerMeanReversion(BaseStrategy):
@@ -24,8 +24,6 @@ class BollingerMeanReversion(BaseStrategy):
         df['bb_sma'] = sma
         df['bb_lower'] = lower
         df['rsi'] = RSI(df['close'], self.rsi_period)
-        adx, _, _ = ADX(df, 14)
-        df['adx'] = adx
         self._add_atr_col(df)
         
         signals = []
@@ -44,17 +42,15 @@ class BollingerMeanReversion(BaseStrategy):
             sma1 = df['bb_sma'].iloc[i-1]
             rsi1 = df['rsi'].iloc[i-1]
             
-            adx1 = df['adx'].iloc[i-1]
-            
-            # Oversold and touching lower band (no strong trend)
-            if low1 <= lower1 and rsi1 < 30 and close1 > lower1 and adx1 < 30:
+            # Oversold and touching lower band
+            if low1 <= lower1 and rsi1 < 30 and close1 > lower1:
                 signals.append(1)
                 sl = close1 - self._atr_buf(df, i-1, 2.0)
                 tp = close1 + self._atr_buf(df, i-1, 4.0)
                 sl_prices.append(sl)
                 tp_prices.append(tp)
             # Overbought and touching upper band
-            elif high1 >= upper1 and rsi1 > 70 and close1 < upper1 and adx1 < 30:
+            elif high1 >= upper1 and rsi1 > 70 and close1 < upper1:
                 signals.append(-1)
                 sl = close1 + self._atr_buf(df, i-1, 2.0)
                 tp = close1 - self._atr_buf(df, i-1, 4.0)

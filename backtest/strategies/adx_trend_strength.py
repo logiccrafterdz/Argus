@@ -36,17 +36,19 @@ class ADXTrendStrength(BaseStrategy):
             pdi1 = df['pdi'].iloc[i-1]
             mdi1 = df['mdi'].iloc[i-1]
             
+            pdi2 = df['pdi'].iloc[i-2]
+            mdi2 = df['mdi'].iloc[i-2]
+            
             close1 = df['close'].iloc[i-1]
             ema1 = df['ema'].iloc[i-1]
             
-            # Strong trend with DI bias (crossover in last 3 bars or strong DI spread)
+            # Strong trend with DI crossover
             if adx1 > 25:
-                di_spread = pdi1 - mdi1
-                if di_spread > 10 and close1 > ema1:
+                if pdi1 > mdi1 and pdi2 <= mdi2 and close1 > ema1:
                     signal = 1
                     sl = close1 - self._atr_buf(df, i-1, 2.5)
                     tp = close1 + self._atr_buf(df, i-1, 8.0)
-                elif di_spread < -10 and close1 < ema1:
+                elif mdi1 > pdi1 and mdi2 <= pdi2 and close1 < ema1:
                     signal = -1
                     sl = close1 + self._atr_buf(df, i-1, 2.5)
                     tp = close1 - self._atr_buf(df, i-1, 8.0)
