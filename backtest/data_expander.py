@@ -6,8 +6,8 @@ import os
 
 SYMBOLS = ["EURUSD", "GBPUSD", "USDJPY", "XAUUSD", "USDCHF", "AUDUSD", "USDCAD", "NZDUSD", "EURJPY", "GBPJPY"]
 TIMEFRAMES = {"H1": mt5.TIMEFRAME_H1, "H4": mt5.TIMEFRAME_H4}
-DATE_FROM = datetime(2018, 1, 1, tzinfo=pytz.timezone("Etc/UTC"))
-DATE_TO = datetime(2022, 1, 1, tzinfo=pytz.timezone("Etc/UTC"))
+DATE_FROM = datetime(2025, 5, 1, tzinfo=pytz.timezone("Etc/UTC"))
+DATE_TO = datetime(2026, 6, 1, tzinfo=pytz.timezone("Etc/UTC"))
 DATA_DIR = os.path.join(os.path.dirname(__file__), "data")
 
 def init_mt5():
@@ -19,7 +19,7 @@ def init_mt5():
     return True
 
 def expand_data(symbol, tf_name, mt5_tf):
-    print(f"\nFetching {symbol} {tf_name} from 2018...")
+    print(f"\nFetching {symbol} {tf_name} 2025-05 to 2026-06...")
     rates = mt5.copy_rates_range(symbol, mt5_tf, DATE_FROM, DATE_TO)
     if rates is None or len(rates) == 0:
         print(f"  No data for {symbol} {tf_name}")
@@ -51,4 +51,4 @@ if __name__ == "__main__":
         for tf_name, mt5_tf in TIMEFRAMES.items():
             expand_data(symbol, tf_name, mt5_tf)
     mt5.shutdown()
-    print("\nDone. Data expanded to 2018.")
+    print("\nDone. Data extended to 2026.")

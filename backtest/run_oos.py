@@ -24,7 +24,7 @@ RESULTS_DIR = os.path.join(os.path.dirname(os.path.dirname(__file__)), "docs", "
 SPLITS = {
     'train':      {'start': '2017-01-01', 'end': '2023-01-01', 'label': 'TRAIN (5 years: 2018-2022)'},
     'validation': {'start': '2023-01-01', 'end': '2024-01-01', 'label': 'VAL (1 year: 2023)'},
-    'test':       {'start': '2024-01-01', 'end': '2026-01-01', 'label': 'TEST (17 mo: 2024-May 2025)'},
+    'test':       {'start': '2024-01-01', 'end': '2026-06-01', 'label': 'TEST (29 mo: 2024-May 2026)'},
 }
 
 def load_data():
