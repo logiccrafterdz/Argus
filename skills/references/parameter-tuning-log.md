@@ -306,3 +306,66 @@ Not yet attempted. Individual strategy improvements took priority.
 3. **Removing MSB**: Positive for LIQ but increased trade frequency too much for portfolio context
 4. **Single-strategy improvement != portfolio improvement**: Always validate in portfolio context
 5. **Candle body filter**: Simple and effective for trend confirmation without complex indicators
+
+## Batch 13 — Round 3: ADX v7 (DI spread) + BollingerMR v4 (ADX filter) (696ab6b, reverted 172a05f)
+
+### ADX_TrendStrength v7
+- **Entry**: DI crossover → DI spread > 10 (no crossover needed)
+- **Why**: v2 (DI crossover) was late to trends, v7 catches earlier
+- **Single result**: Train PF 0.936, Val PF 1.250 (first positive!), Test PF 0.987 (near breakeven)
+- **Portfolio result**: Train -1.00%, Val +2.99%, Test +3.90% — all periods worse than Run 10
+- **Verdict**: Better individually, worse in portfolio (increased overlap with other trend strategies)
+- **Action**: REVERTED
+
+### BollingerMR v4 (ADX < 30 filter)
+- **ADX filter**: 25 → 30 (more trades than v3, better balance)
+- **Why**: ADX<25 was too restrictive, missing mean-reversion opportunities
+- **Single result**: Train PF 0.942, Val PF 1.372, Test PF 1.011 (all stable!)
+- **Portfolio result**: Included in the reverted batch
+- **Action**: REVERTED along with ADX v7
+
+## Batch 14 — Data Extension to May 2026 + WFA (afc0af6, 1a00254)
+
+### Data Update
+- **Fetched**: May 2025 → May 2026 from MT5 (~6700 new bars per symbol)
+- **New end date**: 2026-06-01
+- **Test split**: Extended from 17mo to 29mo (2024-May 2026)
+
+### Portfolio Result (extended data, Round 2 state)
+- **Train**: +4.40% (PF 1.01)
+- **Val**: +8.30% (PF 1.12)
+- **Test**: +5.37% (PF 1.03)
+- **Conclusion**: All 3 periods remain positive with new unseen 2025-2026 data
+
+### Walk-Forward Analysis (wfa_fast.py)
+- **Method**: Single run, yearly breakdown (2018-2026)
+- **Result**: 7/9 years positive (77%)
+- **Negative years**: 2019 (-$14.7K, COVID), 2020 (-$10.1K, COVID)
+- **Best years**: 2021 (+$10K, PF 1.145), 2023 (+$5.8K, PF 1.207)
+- **2026 (partial)**: +$1.5K (PF 1.049)
+- **Conclusion**: Portfolio passes WFA — fixed params profitable across 9 years
+
+## Batch 15 — ADX Deep Analysis (failed improvements)
+
+### 12 Parameter Variants (test_adx_params.py)
+- **Tested**: ADX thresholds 20-30, DI spread 0-10, SL 1.5-2.5, TP 3-8
+- **Best variant**: v2_base (current) with avg PF 0.947 across all periods
+- **ALL variants lose money**: None achieved PF > 1 on all 3 periods
+- **Conclusion**: ADX on H1 is fundamentally not viable as standalone strategy
+
+### ADX on H4
+- **Changed**: ADX uses H4 data instead of H1 (in run_oos.py)
+- **Result**: Train -0.51%, Val +8.02%, Test +5.00%
+- **Verdict**: No improvement vs H1
+
+### ADX Risk Reduced (0.2% → 0.1%)
+- **Why**: Reduce negative impact while keeping diversification
+- **Result**: Train -2.53%, Val +7.15%, Test +4.12% — WORSE than full risk!
+- **Surprising finding**: Reducing ADX risk removes hedging benefit more than it removes losses. ADX acts like put options — negative expected value but valuable diversification
+- **Verdict**: Keep ADX at full 0.2% risk
+
+### Removing ADX Completely
+- **Result**: Train -8.93%, Val +5.37%, Test +8.69%
+- **Train drops 13%**: Without ADX's negative correlation hedge
+- **Conclusion**: ADX is a net BENEFIT to portfolio despite individual losses
+- **Action**: KEEP ADX v2 at H1, 0.2% risk, unchanged
