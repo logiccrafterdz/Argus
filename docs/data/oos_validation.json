@@ -1,34 +1,34 @@
 {
     "mode": "validation",
     "portfolio": {
-        "total_return": 10.11,
-        "net_profit": 10114.3,
-        "total_trades": 402,
-        "win_rate": 28.61,
-        "profit_factor": 1.16,
-        "max_drawdown": -3.36,
-        "max_dd_duration": 100,
-        "sharpe_ratio": 0.84,
-        "sortino_ratio": 1.41,
-        "calmar_ratio": 3.27,
-        "annualized_return": 9.79,
-        "recovery_factor": 3.01,
-        "expectancy": 25.16,
-        "avg_win": 646.13,
-        "avg_loss": -223.66,
+        "total_return": 8.28,
+        "net_profit": 8277.96,
+        "total_trades": 452,
+        "win_rate": 30.75,
+        "profit_factor": 1.12,
+        "max_drawdown": -2.53,
+        "max_dd_duration": 76,
+        "sharpe_ratio": 0.71,
+        "sortino_ratio": 1.17,
+        "calmar_ratio": 3.35,
+        "annualized_return": 8.01,
+        "recovery_factor": 3.28,
+        "expectancy": 18.31,
+        "avg_win": 558.34,
+        "avg_loss": -221.51,
         "monthly_returns": {
-            "2023-01": -1.07,
-            "2023-02": 6.25,
-            "2023-03": 0.6,
-            "2023-04": 1.01,
-            "2023-05": 2.48,
-            "2023-06": -0.22,
-            "2023-07": 1.2,
-            "2023-08": -0.02,
-            "2023-09": 0.03,
-            "2023-10": -0.02,
-            "2023-11": 1.03,
-            "2023-12": 0.05
+            "2023-01": 1.8,
+            "2023-02": 2.3,
+            "2023-03": -0.46,
+            "2023-04": 1.34,
+            "2023-05": 0.83,
+            "2023-06": 0.66,
+            "2023-07": -0.08,
+            "2023-08": 1.49,
+            "2023-09": 0.52,
+            "2023-10": -0.57,
+            "2023-11": 0.72,
+            "2023-12": 0.15
         },
         "drawdown_curve": [
             {
@@ -37,7 +37,7 @@
             },
             {
                 "date": "2023-01-03",
-                "drawdown": -0.12
+                "drawdown": -0.03
             },
             {
                 "date": "2023-01-04",
@@ -45,91 +45,91 @@
             },
             {
                 "date": "2023-01-05",
-                "drawdown": -0.18
+                "drawdown": 0.0
             },
             {
                 "date": "2023-01-06",
-                "drawdown": -0.04
+                "drawdown": 0.0
             },
             {
                 "date": "2023-01-09",
-                "drawdown": -0.69
+                "drawdown": -0.04
             },
             {
                 "date": "2023-01-10",
-                "drawdown": -0.46
+                "drawdown": 0.0
             },
             {
                 "date": "2023-01-11",
-                "drawdown": -0.36
+                "drawdown": 0.0
             },
             {
                 "date": "2023-01-12",
-                "drawdown": -0.34
+                "drawdown": 0.0
             },
             {
                 "date": "2023-01-13",
-                "drawdown": 0.0
+                "drawdown": -0.21
             },
             {
                 "date": "2023-01-16",
-                "drawdown": 0.0
+                "drawdown": -0.45
             },
             {
                 "date": "2023-01-17",
-                "drawdown": -0.23
+                "drawdown": -0.6
             },
             {
                 "date": "2023-01-18",
-                "drawdown": -0.26
+                "drawdown": -0.56
             },
             {
                 "date": "2023-01-19",
-                "drawdown": -1.59
+                "drawdown": -0.07
             },
             {
                 "date": "2023-01-20",
-                "drawdown": -1.78
+                "drawdown": -0.2
             },
             {
                 "date": "2023-01-23",
-                "drawdown": -1.43
+                "drawdown": 0.0
             },
             {
                 "date": "2023-01-24",
-                "drawdown": -1.69
+                "drawdown": 0.0
             },
             {
                 "date": "2023-01-25",
-                "drawdown": -2.52
+                "drawdown": 0.0
             },
             {
                 "date": "2023-01-26",
-                "drawdown": -2.37
+                "drawdown": -0.24
             },
             {
                 "date": "2023-01-27",
-                "drawdown": -2.5
+                "drawdown": -0.33
             },
             {
                 "date": "2023-01-30",
-                "drawdown": -2.61
+                "drawdown": -0.42
             },
             {
                 "date": "2023-01-31",
-                "drawdown": -2.14
+                "drawdown": -0.16
             },
             {
                 "date": "2023-02-01",
-                "drawdown": -2.23
+                "drawdown": 0.0
             },
             {
                 "date": "2023-02-02",
-                "drawdown": -2.54
+                "drawdown": -0.14
             },
             {
                 "date": "2023-02-03",
-                "drawdown": -2.22
+                "drawdown": 0.0
             },
             {
                 "date": "2023-02-06",
@@ -137,59 +137,59 @@
             },
             {
                 "date": "2023-02-07",
-                "drawdown": 0.0
+                "drawdown": -0.24
             },
             {
                 "date": "2023-02-08",
-                "drawdown": -1.28
+                "drawdown": -0.29
             },
             {
                 "date": "2023-02-09",
-                "drawdown": -0.37
+                "drawdown": -0.78
             },
             {
                 "date": "2023-02-10",
-                "drawdown": -0.42
+                "drawdown": -0.74
             },
             {
                 "date": "2023-02-13",
-                "drawdown": -1.36
+                "drawdown": -1.72
             },
             {
                 "date": "2023-02-14",
-                "drawdown": -2.0
+                "drawdown": -1.84
             },
             {
                 "date": "2023-02-15",
-                "drawdown": -1.37
+                "drawdown": -2.14
             },
             {
                 "date": "2023-02-16",
-                "drawdown": 0.0
+                "drawdown": -2.14
             },
             {
                 "date": "2023-02-17",
-                "drawdown": 0.0
+                "drawdown": -2.42
             },
             {
                 "date": "2023-02-20",
-                "drawdown": 0.0
+                "drawdown": -2.1
             },
             {
                 "date": "2023-02-21",
-                "drawdown": -0.33
+                "drawdown": -2.04
             },
             {
                 "date": "2023-02-22",
-                "drawdown": 0.0
+                "drawdown": -1.4
             },
             {
                 "date": "2023-02-23",
-                "drawdown": 0.0
+                "drawdown": -0.69
             },
             {
                 "date": "2023-02-24",
-                "drawdown": -0.09
+                "drawdown": -0.34
             },
             {
                 "date": "2023-02-27",
@@ -197,19 +197,19 @@
             },
             {
                 "date": "2023-02-28",
-                "drawdown": -0.32
+                "drawdown": -0.15
             },
             {
                 "date": "2023-03-01",
-                "drawdown": -0.19
+                "drawdown": -0.1
             },
             {
                 "date": "2023-03-02",
-                "drawdown": -0.29
+                "drawdown": 0.0
             },
             {
                 "date": "2023-03-03",
-                "drawdown": -0.15
+                "drawdown": 0.0
             },
             {
                 "date": "2023-03-06",
@@ -221,107 +221,107 @@
             },
             {
                 "date": "2023-03-08",
-                "drawdown": -0.78
+                "drawdown": -0.26
             },
             {
                 "date": "2023-03-09",
-                "drawdown": -0.75
+                "drawdown": -0.12
             },
             {
                 "date": "2023-03-10",
-                "drawdown": -0.38
+                "drawdown": -0.54
             },
             {
                 "date": "2023-03-13",
-                "drawdown": 0.0
+                "drawdown": -0.36
             },
             {
                 "date": "2023-03-14",
-                "drawdown": -0.77
+                "drawdown": -0.47
             },
             {
                 "date": "2023-03-15",
-                "drawdown": -0.69
+                "drawdown": -0.52
             },
             {
                 "date": "2023-03-16",
-                "drawdown": -1.03
+                "drawdown": -0.6
             },
             {
                 "date": "2023-03-17",
-                "drawdown": -0.84
+                "drawdown": -0.46
             },
             {
                 "date": "2023-03-20",
-                "drawdown": -0.92
+                "drawdown": -0.48
             },
             {
                 "date": "2023-03-21",
-                "drawdown": -1.54
+                "drawdown": -0.81
             },
             {
                 "date": "2023-03-22",
-                "drawdown": -0.94
+                "drawdown": -1.06
             },
             {
                 "date": "2023-03-23",
-                "drawdown": -0.74
+                "drawdown": -0.86
             },
             {
                 "date": "2023-03-24",
-                "drawdown": -0.92
+                "drawdown": -1.55
             },
             {
                 "date": "2023-03-27",
-                "drawdown": -1.16
+                "drawdown": -1.76
             },
             {
                 "date": "2023-03-28",
-                "drawdown": -1.11
+                "drawdown": -1.68
             },
             {
                 "date": "2023-03-29",
-                "drawdown": -1.02
+                "drawdown": -1.48
             },
             {
                 "date": "2023-03-30",
-                "drawdown": -0.88
+                "drawdown": -1.31
             },
             {
                 "date": "2023-03-31",
-                "drawdown": -0.66
+                "drawdown": -1.13
             },
             {
                 "date": "2023-04-03",
-                "drawdown": -0.66
+                "drawdown": -1.29
             },
             {
                 "date": "2023-04-04",
-                "drawdown": -0.29
+                "drawdown": -0.15
             },
             {
                 "date": "2023-04-05",
-                "drawdown": -0.2
-            },
-            {
-                "date": "2023-04-06",
-                "drawdown": -0.06
-            },
-            {
-                "date": "2023-04-07",
-                "drawdown": -0.02
-            },
-            {
-                "date": "2023-04-10",
                 "drawdown": 0.0
             },
             {
+                "date": "2023-04-06",
+                "drawdown": -0.1
+            },
+            {
+                "date": "2023-04-07",
+                "drawdown": 0.0
+            },
+            {
+                "date": "2023-04-10",
+                "drawdown": -0.16
+            },
+            {
                 "date": "2023-04-11",
-                "drawdown": -0.27
+                "drawdown": 0.0
             },
             {
                 "date": "2023-04-12",
-                "drawdown": -0.35
+                "drawdown": 0.0
             },
             {
                 "date": "2023-04-13",
@@ -333,107 +333,107 @@
             },
             {
                 "date": "2023-04-17",
-                "drawdown": -0.26
+                "drawdown": -0.53
             },
             {
                 "date": "2023-04-18",
-                "drawdown": -0.47
+                "drawdown": -0.48
             },
             {
                 "date": "2023-04-19",
-                "drawdown": -0.56
+                "drawdown": -0.41
             },
             {
                 "date": "2023-04-20",
-                "drawdown": -0.19
+                "drawdown": -0.14
             },
             {
                 "date": "2023-04-21",
-                "drawdown": -0.19
+                "drawdown": 0.0
             },
             {
                 "date": "2023-04-24",
-                "drawdown": -0.2
+                "drawdown": -0.65
             },
             {
                 "date": "2023-04-25",
-                "drawdown": -0.26
+                "drawdown": -0.34
             },
             {
                 "date": "2023-04-26",
-                "drawdown": -0.66
-            },
-            {
-                "date": "2023-04-27",
-                "drawdown": -0.86
-            },
-            {
-                "date": "2023-04-28",
                 "drawdown": -0.5
             },
             {
+                "date": "2023-04-27",
+                "drawdown": -0.94
+            },
+            {
+                "date": "2023-04-28",
+                "drawdown": -0.84
+            },
+            {
                 "date": "2023-05-01",
-                "drawdown": 0.0
+                "drawdown": -1.39
             },
             {
                 "date": "2023-05-02",
-                "drawdown": 0.0
+                "drawdown": -1.29
             },
             {
                 "date": "2023-05-03",
-                "drawdown": 0.0
+                "drawdown": -1.19
             },
             {
                 "date": "2023-05-04",
-                "drawdown": -0.19
+                "drawdown": -1.22
             },
             {
                 "date": "2023-05-05",
-                "drawdown": 0.0
+                "drawdown": -1.37
             },
             {
                 "date": "2023-05-08",
-                "drawdown": -0.43
+                "drawdown": -2.03
             },
             {
                 "date": "2023-05-09",
-                "drawdown": 0.0
+                "drawdown": -0.8
             },
             {
                 "date": "2023-05-10",
-                "drawdown": 0.0
+                "drawdown": -0.71
             },
             {
                 "date": "2023-05-11",
-                "drawdown": -0.26
+                "drawdown": -0.88
             },
             {
                 "date": "2023-05-12",
-                "drawdown": -0.38
+                "drawdown": -0.95
             },
             {
                 "date": "2023-05-15",
-                "drawdown": -0.74
+                "drawdown": -1.39
             },
             {
                 "date": "2023-05-16",
-                "drawdown": -0.78
+                "drawdown": -0.94
             },
             {
                 "date": "2023-05-17",
-                "drawdown": 0.0
+                "drawdown": -0.08
             },
             {
                 "date": "2023-05-18",
-                "drawdown": -0.05
+                "drawdown": 0.0
             },
             {
                 "date": "2023-05-19",
-                "drawdown": -0.39
+                "drawdown": 0.0
             },
             {
                 "date": "2023-05-22",
-                "drawdown": -0.14
+                "drawdown": -0.08
             },
             {
                 "date": "2023-05-23",
@@ -441,27 +441,27 @@
             },
             {
                 "date": "2023-05-24",
-                "drawdown": -0.37
+                "drawdown": -0.44
             },
             {
                 "date": "2023-05-25",
-                "drawdown": -0.46
+                "drawdown": -0.53
             },
             {
                 "date": "2023-05-26",
-                "drawdown": -0.39
+                "drawdown": -0.53
             },
             {
                 "date": "2023-05-29",
-                "drawdown": -0.25
+                "drawdown": -0.9
             },
             {
                 "date": "2023-05-30",
-                "drawdown": -0.28
+                "drawdown": -0.22
             },
             {
                 "date": "2023-05-31",
-                "drawdown": -0.12
+                "drawdown": -0.18
             },
             {
                 "date": "2023-06-01",
@@ -469,111 +469,111 @@
             },
             {
                 "date": "2023-06-02",
-                "drawdown": -0.3
+                "drawdown": -0.08
             },
             {
                 "date": "2023-06-05",
-                "drawdown": -0.23
+                "drawdown": -0.12
             },
             {
                 "date": "2023-06-06",
-                "drawdown": -0.55
+                "drawdown": -0.21
             },
             {
                 "date": "2023-06-07",
-                "drawdown": -0.19
+                "drawdown": 0.0
             },
             {
                 "date": "2023-06-08",
-                "drawdown": -0.14
+                "drawdown": 0.0
             },
             {
                 "date": "2023-06-09",
-                "drawdown": -0.83
+                "drawdown": -0.13
             },
             {
                 "date": "2023-06-12",
-                "drawdown": -0.67
+                "drawdown": -0.02
             },
             {
                 "date": "2023-06-13",
-                "drawdown": -0.18
+                "drawdown": 0.0
             },
             {
                 "date": "2023-06-14",
-                "drawdown": -0.69
+                "drawdown": -0.28
             },
             {
                 "date": "2023-06-15",
-                "drawdown": -1.37
+                "drawdown": -0.6
             },
             {
                 "date": "2023-06-16",
-                "drawdown": -1.6
+                "drawdown": -0.52
             },
             {
                 "date": "2023-06-19",
-                "drawdown": -1.41
+                "drawdown": -0.36
             },
             {
                 "date": "2023-06-20",
-                "drawdown": -1.49
+                "drawdown": -0.42
             },
             {
                 "date": "2023-06-21",
-                "drawdown": -1.14
+                "drawdown": -0.0
             },
             {
                 "date": "2023-06-22",
-                "drawdown": -0.82
+                "drawdown": 0.0
             },
             {
                 "date": "2023-06-23",
-                "drawdown": -0.71
+                "drawdown": -0.14
             },
             {
                 "date": "2023-06-26",
-                "drawdown": -0.35
+                "drawdown": -0.09
             },
             {
                 "date": "2023-06-27",
-                "drawdown": -0.41
+                "drawdown": -0.19
             },
             {
                 "date": "2023-06-28",
-                "drawdown": -0.44
+                "drawdown": -0.06
             },
             {
                 "date": "2023-06-29",
-                "drawdown": -0.56
+                "drawdown": 0.0
             },
             {
                 "date": "2023-06-30",
-                "drawdown": -0.87
+                "drawdown": -0.32
             },
             {
                 "date": "2023-07-03",
-                "drawdown": -1.21
+                "drawdown": -0.88
             },
             {
                 "date": "2023-07-04",
-                "drawdown": -1.28
+                "drawdown": -1.03
             },
             {
                 "date": "2023-07-05",
-                "drawdown": -0.99
+                "drawdown": -0.75
             },
             {
                 "date": "2023-07-06",
-                "drawdown": -0.66
+                "drawdown": -0.52
             },
             {
                 "date": "2023-07-07",
-                "drawdown": -0.29
+                "drawdown": 0.0
             },
             {
                 "date": "2023-07-10",
-                "drawdown": 0.0
+                "drawdown": -0.05
             },
             {
                 "date": "2023-07-11",
@@ -589,415 +589,415 @@
             },
             {
                 "date": "2023-07-14",
-                "drawdown": 0.0
+                "drawdown": -0.15
             },
             {
                 "date": "2023-07-17",
-                "drawdown": -0.54
+                "drawdown": -0.34
             },
             {
                 "date": "2023-07-18",
-                "drawdown": -0.5
+                "drawdown": -0.33
             },
             {
                 "date": "2023-07-19",
-                "drawdown": -0.37
+                "drawdown": -0.27
             },
             {
                 "date": "2023-07-20",
-                "drawdown": -0.47
+                "drawdown": -0.27
             },
             {
                 "date": "2023-07-21",
-                "drawdown": -0.37
+                "drawdown": 0.0
             },
             {
                 "date": "2023-07-24",
-                "drawdown": -0.13
+                "drawdown": -0.34
             },
             {
                 "date": "2023-07-25",
-                "drawdown": -0.12
+                "drawdown": -0.38
             },
             {
                 "date": "2023-07-26",
-                "drawdown": -0.76
+                "drawdown": -0.83
             },
             {
                 "date": "2023-07-27",
-                "drawdown": -1.1
+                "drawdown": -0.92
             },
             {
                 "date": "2023-07-28",
-                "drawdown": -1.32
+                "drawdown": -0.91
             },
             {
                 "date": "2023-07-31",
-                "drawdown": -1.5
-            },
-            {
-                "date": "2023-08-01",
-                "drawdown": -1.19
-            },
-            {
-                "date": "2023-08-02",
-                "drawdown": -1.83
-            },
-            {
-                "date": "2023-08-03",
-                "drawdown": -1.91
-            },
-            {
-                "date": "2023-08-04",
-                "drawdown": -1.58
-            },
-            {
-                "date": "2023-08-07",
-                "drawdown": -2.02
-            },
-            {
-                "date": "2023-08-08",
-                "drawdown": -2.37
-            },
-            {
-                "date": "2023-08-09",
-                "drawdown": -1.95
-            },
-            {
-                "date": "2023-08-10",
-                "drawdown": -1.63
-            },
-            {
-                "date": "2023-08-11",
-                "drawdown": -1.26
-            },
-            {
-                "date": "2023-08-14",
-                "drawdown": -1.2
-            },
-            {
-                "date": "2023-08-15",
-                "drawdown": -1.16
-            },
-            {
-                "date": "2023-08-16",
-                "drawdown": -0.5
-            },
-            {
-                "date": "2023-08-17",
-                "drawdown": -0.43
-            },
-            {
-                "date": "2023-08-18",
-                "drawdown": -0.06
-            },
-            {
-                "date": "2023-08-21",
-                "drawdown": -0.07
-            },
-            {
-                "date": "2023-08-22",
-                "drawdown": -0.22
-            },
-            {
-                "date": "2023-08-23",
-                "drawdown": -0.09
-            },
-            {
-                "date": "2023-08-24",
-                "drawdown": -0.1
-            },
-            {
-                "date": "2023-08-25",
-                "drawdown": -0.32
-            },
-            {
-                "date": "2023-08-28",
-                "drawdown": -0.53
-            },
-            {
-                "date": "2023-08-29",
-                "drawdown": -0.61
-            },
-            {
-                "date": "2023-08-30",
-                "drawdown": -1.14
-            },
-            {
-                "date": "2023-08-31",
-                "drawdown": -1.53
-            },
-            {
-                "date": "2023-09-01",
-                "drawdown": -1.84
-            },
-            {
-                "date": "2023-09-04",
-                "drawdown": -1.95
-            },
-            {
-                "date": "2023-09-05",
-                "drawdown": -2.34
-            },
-            {
-                "date": "2023-09-06",
-                "drawdown": -1.81
-            },
-            {
-                "date": "2023-09-07",
-                "drawdown": -2.1
-            },
-            {
-                "date": "2023-09-08",
-                "drawdown": -1.92
-            },
-            {
-                "date": "2023-09-11",
-                "drawdown": -2.04
-            },
-            {
-                "date": "2023-09-12",
-                "drawdown": -1.98
-            },
-            {
-                "date": "2023-09-13",
-                "drawdown": -1.88
-            },
-            {
-                "date": "2023-09-14",
-                "drawdown": -1.83
-            },
-            {
-                "date": "2023-09-15",
-                "drawdown": -1.66
-            },
-            {
-                "date": "2023-09-18",
-                "drawdown": -1.61
-            },
-            {
-                "date": "2023-09-19",
-                "drawdown": -1.45
-            },
-            {
-                "date": "2023-09-20",
-                "drawdown": -1.19
-            },
-            {
-                "date": "2023-09-21",
                 "drawdown": -1.44
             },
             {
-                "date": "2023-09-22",
-                "drawdown": -1.37
+                "date": "2023-08-01",
+                "drawdown": -1.09
             },
             {
-                "date": "2023-09-25",
-                "drawdown": -1.64
+                "date": "2023-08-02",
+                "drawdown": -1.39
             },
             {
-                "date": "2023-09-26",
-                "drawdown": -1.33
+                "date": "2023-08-03",
+                "drawdown": -1.0
             },
             {
-                "date": "2023-09-27",
-                "drawdown": -1.42
+                "date": "2023-08-04",
+                "drawdown": -0.82
             },
             {
-                "date": "2023-09-28",
+                "date": "2023-08-07",
+                "drawdown": -0.79
+            },
+            {
+                "date": "2023-08-08",
+                "drawdown": -1.12
+            },
+            {
+                "date": "2023-08-09",
+                "drawdown": -0.71
+            },
+            {
+                "date": "2023-08-10",
+                "drawdown": -0.34
+            },
+            {
+                "date": "2023-08-11",
+                "drawdown": 0.0
+            },
+            {
+                "date": "2023-08-14",
+                "drawdown": 0.0
+            },
+            {
+                "date": "2023-08-15",
+                "drawdown": 0.0
+            },
+            {
+                "date": "2023-08-16",
+                "drawdown": 0.0
+            },
+            {
+                "date": "2023-08-17",
+                "drawdown": 0.0
+            },
+            {
+                "date": "2023-08-18",
+                "drawdown": 0.0
+            },
+            {
+                "date": "2023-08-21",
+                "drawdown": 0.0
+            },
+            {
+                "date": "2023-08-22",
+                "drawdown": -0.19
+            },
+            {
+                "date": "2023-08-23",
+                "drawdown": -0.05
+            },
+            {
+                "date": "2023-08-24",
+                "drawdown": -0.06
+            },
+            {
+                "date": "2023-08-25",
+                "drawdown": -0.25
+            },
+            {
+                "date": "2023-08-28",
+                "drawdown": -0.43
+            },
+            {
+                "date": "2023-08-29",
+                "drawdown": -0.48
+            },
+            {
+                "date": "2023-08-30",
                 "drawdown": -1.08
             },
             {
-                "date": "2023-09-29",
-                "drawdown": -1.5
+                "date": "2023-08-31",
+                "drawdown": -1.22
             },
             {
-                "date": "2023-10-02",
-                "drawdown": -1.66
-            },
-            {
-                "date": "2023-10-03",
-                "drawdown": -1.75
-            },
-            {
-                "date": "2023-10-04",
-                "drawdown": -1.66
-            },
-            {
-                "date": "2023-10-05",
-                "drawdown": -1.67
-            },
-            {
-                "date": "2023-10-06",
-                "drawdown": -1.82
-            },
-            {
-                "date": "2023-10-09",
-                "drawdown": -1.78
-            },
-            {
-                "date": "2023-10-10",
-                "drawdown": -1.3
-            },
-            {
-                "date": "2023-10-11",
-                "drawdown": -1.27
-            },
-            {
-                "date": "2023-10-12",
+                "date": "2023-09-01",
                 "drawdown": -1.37
             },
             {
-                "date": "2023-10-13",
-                "drawdown": -1.91
+                "date": "2023-09-04",
+                "drawdown": -1.0
             },
             {
-                "date": "2023-10-16",
-                "drawdown": -1.83
+                "date": "2023-09-05",
+                "drawdown": -1.39
             },
             {
-                "date": "2023-10-17",
-                "drawdown": -1.83
+                "date": "2023-09-06",
+                "drawdown": -0.7
             },
             {
-                "date": "2023-10-18",
-                "drawdown": -2.46
+                "date": "2023-09-07",
+                "drawdown": -1.08
             },
             {
-                "date": "2023-10-19",
-                "drawdown": -2.39
+                "date": "2023-09-08",
+                "drawdown": -0.76
             },
             {
-                "date": "2023-10-20",
-                "drawdown": -1.61
+                "date": "2023-09-11",
+                "drawdown": -0.86
             },
             {
-                "date": "2023-10-23",
-                "drawdown": -1.61
+                "date": "2023-09-12",
+                "drawdown": -0.72
             },
             {
-                "date": "2023-10-24",
-                "drawdown": -1.83
+                "date": "2023-09-13",
+                "drawdown": -0.6
             },
             {
-                "date": "2023-10-25",
-                "drawdown": -1.47
+                "date": "2023-09-14",
+                "drawdown": -0.58
             },
             {
-                "date": "2023-10-26",
-                "drawdown": -1.38
+                "date": "2023-09-15",
+                "drawdown": -0.59
             },
             {
-                "date": "2023-10-27",
-                "drawdown": -1.56
+                "date": "2023-09-18",
+                "drawdown": -0.47
             },
             {
-                "date": "2023-10-30",
-                "drawdown": -1.63
+                "date": "2023-09-19",
+                "drawdown": -0.4
             },
             {
-                "date": "2023-10-31",
-                "drawdown": -1.53
+                "date": "2023-09-20",
+                "drawdown": -0.08
             },
             {
-                "date": "2023-11-01",
-                "drawdown": -1.91
+                "date": "2023-09-21",
+                "drawdown": -0.42
             },
             {
-                "date": "2023-11-02",
-                "drawdown": -2.21
+                "date": "2023-09-22",
+                "drawdown": -0.33
             },
             {
-                "date": "2023-11-03",
-                "drawdown": -1.84
+                "date": "2023-09-25",
+                "drawdown": -0.45
             },
             {
-                "date": "2023-11-06",
-                "drawdown": -1.83
+                "date": "2023-09-26",
+                "drawdown": -0.27
             },
             {
-                "date": "2023-11-07",
-                "drawdown": -1.7
-            },
-            {
-                "date": "2023-11-08",
-                "drawdown": -1.63
-            },
-            {
-                "date": "2023-11-09",
-                "drawdown": -1.61
-            },
-            {
-                "date": "2023-11-10",
-                "drawdown": -1.56
-            },
-            {
-                "date": "2023-11-13",
-                "drawdown": -1.55
-            },
-            {
-                "date": "2023-11-14",
-                "drawdown": -1.59
-            },
-            {
-                "date": "2023-11-15",
-                "drawdown": -1.32
-            },
-            {
-                "date": "2023-11-16",
-                "drawdown": -1.63
-            },
-            {
-                "date": "2023-11-17",
-                "drawdown": -1.66
-            },
-            {
-                "date": "2023-11-20",
-                "drawdown": -1.47
-            },
-            {
-                "date": "2023-11-21",
-                "drawdown": -1.19
-            },
-            {
-                "date": "2023-11-22",
-                "drawdown": -1.36
-            },
-            {
-                "date": "2023-11-23",
-                "drawdown": -1.74
-            },
-            {
-                "date": "2023-11-24",
-                "drawdown": -1.96
-            },
-            {
-                "date": "2023-11-27",
-                "drawdown": -1.85
-            },
-            {
-                "date": "2023-11-28",
-                "drawdown": -1.18
-            },
-            {
-                "date": "2023-11-29",
-                "drawdown": -0.77
-            },
-            {
-                "date": "2023-11-30",
+                "date": "2023-09-27",
                 "drawdown": -0.52
             },
             {
-                "date": "2023-12-01",
+                "date": "2023-09-28",
+                "drawdown": -0.27
+            },
+            {
+                "date": "2023-09-29",
+                "drawdown": -0.71
+            },
+            {
+                "date": "2023-10-02",
+                "drawdown": -0.91
+            },
+            {
+                "date": "2023-10-03",
+                "drawdown": -0.88
+            },
+            {
+                "date": "2023-10-04",
+                "drawdown": -0.78
+            },
+            {
+                "date": "2023-10-05",
                 "drawdown": -0.8
             },
             {
+                "date": "2023-10-06",
+                "drawdown": -0.97
+            },
+            {
+                "date": "2023-10-09",
+                "drawdown": -0.96
+            },
+            {
+                "date": "2023-10-10",
+                "drawdown": -0.58
+            },
+            {
+                "date": "2023-10-11",
+                "drawdown": -0.67
+            },
+            {
+                "date": "2023-10-12",
+                "drawdown": -1.03
+            },
+            {
+                "date": "2023-10-13",
+                "drawdown": -1.64
+            },
+            {
+                "date": "2023-10-16",
+                "drawdown": -1.3
+            },
+            {
+                "date": "2023-10-17",
+                "drawdown": -1.23
+            },
+            {
+                "date": "2023-10-18",
+                "drawdown": -1.9
+            },
+            {
+                "date": "2023-10-19",
+                "drawdown": -1.77
+            },
+            {
+                "date": "2023-10-20",
+                "drawdown": -1.2
+            },
+            {
+                "date": "2023-10-23",
+                "drawdown": -1.2
+            },
+            {
+                "date": "2023-10-24",
+                "drawdown": -1.41
+            },
+            {
+                "date": "2023-10-25",
+                "drawdown": -1.04
+            },
+            {
+                "date": "2023-10-26",
+                "drawdown": -0.87
+            },
+            {
+                "date": "2023-10-27",
+                "drawdown": -1.15
+            },
+            {
+                "date": "2023-10-30",
+                "drawdown": -1.31
+            },
+            {
+                "date": "2023-10-31",
+                "drawdown": -1.28
+            },
+            {
+                "date": "2023-11-01",
+                "drawdown": -1.37
+            },
+            {
+                "date": "2023-11-02",
+                "drawdown": -1.62
+            },
+            {
+                "date": "2023-11-03",
+                "drawdown": -1.24
+            },
+            {
+                "date": "2023-11-06",
+                "drawdown": -1.35
+            },
+            {
+                "date": "2023-11-07",
+                "drawdown": -1.17
+            },
+            {
+                "date": "2023-11-08",
+                "drawdown": -0.98
+            },
+            {
+                "date": "2023-11-09",
+                "drawdown": -0.96
+            },
+            {
+                "date": "2023-11-10",
+                "drawdown": -0.86
+            },
+            {
+                "date": "2023-11-13",
+                "drawdown": -0.92
+            },
+            {
+                "date": "2023-11-14",
+                "drawdown": -0.97
+            },
+            {
+                "date": "2023-11-15",
+                "drawdown": -1.16
+            },
+            {
+                "date": "2023-11-16",
+                "drawdown": -1.52
+            },
+            {
+                "date": "2023-11-17",
+                "drawdown": -1.53
+            },
+            {
+                "date": "2023-11-20",
+                "drawdown": -1.18
+            },
+            {
+                "date": "2023-11-21",
+                "drawdown": -1.31
+            },
+            {
+                "date": "2023-11-22",
+                "drawdown": -1.75
+            },
+            {
+                "date": "2023-11-23",
+                "drawdown": -1.64
+            },
+            {
+                "date": "2023-11-24",
+                "drawdown": -1.51
+            },
+            {
+                "date": "2023-11-27",
+                "drawdown": -1.26
+            },
+            {
+                "date": "2023-11-28",
+                "drawdown": -0.8
+            },
+            {
+                "date": "2023-11-29",
+                "drawdown": -0.72
+            },
+            {
+                "date": "2023-11-30",
+                "drawdown": -0.57
+            },
+            {
+                "date": "2023-12-01",
+                "drawdown": -0.53
+            },
+            {
                 "date": "2023-12-04",
-                "drawdown": 0.0
+                "drawdown": -0.35
             },
             {
                 "date": "2023-12-05",
-                "drawdown": 0.0
+                "drawdown": -0.25
             },
             {
                 "date": "2023-12-06",
@@ -1005,7 +1005,7 @@
             },
             {
                 "date": "2023-12-07",
-                "drawdown": -0.43
+                "drawdown": -0.5
             },
             {
                 "date": "2023-12-08",
@@ -1017,15 +1017,15 @@
             },
             {
                 "date": "2023-12-12",
-                "drawdown": -0.18
+                "drawdown": -0.2
             },
             {
                 "date": "2023-12-13",
-                "drawdown": -0.6
+                "drawdown": -0.42
             },
             {
                 "date": "2023-12-14",
-                "drawdown": -0.14
+                "drawdown": 0.0
             },
             {
                 "date": "2023-12-15",
@@ -1033,107 +1033,107 @@
             },
             {
                 "date": "2023-12-18",
-                "drawdown": -0.2
+                "drawdown": -0.24
             },
             {
                 "date": "2023-12-19",
-                "drawdown": -0.71
+                "drawdown": -0.6
             },
             {
                 "date": "2023-12-20",
-                "drawdown": -0.53
+                "drawdown": -0.43
             },
             {
                 "date": "2023-12-21",
-                "drawdown": -0.68
+                "drawdown": -0.52
             },
             {
                 "date": "2023-12-22",
-                "drawdown": -1.32
+                "drawdown": -1.1
             },
             {
                 "date": "2023-12-25",
-                "drawdown": -3.36
+                "drawdown": -2.53
             },
             {
                 "date": "2023-12-26",
-                "drawdown": -1.26
+                "drawdown": -1.03
             },
             {
                 "date": "2023-12-27",
-                "drawdown": -1.43
+                "drawdown": -1.23
             },
             {
                 "date": "2023-12-28",
-                "drawdown": -1.55
+                "drawdown": -1.22
             },
             {
                 "date": "2023-12-29",
-                "drawdown": -1.87
+                "drawdown": -1.59
             }
         ],
         "correlation_matrix": {
             "ADX_TrendStrength": {
                 "ADX_TrendStrength": 1.0,
-                "AVWAP_Confluence": -0.03,
-                "Bollinger Mean Reversion": -0.008,
-                "Donchian_Breakout": -0.039,
-                "Hidden_Divergence": -0.0,
-                "PriceAction_SR": 0.01,
-                "Smart_Swing_Bias": -0.163
+                "AVWAP_Confluence": 0.364,
+                "Bollinger Mean Reversion": 0.001,
+                "Donchian_Breakout": -0.006,
+                "Hidden_Divergence": -0.166,
+                "PriceAction_SR": 0.007,
+                "Smart_Swing_Bias": -0.061
             },
             "AVWAP_Confluence": {
-                "ADX_TrendStrength": -0.03,
+                "ADX_TrendStrength": 0.364,
                 "AVWAP_Confluence": 1.0,
-                "Bollinger Mean Reversion": 0.015,
-                "Donchian_Breakout": -0.085,
-                "Hidden_Divergence": -0.028,
-                "PriceAction_SR": -0.142,
-                "Smart_Swing_Bias": -0.107
+                "Bollinger Mean Reversion": 0.017,
+                "Donchian_Breakout": -0.178,
+                "Hidden_Divergence": -0.052,
+                "PriceAction_SR": 0.09,
+                "Smart_Swing_Bias": -0.079
             },
             "Bollinger Mean Reversion": {
-                "ADX_TrendStrength": -0.008,
-                "AVWAP_Confluence": 0.015,
+                "ADX_TrendStrength": 0.001,
+                "AVWAP_Confluence": 0.017,
                 "Bollinger Mean Reversion": 1.0,
-                "Donchian_Breakout": -0.178,
-                "Hidden_Divergence": -0.038,
-                "PriceAction_SR": 0.031,
-                "Smart_Swing_Bias": -0.036
+                "Donchian_Breakout": -0.107,
+                "Hidden_Divergence": -0.072,
+                "PriceAction_SR": 0.01,
+                "Smart_Swing_Bias": -0.032
             },
             "Donchian_Breakout": {
-                "ADX_TrendStrength": -0.039,
-                "AVWAP_Confluence": -0.085,
-                "Bollinger Mean Reversion": -0.178,
+                "ADX_TrendStrength": -0.006,
+                "AVWAP_Confluence": -0.178,
+                "Bollinger Mean Reversion": -0.107,
                 "Donchian_Breakout": 1.0,
-                "Hidden_Divergence": -0.025,
-                "PriceAction_SR": -0.024,
-                "Smart_Swing_Bias": 0.054
+                "Hidden_Divergence": -0.058,
+                "PriceAction_SR": -0.017,
+                "Smart_Swing_Bias": -0.062
             },
             "Hidden_Divergence": {
-                "ADX_TrendStrength": -0.0,
-                "AVWAP_Confluence": -0.028,
-                "Bollinger Mean Reversion": -0.038,
-                "Donchian_Breakout": -0.025,
+                "ADX_TrendStrength": -0.166,
+                "AVWAP_Confluence": -0.052,
+                "Bollinger Mean Reversion": -0.072,
+                "Donchian_Breakout": -0.058,
                 "Hidden_Divergence": 1.0,
-                "PriceAction_SR": -0.016,
-                "Smart_Swing_Bias": 0.002
+                "PriceAction_SR": 0.066,
+                "Smart_Swing_Bias": 0.04
             },
             "PriceAction_SR": {
-                "ADX_TrendStrength": 0.01,
-                "AVWAP_Confluence": -0.142,
-                "Bollinger Mean Reversion": 0.031,
-                "Donchian_Breakout": -0.024,
-                "Hidden_Divergence": -0.016,
+                "ADX_TrendStrength": 0.007,
+                "AVWAP_Confluence": 0.09,
+                "Bollinger Mean Reversion": 0.01,
+                "Donchian_Breakout": -0.017,
+                "Hidden_Divergence": 0.066,
                 "PriceAction_SR": 1.0,
-                "Smart_Swing_Bias": -0.002
+                "Smart_Swing_Bias": 0.011
             },
             "Smart_Swing_Bias": {
-                "ADX_TrendStrength": -0.163,
-                "AVWAP_Confluence": -0.107,
-                "Bollinger Mean Reversion": -0.036,
-                "Donchian_Breakout": 0.054,
-                "Hidden_Divergence": 0.002,
-                "PriceAction_SR": -0.002,
+                "ADX_TrendStrength": -0.061,
+                "AVWAP_Confluence": -0.079,
+                "Bollinger Mean Reversion": -0.032,
+                "Donchian_Breakout": -0.062,
+                "Hidden_Divergence": 0.04,
+                "PriceAction_SR": 0.011,
                 "Smart_Swing_Bias": 1.0
             }
         }
@@ -1146,2601 +1146,2601 @@
         },
         {
             "date": "2023-01-03",
-            "equity": 99884.95066273348,
+            "equity": 99970.68180764685,
             "balance": 100000.0
         },
         {
             "date": "2023-01-04",
-            "equity": 100543.49159253681,
-            "balance": 98949.90407958196
+            "equity": 100028.53862144299,
+            "balance": 99292.2920707088
         },
         {
             "date": "2023-01-05",
-            "equity": 100361.0690768489,
-            "balance": 98531.0087125312
+            "equity": 100261.70041297018,
+            "balance": 99043.1081780783
         },
         {
             "date": "2023-01-06",
-            "equity": 100498.88636626286,
-            "balance": 98531.0087125312
+            "equity": 100587.51330177851,
+            "balance": 99043.1081780783
         },
         {
             "date": "2023-01-09",
-            "equity": 99852.68895171853,
-            "balance": 97913.769525891
+            "equity": 100543.72853670958,
+            "balance": 99232.08090839074
         },
         {
             "date": "2023-01-10",
-            "equity": 100077.996518281,
-            "balance": 97497.54818924156
+            "equity": 100939.62751274274,
+            "balance": 100427.7391783299
         },
         {
             "date": "2023-01-11",
-            "equity": 100179.90373959074,
-            "balance": 97497.54818924156
+            "equity": 101092.7144735035,
+            "balance": 100215.86747370909
         },
         {
             "date": "2023-01-12",
-            "equity": 100196.8544989726,
-            "balance": 97497.54818924156
+            "equity": 101507.63535133474,
+            "balance": 101140.50813039139
         },
         {
             "date": "2023-01-13",
-            "equity": 100839.48017014834,
-            "balance": 97288.89557394593
+            "equity": 101296.53020924787,
+            "balance": 101361.76707851652
         },
         {
             "date": "2023-01-16",
-            "equity": 101072.74099804439,
-            "balance": 97077.04084009943
+            "equity": 101053.91766589553,
+            "balance": 100722.92155136251
         },
         {
             "date": "2023-01-17",
-            "equity": 100845.14145844184,
-            "balance": 97077.04084009943
+            "equity": 100900.42555011019,
+            "balance": 100308.68106240574
         },
         {
             "date": "2023-01-18",
-            "equity": 100811.54869159794,
-            "balance": 97077.04084009943
+            "equity": 100941.36361567982,
+            "balance": 100107.02724326465
         },
         {
             "date": "2023-01-19",
-            "equity": 99469.67209336505,
-            "balance": 98592.87227986388
+            "equity": 101432.39901322717,
+            "balance": 100550.45698351681
         },
         {
             "date": "2023-01-20",
-            "equity": 99271.75909976303,
-            "balance": 98380.20373530398
+            "equity": 101307.19561892112,
+            "balance": 100132.95369824326
         },
         {
             "date": "2023-01-23",
-            "equity": 99629.0311604442,
-            "balance": 97974.17299238418
+            "equity": 101754.05823175049,
+            "balance": 100681.25504217853
         },
         {
             "date": "2023-01-24",
-            "equity": 99360.5092662365,
-            "balance": 97767.07567631408
+            "equity": 101821.41792924116,
+            "balance": 100966.5181333026
         },
         {
             "date": "2023-01-25",
-            "equity": 98526.16132316754,
-            "balance": 97116.08441696507
+            "equity": 101968.2918689333,
+            "balance": 100764.48596041209
         },
         {
             "date": "2023-01-26",
-            "equity": 98673.6398546865,
-            "balance": 96909.14195236686
+            "equity": 101725.31918972194,
+            "balance": 100552.5283076019
         },
         {
             "date": "2023-01-27",
-            "equity": 98549.43654192369,
-            "balance": 97733.83481914437
+            "equity": 101631.13230175016,
+            "balance": 100342.27186830854
         },
         {
             "date": "2023-01-30",
-            "equity": 98430.34145002301,
-            "balance": 97733.83481914437
+            "equity": 101543.16818613994,
+            "balance": 100342.27186830854
         },
         {
             "date": "2023-01-31",
-            "equity": 98909.79675516667,
-            "balance": 97733.83481914437
+            "equity": 101806.27794372955,
+            "balance": 100342.27186830854
         },
         {
             "date": "2023-02-01",
-            "equity": 98820.52947328975,
-            "balance": 97323.4736558355
+            "equity": 102072.18764977723,
+            "balance": 100132.49742540359
         },
         {
             "date": "2023-02-02",
-            "equity": 98507.08239681863,
-            "balance": 97114.73198013612
+            "equity": 101924.80714651686,
+            "balance": 100844.89118349718
         },
         {
             "date": "2023-02-03",
-            "equity": 98832.32022415815,
-            "balance": 96902.52818047942
+            "equity": 102308.71416448824,
+            "balance": 100417.72858691309
         },
         {
             "date": "2023-02-06",
-            "equity": 102485.45930855237,
-            "balance": 96911.44292286459
+            "equity": 104253.46769435547,
+            "balance": 103305.52806410237
         },
         {
             "date": "2023-02-07",
-            "equity": 102772.90118002963,
-            "balance": 96488.84158733483
+            "equity": 103998.46745074018,
+            "balance": 104046.79228736661
         },
         {
             "date": "2023-02-08",
-            "equity": 101456.80904428958,
-            "balance": 96488.84158733483
+            "equity": 103948.3363322501,
+            "balance": 103176.22959706657
         },
         {
             "date": "2023-02-09",
-            "equity": 102393.44915194628,
-            "balance": 96488.84158733483
+            "equity": 103441.92582247299,
+            "balance": 102953.66149690165
         },
         {
             "date": "2023-02-10",
-            "equity": 102339.90516248727,
-            "balance": 96488.84158733483
+            "equity": 103482.92091516344,
+            "balance": 102953.66149690165
         },
         {
             "date": "2023-02-13",
-            "equity": 101372.99894688207,
-            "balance": 96497.93987536427
+            "equity": 102458.92173876164,
+            "balance": 102044.00425786163
         },
         {
             "date": "2023-02-14",
-            "equity": 100718.81667262473,
-            "balance": 96497.93987536427
+            "equity": 102333.89724163928,
+            "balance": 101842.92967901407
         },
         {
             "date": "2023-02-15",
-            "equity": 101368.14625335773,
-            "balance": 97354.99842618253
+            "equity": 102019.84423377474,
+            "balance": 101618.77129689732
         },
         {
             "date": "2023-02-16",
-            "equity": 102859.95140801251,
-            "balance": 101224.52918731628
+            "equity": 102021.00492635305,
+            "balance": 101407.36406510025
         },
         {
             "date": "2023-02-17",
-            "equity": 103391.1791265589,
-            "balance": 100633.45812516776
+            "equity": 101730.34655424298,
+            "balance": 101588.15877784036
         },
         {
             "date": "2023-02-20",
-            "equity": 103415.51984997993,
-            "balance": 100439.94557851636
+            "equity": 102066.81838246725,
+            "balance": 101588.15877784036
         },
         {
             "date": "2023-02-21",
-            "equity": 103071.27155724025,
-            "balance": 100439.94557851636
+            "equity": 102130.70825239009,
+            "balance": 101841.95355338886
         },
         {
             "date": "2023-02-22",
-            "equity": 104651.50480461142,
-            "balance": 100439.94557851636
+            "equity": 102797.26848772401,
+            "balance": 101841.95355338886
         },
         {
             "date": "2023-02-23",
-            "equity": 104658.30986676677,
-            "balance": 103144.99471918773
+            "equity": 103529.84367334272,
+            "balance": 101642.01244126767
         },
         {
             "date": "2023-02-24",
-            "equity": 104565.23877046173,
-            "balance": 103144.99471918773
+            "equity": 103897.49223387995,
+            "balance": 103180.44768416684
         },
         {
             "date": "2023-02-27",
-            "equity": 105493.61620511892,
-            "balance": 103856.69895773966
+            "equity": 104303.74611669361,
+            "balance": 102963.25287272433
         },
         {
             "date": "2023-02-28",
-            "equity": 105159.68248250014,
-            "balance": 103401.04722776645
+            "equity": 104143.62824323232,
+            "balance": 102541.06399710977
         },
         {
             "date": "2023-03-01",
-            "equity": 105289.66226672649,
-            "balance": 104040.48687122218
+            "equity": 104198.83060500438,
+            "balance": 102565.80188038516
         },
         {
             "date": "2023-03-02",
-            "equity": 105188.3672543538,
-            "balance": 103818.59945679567
+            "equity": 104366.70953327684,
+            "balance": 102873.85384543774
         },
         {
             "date": "2023-03-03",
-            "equity": 105335.4562633704,
-            "balance": 103818.59945679567
+            "equity": 104531.17227911777,
+            "balance": 102873.85384543774
         },
         {
             "date": "2023-03-06",
-            "equity": 105526.05966670747,
-            "balance": 103818.59945679567
+            "equity": 104664.4563917181,
+            "balance": 102873.85384543774
         },
         {
             "date": "2023-03-07",
-            "equity": 105779.11477335126,
-            "balance": 103613.15200262808
+            "equity": 104840.64362574092,
+            "balance": 103597.08342774131
         },
         {
             "date": "2023-03-08",
-            "equity": 104955.50085139286,
-            "balance": 104351.31284915339
+            "equity": 104571.23913147177,
+            "balance": 103595.20514641635
         },
         {
             "date": "2023-03-09",
-            "equity": 104981.90366762152,
-            "balance": 104351.31284915339
+            "equity": 104718.52251517409,
+            "balance": 103595.20514641635
         },
         {
             "date": "2023-03-10",
-            "equity": 105382.40546521757,
-            "balance": 104980.11934018054
+            "equity": 104276.06437326041,
+            "balance": 103432.74242884388
         },
         {
             "date": "2023-03-13",
-            "equity": 106469.76459765677,
-            "balance": 106286.45381289456
+            "equity": 104464.94240278543,
+            "balance": 103230.19915741538
         },
         {
             "date": "2023-03-14",
-            "equity": 105645.03816024712,
-            "balance": 105161.93805890346
+            "equity": 104353.05533343529,
+            "balance": 103861.4172343943
         },
         {
             "date": "2023-03-15",
-            "equity": 105731.42375759178,
-            "balance": 104952.97872665104
+            "equity": 104296.87278806868,
+            "balance": 103652.16664193815
         },
         {
             "date": "2023-03-16",
-            "equity": 105372.96182920353,
-            "balance": 104533.94891290057
+            "equity": 104208.00379060493,
+            "balance": 103605.54031723943
         },
         {
             "date": "2023-03-17",
-            "equity": 105579.06257113171,
-            "balance": 104533.94891290057
+            "equity": 104363.05938682918,
+            "balance": 103391.33008809686
         },
         {
             "date": "2023-03-20",
-            "equity": 105493.96648144032,
-            "balance": 104316.10538854002
+            "equity": 104339.83713989216,
+            "balance": 103391.33008809686
         },
         {
             "date": "2023-03-21",
-            "equity": 104833.9035249234,
-            "balance": 104105.0655964894
+            "equity": 103988.82823710426,
+            "balance": 103180.1062556419
         },
         {
             "date": "2023-03-22",
-            "equity": 105468.19893464538,
-            "balance": 103931.06488981059
+            "equity": 103726.78775410108,
+            "balance": 102562.47076000257
         },
         {
             "date": "2023-03-23",
-            "equity": 105682.75842107029,
-            "balance": 104595.58954398571
+            "equity": 103941.10585433524,
+            "balance": 103017.82985822803
         },
         {
             "date": "2023-03-24",
-            "equity": 105487.0097050039,
-            "balance": 104583.31357167903
+            "equity": 103216.15876051199,
+            "balance": 102361.39592789322
         },
         {
             "date": "2023-03-27",
-            "equity": 105230.47770190932,
-            "balance": 104583.31357167903
+            "equity": 102991.17824554107,
+            "balance": 102361.39592789322
         },
         {
             "date": "2023-03-28",
-            "equity": 105285.73037501413,
-            "balance": 104583.31357167903
+            "equity": 103080.45410532488,
+            "balance": 102142.12631089473
         },
         {
             "date": "2023-03-29",
-            "equity": 105379.52970175566,
-            "balance": 104358.4023925244
+            "equity": 103287.85251549934,
+            "balance": 102142.12631089473
         },
         {
             "date": "2023-03-30",
-            "equity": 105533.33369279405,
-            "balance": 104155.64545724545
+            "equity": 103468.67140086548,
+            "balance": 103192.80317015396
         },
         {
             "date": "2023-03-31",
-            "equity": 105767.98987183296,
-            "balance": 103931.1744732321
+            "equity": 103656.4196743371,
+            "balance": 102970.36127326213
         },
         {
             "date": "2023-04-03",
-            "equity": 105771.00393590092,
-            "balance": 103718.22281223764
+            "equity": 103491.344558132,
+            "balance": 102758.11028738329
         },
         {
             "date": "2023-04-04",
-            "equity": 106163.01560157043,
-            "balance": 104731.1756980813
+            "equity": 104684.46925328812,
+            "balance": 103899.16661852645
         },
         {
             "date": "2023-04-05",
-            "equity": 106259.81178716272,
-            "balance": 104731.1756980813
+            "equity": 104857.6914284919,
+            "balance": 103899.16661852645
         },
         {
             "date": "2023-04-06",
-            "equity": 106405.25529747979,
-            "balance": 104731.1756980813
+            "equity": 104748.22204544341,
+            "balance": 104132.75225720785
         },
         {
             "date": "2023-04-07",
-            "equity": 106448.30507783046,
-            "balance": 104731.1756980813
+            "equity": 105017.89095383105,
+            "balance": 104132.75225720785
         },
         {
             "date": "2023-04-10",
-            "equity": 106593.05048814898,
-            "balance": 104731.1756980813
+            "equity": 104852.42596288033,
+            "balance": 103695.55278425399
         },
         {
             "date": "2023-04-11",
-            "equity": 106305.72955853125,
-            "balance": 104515.23675844619
+            "equity": 105049.50508981652,
+            "balance": 103695.55278425399
         },
         {
             "date": "2023-04-12",
-            "equity": 106216.31358609324,
-            "balance": 104304.33284605408
+            "equity": 105109.07814860925,
+            "balance": 103695.55278425399
         },
         {
             "date": "2023-04-13",
-            "equity": 106803.05038817108,
-            "balance": 104417.77240663409
+            "equity": 105564.71491808798,
+            "balance": 103813.01886099475
         },
         {
             "date": "2023-04-14",
-            "equity": 107375.14173975325,
-            "balance": 104814.22230651828
+            "equity": 105714.1130401269,
+            "balance": 104429.06806401283
         },
         {
             "date": "2023-04-17",
-            "equity": 107091.21632772201,
-            "balance": 106097.49128931612
+            "equity": 105150.62873788095,
+            "balance": 104855.44485973178
         },
         {
             "date": "2023-04-18",
-            "equity": 106875.61348239736,
-            "balance": 105681.71211113795
+            "equity": 105202.34013816707,
+            "balance": 104418.89121897497
         },
         {
             "date": "2023-04-19",
-            "equity": 106775.35403516323,
-            "balance": 105441.26369115863
+            "equity": 105284.58302048022,
+            "balance": 104418.89121897497
         },
         {
             "date": "2023-04-20",
-            "equity": 107170.11332742807,
-            "balance": 106488.56696402963
+            "equity": 105564.98133014738,
+            "balance": 104418.89121897497
         },
         {
             "date": "2023-04-21",
-            "equity": 107166.13535457962,
-            "balance": 106271.17675510856
+            "equity": 105931.82549813128,
+            "balance": 104849.23991418704
         },
         {
             "date": "2023-04-24",
-            "equity": 107163.10116206059,
-            "balance": 106114.50377736986
+            "equity": 105242.62777962686,
+            "balance": 104619.99789020083
         },
         {
             "date": "2023-04-25",
-            "equity": 107096.04491694456,
-            "balance": 105883.59432656651
+            "equity": 105572.15117171613,
+            "balance": 104176.54887891389
         },
         {
             "date": "2023-04-26",
-            "equity": 106664.44743668442,
-            "balance": 106140.07701940485
+            "equity": 105398.45185171427,
+            "balance": 103706.902456385
         },
         {
             "date": "2023-04-27",
-            "equity": 106451.36356418476,
-            "balance": 105906.30666671351
+            "equity": 104932.41057373959,
+            "balance": 103237.39205686233
         },
         {
             "date": "2023-04-28",
-            "equity": 106836.95216048899,
-            "balance": 106544.61323224682
+            "equity": 105037.15384022462,
+            "balance": 103329.27940734605
         },
         {
             "date": "2023-05-01",
-            "equity": 107775.52511074512,
-            "balance": 106101.07128065679
+            "equity": 104456.5666914625,
+            "balance": 104161.49554008605
         },
         {
             "date": "2023-05-02",
-            "equity": 107789.41993934123,
-            "balance": 107491.37970971482
+            "equity": 104567.39135735414,
+            "balance": 103957.31342577474
         },
         {
             "date": "2023-05-03",
-            "equity": 108014.6110062138,
-            "balance": 107270.45939315426
+            "equity": 104674.1364847614,
+            "balance": 103314.00244501089
         },
         {
             "date": "2023-05-04",
-            "equity": 107808.97383740796,
-            "balance": 106603.70985401726
+            "equity": 104639.02180828541,
+            "balance": 103513.58176167432
         },
         {
             "date": "2023-05-05",
-            "equity": 108016.62200579884,
-            "balance": 106378.50001032067
+            "equity": 104482.7514297007,
+            "balance": 103312.61511946382
         },
         {
             "date": "2023-05-08",
-            "equity": 107546.75082078238,
-            "balance": 106378.50001032067
+            "equity": 103785.48787398521,
+            "balance": 103169.75386730608
         },
         {
             "date": "2023-05-09",
-            "equity": 109127.06969701895,
-            "balance": 106422.03013138454
+            "equity": 105083.33003274133,
+            "balance": 103201.38898930019
         },
         {
             "date": "2023-05-10",
-            "equity": 109311.97476239887,
-            "balance": 107001.73954191613
+            "equity": 105177.69412254241,
+            "balance": 103755.37494815794
         },
         {
             "date": "2023-05-11",
-            "equity": 109024.60357821285,
-            "balance": 107682.51671128251
+            "equity": 104994.72680317261,
+            "balance": 104641.18127197924
         },
         {
             "date": "2023-05-12",
-            "equity": 108893.24497647597,
-            "balance": 107452.77335720185
+            "equity": 104921.68032223191,
+            "balance": 104419.542312286
         },
         {
             "date": "2023-05-15",
-            "equity": 108500.13582976785,
-            "balance": 107211.8835977116
+            "equity": 104459.74950513223,
+            "balance": 104189.32667456643
         },
         {
             "date": "2023-05-16",
-            "equity": 108461.75963020751,
-            "balance": 106986.9532674338
+            "equity": 104937.22012879126,
+            "balance": 103977.36712533022
         },
         {
             "date": "2023-05-17",
-            "equity": 109618.32520652517,
-            "balance": 108262.11410855738
+            "equity": 105851.65050753896,
+            "balance": 105193.33163144378
         },
         {
             "date": "2023-05-18",
-            "equity": 109560.95710385621,
-            "balance": 108951.31950707502
+            "equity": 106037.67990913373,
+            "balance": 105263.91894343666
         },
         {
             "date": "2023-05-19",
-            "equity": 109195.3998081575,
-            "balance": 108287.57342403353
+            "equity": 106042.60270520372,
+            "balance": 105051.10554007173
         },
         {
             "date": "2023-05-22",
-            "equity": 109462.13865031443,
-            "balance": 108714.49554389017
+            "equity": 105954.03617443814,
+            "balance": 105463.29000621499
         },
         {
             "date": "2023-05-23",
-            "equity": 109627.38096305405,
-            "balance": 108714.49554389017
+            "equity": 106080.89391712197,
+            "balance": 105241.16539585927
         },
         {
             "date": "2023-05-24",
-            "equity": 109222.0174260581,
-            "balance": 108714.49554389017
+            "equity": 105611.30681462183,
+            "balance": 105023.14713573705
         },
         {
             "date": "2023-05-25",
-            "equity": 109118.61619782112,
-            "balance": 107718.89834140967
+            "equity": 105514.01981545262,
+            "balance": 104291.60187578309
         },
         {
             "date": "2023-05-26",
-            "equity": 109197.1133612615,
-            "balance": 107263.15251399681
+            "equity": 105515.12117000518,
+            "balance": 103856.17816773159
         },
         {
             "date": "2023-05-29",
-            "equity": 109356.42152500938,
-            "balance": 107263.15251399681
+            "equity": 105126.24982369345,
+            "balance": 103856.17816773159
         },
         {
             "date": "2023-05-30",
-            "equity": 109319.95068950957,
-            "balance": 107263.15251399681
+            "equity": 105848.51789569757,
+            "balance": 103856.17816773159
         },
         {
             "date": "2023-05-31",
-            "equity": 109491.37391025649,
-            "balance": 107643.27441383046
+            "equity": 105893.90348523788,
+            "balance": 104891.28020754895
         },
         {
             "date": "2023-06-01",
-            "equity": 110188.91293198774,
-            "balance": 107643.27441383046
+            "equity": 106337.53376631792,
+            "balance": 104891.28020754895
         },
         {
             "date": "2023-06-02",
-            "equity": 109858.15442226274,
-            "balance": 108401.77986999565
+            "equity": 106253.56902521441,
+            "balance": 105616.699185937
         },
         {
             "date": "2023-06-05",
-            "equity": 109936.0748799906,
-            "balance": 108178.52034770657
+            "equity": 106215.24138263734,
+            "balance": 105182.37921343952
         },
         {
             "date": "2023-06-06",
-            "equity": 109578.84555833481,
-            "balance": 108178.52034770657
+            "equity": 106113.8483585604,
+            "balance": 105182.37921343952
         },
         {
             "date": "2023-06-07",
-            "equity": 109982.61503845443,
-            "balance": 108178.52034770657
+            "equity": 106529.35655104094,
+            "balance": 105182.37921343952
         },
         {
             "date": "2023-06-08",
-            "equity": 110030.28158981021,
-            "balance": 107947.64472526238
+            "equity": 106537.1171402541,
+            "balance": 104960.58893578876
         },
         {
             "date": "2023-06-09",
-            "equity": 109270.70809612749,
-            "balance": 107947.64472526238
+            "equity": 106400.51986889997,
+            "balance": 104960.58893578876
         },
         {
             "date": "2023-06-12",
-            "equity": 109447.90416196421,
-            "balance": 107947.64472526238
+            "equity": 106518.95781646257,
+            "balance": 104960.58893578876
         },
         {
             "date": "2023-06-13",
-            "equity": 109985.52852556297,
-            "balance": 107502.01631856487
+            "equity": 106576.29480851507,
+            "balance": 104522.74938562159
         },
         {
             "date": "2023-06-14",
-            "equity": 109426.67453275679,
-            "balance": 108004.52575228186
+            "equity": 106274.09140667079,
+            "balance": 104997.79013906136
         },
         {
             "date": "2023-06-15",
-            "equity": 108674.8839815059,
-            "balance": 107836.72184816012
+            "equity": 105939.46144287282,
+            "balance": 106002.56776660103
         },
         {
             "date": "2023-06-16",
-            "equity": 108424.3898436353,
-            "balance": 107165.44972670657
+            "equity": 106026.93864567795,
+            "balance": 105357.86548076957
         },
         {
             "date": "2023-06-19",
-            "equity": 108631.04995153772,
-            "balance": 106942.21013646088
+            "equity": 106195.37388922031,
+            "balance": 105917.75188283734
         },
         {
             "date": "2023-06-20",
-            "equity": 108543.58105733838,
-            "balance": 106942.21013646088
+            "equity": 106130.09643882042,
+            "balance": 105917.75188283734
         },
         {
             "date": "2023-06-21",
-            "equity": 108928.35841746995,
-            "balance": 106704.3429030994
+            "equity": 106575.0028891892,
+            "balance": 106328.12589325523
         },
         {
             "date": "2023-06-22",
-            "equity": 109289.4873646181,
-            "balance": 106704.3429030994
+            "equity": 106890.94691718763,
+            "balance": 106328.12589325523
         },
         {
             "date": "2023-06-23",
-            "equity": 109402.18723702895,
-            "balance": 108403.30341633172
+            "equity": 106741.29189094316,
+            "balance": 106111.0128622684
         },
         {
             "date": "2023-06-26",
-            "equity": 109807.09643600711,
-            "balance": 109476.3017185648
+            "equity": 106796.5003661478,
+            "balance": 106044.53648507845
         },
         {
             "date": "2023-06-27",
-            "equity": 109735.34219897552,
-            "balance": 109476.3017185648
+            "equity": 106684.87971277219,
+            "balance": 106044.53648507845
         },
         {
             "date": "2023-06-28",
-            "equity": 109699.03063384032,
-            "balance": 109008.901182594
+            "equity": 106831.69538514779,
+            "balance": 106305.89305275475
         },
         {
             "date": "2023-06-29",
-            "equity": 109575.88166766387,
-            "balance": 108523.77140024112
+            "equity": 106927.98014180192,
+            "balance": 106655.88406668027
         },
         {
             "date": "2023-06-30",
-            "equity": 109230.12320487757,
-            "balance": 108100.9948432783
+            "equity": 106588.2988498511,
+            "balance": 106261.58506792563
         },
         {
             "date": "2023-07-03",
-            "equity": 108853.95464540453,
-            "balance": 107655.99845773756
+            "equity": 105982.69959033157,
+            "balance": 105606.81145297723
         },
         {
             "date": "2023-07-04",
-            "equity": 108776.1529040596,
-            "balance": 107655.99845773756
+            "equity": 105827.90556131133,
+            "balance": 105606.81145297723
         },
         {
             "date": "2023-07-05",
-            "equity": 109097.98488223006,
-            "balance": 107655.99845773756
+            "equity": 106124.77910917993,
+            "balance": 105606.81145297723
         },
         {
             "date": "2023-07-06",
-            "equity": 109460.34270600708,
-            "balance": 107655.99845773756
+            "equity": 106371.88274994271,
+            "balance": 105606.81145297723
         },
         {
             "date": "2023-07-07",
-            "equity": 109866.39964475646,
-            "balance": 108658.28630752664
+            "equity": 107088.26082428436,
+            "balance": 106753.40868640758
         },
         {
             "date": "2023-07-10",
-            "equity": 110576.69216528382,
-            "balance": 108856.157542019
+            "equity": 107031.3714023936,
+            "balance": 106080.98801108824
         },
         {
             "date": "2023-07-11",
-            "equity": 110885.48994346368,
-            "balance": 108856.157542019
+            "equity": 107131.79473978575,
+            "balance": 105862.25819385075
         },
         {
             "date": "2023-07-12",
-            "equity": 110993.55731478144,
-            "balance": 109488.23128057386
+            "equity": 107425.7209790118,
+            "balance": 105630.89198982617
         },
         {
             "date": "2023-07-13",
-            "equity": 111933.43061807884,
-            "balance": 108807.36424796563
+            "equity": 107869.4266531115,
+            "balance": 106892.77097706415
         },
         {
             "date": "2023-07-14",
-            "equity": 112209.30860125816,
-            "balance": 109203.99394717338
+            "equity": 107705.8867269372,
+            "balance": 107087.23128442426
         },
         {
             "date": "2023-07-17",
-            "equity": 111599.13482253674,
-            "balance": 111062.1732892791
+            "equity": 107503.2777221767,
+            "balance": 106867.07996639346
         },
         {
             "date": "2023-07-18",
-            "equity": 111652.7474363475,
-            "balance": 111072.72892933401
+            "equity": 107512.58502660898,
+            "balance": 106867.07996639346
         },
         {
             "date": "2023-07-19",
-            "equity": 111796.21523972462,
-            "balance": 111091.23080084847
+            "equity": 107577.25587819394,
+            "balance": 106885.66472931205
         },
         {
             "date": "2023-07-20",
-            "equity": 111680.09179172385,
-            "balance": 110693.03271422544
+            "equity": 107577.07347847323,
+            "balance": 107371.18661541154
         },
         {
             "date": "2023-07-21",
-            "equity": 111788.76760426916,
-            "balance": 110016.78355062447
+            "equity": 108042.11967700327,
+            "balance": 108007.967225383
         },
         {
             "date": "2023-07-24",
-            "equity": 112061.75684893291,
-            "balance": 110826.351462192
+            "equity": 107677.28727663292,
+            "balance": 107354.5197269222
         },
         {
             "date": "2023-07-25",
-            "equity": 112077.6678299417,
-            "balance": 110344.86176302882
+            "equity": 107628.96532133679,
+            "balance": 107130.02260239542
         },
         {
             "date": "2023-07-26",
-            "equity": 111354.69937693242,
-            "balance": 110117.17875116946
+            "equity": 107149.25073023212,
+            "balance": 106916.70608677888
         },
         {
             "date": "2023-07-27",
-            "equity": 110970.3477422842,
-            "balance": 109886.27667984227
+            "equity": 107046.1554177054,
+            "balance": 106465.97231361951
         },
         {
             "date": "2023-07-28",
-            "equity": 110726.69145510947,
-            "balance": 109068.17882237071
+            "equity": 107063.62617428687,
+            "balance": 106866.50878586007
         },
         {
             "date": "2023-07-31",
-            "equity": 110530.52738846613,
-            "balance": 110096.69037551653
+            "equity": 106490.60623545707,
+            "balance": 106196.36523858174
         },
         {
             "date": "2023-08-01",
-            "equity": 110868.56374213929,
-            "balance": 109889.36248266014
+            "equity": 106864.44958093487,
+            "balance": 106205.56140454441
         },
         {
             "date": "2023-08-02",
-            "equity": 110159.30089035882,
-            "balance": 109472.93957747419
+            "equity": 106535.38828914425,
+            "balance": 106239.76724285995
         },
         {
             "date": "2023-08-03",
-            "equity": 110067.29884927424,
-            "balance": 108771.51032687933
+            "equity": 106965.39448123568,
+            "balance": 105788.58765397544
         },
         {
             "date": "2023-08-04",
-            "equity": 110433.95321150706,
-            "balance": 108236.76862101273
+            "equity": 107152.12767979845,
+            "balance": 105535.35668491345
         },
         {
             "date": "2023-08-07",
-            "equity": 109946.34903246285,
-            "balance": 107975.00537453774
+            "equity": 107186.80294183754,
+            "balance": 105535.35668491345
         },
         {
             "date": "2023-08-08",
-            "equity": 109548.9680772912,
-            "balance": 107975.00537453774
+            "equity": 106834.56209607873,
+            "balance": 105535.35668491345
         },
         {
             "date": "2023-08-09",
-            "equity": 110017.4423112684,
-            "balance": 107943.84138008294
+            "equity": 107274.97729122471,
+            "balance": 105303.45353474493
         },
         {
             "date": "2023-08-10",
-            "equity": 110377.74947737284,
-            "balance": 108707.05418863328
+            "equity": 107675.50165856232,
+            "balance": 106053.06295477298
         },
         {
             "date": "2023-08-11",
-            "equity": 110797.14658255952,
-            "balance": 108707.05418863328
+            "equity": 108092.9097908815,
+            "balance": 106053.06295477298
         },
         {
             "date": "2023-08-14",
-            "equity": 110861.55851267623,
-            "balance": 108707.05418863328
+            "equity": 108121.80780278932,
+            "balance": 106053.06295477298
         },
         {
             "date": "2023-08-15",
-            "equity": 110913.02162550646,
-            "balance": 109307.2639580189
+            "equity": 108157.07560633641,
+            "balance": 106613.69166589927
         },
         {
             "date": "2023-08-16",
-            "equity": 111645.40784414447,
-            "balance": 110098.12398841036
+            "equity": 108883.18341915158,
+            "balance": 107381.16996783121
         },
         {
             "date": "2023-08-17",
-            "equity": 111732.08248216673,
-            "balance": 110098.12398841036
+            "equity": 108994.19108260522,
+            "balance": 107381.16996783121
         },
         {
             "date": "2023-08-18",
-            "equity": 112142.90617318882,
-            "balance": 110098.12398841036
+            "equity": 109377.05747514975,
+            "balance": 107381.16996783121
         },
         {
             "date": "2023-08-21",
-            "equity": 112135.51869641298,
-            "balance": 111587.46291275567
+            "equity": 109409.20305253453,
+            "balance": 108841.32489161301
         },
         {
             "date": "2023-08-22",
-            "equity": 111960.09133336123,
-            "balance": 111114.5064227418
+            "equity": 109199.4873049256,
+            "balance": 108381.74464118628
         },
         {
             "date": "2023-08-23",
-            "equity": 112105.68464271595,
-            "balance": 111629.15608411131
+            "equity": 109352.84820121776,
+            "balance": 108881.9942118348
         },
         {
             "date": "2023-08-24",
-            "equity": 112098.88274933907,
-            "balance": 111390.42072790152
+            "equity": 109339.80734016644,
+            "balance": 108649.18432151842
         },
         {
             "date": "2023-08-25",
-            "equity": 111845.06055595132,
-            "balance": 111161.7144810287
+            "equity": 109140.8259744924,
+            "balance": 108428.04520346476
         },
         {
             "date": "2023-08-28",
-            "equity": 111610.6175204246,
-            "balance": 111159.86908633157
+            "equity": 108939.54722124172,
+            "balance": 107970.57897957084
         },
         {
             "date": "2023-08-29",
-            "equity": 111523.6371370482,
-            "balance": 111159.86908633157
+            "equity": 108883.56876450584,
+            "balance": 107970.57897957084
         },
         {
             "date": "2023-08-30",
-            "equity": 110933.26642998916,
-            "balance": 110364.26954480528
+            "equity": 108222.68035658682,
+            "balance": 107407.60021845439
         },
         {
             "date": "2023-08-31",
-            "equity": 110495.08719870758,
-            "balance": 109882.27214855379
+            "equity": 108077.98204954101,
+            "balance": 107180.02940522497
         },
         {
             "date": "2023-09-01",
-            "equity": 110142.43236508503,
-            "balance": 109659.53443602638
+            "equity": 107908.8997617656,
+            "balance": 106957.24146489856
         },
         {
             "date": "2023-09-04",
-            "equity": 110015.76555217491,
-            "balance": 109428.0420910797
+            "equity": 108320.17576816789,
+            "balance": 107229.46171375539
         },
         {
             "date": "2023-09-05",
-            "equity": 109584.21062001368,
-            "balance": 109196.59093811877
+            "equity": 107884.73735274578,
+            "balance": 107001.07199325823
         },
         {
             "date": "2023-09-06",
-            "equity": 110181.04231715077,
-            "balance": 108829.50005710588
+            "equity": 108646.37767461706,
+            "balance": 106892.79191743495
         },
         {
             "date": "2023-09-07",
-            "equity": 109850.29598917958,
-            "balance": 108579.51363324588
+            "equity": 108232.14068702473,
+            "balance": 106646.85312568367
         },
         {
             "date": "2023-09-08",
-            "equity": 110055.91416063985,
-            "balance": 108579.51363324588
+            "equity": 108572.73200495743,
+            "balance": 106646.85312568367
         },
         {
             "date": "2023-09-11",
-            "equity": 109924.22363266938,
-            "balance": 108579.51363324588
+            "equity": 108469.49437339757,
+            "balance": 106646.85312568367
         },
         {
             "date": "2023-09-12",
-            "equity": 109986.67640965889,
-            "balance": 108983.91575494836
+            "equity": 108616.69207690789,
+            "balance": 107041.21636063978
         },
         {
             "date": "2023-09-13",
-            "equity": 110099.92809668105,
-            "balance": 108983.91575494836
+            "equity": 108750.44904809428,
+            "balance": 107041.21636063978
         },
         {
             "date": "2023-09-14",
-            "equity": 110153.1182218754,
-            "balance": 108983.91575494836
+            "equity": 108774.19197900844,
+            "balance": 107041.21636063978
         },
         {
             "date": "2023-09-15",
-            "equity": 110349.52790443093,
-            "balance": 108983.91575494836
+            "equity": 108760.53346398892,
+            "balance": 107041.21636063978
         },
         {
             "date": "2023-09-18",
-            "equity": 110405.80866845638,
-            "balance": 108983.91575494836
+            "equity": 108892.31613188048,
+            "balance": 107041.21636063978
         },
         {
             "date": "2023-09-19",
-            "equity": 110579.59995362115,
-            "balance": 108750.60953260999
+            "equity": 108970.85500870024,
+            "balance": 106810.66113281711
         },
         {
             "date": "2023-09-20",
-            "equity": 110877.98066529418,
-            "balance": 108750.60953260999
+            "equity": 109322.51938542382,
+            "balance": 106810.66113281711
         },
         {
             "date": "2023-09-21",
-            "equity": 110588.74408522718,
-            "balance": 108511.2627890028
+            "equity": 108954.99944565492,
+            "balance": 107500.06893519186
         },
         {
             "date": "2023-09-22",
-            "equity": 110669.03347628412,
-            "balance": 109053.1785832955
+            "equity": 109048.78620766023,
+            "balance": 107648.08106658564
         },
         {
             "date": "2023-09-25",
-            "equity": 110366.1362736853,
-            "balance": 108823.46049393731
+            "equity": 108914.00085183467,
+            "balance": 107417.9649429843
         },
         {
             "date": "2023-09-26",
-            "equity": 110721.59344719982,
-            "balance": 108823.46049393731
+            "equity": 109116.86339409337,
+            "balance": 107443.97350449195
         },
         {
             "date": "2023-09-27",
-            "equity": 110620.54718036909,
-            "balance": 108579.99709650321
+            "equity": 108839.62288524653,
+            "balance": 106984.8345744449
         },
         {
             "date": "2023-09-28",
-            "equity": 110996.41631704045,
-            "balance": 108947.76436337695
+            "equity": 109118.1288606545,
+            "balance": 106984.8345744449
         },
         {
             "date": "2023-09-29",
-            "equity": 110522.45301720072,
-            "balance": 108947.76436337695
+            "equity": 108633.7860901035,
+            "balance": 106984.8345744449
         },
         {
             "date": "2023-10-02",
-            "equity": 110343.11941201448,
-            "balance": 108947.76436337695
+            "equity": 108413.8573103398,
+            "balance": 107226.75771707087
         },
         {
             "date": "2023-10-03",
-            "equity": 110241.00932862835,
-            "balance": 109080.01989583799
+            "equity": 108451.07544818436,
+            "balance": 106993.54869800682
         },
         {
             "date": "2023-10-04",
-            "equity": 110351.90920595569,
-            "balance": 109331.22021656974
+            "equity": 108557.36001031008,
+            "balance": 107212.45845489863
         },
         {
             "date": "2023-10-05",
-            "equity": 110331.1555914055,
-            "balance": 109331.22021656974
+            "equity": 108529.37844684337,
+            "balance": 107212.45845489863
         },
         {
             "date": "2023-10-06",
-            "equity": 110168.05441127872,
-            "balance": 109331.22021656974
+            "equity": 108346.52290941871,
+            "balance": 107212.45845489863
         },
         {
             "date": "2023-10-09",
-            "equity": 110208.798131729,
-            "balance": 108886.06613166937
+            "equity": 108353.7647402502,
+            "balance": 107230.93086198048
         },
         {
             "date": "2023-10-10",
-            "equity": 110749.2233387079,
-            "balance": 109246.20863803886
+            "equity": 108769.16788598866,
+            "balance": 107581.65055002112
         },
         {
             "date": "2023-10-11",
-            "equity": 110779.3650017782,
-            "balance": 109928.03622953659
+            "equity": 108674.52599140955,
+            "balance": 107366.4191064297
         },
         {
             "date": "2023-10-12",
-            "equity": 110676.03022596535,
-            "balance": 109704.80692678696
+            "equity": 108281.0022108931,
+            "balance": 107081.10350662073
         },
         {
             "date": "2023-10-13",
-            "equity": 110062.04847267155,
-            "balance": 109704.80692678696
+            "equity": 107616.26974638278,
+            "balance": 106857.75120361944
         },
         {
             "date": "2023-10-16",
-            "equity": 110154.40172495808,
-            "balance": 109240.44162071572
+            "equity": 107987.35198015615,
+            "balance": 106400.9977499879
         },
         {
             "date": "2023-10-17",
-            "equity": 110155.62238579123,
-            "balance": 109240.44162071572
+            "equity": 108067.03006399472,
+            "balance": 106400.9977499879
         },
         {
             "date": "2023-10-18",
-            "equity": 109446.06760361626,
-            "balance": 109030.39751933311
+            "equity": 107328.8036740238,
+            "balance": 106166.4521698016
         },
         {
             "date": "2023-10-19",
-            "equity": 109526.71832005422,
-            "balance": 108566.05152068225
+            "equity": 107476.04904628269,
+            "balance": 106465.39517089119
         },
         {
             "date": "2023-10-20",
-            "equity": 110397.9156072923,
-            "balance": 109080.35504411321
+            "equity": 108095.83927105513,
+            "balance": 106969.92123449295
         },
         {
             "date": "2023-10-23",
-            "equity": 110398.3308242538,
-            "balance": 109080.35504411321
+            "equity": 108096.87275036155,
+            "balance": 106969.92123449295
         },
         {
             "date": "2023-10-24",
-            "equity": 110160.03136450393,
-            "balance": 108857.26854395441
+            "equity": 107866.61946221621,
+            "balance": 106746.78727673621
         },
         {
             "date": "2023-10-25",
-            "equity": 110564.43051363254,
-            "balance": 109220.21229776711
+            "equity": 108274.23646640212,
+            "balance": 107103.11022321832
         },
         {
             "date": "2023-10-26",
-            "equity": 110664.62810061757,
-            "balance": 108989.83436397748
+            "equity": 108460.04731891082,
+            "balance": 106876.785567108
         },
         {
             "date": "2023-10-27",
-            "equity": 110453.47154352845,
-            "balance": 109309.76310690293
+            "equity": 108150.01928289674,
+            "balance": 107563.6214942989
         },
         {
             "date": "2023-10-30",
-            "equity": 110385.60485045407,
-            "balance": 109075.454151335
+            "equity": 107977.4736429471,
+            "balance": 106865.01934747424
         },
         {
             "date": "2023-10-31",
-            "equity": 110490.4793162302,
-            "balance": 109093.23454463272
+            "equity": 108010.76407737895,
+            "balance": 106865.01934747424
         },
         {
             "date": "2023-11-01",
-            "equity": 110066.0817902852,
-            "balance": 108405.96942254124
+            "equity": 107910.18961065276,
+            "balance": 106476.5993779763
         },
         {
             "date": "2023-11-02",
-            "equity": 109730.06533540321,
-            "balance": 108689.04551296847
+            "equity": 107637.49227358049,
+            "balance": 106525.67108914258
         },
         {
             "date": "2023-11-03",
-            "equity": 110148.78884367023,
-            "balance": 108597.75639901971
+            "equity": 108054.95285856868,
+            "balance": 106974.03543403962
         },
         {
             "date": "2023-11-06",
-            "equity": 110154.43002584905,
-            "balance": 108390.30992076184
+            "equity": 107928.7815846693,
+            "balance": 106767.24648455938
         },
         {
             "date": "2023-11-07",
-            "equity": 110305.28550458801,
-            "balance": 108156.41684486336
+            "equity": 108128.12356347304,
+            "balance": 106541.46900936055
         },
         {
             "date": "2023-11-08",
-            "equity": 110381.74579596722,
-            "balance": 109142.61412619948
+            "equity": 108339.50479626167,
+            "balance": 107505.93251549113
         },
         {
             "date": "2023-11-09",
-            "equity": 110408.27166466661,
-            "balance": 109191.85878721101
+            "equity": 108357.36144805685,
+            "balance": 107334.37333801434
         },
         {
             "date": "2023-11-10",
-            "equity": 110462.31400710747,
-            "balance": 109191.85878721101
+            "equity": 108473.49624905974,
+            "balance": 107334.37333801434
         },
         {
             "date": "2023-11-13",
-            "equity": 110466.00404590175,
-            "balance": 109004.40589167064
+            "equity": 108400.639029928,
+            "balance": 107334.37333801434
         },
         {
             "date": "2023-11-14",
-            "equity": 110428.39158409537,
-            "balance": 109004.40589167064
+            "equity": 108343.36864453161,
+            "balance": 107334.37333801434
         },
         {
             "date": "2023-11-15",
-            "equity": 110726.98292331555,
-            "balance": 108388.91209174079
+            "equity": 108141.26398998483,
+            "balance": 106651.26984613194
         },
         {
             "date": "2023-11-16",
-            "equity": 110377.05666100913,
-            "balance": 107906.92476624083
+            "equity": 107740.97697522031,
+            "balance": 106984.30001332838
         },
         {
             "date": "2023-11-17",
-            "equity": 110347.0914372968,
-            "balance": 108203.42556591035
+            "equity": 107736.85675796522,
+            "balance": 107063.65729833441
         },
         {
             "date": "2023-11-20",
-            "equity": 110561.10651534857,
-            "balance": 107963.85970269327
+            "equity": 108118.94642815329,
+            "balance": 106944.57808921514
         },
         {
             "date": "2023-11-21",
-            "equity": 110873.6522413993,
-            "balance": 108736.52401067645
+            "equity": 107979.12823160888,
+            "balance": 107470.38791822191
         },
         {
             "date": "2023-11-22",
-            "equity": 110679.34503963839,
-            "balance": 108821.67344656942
+            "equity": 107492.92495266872,
+            "balance": 106793.72936710897
         },
         {
             "date": "2023-11-23",
-            "equity": 110260.17331039798,
-            "balance": 108591.55753611434
+            "equity": 107619.84875289527,
+            "balance": 106793.72936710897
         },
         {
             "date": "2023-11-24",
-            "equity": 110014.37500420783,
-            "balance": 108127.57265820229
+            "equity": 107758.14350851998,
+            "balance": 106575.53800626699
         },
         {
             "date": "2023-11-27",
-            "equity": 110135.90222553295,
-            "balance": 108800.95604803195
+            "equity": 108029.47865947957,
+            "balance": 106079.31583759846
         },
         {
             "date": "2023-11-28",
-            "equity": 110883.95583424463,
-            "balance": 108800.95604803195
+            "equity": 108535.38946795081,
+            "balance": 107041.70174261862
         },
         {
             "date": "2023-11-29",
-            "equity": 111345.78826421818,
-            "balance": 108556.7420915143
+            "equity": 108622.57508240073,
+            "balance": 106344.77072568682
         },
         {
             "date": "2023-11-30",
-            "equity": 111622.94399646328,
-            "balance": 108366.73853288067
+            "equity": 108781.52801458481,
+            "balance": 108327.57048928156
         },
         {
             "date": "2023-12-01",
-            "equity": 111309.15520335616,
-            "balance": 108337.64534924486
+            "equity": 108834.61313580787,
+            "balance": 108092.7800459239
         },
         {
             "date": "2023-12-04",
-            "equity": 112219.70037938947,
-            "balance": 108097.38957739995
+            "equity": 109030.5267491682,
+            "balance": 107183.55361438706
         },
         {
             "date": "2023-12-05",
-            "equity": 112538.7936276072,
-            "balance": 110604.16546479605
+            "equity": 109134.74616908541,
+            "balance": 107183.55361438706
         },
         {
             "date": "2023-12-06",
-            "equity": 112800.84935318238,
-            "balance": 110615.24487555407
+            "equity": 109453.4503776682,
+            "balance": 107183.55361438706
         },
         {
             "date": "2023-12-07",
-            "equity": 112313.3720862902,
-            "balance": 110380.57608976393
+            "equity": 108909.5524433214,
+            "balance": 106956.43408233895
         },
         {
             "date": "2023-12-08",
-            "equity": 113368.52219438631,
-            "balance": 112107.90942632261
+            "equity": 109522.86466969634,
+            "balance": 108509.40812875245
         },
         {
             "date": "2023-12-11",
-            "equity": 113388.46792289986,
-            "balance": 111870.46409573493
+            "equity": 110169.8162890314,
+            "balance": 109725.07244548948
         },
         {
             "date": "2023-12-12",
-            "equity": 113188.54599590348,
-            "balance": 111870.46409573493
+            "equity": 109952.03231683618,
+            "balance": 109594.61362099329
         },
         {
             "date": "2023-12-13",
-            "equity": 112709.9969952058,
-            "balance": 111610.81623591407
+            "equity": 109708.9936279872,
+            "balance": 108885.39244106534
         },
         {
             "date": "2023-12-14",
-            "equity": 113234.5667866435,
-            "balance": 111366.16714441357
+            "equity": 110340.63488312459,
+            "balance": 108963.59680111335
         },
         {
             "date": "2023-12-15",
-            "equity": 113742.31938775792,
-            "balance": 110878.62675391126
+            "equity": 110671.82365567306,
+            "balance": 109790.94434579418
         },
         {
             "date": "2023-12-18",
-            "equity": 113510.40468173532,
-            "balance": 111493.47430803
+            "equity": 110402.90395679505,
+            "balance": 109327.52808706122
         },
         {
             "date": "2023-12-19",
-            "equity": 112929.67449286071,
-            "balance": 111241.24370242865
+            "equity": 110004.53575181332,
+            "balance": 109086.25009159937
         },
         {
             "date": "2023-12-20",
-            "equity": 113136.47905168132,
-            "balance": 111139.30909948173
+            "equity": 110194.05487174066,
+            "balance": 109005.1571058737
         },
         {
             "date": "2023-12-21",
-            "equity": 112965.37060074738,
-            "balance": 110602.52295631856
+            "equity": 110099.96887794127,
+            "balance": 108747.61349198234
         },
         {
             "date": "2023-12-22",
-            "equity": 112237.39552387533,
-            "balance": 109870.9552504796
+            "equity": 109451.42375639653,
+            "balance": 108003.21501579892
         },
         {
             "date": "2023-12-25",
-            "equity": 109915.89669527886,
-            "balance": 109870.9552504796
+            "equity": 107876.67163804111,
+            "balance": 108003.21501579892
         },
         {
             "date": "2023-12-26",
-            "equity": 112310.39709504296,
-            "balance": 109870.9552504796
+            "equity": 109531.95088457518,
+            "balance": 108003.21501579892
         },
         {
             "date": "2023-12-27",
-            "equity": 112116.86878710944,
-            "balance": 109631.04530904109
+            "equity": 109312.58331623212,
+            "balance": 108662.57068293844
         },
         {
             "date": "2023-12-28",
-            "equity": 111984.13051635285,
-            "balance": 110620.79253216357
+            "equity": 109326.05232120995,
+            "balance": 108954.53362538847
         },
         {
             "date": "2023-12-29",
-            "equity": 111611.17247946514,
-            "balance": 110114.29819602853
+            "equity": 108906.67786241187,
+            "balance": 108459.73739946877
         }
     ],
     "recent_trades": [
         {
-            "ticket": 311,
-            "symbol": "USDCHF",
-            "strategy": "AVWAP_Confluence",
-            "type": "SELL",
-            "lot_size": 0.87,
-            "entry_time": "2023-09-26 12:00:00",
-            "close_time": "2023-09-26 18:00:00",
-            "entry_price": 0.9123123563287378,
-            "close_price": 0.9148076964217412,
-            "profit": -243.463397434095,
-            "reason": "SL"
-        },
-        {
-            "ticket": 308,
-            "symbol": "EURUSD",
-            "strategy": "AVWAP_Confluence",
-            "type": "BUY",
-            "lot_size": 0.27,
-            "entry_time": "2023-09-21 10:00:00",
-            "close_time": "2023-09-27 18:15:00",
-            "entry_price": 1.0705950649818803,
-            "close_price": 1.0842860748660927,
-            "profit": 367.7672668737364,
-            "reason": "TP"
-        },
-        {
-            "ticket": 313,
-            "symbol": "USDCHF",
-            "strategy": "ADX_TrendStrength",
-            "type": "SELL",
-            "lot_size": 0.54,
-            "entry_time": "2023-10-02 10:00:00",
-            "close_time": "2023-10-02 15:00:00",
-            "entry_price": 0.9118497783800313,
-            "close_price": 0.9156893708182912,
-            "profit": -230.1117523207911,
-            "reason": "SL"
-        },
-        {
-            "ticket": 304,
-            "symbol": "USDCAD",
-            "strategy": "Donchian_Breakout",
-            "type": "SELL",
-            "lot_size": 0.9400000000000001,
-            "entry_time": "2023-09-11 16:00:00",
-            "close_time": "2023-10-02 16:00:00",
-            "entry_price": 1.3594557384673176,
-            "close_price": 1.3628100352039658,
-            "profit": -237.50757565288257,
-            "reason": "SL"
-        },
-        {
-            "ticket": 307,
-            "symbol": "USDCAD",
-            "strategy": "AVWAP_Confluence",
-            "type": "BUY",
-            "lot_size": 0.44,
-            "entry_time": "2023-09-20 22:00:00",
-            "close_time": "2023-10-02 16:00:00",
-            "entry_price": 1.3473169696828948,
-            "close_price": 1.3660274812133577,
-            "profit": 599.8748604347263,
-            "reason": "TP"
-        },
-        {
-            "ticket": 312,
-            "symbol": "NZDUSD",
-            "strategy": "Donchian_Breakout",
-            "type": "BUY",
-            "lot_size": 0.54,
-            "entry_time": "2023-09-28 20:00:00",
-            "close_time": "2023-10-03 05:00:00",
-            "entry_price": 0.5962814197673313,
-            "close_price": 0.5920122290969356,
-            "profit": -234.31629620136576,
-            "reason": "SL"
-        },
-        {
-            "ticket": 315,
-            "symbol": "NZDUSD",
-            "strategy": "Bollinger Mean Reversion",
-            "type": "BUY",
-            "lot_size": 0.86,
-            "entry_time": "2023-10-03 06:00:00",
-            "close_time": "2023-10-03 12:00:00",
-            "entry_price": 0.5925625983172491,
-            "close_price": 0.5898229706716729,
-            "profit": -241.62797751955543,
-            "reason": "SL"
-        },
-        {
-            "ticket": 303,
-            "symbol": "GBPJPY",
-            "strategy": "Donchian_Breakout",
-            "type": "SELL",
-            "lot_size": 0.21,
-            "entry_time": "2023-09-07 12:00:00",
-            "close_time": "2023-10-03 17:00:00",
-            "entry_price": 183.83124940105722,
-            "close_price": 179.92749837361328,
-            "profit": 727.1445944526629,
-            "reason": "TP"
-        },
-        {
-            "ticket": 316,
-            "symbol": "EURJPY",
-            "strategy": "Donchian_Breakout",
-            "type": "SELL",
-            "lot_size": 0.21,
-            "entry_time": "2023-10-03 20:00:00",
-            "close_time": "2023-10-06 12:00:00",
-            "entry_price": 155.98563345502134,
-            "close_price": 157.155,
-            "profit": -219.55811379157777,
-            "reason": "SL"
-        },
-        {
-            "ticket": 319,
-            "symbol": "GBPJPY",
-            "strategy": "PriceAction_SR",
-            "type": "SELL",
-            "lot_size": 0.27,
-            "entry_time": "2023-10-06 16:00:00",
-            "close_time": "2023-10-06 18:00:00",
-            "entry_price": 181.50182559451162,
-            "close_price": 182.43568339512598,
-            "profit": -225.5959711087886,
-            "reason": "SL"
-        },
-        {
-            "ticket": 322,
-            "symbol": "EURJPY",
-            "strategy": "Bollinger Mean Reversion",
-            "type": "SELL",
-            "lot_size": 0.41000000000000003,
-            "entry_time": "2023-10-06 22:00:00",
-            "close_time": "2023-10-09 09:00:00",
-            "entry_price": 158.12678485545274,
-            "close_price": 157.14512802114342,
-            "profit": 360.142506369498,
-            "reason": "TP"
-        },
-        {
-            "ticket": 317,
-            "symbol": "USDCHF",
-            "strategy": "Hidden_Divergence",
-            "type": "SELL",
-            "lot_size": 0.4,
-            "entry_time": "2023-10-04 10:00:00",
-            "close_time": "2023-10-10 11:00:00",
-            "entry_price": 0.9197250074700478,
-            "close_price": 0.9042467757245692,
-            "profit": 681.8275914977312,
-            "reason": "TP"
-        },
-        {
-            "ticket": 323,
-            "symbol": "EURJPY",
-            "strategy": "PriceAction_SR",
-            "type": "SELL",
-            "lot_size": 0.22,
-            "entry_time": "2023-10-09 16:00:00",
-            "close_time": "2023-10-11 16:00:00",
-            "entry_price": 157.09439402550763,
-            "close_price": 158.21083269093614,
-            "profit": -223.22930274963346,
-            "reason": "SL"
-        },
-        {
-            "ticket": 318,
-            "symbol": "NZDUSD",
-            "strategy": "Donchian_Breakout",
-            "type": "BUY",
-            "lot_size": 0.4,
-            "entry_time": "2023-10-05 20:00:00",
-            "close_time": "2023-10-13 12:00:00",
-            "entry_price": 0.5963804089931859,
-            "close_price": 0.5907394216981446,
-            "profit": -228.43949180165023,
-            "reason": "SL"
-        },
-        {
-            "ticket": 325,
-            "symbol": "NZDUSD",
-            "strategy": "Bollinger Mean Reversion",
-            "type": "BUY",
-            "lot_size": 0.68,
-            "entry_time": "2023-10-13 15:00:00",
-            "close_time": "2023-10-13 18:00:00",
-            "entry_price": 0.5920755291049792,
-            "close_price": 0.5886760318363087,
-            "profit": -235.92581426959424,
-            "reason": "SL"
-        },
-        {
-            "ticket": 320,
-            "symbol": "EURUSD",
-            "strategy": "AVWAP_Confluence",
-            "type": "BUY",
-            "lot_size": 0.07,
-            "entry_time": "2023-10-06 18:00:00",
-            "close_time": "2023-10-17 03:00:00",
-            "entry_price": 1.0777619815850716,
-            "close_price": 1.0816588921414514,
-            "profit": 26.78837389465826,
-            "reason": "TP"
-        },
-        {
-            "ticket": 321,
-            "symbol": "USDCAD",
-            "strategy": "AVWAP_Confluence",
-            "type": "SELL",
-            "lot_size": 0.9500000000000001,
-            "entry_time": "2023-10-06 19:00:00",
-            "close_time": "2023-10-17 15:00:00",
-            "entry_price": 1.366892268132235,
-            "close_price": 1.3702080345737369,
-            "profit": -236.8324752772577,
-            "reason": "SL"
-        },
-        {
-            "ticket": 309,
+            "ticket": 353,
             "symbol": "USDCHF",
             "strategy": "Donchian_Breakout",
-            "type": "BUY",
-            "lot_size": 0.24,
-            "entry_time": "2023-09-21 12:00:00",
-            "close_time": "2023-10-18 09:00:00",
-            "entry_price": 0.9069558085034956,
-            "close_price": 0.89874,
-            "profit": -221.01924834409786,
-            "reason": "SL"
-        },
-        {
-            "ticket": 327,
-            "symbol": "NZDUSD",
-            "strategy": "Bollinger Mean Reversion",
-            "type": "BUY",
-            "lot_size": 0.85,
-            "entry_time": "2023-10-13 20:00:00",
-            "close_time": "2023-10-18 17:00:00",
-            "entry_price": 0.5896457434312179,
-            "close_price": 0.58685307578055,
-            "profit": -243.32675030676972,
-            "reason": "SL"
-        },
-        {
-            "ticket": 329,
-            "symbol": "AUDUSD",
-            "strategy": "Bollinger Mean Reversion",
-            "type": "BUY",
-            "lot_size": 1.05,
-            "entry_time": "2023-10-19 05:00:00",
-            "close_time": "2023-10-19 19:00:00",
-            "entry_price": 0.6303163527190809,
-            "close_price": 0.6352844815136616,
-            "profit": 514.3035234309672,
-            "reason": "TP"
-        },
-        {
-            "ticket": 326,
-            "symbol": "GBPJPY",
-            "strategy": "PriceAction_SR",
             "type": "SELL",
-            "lot_size": 0.18,
-            "entry_time": "2023-10-13 16:00:00",
-            "close_time": "2023-10-23 20:00:00",
-            "entry_price": 182.02150450407913,
-            "close_price": 183.35581132426952,
-            "profit": -223.08650015879311,
+            "lot_size": 0.3,
+            "entry_time": "2023-10-19 20:00:00",
+            "close_time": "2023-10-26 08:00:00",
+            "entry_price": 0.8923260558367012,
+            "close_price": 0.8988459837707968,
+            "profit": -219.70898706443617,
             "reason": "SL"
         },
         {
-            "ticket": 331,
-            "symbol": "EURJPY",
-            "strategy": "Bollinger Mean Reversion",
-            "type": "SELL",
-            "lot_size": 0.55,
-            "entry_time": "2023-10-23 22:00:00",
-            "close_time": "2023-10-24 16:00:00",
-            "entry_price": 159.5856789212498,
-            "close_price": 158.86737021473917,
-            "profit": 362.94375381269475,
-            "reason": "TP"
-        },
-        {
-            "ticket": 332,
-            "symbol": "AUDUSD",
+            "ticket": 360,
+            "symbol": "XAUUSD",
             "strategy": "Donchian_Breakout",
             "type": "BUY",
-            "lot_size": 0.51,
-            "entry_time": "2023-10-24 08:00:00",
-            "close_time": "2023-10-25 20:00:00",
-            "entry_price": 0.6357425219419099,
-            "close_price": 0.6312953075538781,
-            "profit": -230.37793378962493,
-            "reason": "SL"
-        },
-        {
-            "ticket": 330,
-            "symbol": "USDCHF",
-            "strategy": "Bollinger Mean Reversion",
-            "type": "BUY",
-            "lot_size": 0.73,
-            "entry_time": "2023-10-20 00:00:00",
-            "close_time": "2023-10-26 05:00:00",
-            "entry_price": 0.8912318738859613,
-            "close_price": 0.897780072141958,
-            "profit": 527.0386314821227,
+            "lot_size": 0.02,
+            "entry_time": "2023-10-26 08:00:00",
+            "close_time": "2023-10-26 14:45:00",
+            "entry_price": 2052.742324334793,
+            "close_price": 2068.665670574806,
+            "profit": 31.776692480025922,
             "reason": "TP"
         },
         {
             "ticket": 334,
             "symbol": "USDCAD",
-            "strategy": "Bollinger Mean Reversion",
-            "type": "SELL",
-            "lot_size": 0.74,
-            "entry_time": "2023-10-25 18:00:00",
-            "close_time": "2023-10-26 05:00:00",
-            "entry_price": 1.3771936843634422,
-            "close_price": 1.3814603831288466,
-            "profit": -233.76693838184173,
-            "reason": "SL"
-        },
-        {
-            "ticket": 335,
-            "symbol": "XAUUSD",
-            "strategy": "Smart_Swing_Bias",
-            "type": "BUY",
-            "lot_size": 0.02,
-            "entry_time": "2023-10-25 20:00:00",
-            "close_time": "2023-10-26 13:15:00",
-            "entry_price": 2051.4545270024196,
-            "close_price": 2064.8180519150055,
-            "profit": 26.65704982517189,
-            "reason": "TP"
-        },
-        {
-            "ticket": 337,
-            "symbol": "USDCAD",
-            "strategy": "AVWAP_Confluence",
-            "type": "SELL",
-            "lot_size": 0.76,
-            "entry_time": "2023-10-26 21:00:00",
-            "close_time": "2023-10-27 16:00:00",
-            "entry_price": 1.3812849341762876,
-            "close_price": 1.3854552147488142,
-            "profit": -234.30895556793124,
-            "reason": "SL"
-        },
-        {
-            "ticket": 328,
-            "symbol": "EURUSD",
-            "strategy": "AVWAP_Confluence",
-            "type": "BUY",
-            "lot_size": 0.09,
-            "entry_time": "2023-10-17 18:00:00",
-            "close_time": "2023-10-30 07:00:00",
-            "entry_price": 1.0786163715030854,
-            "close_price": 1.080661970758388,
-            "profit": 17.780393297723094,
-            "reason": "TP"
-        },
-        {
-            "ticket": 333,
-            "symbol": "GBPJPY",
-            "strategy": "Donchian_Breakout",
-            "type": "SELL",
-            "lot_size": 0.19,
-            "entry_time": "2023-10-25 12:00:00",
-            "close_time": "2023-10-31 10:00:00",
-            "entry_price": 181.6870844539421,
-            "close_price": 182.9161668214902,
-            "profit": -216.00110937857633,
-            "reason": "SL"
-        },
-        {
-            "ticket": 340,
-            "symbol": "USDCAD",
-            "strategy": "AVWAP_Confluence",
-            "type": "SELL",
-            "lot_size": 1.33,
-            "entry_time": "2023-10-30 12:00:00",
-            "close_time": "2023-10-31 15:00:00",
-            "entry_price": 1.3843705630034109,
-            "close_price": 1.3868322800149602,
-            "profit": -245.4331519804239,
-            "reason": "SL"
-        },
-        {
-            "ticket": 324,
-            "symbol": "USDCHF",
-            "strategy": "Donchian_Breakout",
-            "type": "SELL",
-            "lot_size": 0.33,
-            "entry_time": "2023-10-10 12:00:00",
-            "close_time": "2023-10-31 18:00:00",
-            "entry_price": 0.9043284539310966,
-            "close_price": 0.9104901112583612,
-            "profit": -225.830860732482,
-            "reason": "SL"
-        },
-        {
-            "ticket": 314,
-            "symbol": "USDCAD",
-            "strategy": "Donchian_Breakout",
+            "strategy": "PriceAction_SR",
             "type": "BUY",
             "lot_size": 0.31,
-            "entry_time": "2023-10-02 16:00:00",
-            "close_time": "2023-11-01 19:00:00",
-            "entry_price": 1.3655870654204807,
-            "close_price": 1.3897173917884131,
-            "profit": 536.519296217067,
+            "entry_time": "2023-09-29 20:00:00",
+            "close_time": "2023-10-26 17:00:00",
+            "entry_price": 1.3568614565678185,
+            "close_price": 1.3830651663543652,
+            "profit": 585.8589871168402,
             "reason": "TP"
         },
         {
-            "ticket": 343,
-            "symbol": "USDCAD",
-            "strategy": "AVWAP_Confluence",
-            "type": "SELL",
-            "lot_size": 1.83,
-            "entry_time": "2023-11-01 09:00:00",
-            "close_time": "2023-11-01 19:00:00",
-            "entry_price": 1.3875262359846994,
-            "close_price": 1.389352194938557,
-            "profit": -253.44320578983928,
-            "reason": "SL"
-        },
-        {
-            "ticket": 342,
+            "ticket": 361,
             "symbol": "USDCHF",
             "strategy": "Bollinger Mean Reversion",
             "type": "SELL",
-            "lot_size": 0.65,
-            "entry_time": "2023-10-31 20:00:00",
-            "close_time": "2023-11-02 04:00:00",
-            "entry_price": 0.9093321464921797,
-            "close_price": 0.904175362126382,
-            "profit": 366.43757487670325,
-            "reason": "TP"
+            "lot_size": 0.81,
+            "entry_time": "2023-10-26 10:00:00",
+            "close_time": "2023-10-27 11:00:00",
+            "entry_price": 0.8981489283036194,
+            "close_price": 0.9006990376543357,
+            "profit": -234.99383445429956,
+            "reason": "SL"
+        },
+        {
+            "ticket": 362,
+            "symbol": "USDCAD",
+            "strategy": "AVWAP_Confluence",
+            "type": "BUY",
+            "lot_size": 0.77,
+            "entry_time": "2023-10-26 19:00:00",
+            "close_time": "2023-10-27 11:00:00",
+            "entry_price": 1.38425364930713,
+            "close_price": 1.3801742479836239,
+            "profit": -232.98073296041315,
+            "reason": "SL"
+        },
+        {
+            "ticket": 363,
+            "symbol": "USDCAD",
+            "strategy": "AVWAP_Confluence",
+            "type": "SELL",
+            "lot_size": 0.75,
+            "entry_time": "2023-10-26 21:00:00",
+            "close_time": "2023-10-27 16:00:00",
+            "entry_price": 1.3812959766970072,
+            "close_price": 1.3854552147488142,
+            "profit": -230.62757940995297,
+            "reason": "SL"
         },
         {
             "ticket": 344,
-            "symbol": "USDCAD",
-            "strategy": "Smart_Swing_Bias",
-            "type": "BUY",
-            "lot_size": 0.53,
-            "entry_time": "2023-11-01 20:00:00",
-            "close_time": "2023-11-02 05:00:00",
-            "entry_price": 1.3884756946220496,
-            "close_price": 1.382584622040324,
-            "profit": -229.47055446960036,
-            "reason": "SL"
-        },
-        {
-            "ticket": 346,
-            "symbol": "USDCAD",
-            "strategy": "Smart_Swing_Bias",
-            "type": "BUY",
-            "lot_size": 0.5,
-            "entry_time": "2023-11-02 08:00:00",
-            "close_time": "2023-11-02 15:00:00",
-            "entry_price": 1.3835700577710366,
-            "close_price": 1.3773799142210612,
-            "profit": -228.25613435586095,
-            "reason": "SL"
-        },
-        {
-            "ticket": 347,
-            "symbol": "USDCAD",
-            "strategy": "Smart_Swing_Bias",
-            "type": "BUY",
-            "lot_size": 0.56,
-            "entry_time": "2023-11-03 04:00:00",
-            "close_time": "2023-11-03 15:00:00",
-            "entry_price": 1.3742884940369984,
-            "close_price": 1.3687871923359323,
-            "profit": -229.18535190092285,
-            "reason": "SL"
-        },
-        {
-            "ticket": 341,
             "symbol": "EURUSD",
             "strategy": "Donchian_Breakout",
             "type": "BUY",
             "lot_size": 0.08,
-            "entry_time": "2023-10-31 12:00:00",
-            "close_time": "2023-11-03 20:15:00",
-            "entry_price": 1.0866687374766186,
-            "close_price": 1.0894560966819984,
-            "profit": 21.738873643038065,
+            "entry_time": "2023-10-10 12:00:00",
+            "close_time": "2023-10-31 06:15:00",
+            "entry_price": 1.0784372429290847,
+            "close_price": 1.0864762083577288,
+            "profit": 63.75172342915303,
             "reason": "TP"
         },
         {
-            "ticket": 349,
-            "symbol": "EURJPY",
-            "strategy": "Bollinger Mean Reversion",
+            "ticket": 357,
+            "symbol": "GBPJPY",
+            "strategy": "PriceAction_SR",
             "type": "SELL",
-            "lot_size": 0.62,
-            "entry_time": "2023-11-03 20:00:00",
-            "close_time": "2023-11-06 09:00:00",
-            "entry_price": 160.27714438796957,
-            "close_price": 160.68523913442445,
-            "profit": -233.89307589848397,
+            "lot_size": 0.17,
+            "entry_time": "2023-10-24 20:00:00",
+            "close_time": "2023-10-31 11:00:00",
+            "entry_price": 182.25345570197877,
+            "close_price": 183.5901677677381,
+            "profit": -209.98060376587753,
             "reason": "SL"
         },
         {
-            "ticket": 351,
-            "symbol": "GBPJPY",
-            "strategy": "Bollinger Mean Reversion",
+            "ticket": 367,
+            "symbol": "USDCAD",
+            "strategy": "AVWAP_Confluence",
             "type": "SELL",
-            "lot_size": 0.97,
-            "entry_time": "2023-11-06 12:00:00",
-            "close_time": "2023-11-07 13:00:00",
-            "entry_price": 185.7667859358256,
-            "close_price": 184.65121499867365,
-            "profit": 986.1972813361243,
+            "lot_size": 1.31,
+            "entry_time": "2023-10-30 12:00:00",
+            "close_time": "2023-10-31 15:00:00",
+            "entry_price": 1.3843658140437314,
+            "close_price": 1.3868322800149602,
+            "profit": -242.19108916123747,
+            "reason": "SL"
+        },
+        {
+            "ticket": 365,
+            "symbol": "USDCAD",
+            "strategy": "AVWAP_Confluence",
+            "type": "BUY",
+            "lot_size": 0.67,
+            "entry_time": "2023-10-27 14:00:00",
+            "close_time": "2023-11-01 19:00:00",
+            "entry_price": 1.3830534874854756,
+            "close_price": 1.389432246393977,
+            "profit": 303.0786978313818,
             "reason": "TP"
         },
         {
-            "ticket": 350,
+            "ticket": 370,
+            "symbol": "USDCAD",
+            "strategy": "AVWAP_Confluence",
+            "type": "SELL",
+            "lot_size": 1.8,
+            "entry_time": "2023-11-01 09:00:00",
+            "close_time": "2023-11-01 19:00:00",
+            "entry_price": 1.3874898339169306,
+            "close_price": 1.389352194938557,
+            "profit": -254.00698666509606,
+            "reason": "SL"
+        },
+        {
+            "ticket": 369,
+            "symbol": "USDCHF",
+            "strategy": "Bollinger Mean Reversion",
+            "type": "SELL",
+            "lot_size": 0.64,
+            "entry_time": "2023-10-31 20:00:00",
+            "close_time": "2023-11-02 04:00:00",
+            "entry_price": 0.9093214506874898,
+            "close_price": 0.904175362126382,
+            "profit": 360.04243794855273,
+            "reason": "TP"
+        },
+        {
+            "ticket": 371,
+            "symbol": "USDCAD",
+            "strategy": "Smart_Swing_Bias",
+            "type": "BUY",
+            "lot_size": 0.52,
+            "entry_time": "2023-11-01 20:00:00",
+            "close_time": "2023-11-02 05:00:00",
+            "entry_price": 1.3884751773376878,
+            "close_price": 1.382584622040324,
+            "profit": -225.12147177362155,
+            "reason": "SL"
+        },
+        {
+            "ticket": 373,
+            "symbol": "USDCAD",
+            "strategy": "Smart_Swing_Bias",
+            "type": "BUY",
+            "lot_size": 0.49,
+            "entry_time": "2023-11-02 08:00:00",
+            "close_time": "2023-11-02 15:00:00",
+            "entry_price": 1.3835511064456605,
+            "close_price": 1.3773799142210612,
+            "profit": -223.0166754330645,
+            "reason": "SL"
+        },
+        {
+            "ticket": 372,
+            "symbol": "USDCAD",
+            "strategy": "AVWAP_Confluence",
+            "type": "SELL",
+            "lot_size": 0.66,
+            "entry_time": "2023-11-01 22:00:00",
+            "close_time": "2023-11-02 21:00:00",
+            "entry_price": 1.3851515032176065,
+            "close_price": 1.3738886759448874,
+            "profit": 536.4600541551737,
+            "reason": "TP"
+        },
+        {
+            "ticket": 375,
+            "symbol": "USDCAD",
+            "strategy": "Smart_Swing_Bias",
+            "type": "BUY",
+            "lot_size": 0.55,
+            "entry_time": "2023-11-03 04:00:00",
+            "close_time": "2023-11-03 15:00:00",
+            "entry_price": 1.3743028323460553,
+            "close_price": 1.3687871923359323,
+            "profit": -225.66939204209433,
+            "reason": "SL"
+        },
+        {
+            "ticket": 368,
+            "symbol": "EURUSD",
+            "strategy": "Donchian_Breakout",
+            "type": "BUY",
+            "lot_size": 0.07,
+            "entry_time": "2023-10-31 12:00:00",
+            "close_time": "2023-11-03 20:15:00",
+            "entry_price": 1.0866888906017325,
+            "close_price": 1.0894560966819984,
+            "profit": 18.880442561861493,
+            "reason": "TP"
+        },
+        {
+            "ticket": 377,
+            "symbol": "EURJPY",
+            "strategy": "Bollinger Mean Reversion",
+            "type": "SELL",
+            "lot_size": 0.6,
+            "entry_time": "2023-11-03 20:00:00",
+            "close_time": "2023-11-06 09:00:00",
+            "entry_price": 160.2781829003938,
+            "close_price": 160.68523913442445,
+            "profit": -225.77747519883764,
+            "reason": "SL"
+        },
+        {
+            "ticket": 379,
+            "symbol": "GBPJPY",
+            "strategy": "Bollinger Mean Reversion",
+            "type": "SELL",
+            "lot_size": 0.9500000000000001,
+            "entry_time": "2023-11-06 12:00:00",
+            "close_time": "2023-11-07 13:00:00",
+            "entry_price": 185.76517470295929,
+            "close_price": 184.65121499867365,
+            "profit": 964.4635061305862,
+            "reason": "TP"
+        },
+        {
+            "ticket": 378,
             "symbol": "EURUSD",
             "strategy": "Donchian_Breakout",
             "type": "BUY",
             "lot_size": 0.09,
             "entry_time": "2023-11-06 12:00:00",
             "close_time": "2023-11-08 06:15:00",
-            "entry_price": 1.092782945077157,
+            "entry_price": 1.0927744572626505,
             "close_price": 1.0983245740784375,
-            "profit": 49.244661011525714,
+            "profit": 49.32105134208288,
             "reason": "TP"
         },
         {
-            "ticket": 257,
-            "symbol": "EURUSD",
-            "strategy": "PriceAction_SR",
+            "ticket": 374,
+            "symbol": "USDCAD",
+            "strategy": "Donchian_Breakout",
             "type": "SELL",
-            "lot_size": 0.03,
-            "entry_time": "2023-07-28 12:00:00",
-            "close_time": "2023-11-10 16:30:00",
-            "entry_price": 1.0421082091990213,
-            "close_price": 1.1045225077124772,
-            "profit": -187.45289554036776,
+            "lot_size": 0.45,
+            "entry_time": "2023-11-03 00:00:00",
+            "close_time": "2023-11-08 19:00:00",
+            "entry_price": 1.373987293447872,
+            "close_price": 1.3806668697920728,
+            "profit": -220.88022881887332,
             "reason": "SL"
         },
         {
-            "ticket": 353,
-            "symbol": "EURUSD",
-            "strategy": "PriceAction_SR",
-            "type": "BUY",
-            "lot_size": 0.06,
-            "entry_time": "2023-11-08 16:00:00",
-            "close_time": "2023-11-14 07:15:00",
-            "entry_price": 1.0973703672306714,
-            "close_price": 1.1106510778559853,
-            "profit": 79.2642637518833,
-            "reason": "TP"
-        },
-        {
-            "ticket": 354,
+            "ticket": 381,
             "symbol": "EURJPY",
             "strategy": "AVWAP_Confluence",
             "type": "SELL",
-            "lot_size": 0.5700000000000001,
+            "lot_size": 0.56,
             "entry_time": "2023-11-13 14:00:00",
             "close_time": "2023-11-14 10:00:00",
-            "entry_price": 161.98705337195324,
+            "entry_price": 161.988972050269,
             "close_price": 162.41965750990198,
-            "profit": -228.37792084474424,
+            "profit": -223.38485598332008,
             "reason": "SL"
         },
         {
-            "ticket": 336,
+            "ticket": 359,
             "symbol": "USDCHF",
             "strategy": "Donchian_Breakout",
             "type": "BUY",
-            "lot_size": 0.43,
+            "lot_size": 0.42,
             "entry_time": "2023-10-26 08:00:00",
             "close_time": "2023-11-14 16:00:00",
-            "entry_price": 0.8990212283042827,
+            "entry_price": 0.8990079751105776,
             "close_price": 0.8942997334649903,
-            "profit": -230.45760154329216,
+            "profit": -224.47452657868888,
             "reason": "SL"
         },
         {
-            "ticket": 352,
+            "ticket": 380,
             "symbol": "USDCAD",
             "strategy": "Hidden_Divergence",
             "type": "BUY",
-            "lot_size": 0.87,
+            "lot_size": 0.86,
             "entry_time": "2023-11-08 05:00:00",
             "close_time": "2023-11-14 16:00:00",
-            "entry_price": 1.3772179995837723,
+            "entry_price": 1.3772504816563034,
             "close_price": 1.3735886531638763,
-            "profit": -235.92254129371008,
+            "profit": -235.24410932038944,
             "reason": "SL"
         },
         {
-            "ticket": 278,
+            "ticket": 299,
             "symbol": "AUDUSD",
             "strategy": "Donchian_Breakout",
             "type": "SELL",
             "lot_size": 0.36,
             "entry_time": "2023-08-14 04:00:00",
             "close_time": "2023-11-15 13:00:00",
-            "entry_price": 0.6468866197766141,
+            "entry_price": 0.6468973543158312,
             "close_price": 0.6530321331010679,
-            "profit": -223.7584796803364,
+            "profit": -223.37203626852178,
             "reason": "SL"
         },
         {
-            "ticket": 357,
+            "ticket": 385,
             "symbol": "AUDUSD",
             "strategy": "Bollinger Mean Reversion",
             "type": "SELL",
-            "lot_size": 1.81,
+            "lot_size": 1.76,
             "entry_time": "2023-11-15 13:00:00",
             "close_time": "2023-11-15 15:00:00",
-            "entry_price": 0.6527865813249958,
+            "entry_price": 0.6527703121520123,
             "close_price": 0.6541432600311815,
-            "profit": -258.2288458196155,
+            "profit": -253.95882673377835,
             "reason": "SL"
         },
         {
-            "ticket": 355,
+            "ticket": 285,
+            "symbol": "EURJPY",
+            "strategy": "PriceAction_SR",
+            "type": "BUY",
+            "lot_size": 0.1,
+            "entry_time": "2023-07-28 20:00:00",
+            "close_time": "2023-11-15 20:00:00",
+            "entry_price": 155.28638428026588,
+            "close_price": 164.14721447766837,
+            "profit": 810.3610301987571,
+            "reason": "TP"
+        },
+        {
+            "ticket": 382,
             "symbol": "EURUSD",
             "strategy": "Donchian_Breakout",
             "type": "BUY",
             "lot_size": 0.07,
             "entry_time": "2023-11-14 20:00:00",
             "close_time": "2023-11-16 05:15:00",
-            "entry_price": 1.1084784040210267,
+            "entry_price": 1.1084988877260966,
             "close_price": 1.1115695972997692,
-            "profit": 21.14835295119765,
+            "profit": 21.004967015708303,
             "reason": "TP"
-        },
-        {
-            "ticket": 358,
-            "symbol": "USDCAD",
-            "strategy": "Bollinger Mean Reversion",
-            "type": "BUY",
-            "lot_size": 0.8200000000000001,
-            "entry_time": "2023-11-15 15:00:00",
-            "close_time": "2023-11-16 14:00:00",
-            "entry_price": 1.3683188517623097,
-            "close_price": 1.373024887793441,
-            "profit": 275.35244671831066,
-            "reason": "TP"
-        },
-        {
-            "ticket": 359,
-            "symbol": "USDCHF",
-            "strategy": "Bollinger Mean Reversion",
-            "type": "BUY",
-            "lot_size": 0.8200000000000001,
-            "entry_time": "2023-11-15 15:00:00",
-            "close_time": "2023-11-20 00:00:00",
-            "entry_price": 0.8878363662879096,
-            "close_price": 0.8853123301558778,
-            "profit": -239.56586321708875,
-            "reason": "SL"
-        },
-        {
-            "ticket": 338,
-            "symbol": "AUDUSD",
-            "strategy": "Donchian_Breakout",
-            "type": "BUY",
-            "lot_size": 0.4,
-            "entry_time": "2023-10-27 12:00:00",
-            "close_time": "2023-11-20 06:00:00",
-            "entry_price": 0.6356625583375283,
-            "close_price": 0.6550491660371078,
-            "profit": 772.6643079831825,
-            "reason": "TP"
-        },
-        {
-            "ticket": 362,
-            "symbol": "AUDUSD",
-            "strategy": "Bollinger Mean Reversion",
-            "type": "SELL",
-            "lot_size": 0.91,
-            "entry_time": "2023-11-20 08:00:00",
-            "close_time": "2023-11-21 03:00:00",
-            "entry_price": 0.6546194022932237,
-            "close_price": 0.6571708968501674,
-            "profit": -238.5560046818768,
-            "reason": "SL"
-        },
-        {
-            "ticket": 356,
-            "symbol": "GBPJPY",
-            "strategy": "AVWAP_Confluence",
-            "type": "SELL",
-            "lot_size": 0.29,
-            "entry_time": "2023-11-15 10:00:00",
-            "close_time": "2023-11-21 10:00:00",
-            "entry_price": 187.5496245921465,
-            "close_price": 184.5397729912695,
-            "profit": 780.6540018612278,
-            "reason": "TP"
-        },
-        {
-            "ticket": 360,
-            "symbol": "USDCAD",
-            "strategy": "PriceAction_SR",
-            "type": "BUY",
-            "lot_size": 0.39,
-            "entry_time": "2023-11-16 20:00:00",
-            "close_time": "2023-11-21 18:00:00",
-            "entry_price": 1.3760421787393777,
-            "close_price": 1.3680939721760461,
-            "profit": -229.13163017465678,
-            "reason": "SL"
-        },
-        {
-            "ticket": 364,
-            "symbol": "GBPJPY",
-            "strategy": "Hidden_Divergence",
-            "type": "SELL",
-            "lot_size": 0.34,
-            "entry_time": "2023-11-21 12:00:00",
-            "close_time": "2023-11-21 20:00:00",
-            "entry_price": 185.0791230731454,
-            "close_price": 185.82240783753414,
-            "profit": -227.8169311117331,
-            "reason": "SL"
-        },
-        {
-            "ticket": 365,
-            "symbol": "EURJPY",
-            "strategy": "Hidden_Divergence",
-            "type": "SELL",
-            "lot_size": 0.52,
-            "entry_time": "2023-11-21 22:00:00",
-            "close_time": "2023-11-22 08:00:00",
-            "entry_price": 161.899857545829,
-            "close_price": 162.38932410319424,
-            "profit": -230.1159104550735,
-            "reason": "SL"
-        },
-        {
-            "ticket": 366,
-            "symbol": "GBPJPY",
-            "strategy": "AVWAP_Confluence",
-            "type": "SELL",
-            "lot_size": 0.39,
-            "entry_time": "2023-11-22 13:00:00",
-            "close_time": "2023-11-23 11:00:00",
-            "entry_price": 186.4659139493993,
-            "close_price": 187.1054839842285,
-            "profit": -224.23278326757173,
-            "reason": "SL"
-        },
-        {
-            "ticket": 367,
-            "symbol": "EURUSD",
-            "strategy": "ADX_TrendStrength",
-            "type": "SELL",
-            "lot_size": 1.07,
-            "entry_time": "2023-11-23 16:00:00",
-            "close_time": "2023-11-23 20:30:00",
-            "entry_price": 1.0903491060728197,
-            "close_price": 1.0925197798545438,
-            "profit": -239.75209464448915,
-            "reason": "SL"
-        },
-        {
-            "ticket": 368,
-            "symbol": "GBPJPY",
-            "strategy": "AVWAP_Confluence",
-            "type": "SELL",
-            "lot_size": 2.27,
-            "entry_time": "2023-11-24 01:00:00",
-            "close_time": "2023-11-24 02:00:00",
-            "entry_price": 187.51136058450015,
-            "close_price": 187.6404681063865,
-            "profit": -269.28902297016816,
-            "reason": "SL"
-        },
-        {
-            "ticket": 369,
-            "symbol": "GBPJPY",
-            "strategy": "AVWAP_Confluence",
-            "type": "SELL",
-            "lot_size": 0.63,
-            "entry_time": "2023-11-24 07:00:00",
-            "close_time": "2023-11-24 10:00:00",
-            "entry_price": 187.2249302349663,
-            "close_price": 187.63216535429532,
-            "profit": -231.51231777273057,
-            "reason": "SL"
-        },
-        {
-            "ticket": 345,
-            "symbol": "USDCAD",
-            "strategy": "AVWAP_Confluence",
-            "type": "SELL",
-            "lot_size": 0.68,
-            "entry_time": "2023-11-01 22:00:00",
-            "close_time": "2023-11-24 16:00:00",
-            "entry_price": 1.3851208099361332,
-            "close_price": 1.3615273518897748,
-            "profit": 1174.184730572565,
-            "reason": "TP"
-        },
-        {
-            "ticket": 372,
-            "symbol": "USDCAD",
-            "strategy": "Bollinger Mean Reversion",
-            "type": "BUY",
-            "lot_size": 1.19,
-            "entry_time": "2023-11-28 13:00:00",
-            "close_time": "2023-11-28 19:00:00",
-            "entry_price": 1.3586918887509294,
-            "close_price": 1.3560007699619625,
-            "profit": -244.21395651765155,
-            "reason": "SL"
-        },
-        {
-            "ticket": 339,
-            "symbol": "XAUUSD",
-            "strategy": "Donchian_Breakout",
-            "type": "BUY",
-            "lot_size": 0.02,
-            "entry_time": "2023-10-30 00:00:00",
-            "close_time": "2023-11-29 02:15:00",
-            "entry_price": 2073.8683140626713,
-            "close_price": 2020.927551205612,
-            "profit": -105.95152571411866,
-            "reason": "Circuit Breaker"
-        },
-        {
-            "ticket": 361,
-            "symbol": "EURUSD",
-            "strategy": "Donchian_Breakout",
-            "type": "BUY",
-            "lot_size": 0.13,
-            "entry_time": "2023-11-20 00:00:00",
-            "close_time": "2023-11-29 02:15:00",
-            "entry_price": 1.102445652745626,
-            "close_price": 1.096050111751817,
-            "profit": -84.05203291951428,
-            "reason": "Circuit Breaker"
-        },
-        {
-            "ticket": 373,
-            "symbol": "EURUSD",
-            "strategy": "Hidden_Divergence",
-            "type": "SELL",
-            "lot_size": 0.29,
-            "entry_time": "2023-11-30 03:00:00",
-            "close_time": "2023-11-30 03:30:00",
-            "entry_price": 1.0931790953492244,
-            "close_price": 1.094112308578045,
-            "profit": -29.093183635799516,
-            "reason": "Circuit Breaker"
-        },
-        {
-            "ticket": 374,
-            "symbol": "NZDUSD",
-            "strategy": "AVWAP_Confluence",
-            "type": "SELL",
-            "lot_size": 0.77,
-            "entry_time": "2023-12-01 06:00:00",
-            "close_time": "2023-12-01 18:00:00",
-            "entry_price": 0.6161774978793966,
-            "close_price": 0.6192277027085513,
-            "profit": -240.25577184491544,
-            "reason": "SL"
-        },
-        {
-            "ticket": 371,
-            "symbol": "GBPJPY",
-            "strategy": "AVWAP_Confluence",
-            "type": "SELL",
-            "lot_size": 0.91,
-            "entry_time": "2023-11-27 00:00:00",
-            "close_time": "2023-12-04 17:00:00",
-            "entry_price": 188.40672774849708,
-            "close_price": 185.30862054528455,
-            "profit": 2506.775887396096,
-            "reason": "TP"
-        },
-        {
-            "ticket": 377,
-            "symbol": "EURUSD",
-            "strategy": "AVWAP_Confluence",
-            "type": "BUY",
-            "lot_size": 0.1,
-            "entry_time": "2023-12-05 11:00:00",
-            "close_time": "2023-12-05 14:00:00",
-            "entry_price": 1.1023131651941993,
-            "close_price": 1.1034911062700006,
-            "profit": 11.0794107580127,
-            "reason": "TP"
-        },
-        {
-            "ticket": 379,
-            "symbol": "XAUUSD",
-            "strategy": "Donchian_Breakout",
-            "type": "SELL",
-            "lot_size": 0.3,
-            "entry_time": "2023-12-05 20:00:00",
-            "close_time": "2023-12-06 08:15:00",
-            "entry_price": 2039.4446332194545,
-            "close_price": 2047.2319260791257,
-            "profit": -234.66878579013593,
-            "reason": "SL"
-        },
-        {
-            "ticket": 375,
-            "symbol": "EURJPY",
-            "strategy": "Hidden_Divergence",
-            "type": "SELL",
-            "lot_size": 0.63,
-            "entry_time": "2023-12-05 03:00:00",
-            "close_time": "2023-12-07 12:00:00",
-            "entry_price": 159.49498549380723,
-            "close_price": 156.03297136970357,
-            "profit": 1959.4026808806705,
-            "reason": "TP"
-        },
-        {
-            "ticket": 378,
-            "symbol": "AUDUSD",
-            "strategy": "Donchian_Breakout",
-            "type": "SELL",
-            "lot_size": 0.37,
-            "entry_time": "2023-12-05 16:00:00",
-            "close_time": "2023-12-07 19:00:00",
-            "entry_price": 0.6550315699935321,
-            "close_price": 0.6612337144346665,
-            "profit": -232.0693443219738,
-            "reason": "SL"
-        },
-        {
-            "ticket": 380,
-            "symbol": "USDCAD",
-            "strategy": "Donchian_Breakout",
-            "type": "BUY",
-            "lot_size": 0.64,
-            "entry_time": "2023-12-07 08:00:00",
-            "close_time": "2023-12-08 17:00:00",
-            "entry_price": 1.3601715605591054,
-            "close_price": 1.3552274538307083,
-            "profit": -237.44533058768138,
-            "reason": "SL"
-        },
-        {
-            "ticket": 383,
-            "symbol": "NZDUSD",
-            "strategy": "AVWAP_Confluence",
-            "type": "SELL",
-            "lot_size": 1.25,
-            "entry_time": "2023-12-11 04:00:00",
-            "close_time": "2023-12-12 03:00:00",
-            "entry_price": 0.6116654162326065,
-            "close_price": 0.6136725991111734,
-            "profit": -259.6478598208672,
-            "reason": "SL"
-        },
-        {
-            "ticket": 384,
-            "symbol": "NZDUSD",
-            "strategy": "ADX_TrendStrength",
-            "type": "SELL",
-            "lot_size": 0.68,
-            "entry_time": "2023-12-12 16:00:00",
-            "close_time": "2023-12-13 21:00:00",
-            "entry_price": 0.6111788553886193,
-            "close_price": 0.6147066361459795,
-            "profit": -244.6490915004981,
-            "reason": "SL"
-        },
-        {
-            "ticket": 376,
-            "symbol": "USDCHF",
-            "strategy": "Hidden_Divergence",
-            "type": "BUY",
-            "lot_size": 0.55,
-            "entry_time": "2023-12-05 03:00:00",
-            "close_time": "2023-12-14 03:00:00",
-            "entry_price": 0.8727418115164728,
-            "close_price": 0.8690553699347416,
-            "profit": -237.1234528288058,
-            "reason": "SL"
         },
         {
             "ticket": 386,
-            "symbol": "USDCHF",
-            "strategy": "AVWAP_Confluence",
-            "type": "BUY",
-            "lot_size": 0.8200000000000001,
-            "entry_time": "2023-12-14 07:00:00",
-            "close_time": "2023-12-14 17:00:00",
-            "entry_price": 0.8682890724983601,
-            "close_price": 0.865704269522396,
-            "profit": -250.4169376735102,
-            "reason": "SL"
-        },
-        {
-            "ticket": 370,
             "symbol": "USDCAD",
-            "strategy": "Donchian_Breakout",
-            "type": "SELL",
-            "lot_size": 0.63,
-            "entry_time": "2023-11-24 20:00:00",
-            "close_time": "2023-12-15 10:00:00",
-            "entry_price": 1.3617383809233692,
-            "close_price": 1.3382495224439412,
-            "profit": 1101.8901055643726,
+            "strategy": "Bollinger Mean Reversion",
+            "type": "BUY",
+            "lot_size": 0.81,
+            "entry_time": "2023-11-15 15:00:00",
+            "close_time": "2023-11-16 14:00:00",
+            "entry_price": 1.3683272761290457,
+            "close_price": 1.373024887793441,
+            "profit": 271.49743744064847,
             "reason": "TP"
         },
         {
             "ticket": 388,
-            "symbol": "USDCAD",
-            "strategy": "Bollinger Mean Reversion",
+            "symbol": "EURJPY",
+            "strategy": "Donchian_Breakout",
             "type": "BUY",
-            "lot_size": 0.68,
-            "entry_time": "2023-12-14 20:00:00",
-            "close_time": "2023-12-15 11:00:00",
-            "entry_price": 1.342030124851673,
-            "close_price": 1.3374077742791382,
-            "profit": -239.75845906094293,
+            "lot_size": 0.25,
+            "entry_time": "2023-11-15 20:00:00",
+            "close_time": "2023-11-16 18:00:00",
+            "entry_price": 164.20644907556024,
+            "close_price": 163.27275169015908,
+            "profit": -213.14511945031964,
             "reason": "SL"
+        },
+        {
+            "ticket": 384,
+            "symbol": "GBPJPY",
+            "strategy": "AVWAP_Confluence",
+            "type": "SELL",
+            "lot_size": 0.28,
+            "entry_time": "2023-11-15 10:00:00",
+            "close_time": "2023-11-17 10:00:00",
+            "entry_price": 187.54803053859138,
+            "close_price": 186.22438649563475,
+            "profit": 336.00233698054376,
+            "reason": "TP"
         },
         {
             "ticket": 390,
-            "symbol": "USDCAD",
-            "strategy": "Bollinger Mean Reversion",
-            "type": "BUY",
-            "lot_size": 1.09,
-            "entry_time": "2023-12-15 12:00:00",
-            "close_time": "2023-12-15 18:00:00",
-            "entry_price": 1.3381334041740138,
-            "close_price": 1.3351927825006118,
-            "profit": -247.28409238468558,
-            "reason": "SL"
-        },
-        {
-            "ticket": 392,
-            "symbol": "USDCAD",
-            "strategy": "AVWAP_Confluence",
-            "type": "BUY",
-            "lot_size": 1.18,
-            "entry_time": "2023-12-18 02:00:00",
-            "close_time": "2023-12-18 15:00:00",
-            "entry_price": 1.3380327837958326,
-            "close_price": 1.3352697960119222,
-            "profit": -252.23060560135312,
-            "reason": "SL"
-        },
-        {
-            "ticket": 381,
             "symbol": "EURJPY",
-            "strategy": "Donchian_Breakout",
-            "type": "SELL",
-            "lot_size": 0.14,
-            "entry_time": "2023-12-07 12:00:00",
-            "close_time": "2023-12-19 10:00:00",
-            "entry_price": 156.0055877980469,
-            "close_price": 157.8,
-            "profit": -222.90071327955164,
+            "strategy": "Smart_Swing_Bias",
+            "type": "BUY",
+            "lot_size": 0.33,
+            "entry_time": "2023-11-17 00:00:00",
+            "close_time": "2023-11-17 10:00:00",
+            "entry_price": 163.5477885228682,
+            "close_price": 162.81995913640935,
+            "profit": -219.53930518885085,
             "reason": "SL"
         },
         {
             "ticket": 387,
-            "symbol": "NZDUSD",
-            "strategy": "AVWAP_Confluence",
-            "type": "SELL",
-            "lot_size": 0.36,
-            "entry_time": "2023-12-14 10:00:00",
-            "close_time": "2023-12-19 15:00:00",
-            "entry_price": 0.6189705296380095,
-            "close_price": 0.625332258595993,
-            "profit": -231.54224248740533,
+            "symbol": "USDCHF",
+            "strategy": "Bollinger Mean Reversion",
+            "type": "BUY",
+            "lot_size": 0.8,
+            "entry_time": "2023-11-15 15:00:00",
+            "close_time": "2023-11-20 00:00:00",
+            "entry_price": 0.887856497337657,
+            "close_price": 0.8853123301558778,
+            "profit": -235.54224091095875,
             "reason": "SL"
         },
         {
-            "ticket": 393,
-            "symbol": "USDCAD",
+            "ticket": 364,
+            "symbol": "AUDUSD",
+            "strategy": "Donchian_Breakout",
+            "type": "BUY",
+            "lot_size": 0.39,
+            "entry_time": "2023-10-27 12:00:00",
+            "close_time": "2023-11-20 06:00:00",
+            "entry_price": 0.6356492602406044,
+            "close_price": 0.6550491660371078,
+            "profit": 753.8663260636331,
+            "reason": "TP"
+        },
+        {
+            "ticket": 391,
+            "symbol": "GBPJPY",
             "strategy": "AVWAP_Confluence",
             "type": "BUY",
-            "lot_size": 0.62,
-            "entry_time": "2023-12-18 17:00:00",
-            "close_time": "2023-12-19 15:00:00",
-            "entry_price": 1.3397776808556177,
-            "close_price": 1.3347865682991602,
-            "profit": -236.17519269120172,
+            "lot_size": 0.58,
+            "entry_time": "2023-11-17 14:00:00",
+            "close_time": "2023-11-20 11:00:00",
+            "entry_price": 185.66815765989958,
+            "close_price": 185.23445142838602,
+            "profit": -228.05649705687355,
+            "reason": "SL"
+        },
+        {
+            "ticket": 394,
+            "symbol": "AUDUSD",
+            "strategy": "Bollinger Mean Reversion",
+            "type": "SELL",
+            "lot_size": 0.89,
+            "entry_time": "2023-11-20 08:00:00",
+            "close_time": "2023-11-21 03:00:00",
+            "entry_price": 0.6546096988698707,
+            "close_price": 0.6571708968501674,
+            "profit": -234.1766202464007,
+            "reason": "SL"
+        },
+        {
+            "ticket": 396,
+            "symbol": "GBPJPY",
+            "strategy": "AVWAP_Confluence",
+            "type": "BUY",
+            "lot_size": 0.28,
+            "entry_time": "2023-11-20 16:00:00",
+            "close_time": "2023-11-21 10:00:00",
+            "entry_price": 185.44791579486278,
+            "close_price": 184.57589903081305,
+            "profit": -219.63664182461918,
             "reason": "SL"
         },
         {
             "ticket": 389,
-            "symbol": "USDCHF",
-            "strategy": "AVWAP_Confluence",
-            "type": "BUY",
-            "lot_size": 0.45,
-            "entry_time": "2023-12-14 21:00:00",
-            "close_time": "2023-12-19 16:00:00",
-            "entry_price": 0.8663680885256624,
-            "close_price": 0.8619228091041818,
-            "profit": -235.35222636233502,
-            "reason": "SL"
-        },
-        {
-            "ticket": 363,
-            "symbol": "AUDUSD",
-            "strategy": "Donchian_Breakout",
+            "symbol": "USDCAD",
+            "strategy": "PriceAction_SR",
             "type": "BUY",
             "lot_size": 0.38,
-            "entry_time": "2023-11-20 08:00:00",
-            "close_time": "2023-12-19 17:00:00",
-            "entry_price": 0.6549127835577919,
-            "close_price": 0.6766679354492018,
-            "profit": 824.0357718735748,
-            "reason": "TP"
-        },
-        {
-            "ticket": 396,
-            "symbol": "USDCAD",
-            "strategy": "AVWAP_Confluence",
-            "type": "BUY",
-            "lot_size": 2.04,
-            "entry_time": "2023-12-20 15:00:00",
-            "close_time": "2023-12-20 17:00:00",
-            "entry_price": 1.3342487217803336,
-            "close_price": 1.3325845247365262,
-            "profit": -269.1608517670728,
+            "entry_time": "2023-11-16 20:00:00",
+            "close_time": "2023-11-21 18:00:00",
+            "entry_price": 1.3760273640272203,
+            "close_price": 1.3680939721760461,
+            "profit": -222.84528904190702,
             "reason": "SL"
         },
         {
-            "ticket": 399,
-            "symbol": "USDCHF",
-            "strategy": "ADX_TrendStrength",
-            "type": "BUY",
-            "lot_size": 1.59,
-            "entry_time": "2023-12-20 23:00:00",
-            "close_time": "2023-12-21 00:00:00",
-            "entry_price": 0.862896265395551,
-            "close_price": 0.8615056092263628,
-            "profit": -267.6252913961038,
-            "reason": "SL"
-        },
-        {
-            "ticket": 395,
-            "symbol": "AUDUSD",
-            "strategy": "AVWAP_Confluence",
+            "ticket": 393,
+            "symbol": "GBPJPY",
+            "strategy": "Hidden_Divergence",
             "type": "SELL",
-            "lot_size": 2.36,
-            "entry_time": "2023-12-20 13:00:00",
-            "close_time": "2023-12-21 15:00:00",
-            "entry_price": 0.6769618901668509,
-            "close_price": 0.6780544800110367,
-            "profit": -274.371203227851,
+            "lot_size": 0.35000000000000003,
+            "entry_time": "2023-11-20 03:00:00",
+            "close_time": "2023-11-23 11:00:00",
+            "entry_price": 186.39200281693653,
+            "close_price": 187.08579560630287,
+            "profit": -218.19136084198766,
             "reason": "SL"
         },
         {
             "ticket": 398,
-            "symbol": "USDCAD",
-            "strategy": "AVWAP_Confluence",
-            "type": "BUY",
-            "lot_size": 0.5700000000000001,
-            "entry_time": "2023-12-20 22:00:00",
-            "close_time": "2023-12-21 16:00:00",
-            "entry_price": 1.3370196492402942,
-            "close_price": 1.3315716381062226,
-            "profit": -237.13436325843992,
-            "reason": "SL"
-        },
-        {
-            "ticket": 382,
-            "symbol": "XAUUSD",
-            "strategy": "Donchian_Breakout",
-            "type": "BUY",
-            "lot_size": 0.08,
-            "entry_time": "2023-12-07 16:00:00",
-            "close_time": "2023-12-21 23:30:00",
-            "entry_price": 2042.3543165200829,
-            "close_price": 2014.8815491010014,
-            "profit": -220.06213935265197,
-            "reason": "SL"
-        },
-        {
-            "ticket": 402,
-            "symbol": "USDCAD",
-            "strategy": "Hidden_Divergence",
-            "type": "BUY",
-            "lot_size": 0.8300000000000001,
-            "entry_time": "2023-12-26 02:00:00",
-            "close_time": "2023-12-26 15:00:00",
-            "entry_price": 1.3261217475411962,
-            "close_price": 1.3223947636542461,
-            "profit": -239.90994143851412,
-            "reason": "SL"
-        },
-        {
-            "ticket": 385,
-            "symbol": "EURUSD",
-            "strategy": "PriceAction_SR",
-            "type": "BUY",
-            "lot_size": 0.05,
-            "entry_time": "2023-12-14 04:00:00",
-            "close_time": "2023-12-27 02:00:00",
-            "entry_price": 1.1214085607716162,
-            "close_price": 1.1454452625113902,
-            "profit": 119.83350869887009,
-            "reason": "TP"
-        },
-        {
-            "ticket": 400,
-            "symbol": "AUDUSD",
+            "symbol": "GBPJPY",
             "strategy": "AVWAP_Confluence",
             "type": "SELL",
-            "lot_size": 0.8300000000000001,
-            "entry_time": "2023-12-22 18:00:00",
-            "close_time": "2023-12-27 04:00:00",
-            "entry_price": 0.6800796026280511,
-            "close_price": 0.6829229104698379,
-            "profit": -241.80455086830182,
+            "lot_size": 2.23,
+            "entry_time": "2023-11-24 01:00:00",
+            "close_time": "2023-11-24 02:00:00",
+            "entry_price": 187.51020557742163,
+            "close_price": 187.6404681063865,
+            "profit": -266.8406498762772,
             "reason": "SL"
         },
         {
-            "ticket": 401,
-            "symbol": "USDCHF",
+            "ticket": 399,
+            "symbol": "GBPJPY",
             "strategy": "AVWAP_Confluence",
-            "type": "BUY",
-            "lot_size": 0.48,
-            "entry_time": "2023-12-22 18:00:00",
-            "close_time": "2023-12-27 11:00:00",
-            "entry_price": 0.8568099387929169,
-            "close_price": 0.852697258574852,
-            "profit": -235.02766472693307,
+            "type": "SELL",
+            "lot_size": 0.62,
+            "entry_time": "2023-11-24 07:00:00",
+            "close_time": "2023-11-24 10:00:00",
+            "entry_price": 187.22214396377197,
+            "close_price": 187.63216535429532,
+            "profit": -229.3815187922443,
             "reason": "SL"
         },
         {
             "ticket": 397,
             "symbol": "EURJPY",
             "strategy": "AVWAP_Confluence",
-            "type": "SELL",
-            "lot_size": 0.31,
-            "entry_time": "2023-12-20 22:00:00",
-            "close_time": "2023-12-27 16:00:00",
-            "entry_price": 157.1138271868335,
-            "close_price": 157.95740796574765,
-            "profit": -235.23114411973933,
+            "type": "BUY",
+            "lot_size": 0.63,
+            "entry_time": "2023-11-21 12:00:00",
+            "close_time": "2023-11-27 01:00:00",
+            "entry_price": 161.54839356167858,
+            "close_price": 163.68029274200273,
+            "profit": 1190.0268075357726,
+            "reason": "TP"
+        },
+        {
+            "ticket": 401,
+            "symbol": "EURJPY",
+            "strategy": "AVWAP_Confluence",
+            "type": "BUY",
+            "lot_size": 0.67,
+            "entry_time": "2023-11-27 01:00:00",
+            "close_time": "2023-11-27 03:00:00",
+            "entry_price": 163.64781717186628,
+            "close_price": 163.26900569009055,
+            "profit": -227.64090251561754,
             "reason": "SL"
         },
         {
-            "ticket": 348,
+            "ticket": 402,
+            "symbol": "GBPJPY",
+            "strategy": "Hidden_Divergence",
+            "type": "BUY",
+            "lot_size": 0.48,
+            "entry_time": "2023-11-27 06:00:00",
+            "close_time": "2023-11-28 02:00:00",
+            "entry_price": 187.8671843313066,
+            "close_price": 187.33704441012728,
+            "profit": -227.95940919971295,
+            "reason": "SL"
+        },
+        {
+            "ticket": 403,
+            "symbol": "GBPJPY",
+            "strategy": "AVWAP_Confluence",
+            "type": "BUY",
+            "lot_size": 0.72,
+            "entry_time": "2023-11-28 11:00:00",
+            "close_time": "2023-11-28 18:00:00",
+            "entry_price": 187.59981251143017,
+            "close_price": 187.24339844284418,
+            "profit": -231.58774339047034,
+            "reason": "SL"
+        },
+        {
+            "ticket": 404,
+            "symbol": "USDCAD",
+            "strategy": "Bollinger Mean Reversion",
+            "type": "BUY",
+            "lot_size": 1.16,
+            "entry_time": "2023-11-28 13:00:00",
+            "close_time": "2023-11-28 19:00:00",
+            "entry_price": 1.3586840070321877,
+            "close_price": 1.3560007699619625,
+            "profit": -237.38386434162877,
+            "reason": "SL"
+        },
+        {
+            "ticket": 400,
+            "symbol": "GBPJPY",
+            "strategy": "AVWAP_Confluence",
+            "type": "SELL",
+            "lot_size": 0.9,
+            "entry_time": "2023-11-27 00:00:00",
+            "close_time": "2023-11-29 02:00:00",
+            "entry_price": 188.40541765226158,
+            "close_price": 186.79131027264228,
+            "profit": 1295.6794501502784,
+            "reason": "TP"
+        },
+        {
+            "ticket": 407,
+            "symbol": "EURUSD",
+            "strategy": "AVWAP_Confluence",
+            "type": "SELL",
+            "lot_size": 0.22,
+            "entry_time": "2023-11-29 06:00:00",
+            "close_time": "2023-11-29 07:15:00",
+            "entry_price": 1.0923974476057507,
+            "close_price": 1.0908045288114345,
+            "profit": 33.5042134749569,
+            "reason": "TP"
+        },
+        {
+            "ticket": 376,
             "symbol": "USDCHF",
             "strategy": "PriceAction_SR",
             "type": "SELL",
             "lot_size": 0.29,
             "entry_time": "2023-11-03 16:00:00",
-            "close_time": "2023-12-27 18:00:00",
-            "entry_price": 0.8991262523993908,
-            "close_price": 0.8460623542826406,
-            "profit": 1825.7601052187315,
+            "close_time": "2023-11-29 21:00:00",
+            "entry_price": 0.8991471429278257,
+            "close_price": 0.8726861771413204,
+            "profit": 876.8604122145612,
             "reason": "TP"
         },
         {
-            "ticket": 403,
-            "symbol": "NZDUSD",
+            "ticket": 406,
+            "symbol": "EURJPY",
             "strategy": "AVWAP_Confluence",
-            "type": "SELL",
-            "lot_size": 0.8200000000000001,
-            "entry_time": "2023-12-27 10:00:00",
-            "close_time": "2023-12-27 18:00:00",
-            "entry_price": 0.6314748165608661,
-            "close_price": 0.6343777803545265,
-            "profit": -243.7830310801525,
+            "type": "BUY",
+            "lot_size": 0.39,
+            "entry_time": "2023-11-29 05:00:00",
+            "close_time": "2023-11-30 00:00:00",
+            "entry_price": 162.0134082222781,
+            "close_price": 161.37781766914995,
+            "profit": -223.24431224504698,
             "reason": "SL"
         },
         {
-            "ticket": 406,
-            "symbol": "USDCAD",
+            "ticket": 411,
+            "symbol": "USDCHF",
             "strategy": "AVWAP_Confluence",
             "type": "BUY",
-            "lot_size": 1.49,
-            "entry_time": "2023-12-28 12:00:00",
-            "close_time": "2023-12-28 16:00:00",
-            "entry_price": 1.3213475529738106,
-            "close_price": 1.3192021144658996,
-            "profit": -252.7752414797769,
+            "lot_size": 0.64,
+            "entry_time": "2023-11-30 11:00:00",
+            "close_time": "2023-11-30 17:00:00",
+            "entry_price": 0.8751337377279305,
+            "close_price": 0.8720016236562866,
+            "profit": -234.79044335765775,
+            "reason": "SL"
+        },
+        {
+            "ticket": 412,
+            "symbol": "EURJPY",
+            "strategy": "AVWAP_Confluence",
+            "type": "BUY",
+            "lot_size": 0.4,
+            "entry_time": "2023-11-30 12:00:00",
+            "close_time": "2023-12-01 17:00:00",
+            "entry_price": 161.12980607873195,
+            "close_price": 160.51474050844223,
+            "profit": -220.7009934611783,
+            "reason": "SL"
+        },
+        {
+            "ticket": 410,
+            "symbol": "NZDUSD",
+            "strategy": "AVWAP_Confluence",
+            "type": "SELL",
+            "lot_size": 1.18,
+            "entry_time": "2023-11-30 08:00:00",
+            "close_time": "2023-12-01 18:00:00",
+            "entry_price": 0.6173267146932728,
+            "close_price": 0.6193827295796692,
+            "profit": -250.86975659477469,
+            "reason": "SL"
+        },
+        {
+            "ticket": 413,
+            "symbol": "USDCHF",
+            "strategy": "AVWAP_Confluence",
+            "type": "BUY",
+            "lot_size": 0.29,
+            "entry_time": "2023-11-30 19:00:00",
+            "close_time": "2023-12-01 20:00:00",
+            "entry_price": 0.8752225850060622,
+            "close_price": 0.868704875814246,
+            "profit": -219.70982237066085,
+            "reason": "SL"
+        },
+        {
+            "ticket": 408,
+            "symbol": "EURUSD",
+            "strategy": "AVWAP_Confluence",
+            "type": "SELL",
+            "lot_size": 0.22,
+            "entry_time": "2023-11-29 10:00:00",
+            "close_time": "2023-12-01 21:30:00",
+            "entry_price": 1.0908333686468035,
+            "close_price": 1.100669998606359,
+            "profit": -217.9458591102229,
+            "reason": "SL"
+        },
+        {
+            "ticket": 417,
+            "symbol": "XAUUSD",
+            "strategy": "Donchian_Breakout",
+            "type": "SELL",
+            "lot_size": 0.29,
+            "entry_time": "2023-12-05 20:00:00",
+            "close_time": "2023-12-06 08:15:00",
+            "entry_price": 2039.4352180774667,
+            "close_price": 2047.2319260791257,
+            "profit": -227.11953204811093,
             "reason": "SL"
         },
         {
             "ticket": 405,
+            "symbol": "EURJPY",
+            "strategy": "Donchian_Breakout",
+            "type": "SELL",
+            "lot_size": 0.33,
+            "entry_time": "2023-11-29 04:00:00",
+            "close_time": "2023-12-07 03:00:00",
+            "entry_price": 161.81545837135178,
+            "close_price": 158.15398034931346,
+            "profit": 1083.559113207744,
+            "reason": "TP"
+        },
+        {
+            "ticket": 416,
+            "symbol": "GBPJPY",
+            "strategy": "PriceAction_SR",
+            "type": "BUY",
+            "lot_size": 0.15,
+            "entry_time": "2023-12-04 20:00:00",
+            "close_time": "2023-12-07 05:00:00",
+            "entry_price": 185.83585872276862,
+            "close_price": 184.2250229772174,
+            "profit": -217.4182057886102,
+            "reason": "SL"
+        },
+        {
+            "ticket": 392,
+            "symbol": "EURUSD",
+            "strategy": "Donchian_Breakout",
+            "type": "BUY",
+            "lot_size": 0.13,
+            "entry_time": "2023-11-20 00:00:00",
+            "close_time": "2023-12-07 10:15:00",
+            "entry_price": 1.1024268735846465,
+            "close_price": 1.1128642531375088,
+            "profit": 134.77593418720966,
+            "reason": "TP"
+        },
+        {
+            "ticket": 409,
+            "symbol": "USDCHF",
+            "strategy": "Smart_Swing_Bias",
+            "type": "SELL",
+            "lot_size": 0.4,
+            "entry_time": "2023-11-30 00:00:00",
+            "close_time": "2023-12-07 14:00:00",
+            "entry_price": 0.8732038183649311,
+            "close_price": 0.8781048138803599,
+            "profit": -226.27086989700882,
+            "reason": "SL"
+        },
+        {
+            "ticket": 418,
+            "symbol": "EURJPY",
+            "strategy": "Donchian_Breakout",
+            "type": "SELL",
+            "lot_size": 0.24,
+            "entry_time": "2023-12-07 04:00:00",
+            "close_time": "2023-12-07 19:00:00",
+            "entry_price": 158.07749601858265,
+            "close_price": 154.46945789153722,
+            "profit": 778.328074704153,
+            "reason": "TP"
+        },
+        {
+            "ticket": 414,
+            "symbol": "USDCHF",
+            "strategy": "AVWAP_Confluence",
+            "type": "BUY",
+            "lot_size": 0.48,
+            "entry_time": "2023-12-04 03:00:00",
+            "close_time": "2023-12-08 16:00:00",
+            "entry_price": 0.8707355366855011,
+            "close_price": 0.8812364330294963,
+            "profit": 569.8265136538314,
+            "reason": "TP"
+        },
+        {
+            "ticket": 415,
+            "symbol": "NZDUSD",
+            "strategy": "AVWAP_Confluence",
+            "type": "SELL",
+            "lot_size": 0.9,
+            "entry_time": "2023-12-04 04:00:00",
+            "close_time": "2023-12-08 16:00:00",
+            "entry_price": 0.6202598249962165,
+            "close_price": 0.6104402868962594,
+            "profit": 877.4584289961355,
+            "reason": "TP"
+        },
+        {
+            "ticket": 419,
+            "symbol": "USDCAD",
+            "strategy": "Donchian_Breakout",
+            "type": "BUY",
+            "lot_size": 0.62,
+            "entry_time": "2023-12-07 08:00:00",
+            "close_time": "2023-12-08 17:00:00",
+            "entry_price": 1.360206512497482,
+            "close_price": 1.3552274538307083,
+            "profit": -231.62062591292494,
+            "reason": "SL"
+        },
+        {
+            "ticket": 420,
+            "symbol": "EURJPY",
+            "strategy": "Donchian_Breakout",
+            "type": "SELL",
+            "lot_size": 0.17,
+            "entry_time": "2023-12-07 20:00:00",
+            "close_time": "2023-12-11 02:00:00",
+            "entry_price": 155.03662085001287,
+            "close_price": 156.44198611359724,
+            "profit": -216.04876599968946,
+            "reason": "SL"
+        },
+        {
+            "ticket": 421,
+            "symbol": "GBPJPY",
+            "strategy": "Bollinger Mean Reversion",
+            "type": "BUY",
+            "lot_size": 0.16,
+            "entry_time": "2023-12-07 20:00:00",
+            "close_time": "2023-12-11 09:00:00",
+            "entry_price": 180.78553939450833,
+            "close_price": 183.07872472378614,
+            "profit": 330.12829997565194,
+            "reason": "TP"
+        },
+        {
+            "ticket": 424,
+            "symbol": "USDCHF",
+            "strategy": "AVWAP_Confluence",
+            "type": "SELL",
+            "lot_size": 0.97,
+            "entry_time": "2023-12-11 11:00:00",
+            "close_time": "2023-12-11 14:00:00",
+            "entry_price": 0.8790126589034817,
+            "close_price": 0.8811727620561115,
+            "profit": -244.5383584721525,
+            "reason": "SL"
+        },
+        {
+            "ticket": 423,
+            "symbol": "NZDUSD",
+            "strategy": "AVWAP_Confluence",
+            "type": "SELL",
+            "lot_size": 1.21,
+            "entry_time": "2023-12-11 04:00:00",
+            "close_time": "2023-12-12 03:00:00",
+            "entry_price": 0.6116372464499206,
+            "close_price": 0.6136725991111734,
+            "profit": -254.747672011598,
+            "reason": "SL"
+        },
+        {
+            "ticket": 422,
+            "symbol": "USDCHF",
+            "strategy": "AVWAP_Confluence",
+            "type": "BUY",
+            "lot_size": 0.74,
+            "entry_time": "2023-12-08 16:00:00",
+            "close_time": "2023-12-12 07:00:00",
+            "entry_price": 0.8795140027266855,
+            "close_price": 0.8767898128198724,
+            "profit": -235.0825524367476,
+            "reason": "SL"
+        },
+        {
+            "ticket": 426,
+            "symbol": "EURJPY",
+            "strategy": "Hidden_Divergence",
+            "type": "BUY",
+            "lot_size": 0.31,
+            "entry_time": "2023-12-11 17:00:00",
+            "close_time": "2023-12-12 07:00:00",
+            "entry_price": 157.33422200623002,
+            "close_price": 156.5496072667394,
+            "profit": -219.3909554795956,
+            "reason": "SL"
+        },
+        {
+            "ticket": 425,
+            "symbol": "GBPJPY",
+            "strategy": "Bollinger Mean Reversion",
+            "type": "SELL",
+            "lot_size": 0.4,
+            "entry_time": "2023-12-11 12:00:00",
+            "close_time": "2023-12-13 19:00:00",
+            "entry_price": 183.83282230583384,
+            "close_price": 181.6656340534085,
+            "profit": 776.3049902950977,
+            "reason": "TP"
+        },
+        {
+            "ticket": 428,
+            "symbol": "EURJPY",
+            "strategy": "AVWAP_Confluence",
+            "type": "BUY",
+            "lot_size": 0.5,
+            "entry_time": "2023-12-12 11:00:00",
+            "close_time": "2023-12-13 21:00:00",
+            "entry_price": 156.96622249973439,
+            "close_price": 156.45987695665553,
+            "profit": -228.65715542395034,
+            "reason": "SL"
+        },
+        {
+            "ticket": 429,
+            "symbol": "USDCHF",
+            "strategy": "Hidden_Divergence",
+            "type": "BUY",
+            "lot_size": 0.68,
+            "entry_time": "2023-12-13 01:00:00",
+            "close_time": "2023-12-13 21:00:00",
+            "entry_price": 0.8755012659511935,
+            "close_price": 0.8725345065610218,
+            "profit": -236.6952945260146,
+            "reason": "SL"
+        },
+        {
+            "ticket": 430,
+            "symbol": "NZDUSD",
+            "strategy": "Hidden_Divergence",
+            "type": "SELL",
+            "lot_size": 0.59,
+            "entry_time": "2023-12-13 03:00:00",
+            "close_time": "2023-12-13 21:00:00",
+            "entry_price": 0.6115927329516546,
+            "close_price": 0.6154676173634704,
+            "profit": -232.74818029713373,
+            "reason": "SL"
+        },
+        {
+            "ticket": 427,
+            "symbol": "USDCHF",
+            "strategy": "Smart_Swing_Bias",
+            "type": "SELL",
+            "lot_size": 0.28,
+            "entry_time": "2023-12-11 20:00:00",
+            "close_time": "2023-12-14 05:00:00",
+            "entry_price": 0.8784285002640745,
+            "close_price": 0.8674772706274512,
+            "profit": 351.48056367261773,
+            "reason": "TP"
+        },
+        {
+            "ticket": 383,
+            "symbol": "USDCAD",
+            "strategy": "Donchian_Breakout",
+            "type": "SELL",
+            "lot_size": 0.39,
+            "entry_time": "2023-11-14 20:00:00",
+            "close_time": "2023-12-14 10:00:00",
+            "entry_price": 1.370251554956293,
+            "close_price": 1.3454033597092756,
+            "profit": 717.0421388872891,
+            "reason": "TP"
+        },
+        {
+            "ticket": 432,
+            "symbol": "USDCHF",
+            "strategy": "AVWAP_Confluence",
+            "type": "BUY",
+            "lot_size": 0.8,
+            "entry_time": "2023-12-14 07:00:00",
+            "close_time": "2023-12-14 17:00:00",
+            "entry_price": 0.8682551362257002,
+            "close_price": 0.865704269522396,
+            "profit": -241.17515787908272,
+            "reason": "SL"
+        },
+        {
+            "ticket": 435,
+            "symbol": "EURUSD",
+            "strategy": "PriceAction_SR",
+            "type": "BUY",
+            "lot_size": 0.06,
+            "entry_time": "2023-12-14 12:00:00",
+            "close_time": "2023-12-15 01:00:00",
+            "entry_price": 1.1184082591122064,
+            "close_price": 1.121024386133737,
+            "profit": 15.276762129183473,
+            "reason": "TP"
+        },
+        {
+            "ticket": 438,
+            "symbol": "USDCAD",
+            "strategy": "Bollinger Mean Reversion",
+            "type": "BUY",
+            "lot_size": 0.67,
+            "entry_time": "2023-12-14 20:00:00",
+            "close_time": "2023-12-15 11:00:00",
+            "entry_price": 1.3420130271185968,
+            "close_price": 1.3374077742791382,
+            "profit": -235.37614040980543,
+            "reason": "SL"
+        },
+        {
+            "ticket": 440,
+            "symbol": "USDCAD",
+            "strategy": "Bollinger Mean Reversion",
+            "type": "BUY",
+            "lot_size": 1.06,
+            "entry_time": "2023-12-15 12:00:00",
+            "close_time": "2023-12-15 18:00:00",
+            "entry_price": 1.3381692225169306,
+            "close_price": 1.3351927825006118,
+            "profit": -243.31688045234492,
+            "reason": "SL"
+        },
+        {
+            "ticket": 441,
+            "symbol": "USDCAD",
+            "strategy": "AVWAP_Confluence",
+            "type": "BUY",
+            "lot_size": 1.1400000000000001,
+            "entry_time": "2023-12-18 02:00:00",
+            "close_time": "2023-12-18 15:00:00",
+            "entry_price": 1.3380046215313555,
+            "close_price": 1.3352697960119222,
+            "profit": -241.27799546184627,
+            "reason": "SL"
+        },
+        {
+            "ticket": 431,
+            "symbol": "GBPJPY",
+            "strategy": "Donchian_Breakout",
+            "type": "SELL",
+            "lot_size": 0.16,
+            "entry_time": "2023-12-13 20:00:00",
+            "close_time": "2023-12-19 10:00:00",
+            "entry_price": 181.4742495805331,
+            "close_price": 182.96135652436388,
+            "profit": -211.2129947262323,
+            "reason": "SL"
+        },
+        {
+            "ticket": 434,
+            "symbol": "NZDUSD",
+            "strategy": "AVWAP_Confluence",
+            "type": "SELL",
+            "lot_size": 0.36,
+            "entry_time": "2023-12-14 10:00:00",
+            "close_time": "2023-12-19 15:00:00",
+            "entry_price": 0.6189902285908954,
+            "close_price": 0.625332258595993,
+            "profit": -230.83308018351315,
+            "reason": "SL"
+        },
+        {
+            "ticket": 442,
+            "symbol": "USDCAD",
+            "strategy": "AVWAP_Confluence",
+            "type": "BUY",
+            "lot_size": 0.61,
+            "entry_time": "2023-12-18 17:00:00",
+            "close_time": "2023-12-19 15:00:00",
+            "entry_price": 1.3398015345793466,
+            "close_price": 1.3347865682991602,
+            "profit": -233.45604046462296,
+            "reason": "SL"
+        },
+        {
+            "ticket": 439,
+            "symbol": "USDCHF",
+            "strategy": "AVWAP_Confluence",
+            "type": "BUY",
+            "lot_size": 0.44,
+            "entry_time": "2023-12-14 21:00:00",
+            "close_time": "2023-12-19 16:00:00",
+            "entry_price": 0.866378882734177,
+            "close_price": 0.8619228091041818,
+            "profit": -230.67348994728275,
+            "reason": "SL"
+        },
+        {
+            "ticket": 395,
+            "symbol": "AUDUSD",
+            "strategy": "Donchian_Breakout",
+            "type": "BUY",
+            "lot_size": 0.38,
+            "entry_time": "2023-11-20 08:00:00",
+            "close_time": "2023-12-19 17:00:00",
+            "entry_price": 0.6548852349335186,
+            "close_price": 0.6766679354492018,
+            "profit": 825.082619595962,
+            "reason": "TP"
+        },
+        {
+            "ticket": 445,
+            "symbol": "USDCAD",
+            "strategy": "AVWAP_Confluence",
+            "type": "BUY",
+            "lot_size": 1.98,
+            "entry_time": "2023-12-20 15:00:00",
+            "close_time": "2023-12-20 17:00:00",
+            "entry_price": 1.3342238262518344,
+            "close_price": 1.3325845247365262,
+            "profit": -257.5436138913708,
+            "reason": "SL"
+        },
+        {
+            "ticket": 448,
+            "symbol": "USDCHF",
+            "strategy": "ADX_TrendStrength",
+            "type": "BUY",
+            "lot_size": 1.03,
+            "entry_time": "2023-12-20 23:00:00",
+            "close_time": "2023-12-21 13:00:00",
+            "entry_price": 0.86290106936381,
+            "close_price": 0.8608870115329534,
+            "profit": -248.63348339662778,
+            "reason": "SL"
+        },
+        {
+            "ticket": 444,
             "symbol": "AUDUSD",
             "strategy": "AVWAP_Confluence",
             "type": "SELL",
-            "lot_size": 1.36,
+            "lot_size": 2.3000000000000003,
+            "entry_time": "2023-12-20 13:00:00",
+            "close_time": "2023-12-21 15:00:00",
+            "entry_price": 0.6769688112855384,
+            "close_price": 0.6780544800110367,
+            "profit": -265.80380686461183,
+            "reason": "SL"
+        },
+        {
+            "ticket": 447,
+            "symbol": "USDCAD",
+            "strategy": "AVWAP_Confluence",
+            "type": "BUY",
+            "lot_size": 0.55,
+            "entry_time": "2023-12-20 22:00:00",
+            "close_time": "2023-12-21 16:00:00",
+            "entry_price": 1.337047434362387,
+            "close_price": 1.3315716381062226,
+            "profit": -229.9611859221781,
+            "reason": "SL"
+        },
+        {
+            "ticket": 451,
+            "symbol": "USDCAD",
+            "strategy": "Hidden_Divergence",
+            "type": "BUY",
+            "lot_size": 0.81,
+            "entry_time": "2023-12-26 02:00:00",
+            "close_time": "2023-12-26 15:00:00",
+            "entry_price": 1.3261459279352612,
+            "close_price": 1.3223947636542461,
+            "profit": -235.61120384608824,
+            "reason": "SL"
+        },
+        {
+            "ticket": 436,
+            "symbol": "USDCAD",
+            "strategy": "Donchian_Breakout",
+            "type": "SELL",
+            "lot_size": 0.48,
+            "entry_time": "2023-12-14 12:00:00",
+            "close_time": "2023-12-26 16:00:00",
+            "entry_price": 1.345068592218805,
+            "close_price": 1.3203496311521845,
+            "profit": 894.9668709856037,
+            "reason": "TP"
+        },
+        {
+            "ticket": 449,
+            "symbol": "AUDUSD",
+            "strategy": "AVWAP_Confluence",
+            "type": "SELL",
+            "lot_size": 0.81,
+            "entry_time": "2023-12-22 18:00:00",
+            "close_time": "2023-12-27 04:00:00",
+            "entry_price": 0.6800915734009051,
+            "close_price": 0.6829229104698379,
+            "profit": -235.00830258355626,
+            "reason": "SL"
+        },
+        {
+            "ticket": 450,
+            "symbol": "USDCHF",
+            "strategy": "AVWAP_Confluence",
+            "type": "BUY",
+            "lot_size": 0.47000000000000003,
+            "entry_time": "2023-12-22 18:00:00",
+            "close_time": "2023-12-27 11:00:00",
+            "entry_price": 0.8567834811963397,
+            "close_price": 0.852697258574852,
+            "profit": -228.67194527757002,
+            "reason": "SL"
+        },
+        {
+            "ticket": 446,
+            "symbol": "EURJPY",
+            "strategy": "AVWAP_Confluence",
+            "type": "SELL",
+            "lot_size": 0.3,
+            "entry_time": "2023-12-20 22:00:00",
+            "close_time": "2023-12-27 16:00:00",
+            "entry_price": 157.1166769528469,
+            "close_price": 157.95740796574765,
+            "profit": -226.87757106880542,
+            "reason": "SL"
+        },
+        {
+            "ticket": 433,
+            "symbol": "USDCHF",
+            "strategy": "Donchian_Breakout",
+            "type": "SELL",
+            "lot_size": 0.44,
+            "entry_time": "2023-12-14 08:00:00",
+            "close_time": "2023-12-27 18:00:00",
+            "entry_price": 0.869164915296188,
+            "close_price": 0.8457209425063379,
+            "profit": 1222.1371260373965,
+            "reason": "TP"
+        },
+        {
+            "ticket": 453,
+            "symbol": "NZDUSD",
+            "strategy": "AVWAP_Confluence",
+            "type": "SELL",
+            "lot_size": 0.8,
+            "entry_time": "2023-12-27 10:00:00",
+            "close_time": "2023-12-27 18:00:00",
+            "entry_price": 0.6314525757963088,
+            "close_price": 0.6343777803545265,
+            "profit": -239.61636465742114,
+            "reason": "SL"
+        },
+        {
+            "ticket": 456,
+            "symbol": "USDCAD",
+            "strategy": "AVWAP_Confluence",
+            "type": "BUY",
+            "lot_size": 1.46,
+            "entry_time": "2023-12-28 12:00:00",
+            "close_time": "2023-12-28 16:00:00",
+            "entry_price": 1.3213581265016578,
+            "close_price": 1.3192021144658996,
+            "profit": -248.85612789366698,
+            "reason": "SL"
+        },
+        {
+            "ticket": 455,
+            "symbol": "AUDUSD",
+            "strategy": "AVWAP_Confluence",
+            "type": "SELL",
+            "lot_size": 1.33,
             "entry_time": "2023-12-28 07:00:00",
             "close_time": "2023-12-28 17:00:00",
-            "entry_price": 0.684480405864574,
+            "entry_price": 0.6844968137735529,
             "close_price": 0.6862759874429216,
-            "profit": -253.71909465527125,
+            "profit": -245.94009802604376,
+            "reason": "SL"
+        },
+        {
+            "ticket": 366,
+            "symbol": "XAUUSD",
+            "strategy": "Donchian_Breakout",
+            "type": "BUY",
+            "lot_size": 0.02,
+            "entry_time": "2023-10-30 00:00:00",
+            "close_time": "2023-12-29 20:30:00",
+            "entry_price": 2073.895329467935,
+            "close_price": 1983.04,
+            "profit": -181.78065893587,
             "reason": "SL"
         }
     ],
-    "total_trades": 402
+    "total_trades": 452
 }
