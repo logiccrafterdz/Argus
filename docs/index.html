@@ -899,23 +899,10 @@
             ];
 
             let html = '';
+            const allPos = (tr.total_return || 0) > 0 && (va.total_return || 0) > 0 && (te.total_return || 0) > 0;
+            const stable = allPos ? 'YES ✓' : 'CHECK';
+            const stableColor = allPos ? 'var(--success)' : 'var(--warning)';
             metrics.forEach(m => {
-                let verdict, verdictColor;
-                    verdict = parseFloat(m.change) >= 0 ? '✅ Improved' : '⚠️ Degraded';
-                    verdictColor = parseFloat(m.change) >= 0 ? 'var(--success)' : 'var(--warning)';
-                } else if (m.good === 'down') {
-                    verdict = parseFloat(m.change) <= 0 ? '✅ Improved' : '⚠️ Degraded';
-                    verdictColor = parseFloat(m.change) <= 0 ? 'var(--success)' : 'var(--warning)';
-                } else {
-                    verdict = '—';
-                    verdictColor = 'var(--text-muted)';
-                }
-                const changeColor = m.good === 'up' ? (parseFloat(m.change) >= 0 ? 'var(--success)' : 'var(--danger)')
-                    : m.good === 'down' ? (parseFloat(m.change) <= 0 ? 'var(--success)' : 'var(--danger)')
-                    : 'var(--text-muted)';
-                let allPos = (tr.total_return || 0) > 0 && (va.total_return || 0) > 0 && (te.total_return || 0) > 0;
-                let stable = allPos ? 'YES ✓' : 'CHECK';
-                let stableColor = allPos ? 'var(--success)' : 'var(--warning)';
                 html += '<tr>' +
                     '<td style="font-weight:600;">' + m.label + '</td>' +
                     '<td class="text-mono">' + m.train + '</td>' +
