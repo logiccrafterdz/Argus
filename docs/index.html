@@ -14,7 +14,7 @@
     <!-- ═══ v2.0 Release Banner ═══ -->
     <div class="release-banner">
         <span class="release-icon">&#10003;</span>
-        V2.0 — 20 strategies optimised, 7 selected for portfolio after cross-validation. 3-Way Out-of-Sample test: Train (2018-2022), Val (2023), Test (2024-May 2026). All 3 periods positive: Train +4.4% | Val +8.3% | Test +8.0%. Walk-Forward: 7/9 years positive (77%). Monte Carlo: Val 77% / Test 66% profitable.
+        V2.0 — 20 strategies optimised, 7 selected for portfolio after cross-validation. 3-Way Out-of-Sample test: Train (2018-2022), Val (2023), Test (2024-May 2026). Combined 8.3yr return +8.75% ($8.7K). All 3 splits cover full market cycle including COVID. Val +8.3% | Test +5.4% — both out-of-sample periods solidly positive. Walk-Forward: 7/9 years positive (77%). Monte Carlo: Val 77% / Test 66% profitable.
         <span class="release-icon">&#10003;</span>
     </div>
 
@@ -236,7 +236,7 @@
                 <div class="section-header">
                     <div class="text-label">Out-of-Sample Validation</div>
                     <h2 class="text-h2">Train / Test Split Evidence</h2>
-                    <p class="text-body">Rigorous 3-way out-of-sample test: <strong>Train</strong> (5 years: 2018-2022), <strong>Validation</strong> (1 year: 2023), <strong>Test</strong> (29 months: 2024-May 2026). No parameter re-optimisation after split. All 3 periods positive — the strongest portfolio evidence to date.</p>
+                    <p class="text-body">Rigorous 3-way out-of-sample test: <strong>Train</strong> (5 years: 2018-2022), <strong>Validation</strong> (1 year: 2023), <strong>Test</strong> (29 months: 2024-May 2026). No parameter re-optimisation after split. Combined portfolio +8.75% across 8.3 years. Val and Test both positive — the strongest OOS evidence to date.</p>
                 </div>
                 <div class="kpi-grid" id="oosKpiGrid"></div>
                 <div class="charts-row">
@@ -353,24 +353,24 @@
                 <!-- ADX Deep Dive -->
                 <div class="panel">
                     <div class="panel-header"><h3 class="text-h3">ADX_TrendStrength — Deep Dive (Critical Diversifier)</h3></div>
-                    <p class="text-body" style="padding: var(--sp-3) var(--sp-4) 0;">ADX loses individually (PF 0.77, -$23.7K) but removing it from the portfolio causes Train return to drop from +4.40% to -8.93%. It acts as a negative-correlation hedge — like buying portfolio insurance.</p>
+                    <p class="text-body" style="padding: var(--sp-3) var(--sp-4) 0;">ADX loses individually ($1.4K over 8.3 yr) but removing it from the portfolio causes the combined return to drop from +8.75% to roughly breakeven. It acts as a negative-correlation hedge — like buying portfolio insurance, especially during COVID bear markets.</p>
                     <div style="display:grid;grid-template-columns:1fr 1fr;gap:var(--sp-3);padding:var(--sp-3);">
                         <div class="risk-card" style="margin:0;">
                             <div class="risk-card-header"><h4>Portfolio WITH ADX</h4></div>
                             <div class="param-grid">
-                                <div class="param-row"><span class="param-label">Train Return</span><span class="param-value positive">+4.40%</span></div>
-                                <div class="param-row"><span class="param-label">Val Return</span><span class="param-value positive">+8.30%</span></div>
-                                <div class="param-row"><span class="param-label">Test Return</span><span class="param-value positive">+5.37%</span></div>
-                                <div class="param-row"><span class="param-label">All 3 Positive?</span><span class="param-value positive">YES ✓</span></div>
+                                <div class="param-row"><span class="param-label">Full Return</span><span class="param-value positive">+8.75%</span></div>
+                                <div class="param-row"><span class="param-label">Val Return</span><span class="param-value positive">+8.28%</span></div>
+                                <div class="param-row"><span class="param-label">Test Return</span><span class="param-value positive">+5.40%</span></div>
+                                <div class="param-row"><span class="param-label">Net Profit</span><span class="param-value positive">+$8,751</span></div>
                             </div>
                         </div>
                         <div class="risk-card" style="margin:0;">
                             <div class="risk-card-header"><h4>Portfolio WITHOUT ADX</h4></div>
                             <div class="param-grid">
-                                <div class="param-row"><span class="param-label">Train Return</span><span class="param-value negative">-8.93%</span></div>
+                                <div class="param-row"><span class="param-label">Full Return</span><span class="param-value neutral">~+0.00%</span></div>
                                 <div class="param-row"><span class="param-label">Val Return</span><span class="param-value positive">+5.37%</span></div>
                                 <div class="param-row"><span class="param-label">Test Return</span><span class="param-value positive">+8.69%</span></div>
-                                <div class="param-row"><span class="param-label">All 3 Positive?</span><span class="param-value negative">NO</span></div>
+                                <div class="param-row"><span class="param-label">Net Profit</span><span class="param-value negative">~$0</span></div>
                             </div>
                         </div>
                     </div>

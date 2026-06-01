@@ -1,7 +1,7 @@
 import os
+import sys
 import pandas as pd
 import json
-import sys
 from engine import BacktestEngine
 from analytics import calculate_metrics
 import numpy as np
@@ -249,6 +249,7 @@ def run_oos(mode):
         'mode': mode,
         'portfolio': port_metrics,
         'equity_curve': engine.equity_curve,
+        'all_trades': engine.closed_trades,
         'recent_trades': engine.closed_trades[-100:],
         'total_trades': len(engine.closed_trades),
     }
@@ -283,6 +284,87 @@ def fmt_val(k, v):
         return f"{v:>7.2f}%"
     return f"{v:>8.2f}"
 
+def combine_results():
+    """Load individual OOS splits and combine into main results.json for dashboard."""
+    abs_dir = os.path.abspath(RESULTS_DIR)
+    splits = {}
+    for mode in ['train', 'validation', 'test']:
+        with open(os.path.join(abs_dir, f'oos_{mode}.json')) as f:
+            splits[mode] = json.load(f)
+
+    # Merge equity curves chronologically
+    all_equity = []
+    for mode in ['train', 'validation', 'test']:
+        all_equity.extend(splits[mode].get('equity_curve', []))
+    # Deduplicate by date (keep first occurrence)
+    seen_dates = set()
+    merged_equity = []
+    for pt in all_equity:
+        if pt['date'] not in seen_dates:
+            seen_dates.add(pt['date'])
+            merged_equity.append(pt)
+
+    # Merge all trades
+    all_trades = []
+    for mode in ['train', 'validation', 'test']:
+        all_trades.extend(splits[mode].get('all_trades', []))
+
+    # Calculate combined portfolio metrics
+    if all_trades:
+        port_metrics = calculate_metrics(all_trades, merged_equity, 100000.0)
+    else:
+        port_metrics = splits['train'].get('portfolio', {})
+
+    # Strategy metrics from all trades combined
+    df_trades = pd.DataFrame(all_trades)
+    strat_metrics = []
+    if not df_trades.empty:
+        strategy_names = [
+            'AVWAP_Confluence', 'ADX_TrendStrength', 'Hidden_Divergence',
+            'Donchian_Breakout', 'Bollinger Mean Reversion',
+            'Smart_Swing_Bias', 'PriceAction_SR',
+        ]
+        for sname in strategy_names:
+            st = df_trades[df_trades['strategy'] == sname]
+            if st.empty:
+                strat_metrics.append({'name': sname, 'category': '', 'total_trades': 0, 'win_rate': 0.0, 'profit_factor': 0.0, 'net_profit': 0.0})
+            else:
+                wins = st[st['profit'] > 0]
+                losses = st[st['profit'] <= 0]
+                wr = len(wins) / len(st) * 100
+                gp = wins['profit'].sum()
+                gl = abs(losses['profit'].sum())
+                pf = gp / gl if gl > 0 else float('inf')
+                strat_metrics.append({
+                    'name': sname,
+                    'category': '',
+                    'total_trades': len(st),
+                    'win_rate': round(wr, 2),
+                    'profit_factor': round(pf, 2),
+                    'net_profit': round(st['profit'].sum(), 2),
+                })
+    # Ensure all values are JSON-safe
+    for k, v in port_metrics.items():
+        if hasattr(v, 'item'):
+            port_metrics[k] = v.item()
+    for s in strat_metrics:
+        for k, v in s.items():
+            if hasattr(v, 'item'):
+                s[k] = v.item()
+
+    results = {
+        'portfolio': port_metrics,
+        'strategies': strat_metrics,
+        'equity_curve': merged_equity,
+        'recent_trades': all_trades[-100:],
+    }
+
+    out_path = os.path.join(abs_dir, 'results.json')
+    with open(out_path, 'w') as f:
+        json.dump(results, f, indent=4, cls=NumpyEncoder)
+    print(f"\nCombined results saved to {out_path}")
+    print(f"Total trades: {len(all_trades)}, Equity points: {len(merged_equity)}")
+
 if __name__ == "__main__":
     mode = sys.argv[1] if len(sys.argv) > 1 else 'all'
     if mode == 'all':
@@ -303,5 +385,8 @@ if __name__ == "__main__":
             if k == 'profit_factor':
                 stable = "YES" if all(v > 1.0 for v in vals) else "NO" if any(v < 1.0 for v in vals) else "CHECK"
             print(f"{k:<20} {fmt_val(k, tv):<20} {fmt_val(k, vv):<20} {fmt_val(k, tsv):<20} {stable:<10}")
+        combine_results()
+    elif mode == 'combine':
+        combine_results()
     else:
         run_oos(mode)
