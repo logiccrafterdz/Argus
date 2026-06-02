@@ -932,24 +932,74 @@
         }
 
         /* ═══ Portfolio KPI ═══ */
+        function renderSparkline(canvasId, data, color, negative) {
+            const canvas = document.getElementById(canvasId);
+            if (!canvas || data.length < 2) return;
+            const ctx = canvas.getContext('2d');
+            if (!ctx) return;
+            const w = canvas.width, h = canvas.height;
+            const min = Math.min(...data);
+            const max = Math.max(...data);
+            const range = (max - min) || 1;
+            ctx.clearRect(0, 0, w, h);
+            ctx.beginPath();
+            data.forEach((v, i) => {
+                const x = (i / (data.length - 1)) * w;
+                const y = h - ((v - min) / range) * (h - 4) - 2;
+                i === 0 ? ctx.moveTo(x, y) : ctx.lineTo(x, y);
+            });
+            ctx.strokeStyle = color || '#0ea5a0';
+            ctx.lineWidth = 1.5;
+            ctx.stroke();
+            // subtle fill
+            ctx.lineTo(w, h);
+            ctx.lineTo(0, h);
+            ctx.closePath();
+            ctx.fillStyle = (color || '#0ea5a0') + '12';
+            ctx.fill();
+        }
+
         function renderPortfolioKPI() {
             const p = portfolioData.portfolio;
+            const eq = portfolioData.equity_curve || [];
+            const eqValues = eq.map(d => d.equity);
+            const ddValues = (() => {
+                if (!eqValues.length) return [];
+                let peak = eqValues[0];
+                return eqValues.map(e => { if (e > peak) peak = e; return ((e - peak) / peak) * 100; });
+            })();
+
             const g = document.getElementById('kpiGrid');
             g.innerHTML = `
-                <div class="kpi-tile animate-in">
+                <div class="kpi-tile animate-in" style="border-left: 3px solid var(--success);">
                     <div class="text-label">Total Return</div>
-                    <div class="kpi-value ${p.total_return >= 0 ? 'positive' : 'negative'}">${p.total_return.toFixed(2)}%</div>
-                    <div class="kpi-sub">${p.net_profit >= 0 ? '+' : ''}$${Math.abs(p.net_profit).toLocaleString(undefined, {maximumFractionDigits: 0})}</div>
+                    <div class="kpi-tile-row">
+                        <div>
+                            <div class="kpi-value ${p.total_return >= 0 ? 'positive' : 'negative'}">${p.total_return.toFixed(2)}%</div>
+                            <div class="kpi-sub">${p.net_profit >= 0 ? '+' : ''}$${Math.abs(p.net_profit).toLocaleString(undefined, {maximumFractionDigits: 0})}</div>
+                        </div>
+                    </div>
+                    <canvas class="kpi-sparkline" id="sparkReturn" width="300" height="48"></canvas>
                 </div>
-                <div class="kpi-tile animate-in">
+                <div class="kpi-tile animate-in" style="border-left: 3px solid var(--danger);">
                     <div class="text-label">Max Drawdown</div>
-                    <div class="kpi-value negative">${p.max_drawdown.toFixed(2)}%</div>
-                    <div class="kpi-sub">${p.max_dd_duration} bars duration</div>
+                    <div class="kpi-tile-row">
+                        <div>
+                            <div class="kpi-value negative">${p.max_drawdown.toFixed(2)}%</div>
+                            <div class="kpi-sub">${p.max_dd_duration} bars duration</div>
+                        </div>
+                    </div>
+                    <canvas class="kpi-sparkline" id="sparkDD" width="300" height="48"></canvas>
                 </div>
-                <div class="kpi-tile animate-in">
+                <div class="kpi-tile animate-in" style="border-left: 3px solid var(--accent-teal);">
                     <div class="text-label">Recovery Factor</div>
-                    <div class="kpi-value neutral">${p.recovery_factor.toFixed(2)}</div>
-                    <div class="kpi-sub">Net profit / Max DD</div>
+                    <div class="kpi-tile-row">
+                        <div>
+                            <div class="kpi-value neutral">${p.recovery_factor.toFixed(2)}</div>
+                            <div class="kpi-sub">Net profit / Max DD</div>
+                        </div>
+                    </div>
+                    <canvas class="kpi-sparkline" id="sparkRF" width="300" height="48"></canvas>
                 </div>`;
             const s = document.getElementById('kpiSecondary');
             s.innerHTML = `
@@ -965,6 +1015,13 @@
                     <div class="text-label">Sharpe Ratio</div>
                     <div class="kpi-value neutral">${p.sharpe_ratio.toFixed(2)}</div>
                 </div>`;
+
+            // Render sparklines after DOM update
+            requestAnimationFrame(() => {
+                renderSparkline('sparkReturn', eqValues, '#16a34a');
+                renderSparkline('sparkDD', ddValues, '#dc2626');
+                renderSparkline('sparkRF', eqValues, '#0ea5a0');
+            });
         }
 
         /* ═══ Risk Metrics ═══ */

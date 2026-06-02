@@ -470,7 +470,7 @@ body {
 /* ─── KPI Grid ─── */
 .kpi-grid {
   display: grid;
-  grid-template-columns: repeat(6, 1fr);
+  grid-template-columns: repeat(3, 1fr);
   gap: var(--sp-4);
 }
 
@@ -480,6 +480,9 @@ body {
   border-radius: var(--radius-md);
   padding: var(--sp-5);
   transition: border-color var(--duration-fast) var(--ease-out);
+  display: flex;
+  flex-direction: column;
+  gap: var(--sp-3);
 }
 
 .kpi-tile:hover {
@@ -487,7 +490,14 @@ body {
 }
 
 .kpi-tile .text-label {
-  margin-bottom: var(--sp-3);
+  font-size: 0.688rem;
+}
+
+.kpi-tile-row {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: var(--sp-3);
 }
 
 .kpi-value {
@@ -505,7 +515,12 @@ body {
 .kpi-sub {
   font-size: 0.75rem;
   color: var(--text-muted);
-  margin-top: var(--sp-2);
+  margin-top: var(--sp-1);
+}
+
+.kpi-sparkline {
+  width: 100%;
+  height: 48px;
 }
 
 .kpi-secondary {
@@ -519,6 +534,7 @@ body {
   background: transparent;
   border: 1px solid var(--border-subtle);
   padding: var(--sp-3) var(--sp-4);
+  gap: var(--sp-2);
 }
 
 .kpi-secondary .kpi-value {
