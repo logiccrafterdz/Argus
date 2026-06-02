@@ -259,29 +259,12 @@
                 <div class="kpi-grid" id="oosKpiGrid"></div>
                 <div class="charts-row">
                     <div class="panel">
-                        <div class="panel-header"><h3 class="text-h3">Train + Val + Test Equity Curves</h3></div>
+                        <div class="panel-header"><h3 class="text-h3">OOS Equity Curves</h3></div>
                         <div class="chart-container"><canvas id="oosEquityChart"></canvas></div>
-                </div>
-                <div class="panel" style="margin-top: var(--sp-4);">
-                    <div class="panel-header"><h3 class="text-h3">OOS Drawdown Profile</h3></div>
-                    <div class="chart-container"><canvas id="oosDrawdownChart"></canvas></div>
-                </div>
-                </div>
-                <div class="panel" style="margin-top: var(--sp-4);">
-                    <div class="panel-header"><h3 class="text-h3">Train vs Test — Full Metric Comparison</h3></div>
-                    <div class="table-wrapper">
-                        <table class="data-table" id="oosComparisonTable">
-                            <thead>
-                                <tr>
-                                    <th>Metric</th>
-                                    <th>Train (2018-2022)</th>
-                                    <th>Val (2023)</th>
-                                    <th>Test (2024-May 2026)</th>
-                                    <th>Status</th>
-                                </tr>
-                            </thead>
-                            <tbody id="oosComparisonBody"></tbody>
-                        </table>
+                    </div>
+                    <div class="panel">
+                        <div class="panel-header"><h3 class="text-h3">OOS Drawdown Profile</h3></div>
+                        <div class="chart-container"><canvas id="oosDrawdownChart"></canvas></div>
                     </div>
                 </div>
             </div>
@@ -298,24 +281,61 @@
 
                 <!-- WFA -->
                 <div class="panel" style="margin-bottom: var(--sp-4);">
-                    <div class="panel-header"><h3 class="text-h3">Walk-Forward Analysis — Yearly Breakdown</h3></div>
-                    <p class="text-body" style="padding: var(--sp-3) var(--sp-4) 0;">Tests the same fixed parameters across 9 sequential years. 7/9 years positive (77%). Only 2 negative years (2019-2020, COVID).</p>
-                    <div class="table-wrapper" style="padding: var(--sp-3);">
-                        <table class="data-table">
-                            <thead><tr><th>Year</th><th>Trades</th><th>Net PnL</th><th>Win%</th><th>PF</th><th>Avg Win</th><th>Avg Loss</th></tr></thead>
-                            <tbody>
-                                <tr><td>2018</td><td>589</td><td class="positive">+$5,152</td><td>27.3%</td><td>1.056</td><td>$607</td><td class="negative">$-216</td></tr>
-                                <tr><td>2019</td><td>546</td><td class="negative">-$14,731</td><td>24.4%</td><td>0.829</td><td>$538</td><td class="negative">$-209</td></tr>
-                                <tr><td>2020</td><td>566</td><td class="negative">-$10,111</td><td>24.9%</td><td>0.877</td><td>$510</td><td class="negative">$-193</td></tr>
-                                <tr><td>2021</td><td>525</td><td class="positive">+$10,002</td><td>28.8%</td><td>1.145</td><td>$524</td><td class="negative">$-185</td></tr>
-                                <tr><td>2022</td><td>315</td><td class="positive">+$2,672</td><td>31.1%</td><td>1.065</td><td>$446</td><td class="negative">$-189</td></tr>
-                                <tr><td>2023</td><td>220</td><td class="positive">+$5,844</td><td>36.8%</td><td>1.207</td><td>$420</td><td class="negative">$-203</td></tr>
-                                <tr><td>2024</td><td>292</td><td class="positive">+$581</td><td>27.1%</td><td>1.013</td><td>$585</td><td class="negative">$-214</td></tr>
-                                <tr><td>2025</td><td>425</td><td class="positive">+$1,900</td><td>26.8%</td><td>1.029</td><td>$594</td><td class="negative">$-212</td></tr>
-                                <tr><td>2026</td><td>201</td><td class="positive">+$1,459</td><td>30.3%</td><td>1.049</td><td>$510</td><td class="negative">$-212</td></tr>
-                                <tr style="border-top: 2px solid var(--accent-teal); font-weight: 700;"><td>Total/AVG</td><td>3,679</td><td class="positive">+$2,767</td><td>28.6%</td><td>1.01</td><td>$526</td><td class="negative">$-204</td></tr>
-                            </tbody>
-                        </table>
+                    <div class="panel-header"><h3 class="text-h3">Walk-Forward Analysis — Yearly Heatmap</h3></div>
+                    <p class="text-body" style="padding: var(--sp-3) var(--sp-4) 0;">Same fixed parameters tested across 9 sequential years. Green = profitable, red = losing year.</p>
+                    <div style="padding: var(--sp-3);">
+                        <div class="wfa-grid">
+                            <div class="wfa-cell" style="background:rgba(34,197,94,0.08);border-color:rgba(34,197,94,0.2);">
+                                <span class="wfa-cell-year">2018</span>
+                                <span class="wfa-cell-pnl positive">+$5,152</span>
+                                <span class="wfa-cell-sub">PF <span class="pf">1.06</span> &middot; 589 trades</span>
+                            </div>
+                            <div class="wfa-cell" style="background:rgba(239,68,68,0.08);border-color:rgba(239,68,68,0.2);">
+                                <span class="wfa-cell-year">2019</span>
+                                <span class="wfa-cell-pnl negative">-$14,731</span>
+                                <span class="wfa-cell-sub">PF <span class="pf">0.83</span> &middot; 546 trades</span>
+                            </div>
+                            <div class="wfa-cell" style="background:rgba(239,68,68,0.10);border-color:rgba(239,68,68,0.25);">
+                                <span class="wfa-cell-year">2020</span>
+                                <span class="wfa-cell-pnl negative">-$10,111</span>
+                                <span class="wfa-cell-sub">PF <span class="pf">0.88</span> &middot; 566 trades</span>
+                            </div>
+                            <div class="wfa-cell" style="background:rgba(34,197,94,0.12);border-color:rgba(34,197,94,0.28);">
+                                <span class="wfa-cell-year">2021</span>
+                                <span class="wfa-cell-pnl positive">+$10,002</span>
+                                <span class="wfa-cell-sub">PF <span class="pf">1.15</span> &middot; 525 trades</span>
+                            </div>
+                            <div class="wfa-cell" style="background:rgba(34,197,94,0.06);border-color:rgba(34,197,94,0.16);">
+                                <span class="wfa-cell-year">2022</span>
+                                <span class="wfa-cell-pnl positive">+$2,672</span>
+                                <span class="wfa-cell-sub">PF <span class="pf">1.07</span> &middot; 315 trades</span>
+                            </div>
+                            <div class="wfa-cell" style="background:rgba(34,197,94,0.14);border-color:rgba(34,197,94,0.30);">
+                                <span class="wfa-cell-year">2023</span>
+                                <span class="wfa-cell-pnl positive">+$5,844</span>
+                                <span class="wfa-cell-sub">PF <span class="pf">1.21</span> &middot; 220 trades</span>
+                            </div>
+                            <div class="wfa-cell" style="background:rgba(34,197,94,0.04);border-color:rgba(34,197,94,0.12);">
+                                <span class="wfa-cell-year">2024</span>
+                                <span class="wfa-cell-pnl positive">+$581</span>
+                                <span class="wfa-cell-sub">PF <span class="pf">1.01</span> &middot; 292 trades</span>
+                            </div>
+                            <div class="wfa-cell" style="background:rgba(34,197,94,0.05);border-color:rgba(34,197,94,0.14);">
+                                <span class="wfa-cell-year">2025</span>
+                                <span class="wfa-cell-pnl positive">+$1,900</span>
+                                <span class="wfa-cell-sub">PF <span class="pf">1.03</span> &middot; 425 trades</span>
+                            </div>
+                            <div class="wfa-cell" style="background:rgba(34,197,94,0.07);border-color:rgba(34,197,94,0.18);">
+                                <span class="wfa-cell-year">2026</span>
+                                <span class="wfa-cell-pnl positive">+$1,459</span>
+                                <span class="wfa-cell-sub">PF <span class="pf">1.05</span> &middot; 201 trades</span>
+                            </div>
+                            <div class="wfa-total">
+                                <span class="wfa-total-label">Total (2018-2026)</span>
+                                <span class="wfa-total-value positive">+$2,767</span>
+                                <span class="wfa-total-value neutral" style="font-size:0.875rem;">PF 1.01 &middot; 3,679 trades &middot; 28.6% WR</span>
+                            </div>
+                        </div>
                     </div>
                     <div style="padding: 0 var(--sp-4) var(--sp-4);">
                         <span class="risk-badge" style="background:rgba(34,197,94,0.15);color:var(--success);">WFA: 7/9 positive years (77%)</span>
