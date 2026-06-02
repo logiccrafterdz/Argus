@@ -175,7 +175,15 @@ body {
 }
 
 .section {
-  padding: var(--sp-16) 0;
+  padding: var(--sp-12) 0;
+  opacity: 0;
+  transform: translateY(24px);
+  transition: opacity 0.6s ease-out, transform 0.6s ease-out;
+}
+
+.section.section-visible {
+  opacity: 1;
+  transform: translateY(0);
 }
 
 .section + .section {
@@ -731,8 +739,8 @@ body {
 .oos-cards {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
-  gap: var(--sp-4);
-  margin-bottom: var(--sp-4);
+  gap: var(--sp-6);
+  margin-bottom: var(--sp-6);
 }
 
 .oos-card {
@@ -748,22 +756,23 @@ body {
 }
 
 .oos-card-header {
-  padding: var(--sp-4) var(--sp-5) var(--sp-3);
+  padding: var(--sp-5) var(--sp-6) var(--sp-4);
   display: flex;
   align-items: center;
   justify-content: space-between;
+  border-bottom: 1px solid var(--border-subtle);
 }
 
 .oos-card-header h4 {
-  font-size: 0.875rem;
+  font-size: 1rem;
   font-weight: 600;
   color: var(--text-primary);
 }
 
 .oos-card-badge {
-  font-size: 0.625rem;
-  font-weight: 600;
-  padding: 2px 8px;
+  font-size: 0.813rem;
+  font-weight: 700;
+  padding: 4px 14px;
   border-radius: var(--radius-sm);
   letter-spacing: 0.04em;
 }
@@ -773,21 +782,27 @@ body {
 .oos-card-badge.neutral { background: var(--accent-teal-dim); color: var(--accent-teal); }
 
 .oos-card-body {
-  padding: 0 var(--sp-5) var(--sp-4);
-  display: grid;
-  grid-template-columns: 1fr 1fr;
+  padding: var(--sp-4) var(--sp-6) var(--sp-3);
+  display: flex;
+  flex-direction: column;
   gap: var(--sp-3);
 }
 
 .oos-card-metric {
   display: flex;
-  flex-direction: column;
-  gap: 2px;
+  align-items: baseline;
+  justify-content: space-between;
+  padding: var(--sp-2) 0;
+  border-bottom: 1px solid var(--border-subtle);
+}
+
+.oos-card-metric:last-child {
+  border-bottom: none;
 }
 
 .oos-card-metric .metric-label {
-  font-size: 0.625rem;
-  font-weight: 600;
+  font-size: 0.75rem;
+  font-weight: 500;
   text-transform: uppercase;
   letter-spacing: 0.06em;
   color: var(--text-muted);
@@ -795,9 +810,10 @@ body {
 
 .oos-card-metric .metric-value {
   font-family: var(--font-mono);
-  font-size: 1rem;
+  font-size: 1.125rem;
   font-weight: 700;
   color: var(--text-primary);
+  line-height: 1.2;
 }
 
 .oos-card-metric .metric-value.positive { color: var(--success); }
@@ -805,9 +821,8 @@ body {
 .oos-card-metric .metric-value.neutral { color: var(--text-primary); }
 
 .oos-card-bar {
-  height: 4px;
-  border-radius: 2px;
-  margin: var(--sp-1) var(--sp-5) var(--sp-4);
+  height: 3px;
+  margin: 0 var(--sp-6) var(--sp-4);
   background: var(--border-subtle);
   overflow: hidden;
 }
@@ -1059,6 +1074,55 @@ body {
 
 .table-wrapper {
   overflow-x: auto;
+}
+
+/* ─── Tabbed Panels ─── */
+.tab-bar {
+  display: flex;
+  gap: 0;
+  border-bottom: 1px solid var(--border-default);
+  padding: 0 var(--sp-4);
+  background: var(--bg-elevated);
+}
+
+.tab-btn {
+  padding: var(--sp-3) var(--sp-5);
+  font-size: 0.813rem;
+  font-weight: 500;
+  color: var(--text-muted);
+  background: transparent;
+  border: none;
+  border-bottom: 2px solid transparent;
+  cursor: pointer;
+  transition: all var(--duration-fast) var(--ease-out);
+  font-family: inherit;
+}
+
+.tab-btn:hover {
+  color: var(--text-secondary);
+  background: rgba(255,255,255,0.02);
+}
+
+.tab-btn.active {
+  color: var(--accent-teal);
+  border-bottom-color: var(--accent-teal);
+}
+
+.tab-content {
+  display: none;
+  padding: var(--sp-4);
+}
+
+.tab-content.active {
+  display: block;
+}
+
+.tab-content .panel {
+  margin: 0;
+}
+
+.tab-content .panel-header {
+  padding: 0 0 var(--sp-3);
 }
 
 .data-table {

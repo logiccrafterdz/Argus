@@ -41,11 +41,26 @@ def run_backtest():
     logger.info("Loading historical data...")
     data = load_data()
     logger.info(f"Data loaded: {len(data)} symbols")
-    
+
+    # Pre-compute ATR for ATR-based slippage model (H1 resolution)
+    atr_map = {}
+    for sym in data:
+        for tf in ('H1', 'M15', 'H4'):
+            if tf in data[sym]:
+                df = data[sym][tf]
+                high_low = df['high'] - df['low']
+                high_close = (df['high'] - df['close'].shift()).abs()
+                low_close = (df['low'] - df['close'].shift()).abs()
+                tr = pd.concat([high_low, high_close, low_close], axis=1).max(axis=1)
+                atr = tr.rolling(14).mean().fillna(method='bfill').fillna(tr)
+                atr_map[sym] = atr.values
+                break
+
     engine = BacktestEngine(
         initial_balance=config.get('backtest', {}).get('initial_balance', 100000.0),
         config=config
     )
+    engine.atr_map = atr_map
     
     strategies = [
         AVWAPConfluence(),

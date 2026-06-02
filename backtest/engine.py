@@ -98,6 +98,29 @@ class BacktestEngine:
             'GBPJPY': comm_cfg.get('GBPJPY', 3.50),
         }
         self.default_commission = self.config.get('execution', {}).get('default_commission', 7.0)
+
+        # ATR-based slippage model: keyed by symbol, expected as Series/array aligned to bar index
+        self.atr_map = {}
+        self.bar_index = 0
+
+        # Swap/rollover costs per lot per day (long, short) keyed by symbol
+        swap_cfg = self.config.get('swap', {})
+        self.swap_map = {
+            'EURUSD': swap_cfg.get('EURUSD', (-1.5, -0.5)),
+            'GBPUSD': swap_cfg.get('GBPUSD', (-2.0, -0.8)),
+            'USDJPY': swap_cfg.get('USDJPY', (1.2, -2.5)),
+            'USDCHF': swap_cfg.get('USDCHF', (-0.8, -1.2)),
+            'AUDUSD': swap_cfg.get('AUDUSD', (-0.5, -1.5)),
+            'USDCAD': swap_cfg.get('USDCAD', (-1.0, -1.0)),
+            'NZDUSD': swap_cfg.get('NZDUSD', (-0.3, -1.8)),
+            'EURJPY': swap_cfg.get('EURJPY', (-1.8, -0.3)),
+            'GBPJPY': swap_cfg.get('GBPJPY', (-2.5, 0.5)),
+            'XAUUSD': swap_cfg.get('XAUUSD', (-4.0, -2.0)),
+            'US30': swap_cfg.get('US30', (-1.0, -1.0)),
+            'NAS100': swap_cfg.get('NAS100', (-1.5, -1.5)),
+        }
+        self.default_swap = swap_cfg.get('default', (-1.0, -1.0))
+        self.last_swap_date = None
         
         slippage_cfg = self.config.get('execution', {})
         self.slippage_min = slippage_cfg.get('slippage_min', 0.0)
@@ -109,6 +132,13 @@ class BacktestEngine:
         self.peak_balance = initial_balance
         self.max_drawdown_pct = self.config.get('risk', {}).get('max_drawdown_pct', 50.0)
         self.current_prices = {}
+
+        # Half-Kelly position sizing: per-strategy rolling stats
+        self.strategy_trades = {}  # strategy_name -> list of profit values
+        self.kelly_window = 50    # rolling window for Kelly calculation
+        self.kelly_enabled = self.config.get('kelly', {}).get('enabled', True)
+        self.kelly_base_risk = self.config.get('kelly', {}).get('base_risk_pct', 0.2)
+        self.kelly_cap = self.config.get('kelly', {}).get('max_risk_pct', 0.5)  # half-kelly max
 
     def get_usd_multiplier(self, symbol):
         if symbol.endswith('USD') or symbol in ['US30', 'NAS100']:
@@ -184,6 +214,42 @@ class BacktestEngine:
                 equity += profit
         return equity
 
+    def get_kelly_multiplier(self, strategy_name):
+        """Return Half-Kelly risk multiplier for the given strategy. 1.0 = no adjustment."""
+        if not self.kelly_enabled:
+            return 1.0
+        trades = self.strategy_trades.get(strategy_name)
+        if not trades or len(trades) < 10:
+            return 1.0  # insufficient data
+        window = trades[-self.kelly_window:]
+        wins = [p for p in window if p > 0]
+        losses = [p for p in window if p < 0]
+        if not wins or not losses:
+            return 1.0
+        win_rate = len(wins) / len(window)
+        avg_win = sum(wins) / len(wins)
+        avg_loss = abs(sum(losses) / len(losses))
+        if avg_loss == 0:
+            return 1.0
+        b = avg_win / avg_loss
+        # Kelly %: f = (p * b - q) / b
+        q = 1.0 - win_rate
+        kelly = (win_rate * b - q) / b
+        half_kelly = kelly / 2.0
+        # convert to multiplier over base_risk: how many times base risk to use
+        # base_risk = self.kelly_base_risk (0.2), half_kelly = optimal fraction of equity
+        # multiplier = half_kelly / base_risk, clamped to [0.25, 2.5]
+        multiplier = (half_kelly * 100) / self.kelly_base_risk if self.kelly_base_risk > 0 else 1.0
+        return max(0.25, min(2.5, multiplier))
+
+    def record_trade_result(self, profit, strategy_name):
+        if strategy_name not in self.strategy_trades:
+            self.strategy_trades[strategy_name] = []
+        self.strategy_trades[strategy_name].append(profit)
+        # Keep only last 200 trades to bound memory
+        if len(self.strategy_trades[strategy_name]) > 200:
+            self.strategy_trades[strategy_name] = self.strategy_trades[strategy_name][-200:]
+
     def execute_trade(self, symbol, strategy_name, order_type, lot_size, entry_price, sl, tp, comment):
         if self.is_bankrupt or self.risk_manager.is_halted:
             return False
@@ -196,10 +262,16 @@ class BacktestEngine:
         # Realistic per-symbol spread model (in price units)
         # Based on typical FBS MT5 average spreads
         spread = self.spread_map.get(symbol, self.default_spread)
-        
-        # Dynamic slippage: random 0-30% of spread (simulates real execution variance)
-        slippage = spread * np.random.uniform(self.slippage_min or 0, self.slippage_max or 0.3)
-        
+
+        # ATR-based slippage: 5% of ATR with exponential distribution (heavy-tail)
+        atr = self.atr_map.get(symbol)
+        if atr is not None:
+            idx = min(self.bar_index, len(atr) - 1)
+            slippage = atr[idx] * 0.05 * np.random.exponential(1.0)
+        else:
+            # Fallback: random 0-30% of spread
+            slippage = spread * np.random.uniform(self.slippage_min or 0, self.slippage_max or 0.3)
+
         total_cost = spread + slippage
         if order_type == 'BUY':
             entry_price += total_cost
@@ -223,22 +295,32 @@ class BacktestEngine:
             if order_type == 'SELL' and sl <= entry_price:
                 self.logger.debug(f"Reject {symbol} {strategy_name} SELL: sl={sl:.5f} <= entry={entry_price:.5f}")
                 return False
-            
+
+        # Half-Kelly dynamic position sizing
+        kelly_mult = self.get_kelly_multiplier(strategy_name)
+        adjusted_lot = lot_size * kelly_mult
+        # Re-apply step rounding after Kelly adjustment
+        step_vol = 0.01
+        adjusted_lot = np.floor(adjusted_lot / step_vol) * step_vol
+        adjusted_lot = max(0.01, min(100.0, adjusted_lot))
+
         pos = {
             'ticket': self.ticket_counter,
             'symbol': symbol,
             'strategy': strategy_name,
             'type': order_type,
-            'lot_size': lot_size,
+            'lot_size': adjusted_lot,
             'entry_price': entry_price,
             'sl': sl,
             'tp': tp,
             'entry_time': self.current_time,
-            'comment': comment,
+            'comment': f"{comment} | kelly:{kelly_mult:.2f}x",
             'highest_profit': 0.0,
             'breakeven_triggered': False,
             'partial_closed': False,
-            'remaining_lots': lot_size
+            'remaining_lots': adjusted_lot,
+            'swap_cost': 0.0,
+            'last_swap_day': None
         }
         self.open_positions.append(pos)
         self.ticket_counter += 1
@@ -258,8 +340,13 @@ class BacktestEngine:
         commission_per_lot = self.commission_map.get(pos['symbol'], self.default_commission)
         commission = -commission_per_lot * lots_to_close
         profit += commission
-        
+
+        # Include accumulated swap/rollover costs
+        total_swap = pos['swap_cost'] * (lots_to_close / pos['lot_size'])
+        profit += total_swap
+
         self.balance += profit
+        self.record_trade_result(profit, pos['strategy'])
         self.closed_trades.append({
             'ticket': pos['ticket'],
             'symbol': pos['symbol'],
@@ -271,7 +358,8 @@ class BacktestEngine:
             'entry_price': pos['entry_price'],
             'close_price': close_price,
             'profit': profit,
-            'reason': reason
+            'reason': reason,
+            'swap_cost': round(total_swap, 2)
         })
         pos['remaining_lots'] -= lots_to_close
         if pos['remaining_lots'] <= 0.001:
@@ -291,8 +379,13 @@ class BacktestEngine:
             
         commission = -self.commission_map.get(pos['symbol'], self.default_commission) * lots_to_close
         profit += commission
-        
+
+        # Include proportional swap
+        total_swap = pos['swap_cost'] * (lots_to_close / pos['lot_size'])
+        profit += total_swap
+
         self.balance += profit
+        self.record_trade_result(profit, pos['strategy'])
         self.closed_trades.append({
             'ticket': pos['ticket'],
             'symbol': pos['symbol'],
@@ -304,7 +397,8 @@ class BacktestEngine:
             'entry_price': pos['entry_price'],
             'close_price': close_price,
             'profit': profit,
-            'reason': reason
+            'reason': reason,
+            'swap_cost': round(total_swap, 2)
         })
         pos['remaining_lots'] -= lots_to_close
 
@@ -320,7 +414,7 @@ class BacktestEngine:
 
     def update(self, current_time, current_prices, current_highs, current_lows):
         self.current_time = current_time
-        self.current_prices = current_prices
+        self.bar_index += 1
         self.equity = self.calculate_equity(current_prices)
         self.peak_balance = max(self.peak_balance, self.balance)
         dd_from_peak = ((self.peak_balance - self.balance) / self.peak_balance) * 100
@@ -330,6 +424,17 @@ class BacktestEngine:
         
         if self.risk_manager.update(current_time, self.equity):
             self.emergency_close_all(current_prices)
+
+        # Daily swap/rollover charge: apply once per day at first bar of new date
+        current_date = current_time.date()
+        if self.last_swap_date is None or current_date > self.last_swap_date:
+            self.last_swap_date = current_date
+            for pos in self.open_positions:
+                swap_rates = self.swap_map.get(pos['symbol'], self.default_swap)
+                rate = swap_rates[0] if pos['type'] == 'BUY' else swap_rates[1]
+                swap = rate * pos['remaining_lots']
+                pos['swap_cost'] += swap
+                self.balance += swap
             
         # Manage open positions (SL/TP)
         for pos in list(self.open_positions):
@@ -377,12 +482,16 @@ class BacktestEngine:
                         self.close_position_partial(pos, partial_target, current_time, "Partial TP 1.5R", half_lots)
                         pos['partial_closed'] = True
             
-            # Check both SL and TP on the same bar; if both hit, assume TP occurred first
+            # Check both SL and TP on the same bar; resolve order fairly using entry price as heuristic
             if pos['type'] == 'BUY':
                 hit_sl = low <= pos['sl']
                 hit_tp = high >= pos['tp']
                 if hit_sl and hit_tp:
-                    self.close_position(pos, pos['tp'], current_time, "TP")
+                    # If low dipped below entry, SL likely hit first (price went down before reversal)
+                    if low <= pos['entry_price']:
+                        self.close_position(pos, pos['sl'], current_time, "SL")
+                    else:
+                        self.close_position(pos, pos['tp'], current_time, "TP")
                 elif hit_sl:
                     self.close_position(pos, pos['sl'], current_time, "SL")
                 elif hit_tp:
@@ -391,7 +500,11 @@ class BacktestEngine:
                 hit_sl = high >= pos['sl']
                 hit_tp = low <= pos['tp']
                 if hit_sl and hit_tp:
-                    self.close_position(pos, pos['tp'], current_time, "TP")
+                    # If high broke above entry, SL likely hit first (price went up before reversal)
+                    if high >= pos['entry_price']:
+                        self.close_position(pos, pos['sl'], current_time, "SL")
+                    else:
+                        self.close_position(pos, pos['tp'], current_time, "TP")
                 elif hit_sl:
                     self.close_position(pos, pos['sl'], current_time, "SL")
                 elif hit_tp:

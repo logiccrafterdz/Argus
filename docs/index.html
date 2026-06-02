@@ -32,10 +32,8 @@
                     <li><a href="#oos">OOS Test</a></li>
                     <li><a href="#advanced">Validation</a></li>
                     <li><a href="#strategies">Strategies</a></li>
-                    <li><a href="#monthly">Monthly</a></li>
-                    <li><a href="#distribution">Distribution</a></li>
+                    <li><a href="#analysis">Analysis</a></li>
                     <li><a href="#correlation">Correlation</a></li>
-                    <li><a href="#journal">Journal</a></li>
                     <li><a href="#methodology">Methodology</a></li>
                 </ul>
             </nav>
@@ -242,7 +240,10 @@
 
                 <!-- Risk Metrics -->
                 <div class="panel" style="margin-top: var(--sp-4);">
-                    <div class="panel-header"><h3 class="text-h3">Risk Analytics</h3></div>
+                    <div class="panel-header">
+                        <h3 class="text-h3">Risk Analytics</h3>
+                        <span class="text-small" style="color:var(--text-muted);">Negative Sharpe reflects the portfolio's asymmetric payoff profile — low win rate (27%) with high reward-to-risk on winning trades.</span>
+                    </div>
                     <div class="metrics-grid" id="riskMetrics"></div>
                 </div>
             </div>
@@ -472,6 +473,7 @@
                     <div class="text-label">Strategy Intelligence</div>
                     <h2 class="text-h2">All 20 Strategies — <span style="color:var(--success);">7 Active</span> in Portfolio</h2>
                     <p class="text-body">Each strategy with individual backtest statistics. Active strategies are part of the portfolio; inactive ones were excluded after optimisation.</p>
+                    <p class="text-small" style="margin-top: var(--sp-2); color: var(--text-muted); max-width: 640px; border-left: 2px solid var(--border-accent); padding-left: var(--sp-3);">Portfolio construction favours diversification over standalone winners. Several active strategies show negative individual alpha but contribute as uncorrelated hedges — the portfolio's combined return exceeds the sum of its parts.</p>
                 </div>
 
                 <!-- Strategy cards -->
@@ -514,60 +516,100 @@
             </div>
         </section>
 
-        <!-- ═══ Monthly Returns ═══ -->
-        <section class="section" id="monthly">
+        <!-- ═══ Detailed Analysis (Tabbed: Monthly, Trade, Journal) ═══ -->
+        <section class="section" id="analysis">
             <div class="container">
                 <div class="section-header">
-                    <div class="text-label">Monthly Returns</div>
-                    <h2 class="text-h2">Consistency Heatmap</h2>
-                    <p class="text-body">Monthly percentage returns. Green = profitable month, Red = losing month.</p>
+                    <div class="text-label">Detailed Analysis</div>
+                    <h2 class="text-h2">Monthly Returns &amp; Trade Breakdown</h2>
+                    <p class="text-body">Monthly consistency heatmap, trade distribution with per-symbol performance, and full execution journal.</p>
                 </div>
                 <div class="panel">
-                    <div class="table-wrapper">
-                        <table class="data-table heatmap-table" id="monthlyTable">
-                            <thead><tr id="monthlyHeader"></tr></thead>
-                            <tbody id="monthlyBody"></tbody>
-                        </table>
+                    <div class="tab-bar">
+                        <button class="tab-btn active" data-tab="monthly-tab">Monthly Heatmap</button>
+                        <button class="tab-btn" data-tab="distribution-tab">Trade Distribution</button>
+                        <button class="tab-btn" data-tab="journal-tab">Trade Journal</button>
                     </div>
-                </div>
-            </div>
-        </section>
 
-        <!-- ═══ Profit Distribution ═══ -->
-        <section class="section" id="distribution">
-            <div class="container">
-                <div class="section-header">
-                    <div class="text-label">Trade Distribution</div>
-                    <h2 class="text-h2">Win / Loss Analysis</h2>
-                    <p class="text-body">Distribution of trade profits across all closed trades in the portfolio.</p>
-                </div>
-                <div class="charts-row">
-                    <div class="panel">
-                        <div class="panel-header"><h3 class="text-h3">Profit Distribution</h3></div>
-                        <div class="chart-container"><canvas id="distributionChart"></canvas></div>
+                    <!-- Monthly -->
+                    <div class="tab-content active" data-tab="monthly-tab">
+                        <div class="panel-header"><h3 class="text-h3">Monthly Returns — Consistency Heatmap</h3></div>
+                        <div class="table-wrapper">
+                            <table class="data-table heatmap-table" id="monthlyTable">
+                                <thead><tr id="monthlyHeader"></tr></thead>
+                                <tbody id="monthlyBody"></tbody>
+                            </table>
+                        </div>
                     </div>
-                    <div class="panel">
-                        <div class="panel-header"><h3 class="text-h3">Win / Loss / Breakeven</h3></div>
-                        <div class="chart-container"><canvas id="winLossChart"></canvas></div>
+
+                    <!-- Distribution -->
+                    <div class="tab-content" data-tab="distribution-tab">
+                        <div class="charts-row">
+                            <div class="panel">
+                                <div class="panel-header"><h3 class="text-h3">Profit Distribution</h3></div>
+                                <div class="chart-container"><canvas id="distributionChart"></canvas></div>
+                            </div>
+                            <div class="panel">
+                                <div class="panel-header"><h3 class="text-h3">Win / Loss / Breakeven</h3></div>
+                                <div class="chart-container"><canvas id="winLossChart"></canvas></div>
+                            </div>
+                        </div>
+                        <div class="panel" style="margin-top: var(--sp-4);">
+                            <div class="panel-header"><h3 class="text-h3">Per-Symbol Performance</h3></div>
+                            <div class="table-wrapper">
+                                <table class="data-table" id="symbolTable">
+                                    <thead>
+                                        <tr>
+                                            <th>Symbol</th>
+                                            <th>Trades</th>
+                                            <th>Net Profit</th>
+                                            <th>Win Rate</th>
+                                            <th>Profit Factor</th>
+                                            <th>Avg Win</th>
+                                            <th>Avg Loss</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody></tbody>
+                                </table>
+                            </div>
+                        </div>
                     </div>
-                </div>
-                <div class="panel" style="margin-top: var(--sp-4);">
-                    <div class="panel-header"><h3 class="text-h3">Per-Symbol Performance</h3></div>
-                    <div class="table-wrapper">
-                        <table class="data-table" id="symbolTable">
-                            <thead>
-                                <tr>
-                                    <th>Symbol</th>
-                                    <th>Trades</th>
-                                    <th>Net Profit</th>
-                                    <th>Win Rate</th>
-                                    <th>Profit Factor</th>
-                                    <th>Avg Win</th>
-                                    <th>Avg Loss</th>
-                                </tr>
-                            </thead>
-                            <tbody></tbody>
-                        </table>
+
+                    <!-- Journal -->
+                    <div class="tab-content" data-tab="journal-tab">
+                        <div class="panel-header"><h3 class="text-h3">Execution Log</h3></div>
+                        <div class="table-wrapper">
+                            <table class="data-table journal-table" id="journalTable">
+                                <thead>
+                                    <tr>
+                                        <th>#</th>
+                                        <th>Symbol</th>
+                                        <th>Strategy</th>
+                                        <th>Type</th>
+                                        <th>Lots</th>
+                                        <th>Entry</th>
+                                        <th>Exit</th>
+                                        <th>Profit</th>
+                                        <th>Reason</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="journalBody"></tbody>
+                            </table>
+                        </div>
+                        <div style="text-align: center; margin-top: var(--sp-4);">
+                            <button class="btn btn-ghost" id="loadMoreBtn">Load More Trades</button>
+                            <span class="text-small" id="journalCount" style="margin-left: var(--sp-3);"></span>
+                        </div>
+                        <div class="glossary" style="margin-top: var(--sp-6); padding-top: var(--sp-4); border-top: 1px solid var(--border-subtle);">
+                            <h4 class="text-h3" style="margin-bottom: var(--sp-3);">Exit Reasons</h4>
+                            <div class="glossary-grid">
+                                <div class="glossary-item"><span class="glossary-term">TP</span> Take Profit -- target reached</div>
+                                <div class="glossary-item"><span class="glossary-term">SL</span> Stop Loss -- risk limit hit</div>
+                                <div class="glossary-item"><span class="glossary-term">Trailing</span> Trailing stop triggered</div>
+                                <div class="glossary-item"><span class="glossary-term">Manual</span> Manually closed by orchestrator</div>
+                                <div class="glossary-item"><span class="glossary-term">Circuit Breaker</span> HWM drawdown limit triggered</div>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -598,51 +640,6 @@
                             </table>
                         </div>
                     </details>
-                </div>
-            </div>
-        </section>
-
-        <!-- ═══ Trade Journal ═══ -->
-        <section class="section" id="journal">
-            <div class="container">
-                <div class="section-header">
-                    <div class="text-label">Execution Log</div>
-                    <h2 class="text-h2">Trade Journal</h2>
-                    <p class="text-body">All closed trades with entry/exit details and close reason.</p>
-                </div>
-                <div class="panel">
-                    <div class="table-wrapper">
-                        <table class="data-table journal-table" id="journalTable">
-                            <thead>
-                                <tr>
-                                    <th>#</th>
-                                    <th>Symbol</th>
-                                    <th>Strategy</th>
-                                    <th>Type</th>
-                                    <th>Lots</th>
-                                    <th>Entry</th>
-                                    <th>Exit</th>
-                                    <th>Profit</th>
-                                    <th>Reason</th>
-                                </tr>
-                            </thead>
-                            <tbody id="journalBody"></tbody>
-                        </table>
-                    </div>
-                    <div style="text-align: center; margin-top: var(--sp-4);">
-                        <button class="btn btn-ghost" id="loadMoreBtn">Load More Trades</button>
-                        <span class="text-small" id="journalCount" style="margin-left: var(--sp-3);"></span>
-                    </div>
-                    <div class="glossary" style="margin-top: var(--sp-6); padding-top: var(--sp-4); border-top: 1px solid var(--border-subtle);">
-                        <h4 class="text-h3" style="margin-bottom: var(--sp-3);">Exit Reasons</h4>
-                        <div class="glossary-grid">
-                            <div class="glossary-item"><span class="glossary-term">TP</span> Take Profit -- target reached</div>
-                            <div class="glossary-item"><span class="glossary-term">SL</span> Stop Loss -- risk limit hit</div>
-                            <div class="glossary-item"><span class="glossary-term">Trailing</span> Trailing stop triggered</div>
-                            <div class="glossary-item"><span class="glossary-term">Manual</span> Manually closed by orchestrator</div>
-                            <div class="glossary-item"><span class="glossary-term">Circuit Breaker</span> HWM drawdown limit triggered</div>
-                        </div>
-                    </div>
                 </div>
             </div>
         </section>
@@ -1395,7 +1392,8 @@
             profits.forEach(p => { const idx = Math.min(bins - 1, Math.floor((p - min) / binSize)); counts[idx]++; });
             const labels = [];
             for (let i = 0; i < bins; i++) { labels.push('$' + (min + i * binSize).toFixed(0) + ' - $' + (min + (i + 1) * binSize).toFixed(0)); }
-            new Chart(ctx, {
+            window.charts = window.charts || {};
+            window.charts.distribution = new Chart(ctx, {
                 type: 'bar',
                 data: {
                     labels: labels,
@@ -1429,7 +1427,8 @@
             const wins = portfolioData.recent_trades.filter(t => t.profit > 0).length;
             const losses = portfolioData.recent_trades.filter(t => t.profit < 0).length;
             const flat = portfolioData.recent_trades.filter(t => t.profit === 0).length;
-            new Chart(ctx, {
+            window.charts = window.charts || {};
+            window.charts.winLoss = new Chart(ctx, {
                 type: 'doughnut',
                 data: {
                     labels: ['Wins (' + wins + ')', 'Losses (' + losses + ')', 'Flat (' + flat + ')'],
@@ -1597,7 +1596,46 @@
             }
         }
 
-        window.onload = loadData;
+        /* ═══ Tabbed Panels ═══ */
+        function initTabs() {
+            document.querySelectorAll('.tab-bar').forEach(bar => {
+                bar.querySelectorAll('.tab-btn').forEach(btn => {
+                    btn.addEventListener('click', () => {
+                        const parent = bar.closest('.panel');
+                        bar.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+                        btn.classList.add('active');
+                        parent.querySelectorAll('.tab-content').forEach(tc => tc.classList.remove('active'));
+                        const target = parent.querySelector('.tab-content[data-tab="' + btn.dataset.tab + '"]');
+                        if (target) target.classList.add('active');
+                        if (btn.dataset.tab === 'distribution-tab') {
+                            setTimeout(() => {
+                                if (window.charts && window.charts.distribution) window.charts.distribution.resize();
+                                if (window.charts && window.charts.winLoss) window.charts.winLoss.resize();
+                            }, 50);
+                        }
+                    });
+                });
+            });
+        }
+
+        /* ═══ Scroll-Triggered Animations ═══ */
+        function initScrollAnimations() {
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.classList.add('section-visible');
+                        observer.unobserve(entry.target);
+                    }
+                });
+            }, { threshold: 0.08, rootMargin: '0px 0px -40px 0px' });
+            document.querySelectorAll('.section:not(.hero)').forEach(el => observer.observe(el));
+        }
+
+        window.onload = function() {
+            loadData();
+            initTabs();
+            initScrollAnimations();
+        };
     </script>
 </body>
 </html>
