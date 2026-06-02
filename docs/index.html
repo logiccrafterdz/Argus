@@ -261,11 +261,11 @@
                     <div class="panel">
                         <div class="panel-header"><h3 class="text-h3">Train + Val + Test Equity Curves</h3></div>
                         <div class="chart-container"><canvas id="oosEquityChart"></canvas></div>
-                    </div>
-                    <div class="panel">
-                        <div class="panel-header"><h3 class="text-h3">OOS Drawdown Profile</h3></div>
-                        <div class="chart-container"><canvas id="oosDrawdownChart"></canvas></div>
-                    </div>
+                </div>
+                <div class="panel" style="margin-top: var(--sp-4);">
+                    <div class="panel-header"><h3 class="text-h3">OOS Drawdown Profile</h3></div>
+                    <div class="chart-container"><canvas id="oosDrawdownChart"></canvas></div>
+                </div>
                 </div>
                 <div class="panel" style="margin-top: var(--sp-4);">
                     <div class="panel-header"><h3 class="text-h3">Train vs Test — Full Metric Comparison</h3></div>
@@ -786,38 +786,52 @@
             const tr = oosData.train || {};
             const va = oosData.validation || {};
             const te = oosData.test || {};
-            renderOOSKPI(tr, va, te);
+            renderOOSCards(tr, va, te);
             renderOOSEquityChart();
             renderOOSDrawdownChart();
-            renderOOSComparison(tr, va, te);
         }
 
-        function renderOOSKPI(tr, va, te) {
-            const g = document.getElementById('oosKpiGrid');
-            if (!g) return;
-            const hasVal = va && va.total_return !== undefined;
-            g.innerHTML = `
-                <div class="kpi-tile animate-in" style="border-left: 3px solid #0ea5a0;">
-                    <div class="text-label">Train (2018-2022, 5yr)</div>
-                    <div class="kpi-value ${tr.total_return >= 0 ? 'positive' : 'negative'}">${(tr.total_return || 0).toFixed(2)}%</div>
-                    <div class="kpi-sub">PF ${(tr.profit_factor || 0).toFixed(2)} · Sharpe ${(tr.sharpe_ratio || 0).toFixed(2)}</div>
-                </div>
-                <div class="kpi-tile animate-in" style="border-left: 3px solid #8b5cf6;">
-                    <div class="text-label">Validation (2023, 1yr)</div>
-                    <div class="kpi-value positive">${(va.total_return || 0).toFixed(2)}%</div>
-                    <div class="kpi-sub">PF ${(va.profit_factor || 0).toFixed(2)} · Sharpe ${(va.sharpe_ratio || 0).toFixed(2)}</div>
-                </div>
-                <div class="kpi-tile animate-in" style="border-left: 3px solid #f59e0b;">
-                    <div class="text-label">Test (2024-May 2026, 29mo)</div>
-                    <div class="kpi-value positive">${(te.total_return || 0).toFixed(2)}%</div>
-                    <div class="kpi-sub">PF ${(te.profit_factor || 0).toFixed(2)} · Sharpe ${(te.sharpe_ratio || 0).toFixed(2)}</div>
-                </div>
-                <div class="kpi-tile animate-in" style="border-left: 3px solid #22c55e;">
-                    <div class="text-label">All Periods Positive?</div>
-                    <div class="kpi-value positive">${(tr.total_return || 0) > 0 && (va.total_return || 0) > 0 && (te.total_return || 0) > 0 ? 'YES ✓' : 'CHECK'}</div>
-                    <div class="kpi-sub">Train ${(tr.total_return || 0) > 0 ? '+' : ''}${(tr.total_return || 0).toFixed(2)}% | Val ${(va.total_return || 0) > 0 ? '+' : ''}${(va.total_return || 0).toFixed(2)}% | Test ${(te.total_return || 0) > 0 ? '+' : ''}${(te.total_return || 0).toFixed(2)}%</div>
-                </div>
-            `;
+        function renderOOSCards(tr, va, te) {
+            const container = document.getElementById('oosKpiGrid');
+            if (!container) return;
+
+            const splits = [
+                { key: 'Train', data: tr, period: '2018-2022', color: '#0ea5a0' },
+                { key: 'Validation', data: va, period: '2023', color: '#8b5cf6' },
+                { key: 'Test', data: te, period: '2024-May 2026', color: '#f59e0b' },
+            ];
+
+            // Find max absolute return for bar scaling
+            const returns = splits.map(s => s.data.total_return || 0);
+            const maxAbsReturn = Math.max(...returns.map(Math.abs), 0.01);
+
+            let html = '<div class="oos-cards">';
+            splits.forEach((s, i) => {
+                const ret = s.data.total_return || 0;
+                const dd = s.data.max_drawdown || 0;
+                const pf = s.data.profit_factor || 0;
+                const sh = s.data.sharpe_ratio || 0;
+                const positive = ret >= 0;
+                const barPct = Math.min(Math.abs(ret) / maxAbsReturn * 100, 100);
+                const badgeClass = positive ? 'positive' : 'negative';
+                const badgeText = positive ? '+' + ret.toFixed(2) + '%' : ret.toFixed(2) + '%';
+
+                html += '<div class="oos-card animate-in">' +
+                    '<div class="oos-card-header" style="border-left: 3px solid ' + s.color + ';">' +
+                    '<div><h4>' + s.key + '</h4><span class="text-small" style="color:var(--text-muted);">' + s.period + '</span></div>' +
+                    '<span class="oos-card-badge ' + badgeClass + '">' + badgeText + '</span>' +
+                    '</div>' +
+                    '<div class="oos-card-body">' +
+                    '<div class="oos-card-metric"><span class="metric-label">Return</span><span class="metric-value ' + (positive ? 'positive' : 'negative') + '">' + ret.toFixed(2) + '%</span></div>' +
+                    '<div class="oos-card-metric"><span class="metric-label">Max DD</span><span class="metric-value negative">' + dd.toFixed(2) + '%</span></div>' +
+                    '<div class="oos-card-metric"><span class="metric-label">Profit Factor</span><span class="metric-value neutral">' + pf.toFixed(2) + '</span></div>' +
+                    '<div class="oos-card-metric"><span class="metric-label">Sharpe</span><span class="metric-value neutral">' + sh.toFixed(2) + '</span></div>' +
+                    '</div>' +
+                    '<div class="oos-card-bar"><div class="oos-card-bar-fill" style="width:' + barPct + '%;background:' + (positive ? 'var(--success)' : 'var(--danger)') + ';"></div></div>' +
+                    '</div>';
+            });
+            html += '</div>';
+            container.innerHTML = html;
         }
 
         function renderOOSEquityChart() {
@@ -900,36 +914,6 @@
             });
         }
 
-        function renderOOSComparison(tr, va, te) {
-            const tbody = document.getElementById('oosComparisonBody');
-            if (!tbody) return;
-
-            const metrics = [
-                { label: 'Total Return', train: (tr.total_return || 0).toFixed(2) + '%', val: (va.total_return || 0).toFixed(2) + '%', test: (te.total_return || 0).toFixed(2) + '%' },
-                { label: 'Net Profit', train: '$' + (tr.net_profit || 0).toFixed(0), val: '$' + (va.net_profit || 0).toFixed(0), test: '$' + (te.net_profit || 0).toFixed(0) },
-                { label: 'Profit Factor', train: (tr.profit_factor || 0).toFixed(2), val: (va.profit_factor || 0).toFixed(2), test: (te.profit_factor || 0).toFixed(2) },
-                { label: 'Sharpe Ratio', train: (tr.sharpe_ratio || 0).toFixed(2), val: (va.sharpe_ratio || 0).toFixed(2), test: (te.sharpe_ratio || 0).toFixed(2) },
-                { label: 'Max Drawdown', train: (tr.max_drawdown || 0).toFixed(2) + '%', val: (va.max_drawdown || 0).toFixed(2) + '%', test: (te.max_drawdown || 0).toFixed(2) + '%' },
-                { label: 'Win Rate', train: (tr.win_rate || 0).toFixed(2) + '%', val: (va.win_rate || 0).toFixed(2) + '%', test: (te.win_rate || 0).toFixed(2) + '%' },
-                { label: 'Expectancy', train: '$' + (tr.expectancy || 0).toFixed(2), val: '$' + (va.expectancy || 0).toFixed(2), test: '$' + (te.expectancy || 0).toFixed(2) },
-                { label: 'Total Trades', train: (tr.total_trades || 0), val: (va.total_trades || 0), test: (te.total_trades || 0) },
-                { label: 'Recovery Factor', train: (tr.recovery_factor || 0).toFixed(2), val: (va.recovery_factor || 0).toFixed(2), test: (te.recovery_factor || 0).toFixed(2) },
-            ];
-
-            let html = '';
-            const allPos = (tr.total_return || 0) > 0 && (va.total_return || 0) > 0 && (te.total_return || 0) > 0;
-            const stable = allPos ? 'YES ✓' : 'CHECK';
-            const stableColor = allPos ? 'var(--success)' : 'var(--warning)';
-            metrics.forEach(m => {
-                html += '<tr>' +
-                    '<td style="font-weight:600;">' + m.label + '</td>' +
-                    '<td class="text-mono">' + m.train + '</td>' +
-                    '<td class="text-mono">' + m.val + '</td>' +
-                    '<td class="text-mono">' + m.test + '</td>' +
-                    '<td style="color:' + stableColor + ';font-weight:600;font-size:0.75rem;">' + stable + '</td></tr>';
-            });
-            tbody.innerHTML = html;
-        }
 
         /* ═══ Portfolio KPI ═══ */
         function renderSparkline(canvasId, data, color, negative) {

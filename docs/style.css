@@ -727,7 +727,100 @@ body {
   color: var(--text-primary);
 }
 
-/* ─── Strategy Matrix ─── */
+/* ─── OOS Comparison Cards ─── */
+.oos-cards {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: var(--sp-4);
+  margin-bottom: var(--sp-4);
+}
+
+.oos-card {
+  background: var(--bg-elevated);
+  border: 1px solid var(--border-default);
+  border-radius: var(--radius-md);
+  overflow: hidden;
+  transition: border-color var(--duration-fast) var(--ease-out);
+}
+
+.oos-card:hover {
+  border-color: var(--border-medium);
+}
+
+.oos-card-header {
+  padding: var(--sp-4) var(--sp-5) var(--sp-3);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.oos-card-header h4 {
+  font-size: 0.875rem;
+  font-weight: 600;
+  color: var(--text-primary);
+}
+
+.oos-card-badge {
+  font-size: 0.625rem;
+  font-weight: 600;
+  padding: 2px 8px;
+  border-radius: var(--radius-sm);
+  letter-spacing: 0.04em;
+}
+
+.oos-card-badge.positive { background: var(--success-dim); color: var(--success); }
+.oos-card-badge.negative { background: var(--danger-dim); color: var(--danger); }
+.oos-card-badge.neutral { background: var(--accent-teal-dim); color: var(--accent-teal); }
+
+.oos-card-body {
+  padding: 0 var(--sp-5) var(--sp-4);
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: var(--sp-3);
+}
+
+.oos-card-metric {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.oos-card-metric .metric-label {
+  font-size: 0.625rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  color: var(--text-muted);
+}
+
+.oos-card-metric .metric-value {
+  font-family: var(--font-mono);
+  font-size: 1rem;
+  font-weight: 700;
+  color: var(--text-primary);
+}
+
+.oos-card-metric .metric-value.positive { color: var(--success); }
+.oos-card-metric .metric-value.negative { color: var(--danger); }
+.oos-card-metric .metric-value.neutral { color: var(--text-primary); }
+
+.oos-card-bar {
+  height: 4px;
+  border-radius: 2px;
+  margin: var(--sp-1) var(--sp-5) var(--sp-4);
+  background: var(--border-subtle);
+  overflow: hidden;
+}
+
+.oos-card-bar-fill {
+  height: 100%;
+  border-radius: 2px;
+  transition: width var(--duration-slow) var(--ease-out);
+}
+
+@media (max-width: 900px) {
+  .oos-cards { grid-template-columns: 1fr; }
+}
 .strategy-filters {
   display: flex;
   gap: var(--sp-2);
