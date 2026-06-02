@@ -347,37 +347,79 @@
                 <!-- Monte Carlo -->
                 <div class="panel" style="margin-bottom: var(--sp-4);">
                     <div class="panel-header"><h3 class="text-h3">Monte Carlo Simulation (2,000 runs per split)</h3></div>
-                    <p class="text-body" style="padding: var(--sp-3) var(--sp-4) 0;">Trade sequences randomly resampled to test statistical significance. High confidence on Val + Test; Train is near breakeven due to COVID.</p>
+                    <p class="text-body" style="padding: var(--sp-3) var(--sp-4) 0;">Trade sequences randomly resampled to test statistical significance. Distribution bars show the range from worst 5% to best 5%; diamond marks the breakeven point.</p>
                     <div style="padding: var(--sp-3);">
-                        <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:var(--sp-3);">
-                            <div class="risk-card" style="margin:0;">
-                                <div class="risk-card-header"><h4 style="color:var(--accent-teal);">Train (2018-2022)</h4></div>
-                                <div class="param-grid">
-                                    <div class="param-row"><span class="param-label">Profitable</span><span class="param-value" style="color:var(--warning);">47.8%</span></div>
-                                    <div class="param-row"><span class="param-label">Avg Profit</span><span class="param-value">-$918</span></div>
-                                    <div class="param-row"><span class="param-label">Worst 5%</span><span class="param-value negative">-$31,549</span></div>
-                                    <div class="param-row"><span class="param-label">Best 5%</span><span class="param-value positive">+$30,512</span></div>
-                                    <div class="param-row"><span class="param-label">DD > 20%</span><span class="param-value negative">47.0%</span></div>
+                        <div class="mc-grid">
+                            <!-- Train -->
+                            <div class="mc-card">
+                                <div class="mc-card-header">
+                                    <h4 style="color:var(--accent-teal);">Train</h4>
+                                    <span class="mc-profitable mid">47.8%</span>
+                                </div>
+                                <span class="mc-label">Profit Distribution</span>
+                                <div>
+                                    <div class="mc-range">
+                                        <div class="mc-range-track negative" style="left:0%;width:50.8%;"></div>
+                                        <div class="mc-range-track positive" style="left:50.8%;width:49.2%;"></div>
+                                        <div class="mc-range-marker" style="left:50.8%;background:var(--text-muted);border-color:var(--text-muted);"></div>
+                                    </div>
+                                    <div class="mc-range-labels">
+                                        <span class="negative">-$31.5K</span>
+                                        <span style="color:var(--text-muted);">$0</span>
+                                        <span class="positive">+$30.5K</span>
+                                    </div>
+                                </div>
+                                <div class="mc-stats">
+                                    <div class="mc-stat"><span class="stat-label">Avg Profit</span><span class="stat-value negative">-$918</span></div>
+                                    <div class="mc-stat"><span class="stat-label">DD > 20%</span><span class="stat-value negative">47.0%</span></div>
                                 </div>
                             </div>
-                            <div class="risk-card" style="margin:0;">
-                                <div class="risk-card-header"><h4 style="color:var(--success);">Val (2023)</h4></div>
-                                <div class="param-grid">
-                                    <div class="param-row"><span class="param-label">Profitable</span><span class="param-value positive">76.8%</span></div>
-                                    <div class="param-row"><span class="param-label">Avg Profit</span><span class="param-value positive">+$4,397</span></div>
-                                    <div class="param-row"><span class="param-label">Worst 5%</span><span class="param-value negative">-$5,426</span></div>
-                                    <div class="param-row"><span class="param-label">Best 5%</span><span class="param-value positive">+$13,975</span></div>
-                                    <div class="param-row"><span class="param-label">DD > 20%</span><span class="param-value positive">0.1%</span></div>
+                            <!-- Val -->
+                            <div class="mc-card">
+                                <div class="mc-card-header">
+                                    <h4 style="color:var(--success);">Val</h4>
+                                    <span class="mc-profitable high">76.8%</span>
+                                </div>
+                                <span class="mc-label">Profit Distribution</span>
+                                <div>
+                                    <div class="mc-range">
+                                        <div class="mc-range-track negative" style="left:0%;width:28%;"></div>
+                                        <div class="mc-range-track positive" style="left:28%;width:72%;"></div>
+                                        <div class="mc-range-marker positive" style="left:28%;"></div>
+                                    </div>
+                                    <div class="mc-range-labels">
+                                        <span class="negative">-$5.4K</span>
+                                        <span style="color:var(--text-muted);">$0</span>
+                                        <span class="positive">+$14.0K</span>
+                                    </div>
+                                </div>
+                                <div class="mc-stats">
+                                    <div class="mc-stat"><span class="stat-label">Avg Profit</span><span class="stat-value positive">+$4,397</span></div>
+                                    <div class="mc-stat"><span class="stat-label">DD > 20%</span><span class="stat-value positive">0.1%</span></div>
                                 </div>
                             </div>
-                            <div class="risk-card" style="margin:0;">
-                                <div class="risk-card-header"><h4 style="color:var(--success);">Test (2024-May 2026)</h4></div>
-                                <div class="param-grid">
-                                    <div class="param-row"><span class="param-label">Profitable</span><span class="param-value positive">65.9%</span></div>
-                                    <div class="param-row"><span class="param-label">Avg Profit</span><span class="param-value positive">+$5,228</span></div>
-                                    <div class="param-row"><span class="param-label">Worst 5%</span><span class="param-value negative">-$14,467</span></div>
-                                    <div class="param-row"><span class="param-label">Best 5%</span><span class="param-value positive">+$25,956</span></div>
-                                    <div class="param-row"><span class="param-label">DD > 20%</span><span class="param-value positive">7.3%</span></div>
+                            <!-- Test -->
+                            <div class="mc-card">
+                                <div class="mc-card-header">
+                                    <h4 style="color:var(--success);">Test</h4>
+                                    <span class="mc-profitable high">65.9%</span>
+                                </div>
+                                <span class="mc-label">Profit Distribution</span>
+                                <div>
+                                    <div class="mc-range">
+                                        <div class="mc-range-track negative" style="left:0%;width:35.8%;"></div>
+                                        <div class="mc-range-track positive" style="left:35.8%;width:64.2%;"></div>
+                                        <div class="mc-range-marker positive" style="left:35.8%;"></div>
+                                    </div>
+                                    <div class="mc-range-labels">
+                                        <span class="negative">-$14.5K</span>
+                                        <span style="color:var(--text-muted);">$0</span>
+                                        <span class="positive">+$26.0K</span>
+                                    </div>
+                                </div>
+                                <div class="mc-stats">
+                                    <div class="mc-stat"><span class="stat-label">Avg Profit</span><span class="stat-value positive">+$5,228</span></div>
+                                    <div class="mc-stat"><span class="stat-label">DD > 20%</span><span class="stat-value positive">7.3%</span></div>
                                 </div>
                             </div>
                         </div>
