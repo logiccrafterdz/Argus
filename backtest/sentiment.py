@@ -47,7 +47,7 @@ class FearGreedIndex:
         # 2. Momentum: distance from 50d SMA (normalized to 0-100)
         sma50 = close.rolling(50).mean()
         momentum = (close / sma50 - 1).replace(0, np.nan)
-        mom_std = momentum.std() + 1e-10
+        mom_std = momentum.rolling(50).std(ddof=1) + 1e-10
         momentum_norm = ((momentum / mom_std) * 10 + 50).clip(0, 100)
 
         # 3. Volatility ratio: low relative vol = greed

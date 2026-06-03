@@ -107,7 +107,7 @@ def compute_features(df, prefix=''):
     features[f'{prefix}vol_change'] = vol.pct_change()
 
     # Fill NaN
-    features = features.fillna(method='bfill').fillna(0)
+    features = features.bfill().fillna(0)
     return features
 
 

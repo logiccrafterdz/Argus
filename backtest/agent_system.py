@@ -200,7 +200,7 @@ class ExecutorAgent:
     def __init__(self, engine, kelly_agent=None, tp_sl_agent=None):
         self.engine = engine
         self.kelly = kelly_agent
-        self.tp_sl = tp_sl_agent
+        self.tp_sl_agent = tp_sl_agent
 
     def execute(self, votes: List[SignalVote], symbol: str, entry_price: float,
                 adx: float, atr_ratio: float, strategy: str) -> Optional[TradeOrder]:
@@ -273,11 +273,12 @@ class AgentSystem:
 
     def process(self, symbol: str, direction: str, strategy: str,
                 entry_price: float, adx: float, atr_ratio: float,
-                timestamp, open_positions: list) -> Optional[TradeOrder]:
+                timestamp, open_positions: list, lots: float = 0) -> Optional[TradeOrder]:
         votes = [
             self.macro.vote(symbol, direction),
             self.tech.vote(symbol, direction, strategy, adx, atr_ratio),
             self.sentiment.vote(symbol, direction, timestamp),
+            self.risk.vote(symbol, direction, lots, open_positions),
         ]
         return self.executor.execute(votes, symbol, entry_price,
                                      adx, atr_ratio, strategy)

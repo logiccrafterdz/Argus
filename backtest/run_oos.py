@@ -65,7 +65,7 @@ def run_oos(mode):
                 high_close = (df['high'] - df['close'].shift()).abs()
                 low_close = (df['low'] - df['close'].shift()).abs()
                 tr = pd.concat([high_low, high_close, low_close], axis=1).max(axis=1)
-                atr = tr.rolling(14).mean().fillna(method='bfill').fillna(tr)
+                atr = tr.rolling(14).mean().bfill().fillna(tr)
                 atr_map[sym] = atr.values
                 break
 

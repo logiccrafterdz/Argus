@@ -1,139 +1,115 @@
 import pandas as pd
 import numpy as np
-from hmmlearn import hmm
 
-class HMMRegimeDetector:
-    """
-    Hidden Markov Model for market regime detection.
-    Discovers latent regimes from price action features without manual thresholds.
+try:
+    from hmmlearn import hmm
+    HMM_AVAILABLE = True
+except ImportError:
+    HMM_AVAILABLE = False
+    hmm = None
 
-    Features (computed per bar):
-    - Normalized returns (log returns scaled by rolling std)
-    - Normalized range (high-low)/close
-    - Volume/spread proxy if available
+if HMM_AVAILABLE:
 
-    Regimes are dynamically discovered — labels vary per training run.
-    A mapping heuristic assigns discovered regimes to Argus convention:
-      0 -> RANGE, 1 -> TREND, 2 -> EXPANSION, 3 -> REVERSAL
-    """
-    REGIME_RANGE = 2
-    REGIME_TREND = 1
-    REGIME_EXPANSION = 4
-    REGIME_COMPRESSION = 8
-    REGIME_REVERSAL = 16
+    class HMMRegimeDetector:
+        REGIME_RANGE = 2
+        REGIME_TREND = 1
+        REGIME_EXPANSION = 4
+        REGIME_COMPRESSION = 8
+        REGIME_REVERSAL = 16
 
-    def __init__(self, n_regimes=4, n_iter=100):
-        self.n_regimes = n_regimes
-        self.model = hmm.GaussianHMM(
-            n_components=n_regimes,
-            covariance_type="full",
-            n_iter=n_iter,
-            random_state=42,
-            tol=1e-4
-        )
-        self.fitted = False
-        self._regime_map = {}
-        self._feature_names = ['ret_norm', 'range_norm', 'vol_ratio']
+        def __init__(self, n_regimes=4, n_iter=100):
+            self.n_regimes = n_regimes
+            self.model = hmm.GaussianHMM(
+                n_components=n_regimes,
+                covariance_type="full",
+                n_iter=n_iter,
+                random_state=42,
+                tol=1e-4
+            )
+            self.fitted = False
+            self._regime_map = {}
+            self._feature_names = ['ret_norm', 'range_norm', 'vol_ratio']
 
-    def _extract_features(self, df):
-        """Extract normalized features from OHLC DataFrame."""
-        close = df['close'].values
-        high = df['high'].values
-        low = df['low'].values
+        def _extract_features(self, df):
+            close = df['close'].values
+            high = df['high'].values
+            low = df['low'].values
+            log_ret = np.diff(np.log(close), prepend=np.log(close[0]))
+            ret_std = np.std(log_ret) + 1e-10
+            ret_norm = log_ret / ret_std
+            hl_range = (high - low) / (close + 1e-10)
+            range_std = np.std(hl_range) + 1e-10
+            range_norm = (hl_range - np.mean(hl_range)) / range_std
+            atr_vals = np.zeros(len(close))
+            for i in range(1, len(close)):
+                tr = max(high[i] - low[i], abs(high[i] - close[i-1]), abs(low[i] - close[i-1]))
+                atr_vals[i] = (atr_vals[i-1] * 13 + tr) / 14
+            atr_vals[atr_vals == 0] = np.median(atr_vals[atr_vals > 0]) or 1e-10
+            vol_ratio = hl_range / (atr_vals + 1e-10)
+            vol_std = np.std(vol_ratio) + 1e-10
+            vol_ratio_norm = (vol_ratio - np.mean(vol_ratio)) / vol_std
+            features = np.column_stack([ret_norm, range_norm, vol_ratio_norm])
+            features = np.nan_to_num(features, nan=0.0, posinf=3.0, neginf=-3.0)
+            return features
 
-        log_ret = np.diff(np.log(close), prepend=np.log(close[0]))
-        ret_std = np.std(log_ret) + 1e-10
-        ret_norm = log_ret / ret_std
-
-        hl_range = (high - low) / (close + 1e-10)
-        range_std = np.std(hl_range) + 1e-10
-        range_norm = (hl_range - np.mean(hl_range)) / range_std
-
-        atr_vals = np.zeros(len(close))
-        for i in range(1, len(close)):
-            tr = max(high[i] - low[i], abs(high[i] - close[i-1]), abs(low[i] - close[i-1]))
-            atr_vals[i] = (atr_vals[i-1] * 13 + tr) / 14
-        atr_vals[atr_vals == 0] = np.median(atr_vals[atr_vals > 0]) or 1e-10
-        vol_ratio = hl_range / (atr_vals + 1e-10)
-        vol_std = np.std(vol_ratio) + 1e-10
-        vol_ratio_norm = (vol_ratio - np.mean(vol_ratio)) / vol_std
-
-        features = np.column_stack([ret_norm, range_norm, vol_ratio_norm])
-        features = np.nan_to_num(features, nan=0.0, posinf=3.0, neginf=-3.0)
-        return features
-
-    def fit(self, df):
-        """Fit HMM on OHLC DataFrame. Call once per symbol on training data."""
-        features = self._extract_features(df)
-        self.model.fit(features)
-        self.fitted = True
-        # Build regime mapping: assign each state to a regime type based on mean return + vol
-        state_means = pd.DataFrame(self.model.means_, columns=self._feature_names)
-        state_means['state'] = range(self.n_regimes)
-        # Sort states by volatility (range_norm): low vol = range, high vol = expansion/reversal
-        state_means = state_means.sort_values('range_norm')
-        self._regime_map = {}
-        n = self.n_regimes
-        for i, row in state_means.iterrows():
-            s = int(row['state'])
-            if i == 0:
-                self._regime_map[s] = self.REGIME_RANGE
-            elif i == n - 1:
-                # Highest vol — reversal (if extreme negative return) or expansion
-                if row['ret_norm'] < -0.5:
-                    self._regime_map[s] = self.REGIME_REVERSAL
-                else:
+        def fit(self, df):
+            features = self._extract_features(df)
+            self.model.fit(features)
+            self.fitted = True
+            state_means = pd.DataFrame(self.model.means_, columns=self._feature_names)
+            state_means['state'] = range(self.n_regimes)
+            state_means = state_means.sort_values('range_norm')
+            self._regime_map = {}
+            n = self.n_regimes
+            for i, row in state_means.iterrows():
+                s = int(row['state'])
+                if i == 0:
+                    self._regime_map[s] = self.REGIME_RANGE
+                elif i == n - 1:
+                    if row['ret_norm'] < -0.5:
+                        self._regime_map[s] = self.REGIME_REVERSAL
+                    else:
+                        self._regime_map[s] = self.REGIME_EXPANSION
+                elif i == n - 2:
                     self._regime_map[s] = self.REGIME_EXPANSION
-            elif i == n - 2:
-                self._regime_map[s] = self.REGIME_EXPANSION
-            else:
-                self._regime_map[s] = self.REGIME_TREND
+                else:
+                    self._regime_map[s] = self.REGIME_TREND
 
-    def predict(self, df):
-        """Return regime labels (Argus bitmask) for each bar in df."""
-        if not self.fitted:
-            raise RuntimeError("HMMRegimeDetector not fitted — call .fit(df) first")
-        features = self._extract_features(df)
-        states = self.model.predict(features)
-        return np.array([self._regime_map[s] for s in states])
+        def predict(self, df):
+            if not self.fitted:
+                raise RuntimeError("HMMRegimeDetector not fitted — call .fit(df) first")
+            features = self._extract_features(df)
+            states = self.model.predict(features)
+            return np.array([self._regime_map[s] for s in states])
 
-    def predict_proba(self, df):
-        """Return posterior probabilities for each regime state per bar."""
-        if not self.fitted:
-            raise RuntimeError("HMMRegimeDetector not fitted — call .fit(df) first")
-        features = self._extract_features(df)
-        return self.model.predict_proba(features)
+        def predict_proba(self, df):
+            if not self.fitted:
+                raise RuntimeError("HMMRegimeDetector not fitted — call .fit(df) first")
+            features = self._extract_features(df)
+            return self.model.predict_proba(features)
 
-    def to_series(self, df):
-        """Return pd.Series of regime labels indexed by df.index."""
-        labels = self.predict(df)
-        return pd.Series(labels, index=df.index)
+        def to_series(self, df):
+            labels = self.predict(df)
+            return pd.Series(labels, index=df.index)
 
-    def to_dict(self, df):
-        """Return dict of {index_value: regime_label} compatible with existing pipeline."""
-        series = self.to_series(df)
-        return series.to_dict()
+        def to_dict(self, df):
+            series = self.to_series(df)
+            return series.to_dict()
 
-    def transition_matrix(self):
-        """Return state transition probability matrix."""
-        if not self.fitted:
-            return None
-        return self.model.transmat_
+        def transition_matrix(self):
+            if not self.fitted:
+                return None
+            return self.model.transmat_
 
-    def get_regime_labels(self):
-        """Return human-readable labels for each regime."""
-        inv_map = {v: k for k, v in self.__class__.__dict__.items() if isinstance(v, int) and v > 0}
-        return {s: inv_map.get(r, f'STATE_{s}') for s, r in self._regime_map.items()}
+        def get_regime_labels(self):
+            inv_map = {v: k for k, v in self.__class__.__dict__.items() if isinstance(v, int) and v > 0}
+            return {s: inv_map.get(r, f'STATE_{s}') for s, r in self._regime_map.items()}
 
 
-def MarketRegimeHMM(df, n_regimes=4):
-    """
-    Convenience function: fit HMM on df and return regime Series.
-    Drop-in for MarketRegime(df) using HMM instead of ADX thresholds.
-    """
-    detector = HMMRegimeDetector(n_regimes=n_regimes)
-    detector.fit(df)
-    return detector.to_series(df)
+    def MarketRegimeHMM(df, n_regimes=4):
+        detector = HMMRegimeDetector(n_regimes=n_regimes)
+        detector.fit(df)
+        return detector.to_series(df)
 
 def EMA(series, period):
     return series.ewm(span=period, adjust=False).mean()

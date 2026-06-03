@@ -260,17 +260,29 @@ def _run_engine(engine, timeline, data, precalc_data, strategies, logger):
                         continue
 
                     order_type = 'BUY' if sig_type == 1 else 'SELL'
-                    risk_dist = sig.get('sl_distance', 0)
+
+                    current_price = current_prices[symbol]
+
+                    if isinstance(sig, pd.Series):
+                        sl_val = sig.get('sl', np.nan) if hasattr(sig, 'get') else getattr(sig, 'sl', np.nan)
+                        tp_val = sig.get('tp', np.nan) if hasattr(sig, 'get') else getattr(sig, 'tp', np.nan)
+                    else:
+                        sl_val = sig.get('sl', np.nan)
+                        tp_val = sig.get('tp', np.nan)
+
+                    if pd.isna(sl_val) or pd.isna(tp_val):
+                        continue
+
+                    risk_dist = abs(current_price - sl_val)
                     if risk_dist <= 0:
                         continue
 
-                    current_price = current_prices[symbol]
                     if order_type == 'BUY':
-                        sl = current_price - risk_dist
-                        tp = current_price + sig.get('tp_distance', risk_dist * 3)
+                        sl = sl_val
+                        tp = tp_val
                     else:
-                        sl = current_price + risk_dist
-                        tp = current_price - sig.get('tp_distance', risk_dist * 3)
+                        sl = sl_val
+                        tp = tp_val
 
                     lot = engine.calculate_lot_size(
                         symbol, 0.2, risk_dist, engine.equity

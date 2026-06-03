@@ -236,10 +236,14 @@ class BacktestEngine:
         q = 1.0 - win_rate
         kelly = (win_rate * b - q) / b
         half_kelly = kelly / 2.0
-        # convert to multiplier over base_risk: how many times base risk to use
-        # base_risk = self.kelly_base_risk (0.2), half_kelly = optimal fraction of equity
-        # multiplier = half_kelly / base_risk, clamped to [0.25, 2.5]
-        multiplier = (half_kelly * 100) / self.kelly_base_risk if self.kelly_base_risk > 0 else 1.0
+        # convert to multiplier over base_risk:
+        # base_risk = self.kelly_base_risk (0.2% = 0.002 of equity)
+        # half_kelly = optimal fraction of equity (~0.02 = 2% when WR~35%, R:R~3)
+        # = half_kelly / base_risk → 0.02/0.002 = 10x → clipped to 2.5
+        # For weak edge (WR~22%, R:R~1.5): kelly~0.015 → half_kelly~0.0075 → 0.0075/0.002=3.75→2.5
+        # For marginal edge (WR~20%, R:R~1.2): kelly~0.003 → half_kelly~0.0015 → 0.0015/0.002=0.75
+        base_risk = self.kelly_base_risk / 100.0  # e.g. 0.2 → 0.002
+        multiplier = half_kelly / base_risk if base_risk > 0 else 1.0
         return max(0.25, min(2.5, multiplier))
 
     def record_trade_result(self, profit, strategy_name):
@@ -429,10 +433,12 @@ class BacktestEngine:
         current_date = current_time.date()
         if self.last_swap_date is None or current_date > self.last_swap_date:
             self.last_swap_date = current_date
+            # Wednesday = triple swap (3x) — MT5 standard for FX/CFD
+            swap_multiplier = 3 if current_time.weekday() == 2 else 1
             for pos in self.open_positions:
                 swap_rates = self.swap_map.get(pos['symbol'], self.default_swap)
                 rate = swap_rates[0] if pos['type'] == 'BUY' else swap_rates[1]
-                swap = rate * pos['remaining_lots']
+                swap = rate * pos['remaining_lots'] * swap_multiplier
                 pos['swap_cost'] += swap
                 self.balance += swap
             
