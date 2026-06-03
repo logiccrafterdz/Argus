@@ -113,8 +113,8 @@ def compute_features(df, prefix=''):
 
 def compute_cross_asset_features(symbol_data_dict, target_symbol, lookback=50):
     """
-    Compute cross-asset features for a target symbol relative to all others.
-    Returns correlation and relative strength features.
+    Compute rolling cross-asset features for a target symbol relative to all others.
+    Returns DataFrame with rolling correlation and relative strength time series.
     """
     closes = {}
     for sym, data in symbol_data_dict.items():
@@ -127,15 +127,14 @@ def compute_cross_asset_features(symbol_data_dict, target_symbol, lookback=50):
         return pd.DataFrame()
 
     target_close = closes[target_symbol]
-    rows = []
+    result = pd.DataFrame(index=target_close.index)
     for sym, close_series in closes.items():
         if sym == target_symbol:
             continue
         aligned = pd.concat([target_close, close_series], axis=1, join='inner')
         aligned.columns = ['target', sym]
-        corr = aligned['target'].corr(aligned[sym])
-        rel_strength = (aligned['target'].iloc[-1] / aligned['target'].iloc[-lookback] - 1) - \
-                       (aligned[sym].iloc[-1] / aligned[sym].iloc[-lookback] - 1)
-        rows.append({'symbol': sym, 'correlation': corr, 'relative_strength': rel_strength})
-
-    return pd.DataFrame(rows)
+        result[f'{sym}_rolling_corr'] = aligned['target'].rolling(lookback).corr(aligned[sym])
+        result[f'{sym}_rel_strength'] = (aligned['target'] / aligned['target'].shift(lookback) - 1) - \
+                                        (aligned[sym] / aligned[sym].shift(lookback) - 1)
+    result = result.bfill().fillna(0)
+    return result
