@@ -48,6 +48,21 @@ DEFAULT_CONFIG = {
         'NAS100': 1.0,
     },
     'default_contract_size': 100000.0,
+    'regime': {
+        'method': 'adx',  # 'adx' | 'hmm'
+    },
+    'sentiment': {
+        'enabled': False,
+    },
+    'meta_labeling': {
+        'enabled': False,
+    },
+    'rl_agent': {
+        'enabled': False,
+    },
+    'agent_system': {
+        'enabled': False,
+    },
     'strategies': {
         'TrendPullback': {
             'fast_ema_period': 50,

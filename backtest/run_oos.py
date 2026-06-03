@@ -17,6 +17,33 @@ from indicators import MarketRegime
 from config import load_config, create_default_config
 from log_setup import setup_logger
 
+# Optional module imports (degrade gracefully if library missing)
+try:
+    from indicators import HMM_AVAILABLE as _H, HMMRegimeDetector as _HMM
+    HMM_REGIME_AVAILABLE = _H
+except ImportError:
+    HMM_REGIME_AVAILABLE = False
+try:
+    from sentiment import SentimentFilter
+    SENTIMENT_AVAILABLE = True
+except ImportError:
+    SENTIMENT_AVAILABLE = False
+try:
+    from meta_labeling import MetaLabelingFilter
+    META_AVAILABLE = True
+except ImportError:
+    META_AVAILABLE = False
+try:
+    from rl_agent import AdaptiveTPSLAgent
+    RL_AVAILABLE = True
+except ImportError:
+    RL_AVAILABLE = False
+try:
+    from agent_system import AgentSystem
+    AGENT_SYSTEM_AVAILABLE = True
+except ImportError:
+    AGENT_SYSTEM_AVAILABLE = False
+
 DATA_DIR = os.path.join(os.path.dirname(__file__), "data")
 RESULTS_DIR = os.path.join(os.path.dirname(os.path.dirname(__file__)), "docs", "data")
 
@@ -57,6 +84,7 @@ def run_oos(mode):
 
     # Pre-compute ATR for ATR-based slippage model
     atr_map = {}
+    adx_map = {}
     for sym in data:
         for tf in ('H1', 'M15', 'H4'):
             if tf in data[sym]:
@@ -67,6 +95,17 @@ def run_oos(mode):
                 tr = pd.concat([high_low, high_close, low_close], axis=1).max(axis=1)
                 atr = tr.rolling(14).mean().bfill().fillna(tr)
                 atr_map[sym] = atr.values
+                # ADX for filter features
+                up = df['high'].diff()
+                down = -df['low'].diff()
+                pos_dm = np.where((up > down) & (up > 0), up, 0.0)
+                neg_dm = np.where((down > up) & (down > 0), down, 0.0)
+                atr14 = tr.rolling(14).mean().replace(0, np.nan)
+                pdi = 100 * pd.Series(pos_dm, index=df.index).ewm(alpha=1/14, adjust=False).mean() / atr14
+                ndi = 100 * pd.Series(neg_dm, index=df.index).ewm(alpha=1/14, adjust=False).mean() / atr14
+                dx = 100 * (pdi - ndi).abs() / (pdi + ndi).replace(0, np.nan)
+                adx = dx.ewm(alpha=1/14, adjust=False).mean().bfill().fillna(25)
+                adx_map[sym] = adx.values
                 break
 
     engine = BacktestEngine(
@@ -74,6 +113,36 @@ def run_oos(mode):
         config=config
     )
     engine.atr_map = atr_map
+
+    # ===== INTEGRATIONS SETUP =====
+    regime_method = config.get('regime', {}).get('method', 'adx')
+    enable_sentiment = config.get('sentiment', {}).get('enabled', False) and SENTIMENT_AVAILABLE
+    enable_meta = config.get('meta_labeling', {}).get('enabled', False) and META_AVAILABLE
+    enable_rl = config.get('rl_agent', {}).get('enabled', False) and RL_AVAILABLE
+    enable_agent_system = config.get('agent_system', {}).get('enabled', False) and AGENT_SYSTEM_AVAILABLE
+
+    sentiment_filter = None
+    if enable_sentiment:
+        sentiment_filter = SentimentFilter()
+        logger.info("SentimentFilter enabled")
+
+    meta_filters = {}
+    if enable_meta:
+        for s in strategies:
+            meta_filters[s.name] = MetaLabelingFilter(s.name)
+        logger.info(f"Meta-labeling enabled for {len(strategies)} strategies")
+
+    rl_agent = None
+    if enable_rl:
+        rl_agent = AdaptiveTPSLAgent()
+        logger.info("RL Agent (TP/SL) enabled")
+
+    agent_system = None
+    if enable_agent_system:
+        meta_obj = meta_filters if enable_meta else None
+        sent_obj = sentiment_filter if enable_sentiment else None
+        agent_system = AgentSystem(engine, meta_filter=meta_obj, sentiment_filter=sent_obj)
+        logger.info("AgentSystem enabled")
 
     strategies = [
         AVWAPConfluence(),
@@ -237,19 +306,108 @@ def run_oos(mode):
                     else:
                         continue
                     if row['signal'] == 1:
+                        direction = 'BUY'
                         risk_dist = current_prices[symbol] - row['sl']
-                        if risk_dist <= 0 or pd.isna(risk_dist): continue
-                        if not engine.risk_manager.check_correlation(symbol, 'BUY', engine.open_positions, corr_matrix, 0.8): continue
-                        lot = engine.calculate_lot_size(symbol, 0.2, risk_dist, engine.equity)
-                        engine.execute_trade(symbol, strat.name, 'BUY', lot, current_prices[symbol], row['sl'], row['tp'], "Buy Signal")
                     elif row['signal'] == -1:
+                        direction = 'SELL'
                         risk_dist = row['sl'] - current_prices[symbol]
-                        if risk_dist <= 0 or pd.isna(risk_dist): continue
-                        if not engine.risk_manager.check_correlation(symbol, 'SELL', engine.open_positions, corr_matrix, 0.8): continue
+                    else:
+                        continue
+                    if risk_dist <= 0 or pd.isna(risk_dist):
+                        continue
+
+                    bar_idx = min(engine.bar_index, len(adx_map.get(symbol, [25])) - 1)
+                    adx_val = adx_map.get(symbol, [25.0])[bar_idx] if symbol in adx_map else 25.0
+                    atr_val = atr_map.get(symbol, [0.001])[min(bar_idx, len(atr_map.get(symbol, [0.001])) - 1)]
+                    atr_ratio = atr_val / (current_prices[symbol] + 1e-10)
+
+                    # --- Sentiment Filter ---
+                    if sentiment_filter and not sentiment_filter.should_trade(direction, current_time, symbol):
+                        continue
+
+                    # --- Meta-Labeling Filter ---
+                    if enable_meta and strat.name in meta_filters:
+                        mf = meta_filters[strat.name]
+                        feat = {
+                            'atr_ratio': atr_ratio, 'adx': adx_val,
+                            'spread': config.get('spread', {}).get(symbol, 0.0001),
+                            'hour': current_time.hour, 'day_of_week': current_time.weekday(),
+                            'session_asia': 1 if c_session & 1 else 0,
+                            'session_london': 1 if c_session & 2 else 0,
+                            'session_ny': 1 if c_session & 4 else 0,
+                            'range_pct': ((current_highs.get(symbol, 0) - current_lows.get(symbol, 0)) /
+                                          (current_prices[symbol] + 1e-10)),
+                        }
+                        if not mf.should_trade(feat):
+                            continue
+
+                    # --- Correlation Check ---
+                    if not engine.risk_manager.check_correlation(symbol, direction, engine.open_positions, corr_matrix, 0.8):
+                        continue
+
+                    # --- Agent System ---
+                    if agent_system:
+                        order = agent_system.process(
+                            symbol, direction, strat.name,
+                            current_prices[symbol], adx_val, atr_ratio,
+                            current_time, engine.open_positions, lot=0
+                        )
+                        if order is None:
+                            continue
+
+                    # --- RL Agent ---
+                    if rl_agent and not agent_system:
+                        tp_mult, sl_mult, rl_action_idx = rl_agent.select_action(adx_val, atr_ratio)
+                        if direction == 'BUY':
+                            rl_sl = current_prices[symbol] - risk_dist * sl_mult
+                            rl_tp = current_prices[symbol] + risk_dist * tp_mult
+                        else:
+                            rl_sl = current_prices[symbol] + risk_dist * sl_mult
+                            rl_tp = current_prices[symbol] - risk_dist * tp_mult
+
+                    # --- Execute Trade ---
+                    if agent_system and order:
+                        lot = order.lots
+                        exec_sl = order.sl
+                        exec_tp = order.tp
+                    elif rl_agent and not agent_system:
                         lot = engine.calculate_lot_size(symbol, 0.2, risk_dist, engine.equity)
-                        engine.execute_trade(symbol, strat.name, 'SELL', lot, current_prices[symbol], row['sl'], row['tp'], "Sell Signal")
+                        exec_sl = rl_sl
+                        exec_tp = rl_tp
+                    else:
+                        lot = engine.calculate_lot_size(symbol, 0.2, risk_dist, engine.equity)
+                        exec_sl = row['sl']
+                        exec_tp = row['tp']
+
+                    exec_ok = engine.execute_trade(
+                        symbol, strat.name, direction, lot,
+                        current_prices[symbol], exec_sl, exec_tp,
+                        f"{direction} Signal"
+                    )
+                    if exec_ok and rl_agent and not agent_system:
+                        engine.open_positions[-1]['rl_action'] = (adx_val, atr_ratio, rl_action_idx)
 
     engine.emergency_close_all(current_prices)
+
+    # --- Post-trade outcome recording for meta-labeling & RL ---
+    if enable_meta or enable_rl:
+        for t in engine.closed_trades:
+            strat_name = t.get('strategy', '')
+            was_profitable = t.get('profit', 0) > 0
+            if enable_meta and strat_name in meta_filters:
+                feat = {
+                    'atr_ratio': 0.001, 'adx': 25.0, 'spread': 0.0001,
+                    'hour': 0, 'day_of_week': 0,
+                    'session_asia': 0, 'session_london': 0, 'session_ny': 0,
+                    'range_pct': 0.001,
+                }
+                meta_filters[strat_name].add_signal(feat, was_profitable)
+            if enable_rl and not enable_agent_system and 'rl_action' in t:
+                adv, atr, ridx = t['rl_action']
+                rl_agent.update(adv, atr, ridx, t.get('profit', 0))
+        if enable_meta:
+            for mf in meta_filters.values():
+                mf.train()
 
     logger.info("Backtest finished. Calculating metrics...")
     port_metrics = calculate_metrics(engine.closed_trades, engine.equity_curve, 100000.0)
