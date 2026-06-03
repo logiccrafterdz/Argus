@@ -42,6 +42,16 @@ contract_size:
   EURJPY: 100000
   GBPJPY: 100000
 default_contract_size: 100000.0
+regime:
+  method: adx
+sentiment:
+  enabled: true
+meta_labeling:
+  enabled: true
+rl_agent:
+  enabled: true
+agent_system:
+  enabled: false
 strategies:
   TrendPullback:
     fast_ema_period: 50

@@ -114,36 +114,6 @@ def run_oos(mode):
     )
     engine.atr_map = atr_map
 
-    # ===== INTEGRATIONS SETUP =====
-    regime_method = config.get('regime', {}).get('method', 'adx')
-    enable_sentiment = config.get('sentiment', {}).get('enabled', False) and SENTIMENT_AVAILABLE
-    enable_meta = config.get('meta_labeling', {}).get('enabled', False) and META_AVAILABLE
-    enable_rl = config.get('rl_agent', {}).get('enabled', False) and RL_AVAILABLE
-    enable_agent_system = config.get('agent_system', {}).get('enabled', False) and AGENT_SYSTEM_AVAILABLE
-
-    sentiment_filter = None
-    if enable_sentiment:
-        sentiment_filter = SentimentFilter()
-        logger.info("SentimentFilter enabled")
-
-    meta_filters = {}
-    if enable_meta:
-        for s in strategies:
-            meta_filters[s.name] = MetaLabelingFilter(s.name)
-        logger.info(f"Meta-labeling enabled for {len(strategies)} strategies")
-
-    rl_agent = None
-    if enable_rl:
-        rl_agent = AdaptiveTPSLAgent()
-        logger.info("RL Agent (TP/SL) enabled")
-
-    agent_system = None
-    if enable_agent_system:
-        meta_obj = meta_filters if enable_meta else None
-        sent_obj = sentiment_filter if enable_sentiment else None
-        agent_system = AgentSystem(engine, meta_filter=meta_obj, sentiment_filter=sent_obj)
-        logger.info("AgentSystem enabled")
-
     strategies = [
         AVWAPConfluence(),
         ADXTrendStrength(),
@@ -153,6 +123,38 @@ def run_oos(mode):
         SmartSwingBias(),
         PriceActionSR(),
     ]
+
+    # ===== INTEGRATIONS SETUP =====
+    regime_method = config.get('regime', {}).get('method', 'adx')
+    enable_sentiment = config.get('sentiment', {}).get('enabled', False) and SENTIMENT_AVAILABLE
+    enable_meta = config.get('meta_labeling', {}).get('enabled', False) and META_AVAILABLE
+    enable_rl = config.get('rl_agent', {}).get('enabled', False) and RL_AVAILABLE
+    enable_agent_system = config.get('agent_system', {}).get('enabled', False) and AGENT_SYSTEM_AVAILABLE
+
+    hmm_detectors = {}
+    if regime_method == 'hmm' and HMM_REGIME_AVAILABLE:
+        logger.info("Using HMM regime detection")
+
+    sentiment_filter = None
+    if enable_sentiment:
+        sentiment_filter = SentimentFilter()
+        logger.info("SentimentFilter enabled")
+
+    meta_filters = {}
+    if enable_meta:
+        for strat_obj in strategies:
+            meta_filters[strat_obj.name] = MetaLabelingFilter(strat_obj.name)
+        logger.info(f"Meta-labeling enabled for {len(strategies)} strategies")
+
+    rl_agent = None
+    if enable_rl:
+        rl_agent = AdaptiveTPSLAgent()
+        logger.info("RL Agent (TP/SL) enabled")
+
+    agent_system = None
+    if enable_agent_system:
+        agent_system = AgentSystem(engine, meta_filters=meta_filters, sentiment_filter=sentiment_filter)
+        logger.info("AgentSystem enabled")
 
     for strat in strategies:
         if strat.disable_breakeven:
@@ -350,7 +352,8 @@ def run_oos(mode):
                         order = agent_system.process(
                             symbol, direction, strat.name,
                             current_prices[symbol], adx_val, atr_ratio,
-                            current_time, engine.open_positions, lot=0
+                            current_time, engine.open_positions, lots=0,
+                            risk_dist=risk_dist
                         )
                         if order is None:
                             continue

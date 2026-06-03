@@ -112,10 +112,10 @@ class TechAgent:
 
     def __init__(self):
         self.regime = {}
-        self.meta_filter = None
+        self.meta_filters = {}
 
-    def set_meta_filter(self, meta_filter):
-        self.meta_filter = meta_filter
+    def set_meta_filters(self, meta_filters):
+        self.meta_filters = meta_filters or {}
 
     def vote(self, symbol: str, direction: str, strategy: str,
              adx: float, atr_ratio: float) -> SignalVote:
@@ -130,9 +130,10 @@ class TechAgent:
             confidence -= 0.1
             reasons.append('range_compression')
 
-        if self.meta_filter:
+        mf = self.meta_filters.get(strategy) if isinstance(self.meta_filters, dict) else None
+        if mf:
             features = {'adx': adx, 'atr_ratio': atr_ratio, 'spread': 0}
-            meta_prob = self.meta_filter.predict_proba(features)
+            meta_prob = mf.predict_proba(features)
             if meta_prob > 0.6:
                 confidence += 0.15
                 reasons.append(f'meta:{meta_prob:.2f}')
@@ -203,7 +204,8 @@ class ExecutorAgent:
         self.tp_sl_agent = tp_sl_agent
 
     def execute(self, votes: List[SignalVote], symbol: str, entry_price: float,
-                adx: float, atr_ratio: float, strategy: str) -> Optional[TradeOrder]:
+                adx: float, atr_ratio: float, strategy: str,
+                risk_dist: Optional[float] = None) -> Optional[TradeOrder]:
         # Aggregate votes
         buy_votes = [v for v in votes if v.direction == 'BUY']
         sell_votes = [v for v in votes if v.direction == 'SELL']
@@ -227,7 +229,8 @@ class ExecutorAgent:
             confidence = avg_sell_conf
 
         # Position sizing via engine
-        risk_dist = entry_price * 0.002  # fallback
+        if risk_dist is None or risk_dist <= 0:
+            risk_dist = entry_price * 0.002
         lots = self.engine.calculate_lot_size(symbol, 0.2, risk_dist, self.engine.equity)
 
         # TP/SL via RL agent if available
@@ -261,19 +264,20 @@ class AgentSystem:
         order = system.process(symbol, direction, strategy, entry_price, adx, atr, timestamp)
     """
 
-    def __init__(self, engine, meta_filter=None, sentiment_filter=None):
+    def __init__(self, engine, meta_filters=None, sentiment_filter=None):
         self.macro = MacroAgent()
         self.tech = TechAgent()
         self.sentiment = SentimentAgent(sentiment_filter)
         self.risk = RiskAgent(engine)
         self.executor = ExecutorAgent(engine, tp_sl_agent=None)
 
-        if meta_filter:
-            self.tech.set_meta_filter(meta_filter)
+        if meta_filters:
+            self.tech.set_meta_filters(meta_filters)
 
     def process(self, symbol: str, direction: str, strategy: str,
                 entry_price: float, adx: float, atr_ratio: float,
-                timestamp, open_positions: list, lots: float = 0) -> Optional[TradeOrder]:
+                timestamp, open_positions: list, lots: float = 0,
+                risk_dist: Optional[float] = None) -> Optional[TradeOrder]:
         votes = [
             self.macro.vote(symbol, direction),
             self.tech.vote(symbol, direction, strategy, adx, atr_ratio),
@@ -281,4 +285,5 @@ class AgentSystem:
             self.risk.vote(symbol, direction, lots, open_positions),
         ]
         return self.executor.execute(votes, symbol, entry_price,
-                                     adx, atr_ratio, strategy)
+                                     adx, atr_ratio, strategy,
+                                     risk_dist=risk_dist)

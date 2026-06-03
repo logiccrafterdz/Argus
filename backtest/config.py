@@ -52,13 +52,13 @@ DEFAULT_CONFIG = {
         'method': 'adx',  # 'adx' | 'hmm'
     },
     'sentiment': {
-        'enabled': False,
+        'enabled': True,
     },
     'meta_labeling': {
-        'enabled': False,
+        'enabled': True,
     },
     'rl_agent': {
-        'enabled': False,
+        'enabled': True,
     },
     'agent_system': {
         'enabled': False,
