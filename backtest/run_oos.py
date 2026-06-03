@@ -153,7 +153,8 @@ def run_oos(mode):
 
     agent_system = None
     if enable_agent_system:
-        agent_system = AgentSystem(engine, meta_filters=meta_filters, sentiment_filter=sentiment_filter)
+        agent_system = AgentSystem(engine, meta_filters=meta_filters,
+                                   sentiment_filter=sentiment_filter, rl_agent=rl_agent)
         logger.info("AgentSystem enabled")
 
     for strat in strategies:

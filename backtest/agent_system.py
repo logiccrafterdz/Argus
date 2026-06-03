@@ -264,12 +264,12 @@ class AgentSystem:
         order = system.process(symbol, direction, strategy, entry_price, adx, atr, timestamp)
     """
 
-    def __init__(self, engine, meta_filters=None, sentiment_filter=None):
+    def __init__(self, engine, meta_filters=None, sentiment_filter=None, rl_agent=None):
         self.macro = MacroAgent()
         self.tech = TechAgent()
         self.sentiment = SentimentAgent(sentiment_filter)
         self.risk = RiskAgent(engine)
-        self.executor = ExecutorAgent(engine, tp_sl_agent=None)
+        self.executor = ExecutorAgent(engine, tp_sl_agent=rl_agent)
 
         if meta_filters:
             self.tech.set_meta_filters(meta_filters)

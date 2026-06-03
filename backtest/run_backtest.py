@@ -146,7 +146,8 @@ def run_backtest():
         agent_system = None
         if enable_agent_system:
             sent_obj = sentiment_filter if enable_sentiment else None
-            agent_system = AgentSystem(engine, meta_filters=meta_filters, sentiment_filter=sent_obj)
+            agent_system = AgentSystem(engine, meta_filters=meta_filters,
+                                       sentiment_filter=sent_obj, rl_agent=rl_agent)
             logger.info("AgentSystem enabled")
 
     # Build master timeline from all available M15 data, plus H1 for symbols without M15
