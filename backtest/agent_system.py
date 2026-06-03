@@ -59,7 +59,8 @@ class MacroAgent:
           - rates outlook (hawkish = bearish risk)
         """
         self.bias = {}
-        for sym in ['EURUSD', 'GBPUSD', 'USDJPY', 'XAUUSD', 'US30', 'NAS100']:
+        for sym in ['EURUSD', 'GBPUSD', 'USDJPY', 'XAUUSD', 'US30', 'NAS100',
+                     'AUDUSD', 'NZDUSD', 'USDCAD', 'USDCHF']:
             score = 0
             fear_greed_weight = 0.0
             if fear_greed >= 80:
@@ -78,14 +79,14 @@ class MacroAgent:
                 score += -0.3 * (1 if fear_greed > 50 else -1)
 
             if rates_outlook == 'HAWKISH':
-                if sym in ('EURUSD', 'GBPUSD', 'XAUUSD'):
+                if sym in ('EURUSD', 'GBPUSD', 'AUDUSD', 'NZDUSD', 'XAUUSD'):
                     score -= 0.2
-                elif sym == 'USDJPY':
+                elif sym in ('USDJPY', 'USDCAD', 'USDCHF'):
                     score += 0.2
             elif rates_outlook == 'DOVISH':
-                if sym in ('EURUSD', 'GBPUSD', 'XAUUSD'):
+                if sym in ('EURUSD', 'GBPUSD', 'AUDUSD', 'NZDUSD', 'XAUUSD'):
                     score += 0.2
-                elif sym == 'USDJPY':
+                elif sym in ('USDJPY', 'USDCAD', 'USDCHF'):
                     score -= 0.2
 
             if score > 0.15:
