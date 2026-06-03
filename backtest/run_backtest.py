@@ -195,13 +195,21 @@ def run_backtest():
         if 'H4' in data[sym]:
             h4_df = data[sym]['H4']
             d1_df = h4_df.resample('D').agg({'open': 'first', 'high': 'max', 'low': 'min', 'close': 'last'}).dropna()
-            m_regime = MarketRegime(d1_df)
-            regimes_dict[sym] = m_regime.to_dict()
+            if regime_method == 'hmm' and HMM_REGIME_AVAILABLE:
+                hmm_det = HMMRegimeDetector()
+                hmm_det.fit(d1_df)
+                regimes_dict[sym] = hmm_det.to_dict(d1_df)
+            else:
+                regimes_dict[sym] = MarketRegime(d1_df).to_dict()
         elif 'H1' in data[sym]:
             h1_df = data[sym]['H1']
             d1_df = h1_df.resample('D').agg({'open': 'first', 'high': 'max', 'low': 'min', 'close': 'last'}).dropna()
-            m_regime = MarketRegime(d1_df)
-            regimes_dict[sym] = m_regime.to_dict()
+            if regime_method == 'hmm' and HMM_REGIME_AVAILABLE:
+                hmm_det = HMMRegimeDetector()
+                hmm_det.fit(d1_df)
+                regimes_dict[sym] = hmm_det.to_dict(d1_df)
+            else:
+                regimes_dict[sym] = MarketRegime(d1_df).to_dict()
         else:
             regimes_dict[sym] = {}    
     # Build correlation matrix from H1 close prices for all symbols
