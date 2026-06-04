@@ -47,7 +47,7 @@ regime:
 sentiment:
   enabled: false
 meta_labeling:
-  enabled: false
+  enabled: true
 rl_agent:
   enabled: false
 agent_system:
