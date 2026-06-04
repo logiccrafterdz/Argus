@@ -132,7 +132,9 @@ def run_backtest():
     if enable_sentiment:
         sentiment_filter = SentimentFilter()
         # Feed H1 price data for fear-greed computation
-        fg_df = data.get('EURUSD', {}).get('H1') or next((tfs['H1'] for tfs in data.values() if 'H1' in tfs), None)
+        fg_df = data.get('EURUSD', {}).get('H1')
+        if fg_df is None:
+            fg_df = next((tfs['H1'] for tfs in data.values() if 'H1' in tfs), None)
         if fg_df is not None:
             sentiment_filter.feed_prices(fg_df)
         logger.info("SentimentFilter enabled")
