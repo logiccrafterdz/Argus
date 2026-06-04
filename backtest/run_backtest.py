@@ -143,12 +143,12 @@ def run_backtest():
         rl_agent = AdaptiveTPSLAgent()
         logger.info("RL Agent (TP/SL) enabled")
 
-        agent_system = None
-        if enable_agent_system:
-            sent_obj = sentiment_filter if enable_sentiment else None
-            agent_system = AgentSystem(engine, meta_filters=meta_filters,
-                                       sentiment_filter=sent_obj, rl_agent=rl_agent)
-            logger.info("AgentSystem enabled")
+    agent_system = None
+    if enable_agent_system and enable_rl:
+        sent_obj = sentiment_filter if enable_sentiment else None
+        agent_system = AgentSystem(engine, meta_filters=meta_filters,
+                                   sentiment_filter=sent_obj, rl_agent=rl_agent)
+        logger.info("AgentSystem enabled")
 
     # Build master timeline from all available M15 data, plus H1 for symbols without M15
     master_timeline = None
