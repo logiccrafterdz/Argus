@@ -20,7 +20,7 @@ RESULTS_DIR = os.path.join(os.path.dirname(os.path.dirname(__file__)), "docs", "
 
 def load_data():
     symbols_data = {}
-    for filename in os.listdir(DATA_DIR):
+    for filename in sorted(os.listdir(DATA_DIR)):
         if filename.endswith(".csv"):
             symbol, tf = filename.split('.')[0].split('_')
             filepath = os.path.join(DATA_DIR, filename)
@@ -33,6 +33,7 @@ def load_data():
 
 
 def run_rolling_wfa(train_months=12, val_months=3, step_months=1):
+    np.random.seed(42)
     """
     Rolling Walk-Forward Analysis.
 

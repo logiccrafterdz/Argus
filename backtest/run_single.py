@@ -26,7 +26,7 @@ SPLITS = {
 
 def load_data():
     symbols_data = {}
-    for filename in os.listdir(DATA_DIR):
+    for filename in sorted(os.listdir(DATA_DIR)):
         if filename.endswith(".csv"):
             symbol, tf = filename.split('.')[0].split('_')
             filepath = os.path.join(DATA_DIR, filename)
@@ -68,6 +68,7 @@ def filter_by_period(df, mode):
     return df[(df.index >= s['start']) & (df.index < s['end'])].copy()
 
 def run_single(strat_class, label=None, mode='all'):
+    np.random.seed(42)
     logger = setup_logger('single')
     config = load_config() or create_default_config()
     init_balance = config.get('backtest', {}).get('initial_balance', 100000.0)
@@ -180,7 +181,7 @@ def run_single(strat_class, label=None, mode='all'):
         if tf == 'H4' and (current_time.minute != 0 or current_time.hour % 4 != 0):
             continue
 
-        sym_regime = regimes.get(next(iter(prices), ''), {})
+        sym_regime = regimes.get(next(iter(sorted(prices)), ''), {})
         c_regime = sym_regime.get(cdate, 1)
         if not strat.check_regime(c_regime) or not strat.check_session(c_session):
             continue

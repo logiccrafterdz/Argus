@@ -21,7 +21,7 @@ NAME_TF_MAP = {
 
 def load_data():
     symbols_data = {}
-    for filename in os.listdir(DATA_DIR):
+    for filename in sorted(os.listdir(DATA_DIR)):
         if filename.endswith(".csv"):
             symbol, tf = filename.split('.')[0].split('_')
             filepath = os.path.join(DATA_DIR, filename)
@@ -36,6 +36,7 @@ def get_strategy_tf(strat_name):
     return NAME_TF_MAP.get(strat_name, 'H1')
 
 def run_test(strat_class, params_overrides, label=None):
+    np.random.seed(42)
     logger = setup_logger('optimize')
     config = load_config() or create_default_config()
     init_balance = config.get('backtest', {}).get('initial_balance', 100000.0)
@@ -124,7 +125,7 @@ def run_test(strat_class, params_overrides, label=None):
         if tf == 'H4' and (current_time.minute != 0 or current_time.hour % 4 != 0):
             continue
 
-        sym_regime = regimes.get(next(iter(prices), ''), {})
+        sym_regime = regimes.get(next(iter(sorted(prices)), ''), {})
         c_regime = sym_regime.get(cdate, 1)
         if not strat.check_regime(c_regime) or not strat.check_session(c_session):
             continue

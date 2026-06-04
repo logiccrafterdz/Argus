@@ -18,7 +18,7 @@ RESULTS_DIR = os.path.join(os.path.dirname(os.path.dirname(__file__)), "docs", "
 
 def load_data():
     symbols_data = {}
-    for filename in os.listdir(DATA_DIR):
+    for filename in sorted(os.listdir(DATA_DIR)):
         if filename.endswith(".csv"):
             symbol, tf = filename.split('.')[0].split('_')
             filepath = os.path.join(DATA_DIR, filename)
@@ -30,6 +30,7 @@ def load_data():
     return symbols_data
 
 def run_full():
+    np.random.seed(42)
     logger = setup_logger('wfa_full')
     config = load_config()
     if config is None: config = create_default_config()

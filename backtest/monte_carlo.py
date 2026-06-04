@@ -22,7 +22,7 @@ SPLITS = {
 
 def load_data():
     d = {}
-    for fn in os.listdir(DATA_DIR):
+    for fn in sorted(os.listdir(DATA_DIR)):
         if not fn.endswith('.csv'): continue
         s, tf = fn.split('.')[0].split('_')
         df = pd.read_csv(os.path.join(DATA_DIR, fn), parse_dates=['time']).set_index('time')
@@ -30,6 +30,7 @@ def load_data():
     return d
 
 def run_portfolio(mode, logger):
+    np.random.seed(42)
     sp = SPLITS[mode]
     config = load_config()
     if config is None: config = create_default_config()
