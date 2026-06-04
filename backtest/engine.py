@@ -351,7 +351,7 @@ class BacktestEngine:
 
         self.balance += profit
         self.record_trade_result(profit, pos['strategy'])
-        self.closed_trades.append({
+        trade_record = {
             'ticket': pos['ticket'],
             'symbol': pos['symbol'],
             'strategy': pos['strategy'],
@@ -364,7 +364,12 @@ class BacktestEngine:
             'profit': profit,
             'reason': reason,
             'swap_cost': round(total_swap, 2)
-        })
+        }
+        if 'rl_action' in pos:
+            trade_record['rl_action'] = pos['rl_action']
+        if 'meta_features' in pos:
+            trade_record['meta_features'] = pos['meta_features']
+        self.closed_trades.append(trade_record)
         pos['remaining_lots'] -= lots_to_close
         if pos['remaining_lots'] <= 0.001:
             self.open_positions.remove(pos)
@@ -390,7 +395,7 @@ class BacktestEngine:
 
         self.balance += profit
         self.record_trade_result(profit, pos['strategy'])
-        self.closed_trades.append({
+        trade_record = {
             'ticket': pos['ticket'],
             'symbol': pos['symbol'],
             'strategy': pos['strategy'],
@@ -403,7 +408,12 @@ class BacktestEngine:
             'profit': profit,
             'reason': reason,
             'swap_cost': round(total_swap, 2)
-        })
+        }
+        if 'rl_action' in pos:
+            trade_record['rl_action'] = pos['rl_action']
+        if 'meta_features' in pos:
+            trade_record['meta_features'] = pos['meta_features']
+        self.closed_trades.append(trade_record)
         pos['remaining_lots'] -= lots_to_close
 
         if self.balance < self.bankruptcy_threshold and not self.is_bankrupt:

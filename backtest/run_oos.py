@@ -139,6 +139,9 @@ def run_oos(mode):
     sentiment_filter = None
     if enable_sentiment:
         sentiment_filter = SentimentFilter()
+        fg_df = data.get('EURUSD', {}).get('H1') or next((tfs['H1'] for tfs in data.values() if 'H1' in tfs), None)
+        if fg_df is not None:
+            sentiment_filter.feed_prices(fg_df)
         logger.info("SentimentFilter enabled")
 
     meta_filters = {}
@@ -261,6 +264,7 @@ def run_oos(mode):
     logger.info(f"Executing backtest over {len(master_timeline)} bars...")
     count = 0
     total = len(master_timeline)
+    processed_trades = 0
     for current_time in master_timeline.index:
         count += 1
         if count % 5000 == 0:
@@ -337,6 +341,7 @@ def run_oos(mode):
                     if sentiment_filter and not sentiment_filter.should_trade(direction, current_time, symbol):
                         continue
 
+                    feat = None
                     # --- Meta-Labeling Filter ---
                     if enable_meta and strat.name in meta_filters:
                         mf = meta_filters[strat.name]
@@ -399,28 +404,40 @@ def run_oos(mode):
                     )
                     if exec_ok and rl_agent and not agent_system:
                         engine.open_positions[-1]['rl_action'] = (adx_val, atr_ratio, rl_action_idx)
+                    if exec_ok and feat is not None:
+                        engine.open_positions[-1]['meta_features'] = feat
+
+                    # Inline feedback: process newly closed trades
+                    while len(engine.closed_trades) > processed_trades:
+                        t_closed = engine.closed_trades[processed_trades]
+                        s_name = t_closed.get('strategy', '')
+                        was_profitable = t_closed.get('profit', 0) > 0
+                        if enable_meta and s_name in meta_filters:
+                            mf = meta_filters[s_name]
+                            mf.add_signal(t_closed.get('meta_features', {}), was_profitable)
+                            if len(mf._feature_buffer) >= mf.min_samples and len(mf._feature_buffer) % 50 == 0:
+                                mf.train()
+                        if enable_rl and not enable_agent_system and 'rl_action' in t_closed:
+                            rl_adx, rl_atr, rl_idx = t_closed['rl_action']
+                            rl_agent.update(rl_adx, rl_atr, rl_idx, t_closed.get('profit', 0))
+                        processed_trades += 1
 
     engine.emergency_close_all(current_prices)
 
-    # --- Post-trade outcome recording for meta-labeling & RL ---
-    if enable_meta or enable_rl:
-        for t in engine.closed_trades:
-            strat_name = t.get('strategy', '')
-            was_profitable = t.get('profit', 0) > 0
-            if enable_meta and strat_name in meta_filters:
-                feat = {
-                    'atr_ratio': 0.001, 'adx': 25.0, 'spread': 0.0001,
-                    'hour': 0, 'day_of_week': 0,
-                    'session_asia': 0, 'session_london': 0, 'session_ny': 0,
-                    'range_pct': 0.001,
-                }
-                meta_filters[strat_name].add_signal(feat, was_profitable)
-            if enable_rl and not enable_agent_system and 'rl_action' in t:
-                adv, atr, ridx = t['rl_action']
-                rl_agent.update(adv, atr, ridx, t.get('profit', 0))
-        if enable_meta:
-            for mf in meta_filters.values():
-                mf.train()
+    # Drain remaining closed trades (from emergency_close_all)
+    while len(engine.closed_trades) > processed_trades:
+        t_closed = engine.closed_trades[processed_trades]
+        s_name = t_closed.get('strategy', '')
+        was_profitable = t_closed.get('profit', 0) > 0
+        if enable_meta and s_name in meta_filters:
+            meta_filters[s_name].add_signal(t_closed.get('meta_features', {}), was_profitable)
+        if enable_rl and not enable_agent_system and 'rl_action' in t_closed:
+            rl_adx, rl_atr, rl_idx = t_closed['rl_action']
+            rl_agent.update(rl_adx, rl_atr, rl_idx, t_closed.get('profit', 0))
+        processed_trades += 1
+    if enable_meta:
+        for mf in meta_filters.values():
+            mf.train()
 
     logger.info("Backtest finished. Calculating metrics...")
     port_metrics = calculate_metrics(engine.closed_trades, engine.equity_curve, 100000.0)
