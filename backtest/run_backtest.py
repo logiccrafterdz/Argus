@@ -108,7 +108,7 @@ def run_backtest():
     strategies = [
         AVWAPConfluence(),
         ADXTrendStrength(),
-        HiddenDivergence(),
+        # HiddenDivergence(),
         DonchianBreakout(),
         BollingerMeanReversion(),
         SmartSwingBias(),

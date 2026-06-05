@@ -121,7 +121,7 @@ def run_oos(mode):
     strategies = [
         AVWAPConfluence(),
         ADXTrendStrength(),
-        HiddenDivergence(),
+        # HiddenDivergence(),
         DonchianBreakout(),
         BollingerMeanReversion(),
         SmartSwingBias(),

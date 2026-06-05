@@ -1,8 +1,8 @@
 {
-  "run_id": "run-20260604-231319",
-  "date": "2026-06-04 23:13",
-  "commit": "21961f1",
-  "changes": "backtest/monte_carlo.py     |     3 +-\n backtest/rolling_wfa.py     |     3 +-\n backtest/run_backtest.py    |     9 +-\n backtest/run_oos.py         |    11 +-\n backtest/wfa_fast.py        |     3 +-\n docs/data/results.json      | 16619 +++++++++++++++++++++---------------------\n docs/data/run_manife",
+  "run_id": "run-20260605-204709",
+  "date": "2026-06-05 20:47",
+  "commit": "496beb1",
+  "changes": "backtest/run_backtest.py | 2 +-\n backtest/run_oos.py      | 2 +-\n 2 files changed, 2 insertions(+), 2 deletions(-)",
   "data_range": {
     "start": "2018-01-02",
     "end": "2026-05-29"
