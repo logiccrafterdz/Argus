@@ -42,15 +42,17 @@ class BollingerMeanReversion(BaseStrategy):
             sma1 = df['bb_sma'].iloc[i-1]
             rsi1 = df['rsi'].iloc[i-1]
             
-            # Oversold and touching lower band
-            if low1 <= lower1 and rsi1 < 30 and close1 > lower1:
+            sma2 = df['bb_sma'].iloc[i-2]
+            
+            # Oversold and touching lower band, but trend is UP
+            if low1 <= lower1 and rsi1 < 30 and close1 > lower1 and sma1 > sma2:
                 signals.append(1)
                 sl = close1 - self._atr_buf(df, i-1, 2.0)
                 tp = close1 + self._atr_buf(df, i-1, 4.0)
                 sl_prices.append(sl)
                 tp_prices.append(tp)
-            # Overbought and touching upper band
-            elif high1 >= upper1 and rsi1 > 70 and close1 < upper1:
+            # Overbought and touching upper band, but trend is DOWN
+            elif high1 >= upper1 and rsi1 > 70 and close1 < upper1 and sma1 < sma2:
                 signals.append(-1)
                 sl = close1 + self._atr_buf(df, i-1, 2.0)
                 tp = close1 - self._atr_buf(df, i-1, 4.0)

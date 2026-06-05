@@ -123,7 +123,7 @@ def run_oos(mode):
         ADXTrendStrength(),
         # HiddenDivergence(),
         DonchianBreakout(),
-        BollingerMeanReversion(),
+        # BollingerMeanReversion(),
         SmartSwingBias(),
         PriceActionSR(),
     ]
