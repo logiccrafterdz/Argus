@@ -52,7 +52,7 @@ DEFAULT_CONFIG = {
         'method': 'adx',  # 'adx' | 'hmm'
     },
     'sentiment': {
-        'enabled': False,
+        'enabled': True,
     },
     'meta_labeling': {
         'enabled': True,

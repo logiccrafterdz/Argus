@@ -31,7 +31,7 @@ spread:
   USDCAD: 0.00016
   NZDUSD: 0.00018
   EURJPY: 0.015
-  GBPJPY: 0.020
+  GBPJPY: 0.02
   XAUUSD: 0.35
   US30: 3.0
   NAS100: 2.5
@@ -45,7 +45,7 @@ default_contract_size: 100000.0
 regime:
   method: adx
 sentiment:
-  enabled: false
+  enabled: true
 meta_labeling:
   enabled: true
 rl_agent:
