@@ -85,6 +85,7 @@ def run_oos(mode):
 
     # Pre-compute ATR for ATR-based slippage model
     atr_map = {}
+    atr_sma_map = {}
     adx_map = {}
     for sym in data:
         for tf in ('H1', 'M15', 'H4'):
@@ -95,7 +96,9 @@ def run_oos(mode):
                 low_close = (df['low'] - df['close'].shift()).abs()
                 tr = pd.concat([high_low, high_close, low_close], axis=1).max(axis=1)
                 atr = tr.rolling(14).mean().bfill().fillna(tr)
+                atr_sma = atr.rolling(20).mean().bfill().fillna(atr)
                 atr_map[sym] = atr.values
+                atr_sma_map[sym] = atr_sma.values
                 # ADX for filter features
                 up = df['high'].diff()
                 down = -df['low'].diff()
@@ -377,7 +380,9 @@ def run_oos(mode):
 
                     # --- RL Agent ---
                     if rl_agent and not agent_system:
-                        tp_mult, sl_mult, rl_action_idx = rl_agent.select_action(adx_val, atr_ratio)
+                        atr_sma_val = atr_sma_map.get(symbol, [atr_val])[min(bar_idx, len(atr_sma_map.get(symbol, [atr_val])) - 1)]
+                        atr_regime_ratio = atr_val / (atr_sma_val + 1e-10)
+                        tp_mult, sl_mult, rl_action_idx = rl_agent.select_action(adx_val, atr_regime_ratio)
                         if direction == 'BUY':
                             rl_sl = current_prices[symbol] - risk_dist * sl_mult
                             rl_tp = current_prices[symbol] + risk_dist * tp_mult
