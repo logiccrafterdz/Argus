@@ -71,7 +71,7 @@ def filter_by_period(df, mode):
     s = SPLITS[mode]
     return df[(df.index >= s['start']) & (df.index < s['end'])].copy()
 
-def run_oos(mode):
+def run_oos(mode, existing_rl_agent=None, existing_meta_filters=None):
     np.random.seed(42)
     logger = setup_logger('oos_' + mode)
     s = SPLITS[mode]
@@ -140,7 +140,7 @@ def run_oos(mode):
         logger.info("Using HMM regime detection")
 
     sentiment_filter = None
-    if enable_sentiment:
+    if config.get('sentiment', {}).get('enabled', False) and SENTIMENT_AVAILABLE:
         sentiment_filter = SentimentFilter()
         fg_df = data.get('EURUSD', {}).get('H1')
         if fg_df is None:
@@ -149,14 +149,14 @@ def run_oos(mode):
             sentiment_filter.feed_prices(fg_df)
         logger.info("SentimentFilter enabled")
 
-    meta_filters = {}
-    if enable_meta:
+    meta_filters = existing_meta_filters if existing_meta_filters is not None else {}
+    if enable_meta and not meta_filters:
         for strat_obj in strategies:
             meta_filters[strat_obj.name] = MetaLabelingFilter(strat_obj.name)
         logger.info(f"Meta-labeling enabled for {len(strategies)} strategies")
 
-    rl_agent = None
-    if enable_rl:
+    rl_agent = existing_rl_agent
+    if enable_rl and rl_agent is None:
         rl_agent = AdaptiveTPSLAgent()
         logger.info("RL Agent (TP/SL) enabled")
 
@@ -191,8 +191,7 @@ def run_oos(mode):
     precalc_data = {}
     for symbol, tfs in data.items():
         precalc_data[symbol] = {}
-        for strat_idx, strat in enumerate(strategies):
-            logger.info(f"Processing {symbol} - {strat.name}")
+        for strat in strategies:
             tf = 'H1'
             if strat.name in ['ICT_Killzone_Macro', 'ORB_Session', 'ORB_Hybrid', 'Asian_Range_Fakeout', 'NY_Session_Reversal', 'PDH_PDL_BreakReversal']:
                 tf = 'M15'
@@ -382,7 +381,7 @@ def run_oos(mode):
                     if rl_agent and not agent_system:
                         atr_sma_val = atr_sma_map.get(symbol, [atr_val])[min(bar_idx, len(atr_sma_map.get(symbol, [atr_val])) - 1)]
                         atr_regime_ratio = atr_val / (atr_sma_val + 1e-10)
-                        tp_mult, sl_mult, rl_action_idx = rl_agent.select_action(adx_val, atr_regime_ratio)
+                        tp_mult, sl_mult, rl_action_idx = rl_agent.select_action(strat.name, adx_val, atr_regime_ratio)
                         if direction == 'BUY':
                             rl_sl = current_prices[symbol] - risk_dist * sl_mult
                             rl_tp = current_prices[symbol] + risk_dist * tp_mult
@@ -424,9 +423,11 @@ def run_oos(mode):
                             mf.add_signal(t_closed.get('meta_features', {}), was_profitable)
                             if len(mf._feature_buffer) >= mf.min_samples and len(mf._feature_buffer) % 50 == 0:
                                 mf.train()
-                        if enable_rl and not enable_agent_system and 'rl_action' in t_closed:
-                            rl_adx, rl_atr, rl_idx = t_closed['rl_action']
-                            rl_agent.update(rl_adx, rl_atr, rl_idx, t_closed.get('profit', 0))
+                        if 'rl_action_idx' in t_closed and t_closed['rl_action_idx'] is not None:
+                            rl_idx = t_closed['rl_action_idx']
+                            rl_adx = t_closed.get('rl_adx', 25)
+                            rl_atr = t_closed.get('rl_atr_ratio', 1.0)
+                            rl_agent.update(t_closed.get('strategy', 'unknown'), rl_adx, rl_atr, rl_idx, t_closed.get('profit', 0))
                         processed_trades += 1
 
     engine.emergency_close_all(current_prices)
@@ -438,16 +439,18 @@ def run_oos(mode):
         was_profitable = t_closed.get('profit', 0) > 0
         if enable_meta and s_name in meta_filters:
             meta_filters[s_name].add_signal(t_closed.get('meta_features', {}), was_profitable)
-        if enable_rl and not enable_agent_system and 'rl_action' in t_closed:
-            rl_adx, rl_atr, rl_idx = t_closed['rl_action']
-            rl_agent.update(rl_adx, rl_atr, rl_idx, t_closed.get('profit', 0))
+        if 'rl_action_idx' in t_closed and t_closed['rl_action_idx'] is not None:
+            rl_idx = t_closed['rl_action_idx']
+            rl_adx = t_closed.get('rl_adx', 25)
+            rl_atr = t_closed.get('rl_atr_ratio', 1.0)
+            rl_agent.update(s_name, rl_adx, rl_atr, rl_idx, t_closed.get('profit', 0))
         processed_trades += 1
     if enable_meta:
         for mf in meta_filters.values():
             mf.train()
 
     logger.info("Backtest finished. Calculating metrics...")
-    port_metrics = calculate_metrics(engine.closed_trades, engine.equity_curve, 100000.0)
+    port_metrics = calculate_metrics(engine.closed_trades, engine.equity_curve, engine.initial_balance)
 
     for point in engine.equity_curve:
         point['date'] = point['date'].strftime('%Y-%m-%d')
@@ -473,19 +476,7 @@ def run_oos(mode):
         json.dump(results, f, indent=4, cls=NumpyEncoder)
 
     logger.info(f"Results saved to {out_path}")
-    logger.info(f"OOS {mode} metrics: {port_metrics}")
-    print(f"\n========== OOS {mode.upper()} ({s['label']}) ==========")
-    print(f"Return:       {port_metrics.get('total_return', 'N/A'):>7.2f}%")
-    print(f"Net Profit:   ${port_metrics.get('net_profit', 0):>8.2f}")
-    print(f"Trades:       {port_metrics.get('total_trades', 0)}")
-    print(f"Win Rate:     {port_metrics.get('win_rate', 0):.2f}%")
-    print(f"Profit Factor:{port_metrics.get('profit_factor', 0):.2f}")
-    print(f"Max DD:       {port_metrics.get('max_drawdown', 0):.2f}%")
-    print(f"Sharpe:       {port_metrics.get('sharpe_ratio', 0):.2f}")
-    print(f"Expectancy:   ${port_metrics.get('expectancy', 0):.2f}")
-    print(f"====================================\n")
-
-    return port_metrics
+    return port_metrics, len(engine.closed_trades), engine.equity_curve, engine.closed_trades, rl_agent, meta_filters
 
 def fmt_val(k, v):
     if k in ('net_profit', 'expectancy'):
@@ -579,16 +570,23 @@ if __name__ == "__main__":
     mode = sys.argv[1] if len(sys.argv) > 1 else 'all'
     if mode == 'all':
         modes = ['train', 'validation', 'test']
-        results = {m: run_oos(m) for m in modes}
+        results_map = {}
+        persisted_rl = None
+        persisted_meta = None
+        
+        for m in modes:
+            port, trades, eq, closed, persisted_rl, persisted_meta = run_oos(m, persisted_rl, persisted_meta)
+            results_map[m] = port
+            
         print("\n\n========== 3-WAY SPLIT COMPARISON ==========")
         print(f"{'Metric':<20} {'TRAIN (60%)':<20} {'VAL (20%)':<20} {'TEST (20%)':<20} {'STABLE?':<10}")
         print("-" * 90)
         keys = ['total_return', 'net_profit', 'total_trades', 'win_rate', 'profit_factor', 'max_drawdown', 'sharpe_ratio', 'expectancy']
         for k in keys:
-            tv = results['train'].get(k, 0)
-            vv = results['validation'].get(k, 0)
-            tsv = results['test'].get(k, 0)
-            vals = [results[m].get(k, 0) for m in modes]
+            tv = results_map['train'].get(k, 0)
+            vv = results_map['validation'].get(k, 0)
+            tsv = results_map['test'].get(k, 0)
+            vals = [results_map[m].get(k, 0) for m in modes]
             stable = "YES" if all(v > 0 for v in vals[:2]) and abs(vals[1] - vals[2]) / max(abs(vals[2]), 0.01) < 0.5 else "CHECK"
             if k == 'max_drawdown':
                 stable = "YES" if max(vals) < -3 else "CHECK"

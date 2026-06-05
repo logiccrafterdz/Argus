@@ -238,14 +238,12 @@ class ExecutorAgent:
         tp_mult = 4.0
         sl_mult = 1.5
         if self.tp_sl_agent:
-            tp_mult, sl_mult, _ = self.tp_sl_agent.select_action(adx, atr_ratio)
-
-        if direction == 'BUY':
-            sl = entry_price - risk_dist * sl_mult
-            tp = entry_price + risk_dist * tp_mult
+            tp_scale, sl_scale, rl_idx = self.tp_sl_agent.select_action(strategy, adx, atr_ratio)
+            sl = entry_price - risk_dist * sl_scale if direction == 'BUY' else entry_price + risk_dist * sl_scale
+            tp = entry_price + risk_dist * tp_scale if direction == 'BUY' else entry_price - risk_dist * tp_scale
         else:
-            sl = entry_price + risk_dist * sl_mult
-            tp = entry_price - risk_dist * tp_mult
+            sl = entry_price - risk_dist * sl_mult if direction == 'BUY' else entry_price + risk_dist * sl_mult
+            tp = entry_price + risk_dist * tp_mult if direction == 'BUY' else entry_price - risk_dist * tp_mult
 
         return TradeOrder(
             symbol=symbol, direction=direction, lots=lots,

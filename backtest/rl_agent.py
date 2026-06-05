@@ -28,22 +28,21 @@ class AdaptiveTPSLAgent:
     """
 
     ACTIONS = [
-        # (tp_mult, sl_mult, label)
-        (3.0, 1.0, 'tight'),     # aggressive SL, moderate TP
-        (4.0, 1.5, 'balanced'),  # balanced
-        (5.0, 1.5, 'moderate'),  # moderate TP
-        (6.0, 2.0, 'wide_sl'),   # wide SL
-        (8.0, 2.5, 'swing'),     # swing-style
+        # (tp_scale, sl_scale, label)
+        (0.8, 0.8, 'tight'),       # Shrink both targets (chop markets)
+        (1.0, 1.0, 'neutral'),     # Trust the strategy's default
+        (1.5, 1.0, 'runner'),      # Extend TP for runners
+        (2.0, 1.5, 'swing'),       # Wider SL and much wider TP
     ]
 
     def __init__(self, epsilon=0.1, alpha=0.3, window=50):
         self.epsilon = epsilon
         self.alpha = alpha
         self.window = window
-        # Q-values: {regime_label: {action_idx: avg_reward}}
-        self.q = defaultdict(lambda: np.zeros(len(self.ACTIONS)))
-        # Counts: {regime_label: {action_idx: count}}
-        self.counts = defaultdict(lambda: np.zeros(len(self.ACTIONS), dtype=int))
+        # Q-values: {strategy: {regime_label: {action_idx: avg_reward}}}
+        self.q = defaultdict(lambda: defaultdict(lambda: np.zeros(len(self.ACTIONS))))
+        # Counts: {strategy: {regime_label: {action_idx: count}}}
+        self.counts = defaultdict(lambda: defaultdict(lambda: np.zeros(len(self.ACTIONS), dtype=int)))
         # Rolling context history
         self._context_buffer = []
 
@@ -63,26 +62,26 @@ class AdaptiveTPSLAgent:
     def get_regime_label(self, adx, atr_ratio):
         return self._discretize_regime(adx, atr_ratio)
 
-    def select_action(self, adx, atr_ratio):
-        """Return (tp_mult, sl_mult, action_idx) for current market state."""
+    def select_action(self, strategy_name, adx, atr_ratio):
+        """Return (tp_scale, sl_scale, action_idx) for current market state."""
         regime = self._discretize_regime(adx, atr_ratio)
         if np.random.random() < self.epsilon:
             idx = np.random.randint(len(self.ACTIONS))
         else:
-            idx = int(np.argmax(self.q[regime]))
-        tp_mult, sl_mult, _ = self.ACTIONS[idx]
-        return tp_mult, sl_mult, idx
+            idx = int(np.argmax(self.q[strategy_name][regime]))
+        tp_scale, sl_scale, _ = self.ACTIONS[idx]
+        return tp_scale, sl_scale, idx
 
-    def update(self, adx, atr_ratio, action_idx, trade_return):
+    def update(self, strategy_name, adx, atr_ratio, action_idx, trade_return):
         """Update Q-value for the chosen action in the given regime."""
         regime = self._discretize_regime(adx, atr_ratio)
-        self.counts[regime][action_idx] += 1
-        n = self.counts[regime][action_idx]
+        self.counts[strategy_name][regime][action_idx] += 1
+        n = self.counts[strategy_name][regime][action_idx]
         # Incremental update: Q = Q + alpha * (reward - Q)
-        current_q = self.q[regime][action_idx]
+        current_q = self.q[strategy_name][regime][action_idx]
         # Normalize trade_return to [-1, 1] range for stability
         norm_return = np.tanh(trade_return / 100.0)
-        self.q[regime][action_idx] = current_q + self.alpha * (norm_return - current_q)
+        self.q[strategy_name][regime][action_idx] = current_q + self.alpha * (norm_return - current_q)
 
     def get_action_profile(self, idx):
         """Return human-readable profile name for an action index."""
@@ -93,9 +92,11 @@ class AdaptiveTPSLAgent:
     def summary(self):
         """Print current Q-table for debugging."""
         lines = []
-        for regime, q_vals in sorted(self.q.items()):
-            best_idx = int(np.argmax(q_vals))
-            best_profile = self.get_action_profile(best_idx)
-            counts = self.counts.get(regime, np.zeros(len(self.ACTIONS)))
-            lines.append(f"  {regime:20s}: best={best_profile:10s}  Q={q_vals.round(3)}  counts={counts}")
+        for strat, strat_q in self.q.items():
+            lines.append(f"Strategy: {strat}")
+            for regime, q_vals in sorted(strat_q.items()):
+                best_idx = int(np.argmax(q_vals))
+                best_profile = self.get_action_profile(best_idx)
+                counts = self.counts[strat].get(regime, np.zeros(len(self.ACTIONS)))
+                lines.append(f"  {regime:20s}: best={best_profile:10s}  Q={q_vals.round(3)}  counts={counts}")
         return '\n'.join(lines)
