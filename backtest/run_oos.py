@@ -44,6 +44,11 @@ try:
 except ImportError:
     KELLY_AVAILABLE = False
 try:
+    from news_filter import NewsFilter
+    NEWS_AVAILABLE = True
+except ImportError:
+    NEWS_AVAILABLE = False
+try:
     from agent_system import AgentSystem
     AGENT_SYSTEM_AVAILABLE = True
 except ImportError:
@@ -169,6 +174,11 @@ def run_oos(mode, existing_rl_agent=None, existing_meta_filters=None, existing_k
     kelly_agent = existing_kelly_agent if existing_kelly_agent is not None else (KellyAgent() if enable_kelly else None)
     if kelly_agent:
         logger.info("Kelly Agent enabled")
+
+    news_filter = None
+    if config.get('filters', {}).get('news_filter', {}).get('enabled', False) and NEWS_AVAILABLE:
+        news_filter = NewsFilter()
+        logger.info("News Filter enabled")
 
     agent_system = None
     if enable_agent_system:
@@ -353,6 +363,10 @@ def run_oos(mode, existing_rl_agent=None, existing_meta_filters=None, existing_k
 
                     # --- Sentiment Filter ---
                     if sentiment_filter and not sentiment_filter.should_trade(direction, current_time, symbol):
+                        continue
+
+                    # --- News Filter Check ---
+                    if news_filter and not news_filter.should_trade(symbol, current_time):
                         continue
 
                     feat = None

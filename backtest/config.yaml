@@ -51,6 +51,8 @@ filters:
     enabled: false
   rl_agent:
     enabled: false
+  news_filter:
+    enabled: true
 kelly:
   enabled: true
 agent_system:

@@ -60,6 +60,9 @@ DEFAULT_CONFIG = {
     'rl_agent': {
         'enabled': False,
     },
+    'news_filter': {
+        'enabled': True,
+    },
     'kelly': {
         'enabled': True,
     },
