@@ -44,12 +44,15 @@ contract_size:
 default_contract_size: 100000.0
 regime:
   method: adx
-sentiment:
+filters:
+  sentiment:
+    enabled: true
+  meta_labeling:
+    enabled: false
+  rl_agent:
+    enabled: false
+kelly:
   enabled: true
-meta_labeling:
-  enabled: true
-rl_agent:
-  enabled: false
 agent_system:
   enabled: false
 strategies:

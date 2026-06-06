@@ -60,6 +60,9 @@ DEFAULT_CONFIG = {
     'rl_agent': {
         'enabled': False,
     },
+    'kelly': {
+        'enabled': True,
+    },
     'agent_system': {
         'enabled': False,
     },

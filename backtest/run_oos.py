@@ -39,6 +39,11 @@ try:
 except ImportError:
     RL_AVAILABLE = False
 try:
+    from kelly_agent import KellyAgent
+    KELLY_AVAILABLE = True
+except ImportError:
+    KELLY_AVAILABLE = False
+try:
     from agent_system import AgentSystem
     AGENT_SYSTEM_AVAILABLE = True
 except ImportError:
@@ -71,7 +76,7 @@ def filter_by_period(df, mode):
     s = SPLITS[mode]
     return df[(df.index >= s['start']) & (df.index < s['end'])].copy()
 
-def run_oos(mode, existing_rl_agent=None, existing_meta_filters=None):
+def run_oos(mode, existing_rl_agent=None, existing_meta_filters=None, existing_kelly_agent=None):
     np.random.seed(42)
     logger = setup_logger('oos_' + mode)
     s = SPLITS[mode]
@@ -160,10 +165,15 @@ def run_oos(mode, existing_rl_agent=None, existing_meta_filters=None):
         rl_agent = AdaptiveTPSLAgent()
         logger.info("RL Agent (TP/SL) enabled")
 
+    enable_kelly = config.get('kelly', {}).get('enabled', True) and KELLY_AVAILABLE
+    kelly_agent = existing_kelly_agent if existing_kelly_agent is not None else (KellyAgent() if enable_kelly else None)
+    if kelly_agent:
+        logger.info("Kelly Agent enabled")
+
     agent_system = None
     if enable_agent_system:
         agent_system = AgentSystem(engine, meta_filters=meta_filters,
-                                   sentiment_filter=sentiment_filter, rl_agent=rl_agent)
+                                   sentiment_filter=sentiment_filter, rl_agent=rl_agent, kelly_agent=kelly_agent)
         logger.info("AgentSystem enabled")
 
     for strat in strategies:
@@ -395,11 +405,13 @@ def run_oos(mode, existing_rl_agent=None, existing_meta_filters=None):
                         exec_sl = order.sl
                         exec_tp = order.tp
                     elif rl_agent and not agent_system:
-                        lot = engine.calculate_lot_size(symbol, 0.2, risk_dist, engine.equity)
+                        risk_pct = kelly_agent.get_risk_percent(strat.name) if kelly_agent else 0.2
+                        lot = engine.calculate_lot_size(symbol, risk_pct * 100, risk_dist, engine.equity)
                         exec_sl = rl_sl
                         exec_tp = rl_tp
                     else:
-                        lot = engine.calculate_lot_size(symbol, 0.2, risk_dist, engine.equity)
+                        risk_pct = kelly_agent.get_risk_percent(strat.name) if kelly_agent else 0.2
+                        lot = engine.calculate_lot_size(symbol, risk_pct * 100, risk_dist, engine.equity)
                         exec_sl = row['sl']
                         exec_tp = row['tp']
 
@@ -439,18 +451,20 @@ def run_oos(mode, existing_rl_agent=None, existing_meta_filters=None):
         was_profitable = t_closed.get('profit', 0) > 0
         if enable_meta and s_name in meta_filters:
             meta_filters[s_name].add_signal(t_closed.get('meta_features', {}), was_profitable)
-        if 'rl_action_idx' in t_closed and t_closed['rl_action_idx'] is not None:
+        if 'rl_action_idx' in t_closed and t_closed['rl_action_idx'] is not None and rl_agent:
             rl_idx = t_closed['rl_action_idx']
             rl_adx = t_closed.get('rl_adx', 25)
             rl_atr = t_closed.get('rl_atr_ratio', 1.0)
             rl_agent.update(s_name, rl_adx, rl_atr, rl_idx, t_closed.get('profit', 0))
+        if kelly_agent:
+            kelly_agent.update(s_name, t_closed.get('profit', 0))
         processed_trades += 1
     if enable_meta:
         for mf in meta_filters.values():
             mf.train()
 
     logger.info("Backtest finished. Calculating metrics...")
-    port_metrics = calculate_metrics(engine.closed_trades, engine.equity_curve, engine.initial_balance)
+    port = calculate_metrics(engine.closed_trades, engine.equity_curve, engine.initial_balance)
 
     for point in engine.equity_curve:
         point['date'] = point['date'].strftime('%Y-%m-%d')
@@ -460,7 +474,7 @@ def run_oos(mode, existing_rl_agent=None, existing_meta_filters=None):
 
     results = {
         'mode': mode,
-        'portfolio': port_metrics,
+        'portfolio': port,
         'equity_curve': engine.equity_curve,
         'all_trades': engine.closed_trades,
         'recent_trades': engine.closed_trades[-100:],
@@ -476,7 +490,7 @@ def run_oos(mode, existing_rl_agent=None, existing_meta_filters=None):
         json.dump(results, f, indent=4, cls=NumpyEncoder)
 
     logger.info(f"Results saved to {out_path}")
-    return port_metrics, len(engine.closed_trades), engine.equity_curve, engine.closed_trades, rl_agent, meta_filters
+    return port, len(engine.closed_trades), engine.equity_curve, engine.closed_trades, rl_agent, meta_filters, kelly_agent
 
 def fmt_val(k, v):
     if k in ('net_profit', 'expectancy'):
@@ -573,9 +587,10 @@ if __name__ == "__main__":
         results_map = {}
         persisted_rl = None
         persisted_meta = None
+        persisted_kelly = None
         
         for m in modes:
-            port, trades, eq, closed, persisted_rl, persisted_meta = run_oos(m, persisted_rl, persisted_meta)
+            port, trades, eq, closed, persisted_rl, persisted_meta, persisted_kelly = run_oos(m, persisted_rl, persisted_meta, persisted_kelly)
             results_map[m] = port
             
         print("\n\n========== 3-WAY SPLIT COMPARISON ==========")
