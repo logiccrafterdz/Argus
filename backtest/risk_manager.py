@@ -64,7 +64,7 @@ class RiskManager:
                 return True # Trigger Emergency Close
         return False
         
-    def check_exposure(self, symbol, order_type, open_positions, max_exposure=2):
+    def check_exposure(self, symbol, order_type, open_positions, max_exposure=4):
         net_exposure = 0
         for pos in open_positions:
             if pos['symbol'] == symbol:

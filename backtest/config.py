@@ -14,7 +14,7 @@ DEFAULT_CONFIG = {
         'max_daily_dd': 3.0,
         'max_weekly_dd': 8.0,
         'max_monthly_dd': 15.0,
-        'max_exposure_per_symbol': 2,
+        'max_exposure_per_symbol': 4,
         'correlation_threshold': 0.8,
         'correlation_enabled': True,
         'prop_firm_mode': False,
