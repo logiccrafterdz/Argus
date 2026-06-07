@@ -11,10 +11,10 @@
 </head>
 <body>
 
-    <!-- ═══ v2.0 Release Banner ═══ -->
+    <!-- ═══ v2.0 Release Banner (Arkham-style) ═══ -->
     <div class="release-banner">
         <span class="release-icon">&#10003;</span>
-        V2.0 — 20 strategies optimised, 7 selected for portfolio after cross-validation. 3-Way Out-of-Sample test: Train (2018-2022), Val (2023), Test (2024-May 2026). Combined 8.3yr return +54.17% ($54.2K). All 3 splits cover full market cycle including COVID. Val +11.91% | Test +34.69%. Walk-Forward: 7/9 years positive (77%). Monte Carlo: Val 77% / Test 66% profitable.
+        V2.0 &mdash; 20 strategies optimised &middot; 7 selected &middot; Train (2018-2022) &middot; Val (2023) &middot; Test (2024-May 2026) &middot; +54.17% combined &middot; 7/9 WFA years positive &middot; MC 77%/66%
         <span class="release-icon">&#10003;</span>
     </div>
 
@@ -49,7 +49,7 @@
         <div class="container">
             <div class="ribbon-inner">
                 <div class="ribbon-item">
-                    <span class="ribbon-dot"></span>
+                    <span class="status-dot live"></span>
                     <strong>System:</strong> Active
                 </div>
                 <div class="ribbon-item">
@@ -71,41 +71,46 @@
         </div>
     </div>
 
+    <!-- ═══ Arkham-style Ticker Bar ═══ -->
+    <div class="ticker-bar">
+        <div class="ticker-track" id="tickerTrack">
+            <!-- Populated by JS -->
+        </div>
+    </div>
+
     <main>
 
-        <!-- ═══ Hero ═══ -->
-        <section class="hero">
+        <!-- ═══ Hero (Arkham-style) ═══ -->
+        <section class="hero bg-grid">
             <div class="container">
-                <div class="hero-content">
+                <div class="hero-content bg-glow">
                     <div class="hero-badge">
-                        <span class="ribbon-dot"></span>
-                        Portfolio Intelligence Engine
+                        <span class="status-dot live"></span>
+                        Portfolio Intelligence Engine <span style="color:var(--text-muted);font-weight:400;">&middot; v2.0</span>
                     </div>
                     <h1 class="text-display">Out-of-Sample Positive in<br>Both Val &amp; Test</h1>
                     <p class="text-body">
                         7 strategies, 10 instruments, 8.3 years. 3-way split with fixed parameters — no re-optimisation after the split. Walk-Forward confirms 7/9 positive years. Monte Carlo validates resilience across 2,000 simulations.
                     </p>
                     <div class="hero-metrics">
-                        <div class="hero-metric">
-                            <span class="hero-metric-value positive">+54.17%</span>
+                        <div class="hero-metric glass-card" style="padding:var(--sp-4);border-left:3px solid var(--success);">
                             <span class="hero-metric-label">Total Return</span>
-                            <span class="hero-metric-badge">+$54,174 Profit</span>
+                            <span class="hero-metric-value positive"><span class="count-value" data-target="54.17" data-prefix="+" data-suffix="%">+0.00%</span></span>
+                            <span class="hero-metric-badge glow-green">+$54,174 Profit</span>
                         </div>
-                        <div class="hero-metric-divider"></div>
-                        <div class="hero-metric">
-                            <span class="hero-metric-value negative">-23.08%</span>
+                        <div class="hero-metric glass-card" style="padding:var(--sp-4);border-left:3px solid var(--danger);">
                             <span class="hero-metric-label">Max Drawdown</span>
-                            <span class="hero-metric-badge">1405 bars duration</span>
+                            <span class="hero-metric-value negative"><span class="count-value" data-target="23.08" data-prefix="-" data-suffix="%">-0.00%</span></span>
+                            <span class="hero-metric-badge" style="color:var(--danger);">1405 bars duration</span>
                         </div>
-                        <div class="hero-metric-divider"></div>
-                        <div class="hero-metric">
-                            <span class="hero-metric-value neutral">2.35</span>
+                        <div class="hero-metric glass-card" style="padding:var(--sp-4);border-left:3px solid var(--accent-teal);">
                             <span class="hero-metric-label">Recovery Factor</span>
+                            <span class="hero-metric-value neutral"><span class="count-value" data-target="2.35" data-suffix="">0.00</span></span>
                             <span class="hero-metric-badge">Net Profit / Max DD</span>
                         </div>
                     </div>
                     <div class="hero-actions">
-                        <a href="#oos" class="btn btn-primary">View OOS Evidence</a>
+                        <a href="#oos" class="btn btn-primary glow-pulse">View OOS Evidence</a>
                         <a href="#advanced" class="btn btn-ghost">Advanced Validation &rarr;</a>
                     </div>
                 </div>
@@ -120,8 +125,16 @@
                     <h2 class="text-h2">Executive Performance Overview</h2>
                     <p class="text-body">Key metrics from the full backtest period across all 7 selected strategies and 10 instruments. See OOS section below for out-of-sample validation.</p>
                 </div>
-                <div class="kpi-grid" id="kpiGrid"></div>
-                <div class="kpi-secondary" id="kpiSecondary"></div>
+                <div class="kpi-grid" id="kpiGrid">
+                    <div class="kpi-tile"><div class="shimmer" style="width:60%;height:12px;margin-bottom:8px;"></div><div class="shimmer" style="width:40%;height:24px;margin-bottom:8px;"></div><div class="shimmer" style="width:100%;height:48px;"></div></div>
+                    <div class="kpi-tile"><div class="shimmer" style="width:60%;height:12px;margin-bottom:8px;"></div><div class="shimmer" style="width:40%;height:24px;margin-bottom:8px;"></div><div class="shimmer" style="width:100%;height:48px;"></div></div>
+                    <div class="kpi-tile"><div class="shimmer" style="width:60%;height:12px;margin-bottom:8px;"></div><div class="shimmer" style="width:40%;height:24px;margin-bottom:8px;"></div><div class="shimmer" style="width:100%;height:48px;"></div></div>
+                </div>
+                <div class="kpi-secondary" id="kpiSecondary">
+                    <div class="kpi-tile"><div class="shimmer" style="width:50%;height:12px;margin-bottom:4px;"></div><div class="shimmer" style="width:30%;height:18px;"></div></div>
+                    <div class="kpi-tile"><div class="shimmer" style="width:50%;height:12px;margin-bottom:4px;"></div><div class="shimmer" style="width:30%;height:18px;"></div></div>
+                    <div class="kpi-tile"><div class="shimmer" style="width:50%;height:12px;margin-bottom:4px;"></div><div class="shimmer" style="width:30%;height:18px;"></div></div>
+                </div>
             </div>
         </section>
 
@@ -257,7 +270,13 @@
                     <h2 class="text-h2">Train / Test Split Evidence</h2>
                     <p class="text-body">Rigorous 3-way out-of-sample test: <strong>Train</strong> (5 years: 2018-2022), <strong>Validation</strong> (1 year: 2023), <strong>Test</strong> (29 months: 2024-May 2026). No parameter re-optimisation after split. The Kelly Agent and News Filter protect the portfolio from out-of-sample anomalies. Val and Test both strongly positive — exceptional OOS evidence.</p>
                 </div>
-                <div id="oosKpiGrid"></div>
+                <div id="oosKpiGrid">
+                    <div class="oos-cards">
+                        <div class="oos-card"><div class="oos-card-header"><div class="shimmer" style="width:80px;height:16px;"></div><div class="shimmer" style="width:60px;height:20px;"></div></div><div class="oos-card-body"><div class="shimmer" style="width:100%;height:12px;margin:4px 0;"></div><div class="shimmer" style="width:100%;height:12px;margin:4px 0;"></div><div class="shimmer" style="width:100%;height:12px;margin:4px 0;"></div><div class="shimmer" style="width:100%;height:12px;margin:4px 0;"></div></div></div>
+                        <div class="oos-card"><div class="oos-card-header"><div class="shimmer" style="width:80px;height:16px;"></div><div class="shimmer" style="width:60px;height:20px;"></div></div><div class="oos-card-body"><div class="shimmer" style="width:100%;height:12px;margin:4px 0;"></div><div class="shimmer" style="width:100%;height:12px;margin:4px 0;"></div><div class="shimmer" style="width:100%;height:12px;margin:4px 0;"></div><div class="shimmer" style="width:100%;height:12px;margin:4px 0;"></div></div></div>
+                        <div class="oos-card"><div class="oos-card-header"><div class="shimmer" style="width:80px;height:16px;"></div><div class="shimmer" style="width:60px;height:20px;"></div></div><div class="oos-card-body"><div class="shimmer" style="width:100%;height:12px;margin:4px 0;"></div><div class="shimmer" style="width:100%;height:12px;margin:4px 0;"></div><div class="shimmer" style="width:100%;height:12px;margin:4px 0;"></div><div class="shimmer" style="width:100%;height:12px;margin:4px 0;"></div></div></div>
+                    </div>
+                </div>
                 <div class="charts-row">
                     <div class="panel">
                         <div class="panel-header"><h3 class="text-h3">OOS Equity Curves</h3></div>
@@ -669,12 +688,11 @@
             if (!container) return;
 
             const splits = [
-                { key: 'Train', data: tr, period: '2018-2022', color: '#0ea5a0' },
-                { key: 'Validation', data: va, period: '2023', color: '#8b5cf6' },
-                { key: 'Test', data: te, period: '2024-May 2026', color: '#f59e0b' },
+                { key: 'Train', data: tr, period: '2018-2022', color: '#0ea5a0', glow: 'glow-teal' },
+                { key: 'Validation', data: va, period: '2023', color: '#8b5cf6', glow: 'glow-purple' },
+                { key: 'Test', data: te, period: '2024-May 2026', color: '#f59e0b', glow: 'glow-yellow' },
             ];
 
-            // Find max absolute return for bar scaling
             const returns = splits.map(s => s.data.total_return || 0);
             const maxAbsReturn = Math.max(...returns.map(Math.abs), 0.01);
 
@@ -689,22 +707,29 @@
                 const badgeClass = positive ? 'positive' : 'negative';
                 const badgeText = positive ? '+' + ret.toFixed(2) + '%' : ret.toFixed(2) + '%';
 
-                html += '<div class="oos-card animate-in">' +
+                html += '<div class="oos-card animate-in ' + s.glow + '" style="animation-delay:' + (i * 0.1) + 's;">' +
                     '<div class="oos-card-header" style="border-left: 3px solid ' + s.color + ';">' +
                     '<div><h4>' + s.key + '</h4><span class="text-small" style="color:var(--text-muted);">' + s.period + '</span></div>' +
                     '<span class="oos-card-badge ' + badgeClass + '">' + badgeText + '</span>' +
                     '</div>' +
                     '<div class="oos-card-body">' +
-                    '<div class="oos-card-metric"><span class="metric-label">Return</span><span class="metric-value ' + (positive ? 'positive' : 'negative') + '">' + ret.toFixed(2) + '%</span></div>' +
-                    '<div class="oos-card-metric"><span class="metric-label">Max DD</span><span class="metric-value negative">' + dd.toFixed(2) + '%</span></div>' +
-                    '<div class="oos-card-metric"><span class="metric-label">Profit Factor</span><span class="metric-value neutral">' + pf.toFixed(2) + '</span></div>' +
-                    '<div class="oos-card-metric"><span class="metric-label">Sharpe</span><span class="metric-value neutral">' + sh.toFixed(2) + '</span></div>' +
+                    '<div class="oos-card-metric"><span class="metric-label">Return</span><span class="metric-value ' + (positive ? 'positive' : 'negative') + '"><span class="count-value" data-target="' + Math.abs(ret) + '" data-prefix="' + (positive ? '+' : '-') + '" data-suffix="%">0.00%</span></span></div>' +
+                    '<div class="oos-card-metric"><span class="metric-label">Max DD</span><span class="metric-value negative"><span class="count-value" data-target="' + Math.abs(dd) + '" data-prefix="-" data-suffix="%">0.00%</span></span></div>' +
+                    '<div class="oos-card-metric"><span class="metric-label">Profit Factor</span><span class="metric-value neutral"><span class="count-value" data-target="' + pf + '" data-suffix="">0.00</span></span></div>' +
+                    '<div class="oos-card-metric"><span class="metric-label">Sharpe</span><span class="metric-value neutral"><span class="count-value" data-target="' + Math.abs(sh) + '" data-suffix="">0.00</span></span></div>' +
                     '</div>' +
-                    '<div class="oos-card-bar"><div class="oos-card-bar-fill" style="width:' + barPct + '%;background:' + (positive ? 'var(--success)' : 'var(--danger)') + ';"></div></div>' +
+                    '<div class="oos-card-bar"><div class="oos-card-bar-fill" style="width:0%;background:' + (positive ? 'var(--success)' : 'var(--danger)') + ';" data-width="' + barPct + '"></div></div>' +
                     '</div>';
             });
             html += '</div>';
             container.innerHTML = html;
+
+            container.querySelectorAll('.oos-card-bar-fill').forEach(bar => {
+                const w = bar.dataset.width;
+                requestAnimationFrame(() => { bar.style.width = w + '%'; });
+            });
+
+            initCountUpObserver();
         }
 
         function renderOOSEquityChart() {
@@ -730,19 +755,29 @@
                 data: {
                     labels: allDates,
                     datasets: [
-                        { label: 'Train (2018-2022)', data: trainLine, borderColor: '#0ea5a0', backgroundColor: 'rgba(14,165,160,0.06)', borderWidth: 1.5, pointRadius: 0, fill: true, tension: 0.1 },
-                        { label: 'Val (2023)', data: valLine, borderColor: '#8b5cf6', backgroundColor: 'rgba(139,92,246,0.06)', borderWidth: 1.5, pointRadius: 0, fill: true, tension: 0.1 },
-                        { label: 'Test (2024-2026)', data: testLine, borderColor: '#f59e0b', backgroundColor: 'rgba(245,158,11,0.06)', borderWidth: 1.5, pointRadius: 0, fill: true, tension: 0.1 }
+                        { label: 'Train (2018-2022)', data: trainLine, borderColor: '#0ea5a0', backgroundColor: function(c) { const ch = c.chart; if (!ch.chartArea) return 'rgba(14,165,160,0.06)'; return createGradient(ch.ctx, ch.chartArea, 'rgba(14,165,160,0.2)', 'rgba(14,165,160,0.01)'); }, borderWidth: 2, pointRadius: 0, fill: true, tension: 0.15 },
+                        { label: 'Val (2023)', data: valLine, borderColor: '#8b5cf6', backgroundColor: function(c) { const ch = c.chart; if (!ch.chartArea) return 'rgba(139,92,246,0.06)'; return createGradient(ch.ctx, ch.chartArea, 'rgba(139,92,246,0.2)', 'rgba(139,92,246,0.01)'); }, borderWidth: 2, pointRadius: 0, fill: true, tension: 0.15 },
+                        { label: 'Test (2024-2026)', data: testLine, borderColor: '#f59e0b', backgroundColor: function(c) { const ch = c.chart; if (!ch.chartArea) return 'rgba(245,158,11,0.06)'; return createGradient(ch.ctx, ch.chartArea, 'rgba(245,158,11,0.2)', 'rgba(245,158,11,0.01)'); }, borderWidth: 2, pointRadius: 0, fill: true, tension: 0.15 }
                     ]
                 },
                 options: {
                     responsive: true,
                     maintainAspectRatio: false,
+                    interaction: { intersect: false, mode: 'index' },
                     plugins: {
-                        legend: { labels: { color: '#a0a0b4', font: { family: 'Inter', size: 11 }, usePointStyle: true } }
+                        legend: { labels: { color: '#a0a0b4', font: { family: 'Inter', size: 11 }, usePointStyle: true } },
+                        tooltip: {
+                            backgroundColor: 'rgba(15,15,24,0.9)',
+                            titleFont: { family: 'Inter', size: 12 },
+                            bodyFont: { family: 'JetBrains Mono', size: 11 },
+                            borderWidth: 1,
+                            padding: 12,
+                            cornerRadius: 8,
+                            callbacks: { label: function(ctx) { return ctx.dataset.label + ': $' + (ctx.parsed.y || 0).toLocaleString(); } }
+                        }
                     },
                     scales: {
-                        y: { grid: { color: 'rgba(255,255,255,0.04)' }, ticks: { color: '#5a5a6e', font: { family: 'JetBrains Mono', size: 11 }, callback: v => '$' + v.toLocaleString() } },
+                        y: { grid: { color: 'rgba(255,255,255,0.03)' }, ticks: { color: '#5a5a6e', font: { family: 'JetBrains Mono', size: 11 }, callback: v => '$' + v.toLocaleString() } },
                         x: { grid: { display: false }, ticks: { color: '#5a5a6e', font: { family: 'JetBrains Mono', size: 10 }, maxTicksLimit: 10 } }
                     }
                 }
@@ -768,19 +803,32 @@
                         label: 'OOS Drawdown (%)',
                         data: dd,
                         borderColor: '#dc2626',
-                        backgroundColor: 'rgba(220,38,38,0.08)',
-                        borderWidth: 1.5,
+                        backgroundColor: function(c) { const ch = c.chart; if (!ch.chartArea) return 'rgba(220,38,38,0.08)'; return createGradient(ch.ctx, ch.chartArea, 'rgba(220,38,38,0.25)', 'rgba(220,38,38,0.01)'); },
+                        borderWidth: 2,
                         pointRadius: 0,
                         fill: true,
-                        tension: 0.1
+                        tension: 0.15
                     }]
                 },
                 options: {
                     responsive: true,
                     maintainAspectRatio: false,
-                    plugins: { legend: { display: false } },
+                    interaction: { intersect: false, mode: 'index' },
+                    plugins: {
+                        legend: { display: false },
+                        tooltip: {
+                            backgroundColor: 'rgba(15,15,24,0.9)',
+                            bodyFont: { family: 'JetBrains Mono', size: 11 },
+                            borderColor: 'rgba(220,38,38,0.3)',
+                            borderWidth: 1,
+                            padding: 12,
+                            cornerRadius: 8,
+                            displayColors: false,
+                            callbacks: { label: function(ctx) { return ctx.parsed.y.toFixed(2) + '%'; } }
+                        }
+                    },
                     scales: {
-                        y: { grid: { color: 'rgba(255,255,255,0.04)' }, ticks: { color: '#5a5a6e', font: { family: 'JetBrains Mono', size: 11 }, callback: v => v.toFixed(1) + '%' } },
+                        y: { grid: { color: 'rgba(255,255,255,0.03)' }, ticks: { color: '#5a5a6e', font: { family: 'JetBrains Mono', size: 11 }, callback: v => v.toFixed(1) + '%' } },
                         x: { grid: { display: false }, ticks: { color: '#5a5a6e', font: { family: 'JetBrains Mono', size: 10 }, maxTicksLimit: 10 } }
                     }
                 }
@@ -808,12 +856,70 @@
             ctx.strokeStyle = color || '#0ea5a0';
             ctx.lineWidth = 1.5;
             ctx.stroke();
-            // subtle fill
             ctx.lineTo(w, h);
             ctx.lineTo(0, h);
             ctx.closePath();
-            ctx.fillStyle = (color || '#0ea5a0') + '12';
+            ctx.fillStyle = (color || '#0ea5a0') + '18';
             ctx.fill();
+        }
+
+        /* ═══ Animated Count-Up ═══ */
+        function animateCountUp(el, target, duration, prefix, suffix) {
+            const start = performance.now();
+            const isFloat = target % 1 !== 0;
+            const decimals = isFloat ? Math.min(String(target).split('.')[1]?.length || 2, 2) : 0;
+
+            function update(now) {
+                const elapsed = now - start;
+                const progress = Math.min(elapsed / duration, 1);
+                const eased = 1 - Math.pow(1 - progress, 3);
+                const current = target * eased;
+                el.textContent = prefix + current.toFixed(decimals) + suffix;
+                if (progress < 1) requestAnimationFrame(update);
+            }
+            requestAnimationFrame(update);
+        }
+
+        function initCountUpObserver() {
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        const el = entry.target;
+                        const target = parseFloat(el.dataset.target);
+                        const prefix = el.dataset.prefix || '';
+                        const suffix = el.dataset.suffix || '';
+                        animateCountUp(el, target, 1200, prefix, suffix);
+                        observer.unobserve(el);
+                    }
+                });
+            }, { threshold: 0.3 });
+            document.querySelectorAll('.count-value').forEach(el => observer.observe(el));
+        }
+
+        /* ═══ Ticker Bar ═══ */
+        function initTicker(p) {
+            const track = document.getElementById('tickerTrack');
+            if (!track) return;
+            const items = [
+                { label: 'Total Return', value: p.total_return.toFixed(2) + '%', cls: p.total_return >= 0 ? 'positive' : 'negative' },
+                { label: 'Max DD', value: p.max_drawdown.toFixed(2) + '%', cls: 'negative' },
+                { label: 'Recovery Factor', value: p.recovery_factor.toFixed(2), cls: 'neutral' },
+                { label: 'Profit Factor', value: p.profit_factor.toFixed(2), cls: 'neutral' },
+                { label: 'Win Rate', value: p.win_rate.toFixed(2) + '%', cls: 'neutral' },
+                { label: 'Sharpe', value: p.sharpe_ratio.toFixed(2), cls: 'neutral' },
+                { label: 'Net Profit', value: (p.net_profit >= 0 ? '+' : '') + '$' + Math.abs(p.net_profit).toLocaleString(undefined, { maximumFractionDigits: 0 }), cls: p.net_profit >= 0 ? 'positive' : 'negative' },
+                { label: 'Trades', value: p.total_trades, cls: 'neutral' },
+            ];
+            function renderItems() {
+                return items.map(item => `
+                    <div class="ticker-item">
+                        <span class="ticker-label">${item.label}</span>
+                        <span class="ticker-value ${item.cls}">${item.value}</span>
+                    </div>
+                    <div class="ticker-divider"></div>
+                `).join('');
+            }
+            track.innerHTML = renderItems() + renderItems();
         }
 
         function renderPortfolioKPI() {
@@ -832,7 +938,7 @@
                     <div class="text-label">Total Return</div>
                     <div class="kpi-tile-row">
                         <div>
-                            <div class="kpi-value ${p.total_return >= 0 ? 'positive' : 'negative'}">${p.total_return.toFixed(2)}%</div>
+                            <div class="kpi-value positive"><span class="count-value" data-target="${Math.abs(p.total_return)}" data-prefix="${p.total_return >= 0 ? '+' : '-'}" data-suffix="%">0.00%</span></div>
                             <div class="kpi-sub">${p.net_profit >= 0 ? '+' : ''}$${Math.abs(p.net_profit).toLocaleString(undefined, {maximumFractionDigits: 0})}</div>
                         </div>
                     </div>
@@ -842,7 +948,7 @@
                     <div class="text-label">Max Drawdown</div>
                     <div class="kpi-tile-row">
                         <div>
-                            <div class="kpi-value negative">${p.max_drawdown.toFixed(2)}%</div>
+                            <div class="kpi-value negative"><span class="count-value" data-target="${Math.abs(p.max_drawdown)}" data-prefix="-" data-suffix="%">0.00%</span></div>
                             <div class="kpi-sub">${p.max_dd_duration} bars duration</div>
                         </div>
                     </div>
@@ -852,7 +958,7 @@
                     <div class="text-label">Recovery Factor</div>
                     <div class="kpi-tile-row">
                         <div>
-                            <div class="kpi-value neutral">${p.recovery_factor.toFixed(2)}</div>
+                            <div class="kpi-value neutral"><span class="count-value" data-target="${p.recovery_factor}" data-suffix="">0.00</span></div>
                             <div class="kpi-sub">Net profit / Max DD</div>
                         </div>
                     </div>
@@ -860,25 +966,27 @@
                 </div>`;
             const s = document.getElementById('kpiSecondary');
             s.innerHTML = `
-                <div class="kpi-tile animate-in">
+                <div class="kpi-tile animate-in" style="border-left: 3px solid var(--accent-teal);">
                     <div class="text-label">Profit Factor</div>
-                    <div class="kpi-value neutral">${p.profit_factor.toFixed(2)}</div>
+                    <div class="kpi-value neutral"><span class="count-value" data-target="${p.profit_factor}" data-suffix="">0.00</span></div>
                 </div>
-                <div class="kpi-tile animate-in">
+                <div class="kpi-tile animate-in" style="border-left: 3px solid var(--accent-cyan);">
                     <div class="text-label">Win Rate</div>
-                    <div class="kpi-value neutral">${p.win_rate.toFixed(2)}%</div>
+                    <div class="kpi-value neutral"><span class="count-value" data-target="${p.win_rate}" data-suffix="%">0.00%</span></div>
                 </div>
-                <div class="kpi-tile animate-in">
+                <div class="kpi-tile animate-in" style="border-left: 3px solid var(--accent-purple, #8b5cf6);">
                     <div class="text-label">Sharpe Ratio</div>
-                    <div class="kpi-value neutral">${p.sharpe_ratio.toFixed(2)}</div>
+                    <div class="kpi-value neutral"><span class="count-value" data-target="${p.sharpe_ratio}" data-suffix="">0.00</span></div>
                 </div>`;
 
-            // Render sparklines after DOM update
             requestAnimationFrame(() => {
                 renderSparkline('sparkReturn', eqValues, '#16a34a');
                 renderSparkline('sparkDD', ddValues, '#dc2626');
                 renderSparkline('sparkRF', eqValues, '#0ea5a0');
             });
+
+            initTicker(p);
+            initCountUpObserver();
         }
 
         /* ═══ Risk Metrics ═══ */
@@ -901,6 +1009,14 @@
             ).join('');
         }
 
+        /* ═══ Chart Gradient Helper ═══ */
+        function createGradient(ctx, chartArea, color1, color2) {
+            const gradient = ctx.createLinearGradient(0, chartArea.top, 0, chartArea.bottom);
+            gradient.addColorStop(0, color1);
+            gradient.addColorStop(1, color2);
+            return gradient;
+        }
+
         /* ═══ Equity Chart ═══ */
         function renderEquityChart() {
             if (!portfolioData.equity_curve || !portfolioData.equity_curve.length) return;
@@ -918,19 +1034,41 @@
                         label: 'Portfolio Equity ($)',
                         data: equity,
                         borderColor: '#0ea5a0',
-                        backgroundColor: 'rgba(14,165,160,0.06)',
-                        borderWidth: 1.5,
+                        backgroundColor: function(context) {
+                            const chart = context.chart;
+                            const { ctx, chartArea } = chart;
+                            if (!chartArea) return 'rgba(14,165,160,0.06)';
+                            return createGradient(ctx, chartArea, 'rgba(14,165,160,0.3)', 'rgba(14,165,160,0.01)');
+                        },
+                        borderWidth: 2,
                         pointRadius: 0,
+                        pointHitRadius: 10,
                         fill: true,
-                        tension: 0.1
+                        tension: 0.15
                     }]
                 },
                 options: {
                     responsive: true,
                     maintainAspectRatio: false,
-                    plugins: { legend: { display: false } },
+                    interaction: { intersect: false, mode: 'index' },
+                    plugins: {
+                        legend: { display: false },
+                        tooltip: {
+                            backgroundColor: 'rgba(15,15,24,0.9)',
+                            titleFont: { family: 'Inter', size: 12 },
+                            bodyFont: { family: 'JetBrains Mono', size: 11 },
+                            borderColor: 'rgba(14,165,160,0.3)',
+                            borderWidth: 1,
+                            padding: 12,
+                            cornerRadius: 8,
+                            displayColors: false,
+                            callbacks: {
+                                label: function(ctx) { return '$' + ctx.parsed.y.toLocaleString(undefined, {maximumFractionDigits: 2}); }
+                            }
+                        }
+                    },
                     scales: {
-                        y: { grid: { color: 'rgba(255,255,255,0.04)' }, ticks: { color: '#5a5a6e', font: { family: 'JetBrains Mono', size: 11 }, callback: v => '$' + v.toLocaleString() } },
+                        y: { grid: { color: 'rgba(255,255,255,0.03)' }, ticks: { color: '#5a5a6e', font: { family: 'JetBrains Mono', size: 11 }, callback: v => '$' + v.toLocaleString() } },
                         x: { grid: { display: false }, ticks: { color: '#5a5a6e', font: { family: 'JetBrains Mono', size: 10 }, maxTicksLimit: 10 } }
                     }
                 }
@@ -956,19 +1094,39 @@
                         label: 'Drawdown (%)',
                         data: dd,
                         borderColor: '#dc2626',
-                        backgroundColor: 'rgba(220,38,38,0.08)',
-                        borderWidth: 1.5,
+                        backgroundColor: function(context) {
+                            const chart = context.chart;
+                            const { ctx, chartArea } = chart;
+                            if (!chartArea) return 'rgba(220,38,38,0.08)';
+                            return createGradient(ctx, chartArea, 'rgba(220,38,38,0.25)', 'rgba(220,38,38,0.01)');
+                        },
+                        borderWidth: 2,
                         pointRadius: 0,
+                        pointHitRadius: 10,
                         fill: true,
-                        tension: 0.1
+                        tension: 0.15
                     }]
                 },
                 options: {
                     responsive: true,
                     maintainAspectRatio: false,
-                    plugins: { legend: { display: false } },
+                    interaction: { intersect: false, mode: 'index' },
+                    plugins: {
+                        legend: { display: false },
+                        tooltip: {
+                            backgroundColor: 'rgba(15,15,24,0.9)',
+                            titleFont: { family: 'Inter', size: 12 },
+                            bodyFont: { family: 'JetBrains Mono', size: 11 },
+                            borderColor: 'rgba(220,38,38,0.3)',
+                            borderWidth: 1,
+                            padding: 12,
+                            cornerRadius: 8,
+                            displayColors: false,
+                            callbacks: { label: function(ctx) { return ctx.parsed.y.toFixed(2) + '%'; } }
+                        }
+                    },
                     scales: {
-                        y: { grid: { color: 'rgba(255,255,255,0.04)' }, ticks: { color: '#5a5a6e', font: { family: 'JetBrains Mono', size: 11 }, callback: v => v.toFixed(1) + '%' } },
+                        y: { grid: { color: 'rgba(255,255,255,0.03)' }, ticks: { color: '#5a5a6e', font: { family: 'JetBrains Mono', size: 11 }, callback: v => v.toFixed(1) + '%' } },
                         x: { grid: { display: false }, ticks: { color: '#5a5a6e', font: { family: 'JetBrains Mono', size: 10 }, maxTicksLimit: 10 } }
                     }
                 }
@@ -990,17 +1148,27 @@
                     datasets: [{
                         data: sorted.map(s => Math.max(0, s.net_profit)),
                         backgroundColor: STRATEGY_COLORS.slice(0, sorted.length),
-                        borderWidth: 0
+                        borderWidth: 0,
+                        hoverOffset: 8
                     }]
                 },
                 options: {
                     responsive: true,
                     maintainAspectRatio: false,
                     plugins: {
-                        legend: { position: 'right', labels: { color: '#a0a0b4', font: { family: 'Inter', size: 11 }, padding: 12, usePointStyle: true } },
-                        tooltip: { callbacks: { label: function(c) { return c.label + ': $' + c.raw.toFixed(2); } } }
+                        legend: { position: 'right', labels: { color: '#a0a0b4', font: { family: 'Inter', size: 11 }, padding: 16, usePointStyle: true } },
+                        tooltip: {
+                            backgroundColor: 'rgba(15,15,24,0.9)',
+                            titleFont: { family: 'Inter', size: 12 },
+                            bodyFont: { family: 'JetBrains Mono', size: 11 },
+                            borderWidth: 1,
+                            borderColor: 'rgba(255,255,255,0.1)',
+                            padding: 12,
+                            cornerRadius: 8,
+                            callbacks: { label: function(c) { return c.label + ': $' + c.raw.toFixed(2); } }
+                        }
                     },
-                    cutout: '55%'
+                    cutout: '58%'
                 }
             });
         }
@@ -1022,18 +1190,31 @@
                     datasets: [{
                         label: 'Monthly Return (%)',
                         data: values,
-                        backgroundColor: values.map(v => v >= 0 ? 'rgba(34,197,94,0.6)' : 'rgba(239,68,68,0.6)'),
+                        backgroundColor: values.map(v => v >= 0 ? 'rgba(34,197,94,0.5)' : 'rgba(239,68,68,0.5)'),
                         borderColor: values.map(v => v >= 0 ? '#22c55e' : '#ef4444'),
                         borderWidth: 1,
-                        borderRadius: 2
+                        borderRadius: 3,
+                        borderSkipped: false
                     }]
                 },
                 options: {
                     responsive: true,
                     maintainAspectRatio: false,
-                    plugins: { legend: { display: false } },
+                    plugins: {
+                        legend: { display: false },
+                        tooltip: {
+                            backgroundColor: 'rgba(15,15,24,0.9)',
+                            titleFont: { family: 'Inter', size: 12 },
+                            bodyFont: { family: 'JetBrains Mono', size: 11 },
+                            borderWidth: 1,
+                            padding: 12,
+                            cornerRadius: 8,
+                            displayColors: false,
+                            callbacks: { label: function(ctx) { return ctx.parsed.y.toFixed(2) + '%'; } }
+                        }
+                    },
                     scales: {
-                        y: { grid: { color: 'rgba(255,255,255,0.04)' }, ticks: { color: '#5a5a6e', font: { family: 'JetBrains Mono', size: 10 }, callback: v => v + '%' } },
+                        y: { grid: { color: 'rgba(255,255,255,0.03)' }, ticks: { color: '#5a5a6e', font: { family: 'JetBrains Mono', size: 10 }, callback: v => v + '%' } },
                         x: { grid: { display: false }, ticks: { color: '#5a5a6e', font: { size: 9 }, maxTicksLimit: 20 } }
                     }
                 }
@@ -1214,17 +1395,30 @@
                     datasets: [{
                         label: 'Trades',
                         data: counts,
-                        backgroundColor: counts.map(c => 'rgba(14,165,160,0.6)'),
-                        borderWidth: 0,
-                        borderRadius: 2
+                        backgroundColor: counts.map(c => 'rgba(14,165,160,0.5)'),
+                        borderColor: 'rgba(14,165,160,0.8)',
+                        borderWidth: 1,
+                        borderRadius: 3,
+                        borderSkipped: false
                     }]
                 },
                 options: {
                     responsive: true,
                     maintainAspectRatio: false,
-                    plugins: { legend: { display: false } },
+                    plugins: {
+                        legend: { display: false },
+                        tooltip: {
+                            backgroundColor: 'rgba(15,15,24,0.9)',
+                            bodyFont: { family: 'JetBrains Mono', size: 11 },
+                            borderColor: 'rgba(14,165,160,0.3)',
+                            borderWidth: 1,
+                            padding: 12,
+                            cornerRadius: 8,
+                            displayColors: false
+                        }
+                    },
                     scales: {
-                        y: { grid: { color: 'rgba(255,255,255,0.04)' }, ticks: { color: '#5a5a6e', font: { size: 10 } } },
+                        y: { grid: { color: 'rgba(255,255,255,0.03)' }, ticks: { color: '#5a5a6e', font: { size: 10 } } },
                         x: { grid: { display: false }, ticks: { color: '#5a5a6e', font: { size: 8 }, maxTicksLimit: 10, callback: function(v) { const lbl = this.getLabelForValue(v); return lbl.split('-')[0] + '...'; } } }
                     }
                 }
@@ -1249,16 +1443,25 @@
                     datasets: [{
                         data: [wins, losses, flat],
                         backgroundColor: ['rgba(34,197,94,0.7)', 'rgba(239,68,68,0.7)', 'rgba(255,255,255,0.15)'],
-                        borderWidth: 0
+                        borderWidth: 0,
+                        hoverOffset: 8
                     }]
                 },
                 options: {
                     responsive: true,
                     maintainAspectRatio: false,
                     plugins: {
-                        legend: { position: 'right', labels: { color: '#a0a0b4', font: { family: 'Inter', size: 11 }, usePointStyle: true } }
+                        legend: { position: 'right', labels: { color: '#a0a0b4', font: { family: 'Inter', size: 11 }, usePointStyle: true, padding: 16 } },
+                        tooltip: {
+                            backgroundColor: 'rgba(15,15,24,0.9)',
+                            bodyFont: { family: 'JetBrains Mono', size: 11 },
+                            borderWidth: 1,
+                            padding: 12,
+                            cornerRadius: 8,
+                            callbacks: { label: function(ctx) { return ctx.label + ': ' + ctx.parsed + ' trades (' + (ctx.parsed / (wins + losses + flat) * 100).toFixed(1) + '%)'; } }
+                        }
                     },
-                    cutout: '55%'
+                    cutout: '58%'
                 }
             });
         }
@@ -1449,6 +1652,7 @@
             loadData();
             initTabs();
             initScrollAnimations();
+            initCountUpObserver();
         };
     </script>
 </body>
