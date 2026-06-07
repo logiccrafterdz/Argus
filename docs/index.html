@@ -62,12 +62,22 @@
                 <ul class="nav-links">
                     <li><a href="#evidence">Snapshot</a></li>
                     <li><a href="#performance">Charts</a></li>
-                    <li><a href="#oos">OOS Test</a></li>
-                    <li><a href="#advanced">Validation</a></li>
+                    <li class="nav-dropdown">
+                        <a href="#oos" class="nav-dropdown-toggle">Validation <span class="nav-arrow">&#9662;</span></a>
+                        <ul class="nav-dropdown-menu">
+                            <li><a href="#oos">OOS Test</a></li>
+                            <li><a href="#advanced">Advanced Val</a></li>
+                        </ul>
+                    </li>
                     <li><a href="#strategies">Strategies</a></li>
-                    <li><a href="#analysis">Analysis</a></li>
-                    <li><a href="#correlation">Correlation</a></li>
-                    <li><a href="#methodology">Methodology</a></li>
+                    <li class="nav-dropdown">
+                        <a href="#analysis" class="nav-dropdown-toggle">Research <span class="nav-arrow">&#9662;</span></a>
+                        <ul class="nav-dropdown-menu">
+                            <li><a href="#analysis">Analysis</a></li>
+                            <li><a href="#correlation">Correlation</a></li>
+                            <li><a href="#methodology">Methodology</a></li>
+                        </ul>
+                    </li>
                 </ul>
             </nav>
             <div class="header-actions">
@@ -116,35 +126,64 @@
         <!-- ═══ Hero (Arkham-style) ═══ -->
         <section class="hero bg-grid">
             <div class="container">
-                <div class="hero-content bg-glow">
-                    <div class="hero-badge">
-                        <span class="status-dot live"></span>
-                        Portfolio Intelligence Engine <span style="color:var(--text-muted);font-weight:400;">&middot; v2.0</span>
+                <div class="hero-layout">
+                    <div class="hero-content bg-glow">
+                        <div class="hero-badge">
+                            <span class="status-dot live"></span>
+                            Portfolio Intelligence Engine <span style="color:var(--text-muted);font-weight:400;">&middot; v2.0</span>
+                        </div>
+                        <h1 class="text-display">Out-of-Sample Positive in<br>Both Val &amp; Test</h1>
+                        <p class="text-body">
+                            7 strategies, 10 instruments, 8.3 years. 3-way split with fixed parameters — no re-optimisation after the split. Walk-Forward confirms 7/9 positive years. Monte Carlo validates resilience across 2,000 simulations.
+                        </p>
+                        <div class="hero-metrics">
+                            <div class="hero-metric glass-card" style="padding:var(--sp-4);border-left:3px solid var(--success);">
+                                <span class="hero-metric-label">Total Return</span>
+                                <span class="hero-metric-value positive"><span class="count-value" data-target="54.17" data-prefix="+" data-suffix="%">+0.00%</span></span>
+                                <span class="hero-metric-badge glow-green">+$54,174 Profit</span>
+                            </div>
+                            <div class="hero-metric glass-card" style="padding:var(--sp-4);border-left:3px solid var(--danger);">
+                                <span class="hero-metric-label">Max Drawdown</span>
+                                <span class="hero-metric-value negative"><span class="count-value" data-target="23.08" data-prefix="-" data-suffix="%">-0.00%</span></span>
+                                <span class="hero-metric-badge" style="color:var(--danger);">1405 bars duration</span>
+                            </div>
+                            <div class="hero-metric glass-card" style="padding:var(--sp-4);border-left:3px solid var(--accent-teal);">
+                                <span class="hero-metric-label">Recovery Factor</span>
+                                <span class="hero-metric-value neutral"><span class="count-value" data-target="2.35" data-suffix="">0.00</span></span>
+                                <span class="hero-metric-badge">Net Profit / Max DD</span>
+                            </div>
+                        </div>
+                        <div class="hero-actions">
+                            <a href="#oos" class="btn btn-primary glow-pulse">View OOS Evidence</a>
+                            <a href="#evidence" class="btn btn-ghost">Dashboard &rarr;</a>
+                        </div>
                     </div>
-                    <h1 class="text-display">Out-of-Sample Positive in<br>Both Val &amp; Test</h1>
-                    <p class="text-body">
-                        7 strategies, 10 instruments, 8.3 years. 3-way split with fixed parameters — no re-optimisation after the split. Walk-Forward confirms 7/9 positive years. Monte Carlo validates resilience across 2,000 simulations.
-                    </p>
-                    <div class="hero-metrics">
-                        <div class="hero-metric glass-card" style="padding:var(--sp-4);border-left:3px solid var(--success);">
-                            <span class="hero-metric-label">Total Return</span>
-                            <span class="hero-metric-value positive"><span class="count-value" data-target="54.17" data-prefix="+" data-suffix="%">+0.00%</span></span>
-                            <span class="hero-metric-badge glow-green">+$54,174 Profit</span>
+                    <div class="hero-visual">
+                        <div class="hero-chart-card glass-card">
+                            <div class="hero-chart-header">
+                                <span class="hero-chart-title">Equity Curve</span>
+                                <span class="hero-chart-subtitle">Portfolio · 2018–2026</span>
+                            </div>
+                            <div class="hero-chart-body">
+                                <canvas id="heroEquityChart"></canvas>
+                            </div>
                         </div>
-                        <div class="hero-metric glass-card" style="padding:var(--sp-4);border-left:3px solid var(--danger);">
-                            <span class="hero-metric-label">Max Drawdown</span>
-                            <span class="hero-metric-value negative"><span class="count-value" data-target="23.08" data-prefix="-" data-suffix="%">-0.00%</span></span>
-                            <span class="hero-metric-badge" style="color:var(--danger);">1405 bars duration</span>
+                        <div class="hero-quick-stats">
+                            <div class="hero-stat">
+                                <span class="hero-stat-label">Win Rate</span>
+                                <span class="hero-stat-value" id="heroWinRate">--</span>
+                            </div>
+                            <div class="hero-stat-divider"></div>
+                            <div class="hero-stat">
+                                <span class="hero-stat-label">Profit Factor</span>
+                                <span class="hero-stat-value" id="heroProfitFactor">--</span>
+                            </div>
+                            <div class="hero-stat-divider"></div>
+                            <div class="hero-stat">
+                                <span class="hero-stat-label">Total Trades</span>
+                                <span class="hero-stat-value" id="heroTotalTrades">--</span>
+                            </div>
                         </div>
-                        <div class="hero-metric glass-card" style="padding:var(--sp-4);border-left:3px solid var(--accent-teal);">
-                            <span class="hero-metric-label">Recovery Factor</span>
-                            <span class="hero-metric-value neutral"><span class="count-value" data-target="2.35" data-suffix="">0.00</span></span>
-                            <span class="hero-metric-badge">Net Profit / Max DD</span>
-                        </div>
-                    </div>
-                    <div class="hero-actions">
-                        <a href="#oos" class="btn btn-primary glow-pulse">View OOS Evidence</a>
-                        <a href="#advanced" class="btn btn-ghost">Advanced Validation &rarr;</a>
                     </div>
                 </div>
             </div>
@@ -1249,6 +1288,66 @@
             });
         }
 
+        /* ═══ Hero Equity Mini Chart ═══ */
+        function renderHeroChart() {
+            if (!portfolioData.equity_curve || !portfolioData.equity_curve.length) return;
+            const canvas = document.getElementById('heroEquityChart');
+            if (!canvas || typeof Chart === 'undefined') return;
+            const ctx = canvas.getContext('2d');
+            if (!ctx) return;
+            const dates = portfolioData.equity_curve.map(d => d.date);
+            const equity = portfolioData.equity_curve.map(d => d.equity);
+            new Chart(ctx, {
+                type: 'line',
+                data: {
+                    labels: dates,
+                    datasets: [{
+                        label: 'Equity ($)',
+                        data: equity,
+                        borderColor: '#0ea5a0',
+                        backgroundColor: function(context) {
+                            const chart = context.chart;
+                            const { ctx, chartArea } = chart;
+                            if (!chartArea) return 'rgba(14,165,160,0.1)';
+                            const gradient = ctx.createLinearGradient(0, chartArea.bottom, 0, chartArea.top);
+                            gradient.addColorStop(0, 'rgba(14,165,160,0.02)');
+                            gradient.addColorStop(0.5, 'rgba(14,165,160,0.12)');
+                            gradient.addColorStop(1, 'rgba(14,165,160,0.25)');
+                            return gradient;
+                        },
+                        fill: true,
+                        borderWidth: 1.5,
+                        pointRadius: 0,
+                        pointHoverRadius: 3,
+                        tension: 0.3
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: { legend: { display: false }, tooltip: { enabled: false } },
+                    scales: {
+                        x: { display: false },
+                        y: { display: false, beginAtZero: false }
+                    },
+                    elements: { point: { radius: 0 } },
+                    interaction: { mode: 'index', intersect: false }
+                }
+            });
+            const p = portfolioData.portfolio;
+            if (p) {
+                const winEl = document.getElementById('heroWinRate');
+                const pfEl = document.getElementById('heroProfitFactor');
+                const ttEl = document.getElementById('heroTotalTrades');
+                const wr = p.win_rate != null ? p.win_rate.toFixed(1) + '%' : '--';
+                const pf = p.profit_factor != null ? p.profit_factor.toFixed(2) : '--';
+                const tt = p.total_trades != null ? p.total_trades : '--';
+                if (winEl) winEl.textContent = wr;
+                if (pfEl) pfEl.textContent = pf;
+                if (ttEl) ttEl.textContent = tt;
+            }
+        }
+
         /* ═══ Contribution Pie ═══ */
         function renderContributionChart() {
             if (!portfolioData.strategies || !portfolioData.strategies.length) return;
@@ -2140,6 +2239,7 @@
         renderAll = function() {
             if (_origRenderAll) _origRenderAll();
             setTimeout(() => {
+                renderHeroChart();
                 renderNetworkGraph();
                 renderCorrelationSummary();
             }, 100);
