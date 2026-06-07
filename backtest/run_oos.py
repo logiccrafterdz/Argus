@@ -6,13 +6,12 @@ from engine import BacktestEngine
 from analytics import calculate_metrics
 import numpy as np
 from json_encoder import NumpyEncoder
-from strategies.adx_trend_strength import ADXTrendStrength
 from strategies.avwap_confluence import AVWAPConfluence
-from strategies.hidden_divergence import HiddenDivergence
+from strategies.adx_trend_strength import ADXTrendStrength
 from strategies.donchian_breakout import DonchianBreakout
-from strategies.bollinger_mr import BollingerMeanReversion
 from strategies.smart_swing_bias import SmartSwingBias
 from strategies.price_action_sr import PriceActionSR
+from strategies.graveyard_reversal import GraveyardReversal
 from indicators import MarketRegime
 from config import load_config, create_default_config
 from log_setup import setup_logger
@@ -131,11 +130,7 @@ def run_oos(mode, existing_rl_agent=None, existing_meta_filters=None, existing_k
     strategies = [
         AVWAPConfluence(),
         ADXTrendStrength(),
-        # HiddenDivergence(),
-        DonchianBreakout(),
-        # BollingerMeanReversion(),
-        SmartSwingBias(),
-        PriceActionSR(),
+        GraveyardReversal(),
     ]
 
     # ===== INTEGRATIONS SETUP =====
