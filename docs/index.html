@@ -1348,7 +1348,7 @@
             }
         }
 
-        /* ═══ Contribution Pie ═══ */
+        /* ═══ Strategy Contribution Bar Chart ═══ */
         function renderContributionChart() {
             if (!portfolioData.strategies || !portfolioData.strategies.length) return;
             const canvas = document.getElementById('contributionChart');
@@ -1357,33 +1357,40 @@
             if (!ctx) return;
             const sorted = [...portfolioData.strategies].sort((a, b) => b.net_profit - a.net_profit);
             new Chart(ctx, {
-                type: 'doughnut',
+                type: 'bar',
                 data: {
                     labels: sorted.map(s => s.name.replace(/_/g, ' ')),
                     datasets: [{
-                        data: sorted.map(s => Math.max(0, s.net_profit)),
-                        backgroundColor: STRATEGY_COLORS.slice(0, sorted.length),
-                        borderWidth: 0,
-                        hoverOffset: 8
+                        label: 'Net Profit ($)',
+                        data: sorted.map(s => s.net_profit),
+                        backgroundColor: sorted.map(s => s.net_profit >= 0 ? 'rgba(14,165,160,0.6)' : 'rgba(220,38,38,0.5)'),
+                        borderColor: sorted.map(s => s.net_profit >= 0 ? 'rgba(14,165,160,0.9)' : 'rgba(220,38,38,0.8)'),
+                        borderWidth: 1,
+                        borderRadius: 3,
+                        borderSkipped: false
                     }]
                 },
                 options: {
                     responsive: true,
                     maintainAspectRatio: false,
+                    indexAxis: 'y',
                     plugins: {
-                        legend: { position: 'right', labels: { color: '#a0a0b4', font: { family: 'Inter', size: 11 }, padding: 16, usePointStyle: true } },
+                        legend: { display: false },
                         tooltip: {
                             backgroundColor: 'rgba(15,15,24,0.9)',
-                            titleFont: { family: 'Inter', size: 12 },
+                            titleFont: { family: 'Inter', size: 11 },
                             bodyFont: { family: 'JetBrains Mono', size: 11 },
                             borderWidth: 1,
                             borderColor: 'rgba(255,255,255,0.1)',
-                            padding: 12,
-                            cornerRadius: 8,
-                            callbacks: { label: function(c) { return c.label + ': $' + c.raw.toFixed(2); } }
+                            padding: 10,
+                            cornerRadius: 6,
+                            callbacks: { label: function(c) { return '$' + c.raw.toFixed(2); } }
                         }
                     },
-                    cutout: '58%'
+                    scales: {
+                        x: { grid: { color: 'rgba(255,255,255,0.03)' }, ticks: { color: '#5a5a6e', font: { size: 10 }, callback: function(v) { return '$' + v.toFixed(0); } } },
+                        y: { grid: { display: false }, ticks: { color: '#8a8a9e', font: { size: 9 } } }
+                    }
                 }
             });
         }
@@ -1472,8 +1479,13 @@
                     : '<span class="risk-badge" style="background:var(--warning-dim);color:var(--warning);">Inactive</span>';
                 const paramStr = Object.entries(s.params)
                     .filter(([k]) => !['name', 'category', 'regime_mask', 'session_mask', 'disable_breakeven'].includes(k))
-                    .map(([k, v]) => k.replace(/_/g, ' ') + ': ' + v)
+                    .map(([k, v]) => {
+                        if (typeof v === 'number' && !Number.isInteger(v)) return k.replace(/_/g, ' ') + ': ' + v.toFixed(2);
+                        return k.replace(/_/g, ' ') + ': ' + v;
+                    })
                     .join(', ');
+                const TRUNCATE_LEN = 120;
+                const displayParams = paramStr.length > TRUNCATE_LEN ? paramStr.substring(0, TRUNCATE_LEN) + '…' : paramStr;
                 html += '<div class="strategy-card" style="border-left-color: ' + STRATEGY_COLORS[colorIdx] + ';' + (!s.isActive ? ' opacity: 0.7;' : '') + '">' +
                     '<div class="strategy-card-header">' +
                     '<span class="strategy-rank">#' + (i + 1) + '</span>' +
@@ -1491,7 +1503,7 @@
                     '<div class="sc-metric"><span class="sc-label">Net Profit</span><span class="sc-value ' + (s.net_profit >= 0 ? 'positive' : 'negative') + '">$' + s.net_profit.toFixed(2) + '</span></div>' +
                     '<div class="sc-metric"><span class="sc-label">TF</span><span class="sc-value">' + s.tf + '</span></div>' +
                     '</div>' +
-                    (paramStr ? '<div class="strategy-card-params"><span class="sc-label">Params:</span> <span class="text-small" style="color:var(--text-muted);">' + paramStr + '</span></div>' : '') +
+                    (displayParams ? '<div class="strategy-card-params"><span class="sc-label">Params:</span> <span class="text-small" style="color:var(--text-muted);" title="' + paramStr.replace(/"/g, '&quot;') + '">' + displayParams + '</span></div>' : '') +
                     '</div>';
             });
             html += '</div>';
@@ -2088,10 +2100,16 @@
 
                     const label = n.name.replace(/_/g, ' ').replace(/Strategy/g, '').trim();
                     let displayLabel;
-                    if (label.length <= 14) displayLabel = label;
+                    if (label.length <= 16) displayLabel = label;
                     else {
-                        const abbr = label.split(' ').filter(w => w.length > 2).map(w => w.charAt(0).toUpperCase()).join('');
-                        displayLabel = abbr.substring(0, 6) || label.substring(0, 10) + '..';
+                        const words = label.split(' ');
+                        if (words.length <= 3) {
+                            displayLabel = words.map(w => w.length > 4 ? w.substring(0, 4) + '.' : w).join(' ');
+                        } else {
+                            const keyWords = words.filter(w => w.length > 3);
+                            const abbr = keyWords.map(w => w.charAt(0).toUpperCase()).join('');
+                            displayLabel = abbr.substring(0, 5) || label.substring(0, 8);
+                        }
                     }
 
                     ctx.fillStyle = n.isActive ? '#e4e4ec' : '#5a5a6e';
@@ -2223,6 +2241,30 @@
         }
 
         /* ─── Transaction Timeline (Arkham-style) ─── */
+        /* ─── Nav Dropdown Toggle (click + Escape + click-outside) ─── */
+        function initDropdowns() {
+            document.querySelectorAll('.nav-dropdown-toggle').forEach(toggle => {
+                toggle.addEventListener('click', (e) => {
+                    e.preventDefault();
+                    const menu = toggle.parentElement.querySelector('.nav-dropdown-menu');
+                    if (!menu) return;
+                    const isOpen = menu.classList.contains('open');
+                    document.querySelectorAll('.nav-dropdown-menu.open').forEach(m => m.classList.remove('open'));
+                    if (!isOpen) menu.classList.add('open');
+                });
+            });
+            document.addEventListener('click', (e) => {
+                if (!e.target.closest('.nav-dropdown')) {
+                    document.querySelectorAll('.nav-dropdown-menu.open').forEach(m => m.classList.remove('open'));
+                }
+            });
+            document.addEventListener('keydown', (e) => {
+                if (e.key === 'Escape') {
+                    document.querySelectorAll('.nav-dropdown-menu.open').forEach(m => m.classList.remove('open'));
+                }
+            });
+        }
+
         window.onload = function() {
             loadData();
             initTabs();
@@ -2232,6 +2274,7 @@
             initStoryTracker();
             initTiltCards();
             initMouseGlow();
+            initDropdowns();
         };
 
         /* ─── Override renderAll to include Phase 2 features ─── */

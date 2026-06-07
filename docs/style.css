@@ -448,6 +448,10 @@ body {
   z-index: 200;
 }
 
+.nav-dropdown-menu.open {
+  display: block;
+}
+
 .nav-dropdown-menu li a {
   display: block;
   padding: var(--sp-1) var(--sp-4);
@@ -460,8 +464,10 @@ body {
   color: var(--text-primary);
 }
 
-.nav-dropdown:hover .nav-dropdown-menu {
-  display: block;
+@media (hover: hover) {
+  .nav-dropdown:hover .nav-dropdown-menu {
+    display: block;
+  }
 }
 
 .header-actions {
@@ -985,6 +991,9 @@ body {
   gap: var(--sp-3);
   overflow-x: auto;
   padding: var(--sp-2) 0;
+  -webkit-overflow-scrolling: touch;
+  scrollbar-width: thin;
+  scrollbar-color: var(--border-default) transparent;
 }
 
 .arch-node {
@@ -1630,9 +1639,13 @@ body {
 }
 
 .data-table td {
-  padding: var(--sp-3) var(--sp-4);
+  padding: var(--sp-2) var(--sp-3);
   border-bottom: 1px solid var(--border-subtle);
   white-space: nowrap;
+}
+
+.data-table th {
+  padding: var(--sp-2) var(--sp-3);
 }
 
 .data-table tbody tr {
@@ -1650,6 +1663,10 @@ body {
 .strategy-name {
   font-weight: 600;
   color: var(--text-primary);
+  max-width: 180px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
 }
 
 .category-badge {
@@ -2123,7 +2140,7 @@ details summary {
 /* ─── Strategy Cards Grid ─── */
 .strategy-cards-grid {
   display: grid;
-  grid-template-columns: repeat(3, 1fr);
+  grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
   gap: var(--sp-4);
 }
 
