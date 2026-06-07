@@ -11,6 +11,39 @@
 </head>
 <body>
 
+    <!-- ═══ Scroll Progress Bar ═══ -->
+    <div class="scroll-progress" id="scrollProgress"></div>
+
+    <!-- ═══ Story Progress Tracker ═══ -->
+    <nav class="story-tracker" id="storyTracker">
+        <div class="story-tracker-line"></div>
+        <a href="#evidence" class="story-tracker-step" data-section="evidence">
+            <span class="story-tracker-dot"></span>
+            <span class="story-tracker-label">Thesis</span>
+        </a>
+        <a href="#performance" class="story-tracker-step" data-section="performance">
+            <span class="story-tracker-dot"></span>
+            <span class="story-tracker-label">Evidence</span>
+        </a>
+        <a href="#oos" class="story-tracker-step" data-section="oos">
+            <span class="story-tracker-dot"></span>
+            <span class="story-tracker-label">Validation</span>
+        </a>
+        <a href="#strategies" class="story-tracker-step" data-section="strategies">
+            <span class="story-tracker-dot"></span>
+            <span class="story-tracker-label">Strategies</span>
+        </a>
+        <a href="#analysis" class="story-tracker-step" data-section="analysis">
+            <span class="story-tracker-dot"></span>
+            <span class="story-tracker-label">Analysis</span>
+        </a>
+        <a href="#correlation" class="story-tracker-step" data-section="correlation">
+            <span class="story-tracker-dot"></span>
+            <span class="story-tracker-label">Network</span>
+        </a>
+        <div class="story-tracker-line"></div>
+    </nav>
+
     <!-- ═══ v2.0 Release Banner (Arkham-style) ═══ -->
     <div class="release-banner">
         <span class="release-icon">&#10003;</span>
@@ -120,7 +153,15 @@
         <!-- ═══ Portfolio Snapshot ═══ -->
         <section class="section" id="evidence">
             <div class="container">
+                <div class="section-narrative">
+                    <div class="section-narrative-number">01</div>
+                    <div class="section-narrative-content">
+                        <h3>The Portfolio Thesis</h3>
+                        <p>7 strategies across 10 instruments over 8.3 years. The aggregate result — a portfolio engineered for asymmetric returns. These KPIs tell the headline story before we dissect each layer.</p>
+                    </div>
+                </div>
                 <div class="section-header">
+                    <div class="section-number">01</div>
                     <div class="text-label">Portfolio Snapshot</div>
                     <h2 class="text-h2">Executive Performance Overview</h2>
                     <p class="text-body">Key metrics from the full backtest period across all 7 selected strategies and 10 instruments. See OOS section below for out-of-sample validation.</p>
@@ -141,7 +182,15 @@
         <!-- ═══ System Architecture ═══ -->
         <section class="section" id="architecture">
             <div class="container">
+                <div class="section-narrative">
+                    <div class="section-narrative-number">02</div>
+                    <div class="section-narrative-content">
+                        <h3>The Engine Behind the Numbers</h3>
+                        <p>How data flows from MetaTrader 5 through strategy execution to risk governance — a centralized orchestrator watching every layer.</p>
+                    </div>
+                </div>
                 <div class="section-header">
+                    <div class="section-number">02</div>
                     <div class="text-label">System Architecture</div>
                     <h2 class="text-h2">How Argus Works</h2>
                     <p class="text-body">A centralized orchestrator coordinates 7 strategies through shared core services, enforcing risk governance at every level.</p>
@@ -183,7 +232,15 @@
         <!-- ═══ Risk Governance ═══ -->
         <section class="section" id="risk">
             <div class="container">
+                <div class="section-narrative">
+                    <div class="section-narrative-number">03</div>
+                    <div class="section-narrative-content">
+                        <h3>The Safety Layer</h3>
+                        <p>Every strategy is bound by the same set of rules — drawdown limits, correlation controls, news blockades. The orchestrator governs, not just coordinates.</p>
+                    </div>
+                </div>
                 <div class="section-header">
+                    <div class="section-number">03</div>
                     <div class="text-label">Risk Governance</div>
                     <h2 class="text-h2">Discipline at Portfolio Level</h2>
                     <p class="text-body">Risk controls are enforced globally, not per-strategy. The orchestrator acts as a governor, not just a coordinator.</p>
@@ -226,7 +283,15 @@
         <!-- ═══ Performance Evidence ═══ -->
         <section class="section" id="performance">
             <div class="container">
+                <div class="section-narrative">
+                    <div class="section-narrative-number">04</div>
+                    <div class="section-narrative-content">
+                        <h3>The Evidence Unfolded</h3>
+                        <p>Equity curves, drawdown profiles, and strategy contributions — the raw performance story told through every bar since 2018. Each chart reveals a different angle.</p>
+                    </div>
+                </div>
                 <div class="section-header">
+                    <div class="section-number">04</div>
                     <div class="text-label">Performance Evidence</div>
                     <h2 class="text-h2">Equity, Drawdown &amp; Contribution</h2>
                 </div>
@@ -265,7 +330,15 @@
         <!-- ═══ Out-of-Sample Validation ═══ -->
         <section class="section" id="oos">
             <div class="container">
+                <div class="section-narrative">
+                    <div class="section-narrative-number">05</div>
+                    <div class="section-narrative-content">
+                        <h3>The Real Test</h3>
+                        <p>5 years training, 1 year validation, 29 months test — no re-optimisation after the split. This is where overfitting dies and robust strategies survive. Both Val and Test are positive.</p>
+                    </div>
+                </div>
                 <div class="section-header">
+                    <div class="section-number">05</div>
                     <div class="text-label">Out-of-Sample Validation</div>
                     <h2 class="text-h2">Train / Test Split Evidence</h2>
                     <p class="text-body">Rigorous 3-way out-of-sample test: <strong>Train</strong> (5 years: 2018-2022), <strong>Validation</strong> (1 year: 2023), <strong>Test</strong> (29 months: 2024-May 2026). No parameter re-optimisation after split. The Kelly Agent and News Filter protect the portfolio from out-of-sample anomalies. Val and Test both strongly positive — exceptional OOS evidence.</p>
@@ -302,7 +375,15 @@
         <!-- ═══ Strategy Intelligence ═══ -->
         <section class="section" id="strategies">
             <div class="container">
+                <div class="section-narrative">
+                    <div class="section-narrative-number">06</div>
+                    <div class="section-narrative-content">
+                        <h3>The Ensemble</h3>
+                        <p>20 strategies built, 7 selected. Each plays a role — some generate alpha, others hedge. The sum is greater than the parts. Explore how they compare and contrast.</p>
+                    </div>
+                </div>
                 <div class="section-header">
+                    <div class="section-number">06</div>
                     <div class="text-label">Strategy Intelligence</div>
                     <h2 class="text-h2">All 20 Strategies — <span style="color:var(--success);">7 Active</span> in Portfolio</h2>
                     <p class="text-body">Each strategy with individual backtest statistics. Active strategies are part of the portfolio; inactive ones were excluded after optimisation.</p>
@@ -352,7 +433,15 @@
         <!-- ═══ Detailed Analysis (Tabbed: Monthly, Trade, Journal) ═══ -->
         <section class="section" id="analysis">
             <div class="container">
+                <div class="section-narrative">
+                    <div class="section-narrative-number">07</div>
+                    <div class="section-narrative-content">
+                        <h3>Under the Microscope</h3>
+                        <p>Monthly heatmaps, trade distribution, per-symbol breakdowns, and the full execution log. Every trade, every month — the complete forensic record.</p>
+                    </div>
+                </div>
                 <div class="section-header">
+                    <div class="section-number">07</div>
                     <div class="text-label">Detailed Analysis</div>
                     <h2 class="text-h2">Monthly Returns &amp; Trade Breakdown</h2>
                     <p class="text-body">Monthly consistency heatmap, trade distribution with per-symbol performance, and full execution journal.</p>
@@ -361,7 +450,7 @@
                     <div class="tab-bar">
                         <button class="tab-btn active" data-tab="monthly-tab">Monthly Heatmap</button>
                         <button class="tab-btn" data-tab="distribution-tab">Trade Distribution</button>
-                        <button class="tab-btn" data-tab="journal-tab">Trade Journal</button>
+                        <button class="tab-btn" data-tab="journal-tab">Transaction Feed</button>
                     </div>
 
                     <!-- Monthly -->
@@ -408,28 +497,20 @@
                         </div>
                     </div>
 
-                    <!-- Journal -->
+                    <!-- Journal — Arkham-style Transaction Feed -->
                     <div class="tab-content" data-tab="journal-tab">
-                        <div class="panel-header"><h3 class="text-h3">Execution Log</h3></div>
-                        <div class="table-wrapper">
-                            <table class="data-table journal-table" id="journalTable">
-                                <thead>
-                                    <tr>
-                                        <th>#</th>
-                                        <th>Symbol</th>
-                                        <th>Strategy</th>
-                                        <th>Type</th>
-                                        <th>Lots</th>
-                                        <th>Entry</th>
-                                        <th>Exit</th>
-                                        <th>Profit</th>
-                                        <th>Reason</th>
-                                    </tr>
-                                </thead>
-                                <tbody id="journalBody"></tbody>
-                            </table>
+                        <div class="panel-header">
+                            <h3 class="text-h3">Transaction Timeline</h3>
+                            <span class="text-small" style="color:var(--text-muted);">Live feed &middot; Arkham-style</span>
                         </div>
-                        <div style="text-align: center; margin-top: var(--sp-4);">
+                        <div class="tx-feed" id="txFeed">
+                            <div class="shimmer" style="width:100%;height:40px;margin:4px 0;"></div>
+                            <div class="shimmer" style="width:100%;height:40px;margin:4px 0;"></div>
+                            <div class="shimmer" style="width:100%;height:40px;margin:4px 0;"></div>
+                            <div class="shimmer" style="width:100%;height:40px;margin:4px 0;"></div>
+                            <div class="shimmer" style="width:100%;height:40px;margin:4px 0;"></div>
+                        </div>
+                        <div style="margin-top: var(--sp-4);">
                             <button class="btn btn-ghost" id="loadMoreBtn">Load More Trades</button>
                             <span class="text-small" id="journalCount" style="margin-left: var(--sp-3);"></span>
                         </div>
@@ -451,12 +532,31 @@
         <!-- ═══ Correlation Matrix ═══ -->
         <section class="section" id="correlation">
             <div class="container">
+                <div class="section-narrative">
+                    <div class="section-narrative-number">08</div>
+                    <div class="section-narrative-content">
+                        <h3>The Hidden Connections</h3>
+                        <p>Strategies that look good in isolation may hide concentration risk. This network graph reveals which strategies move together — and which provide true diversification.</p>
+                    </div>
+                </div>
                 <div class="section-header">
+                    <div class="section-number">08</div>
                     <div class="text-label">Correlation Analysis</div>
                     <h2 class="text-h2">Inter-Strategy Correlation</h2>
                     <p class="text-body">Identifies overlapping risk exposure between strategies. Values > 0.7 indicate potential concentration.</p>
                 </div>
                 <div class="panel">
+                    <div class="network-container" id="networkContainer">
+                        <canvas id="networkCanvas"></canvas>
+                        <div class="network-legend">
+                            <span class="network-legend-item"><span class="network-legend-dot" style="background:var(--accent-teal);"></span> Active</span>
+                            <span class="network-legend-item"><span class="network-legend-dot" style="background:var(--text-muted);"></span> Inactive</span>
+                            <span class="network-legend-item"><span class="network-legend-dot" style="background:rgba(220,38,38,0.6);"></span> High Corr (&gt;0.7)</span>
+                            <span class="network-legend-item"><span class="network-legend-dot" style="background:rgba(22,163,74,0.6);"></span> Negative Corr</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="panel" style="margin-top: var(--sp-4);">
                     <div class="corr-legend">
                         <span class="corr-legend-item"><span class="corr-legend-swatch" style="background: rgba(220, 38, 38, 0.4);"></span> High (&gt;0.7)</span>
                         <span class="corr-legend-item"><span class="corr-legend-swatch" style="background: rgba(255, 255, 255, 0.08);"></span> Moderate</span>
@@ -480,7 +580,15 @@
         <!-- ═══ Methodology ═══ -->
         <section class="section" id="methodology">
             <div class="container">
+                <div class="section-narrative">
+                    <div class="section-narrative-number">09</div>
+                    <div class="section-narrative-content">
+                        <h3>The Fine Print</h3>
+                        <p>Every backtest makes assumptions. Here are ours — data sources, execution model, risk parameters. Transparency is the foundation of credible evidence.</p>
+                    </div>
+                </div>
                 <div class="section-header">
+                    <div class="section-number">09</div>
                     <div class="text-label">Methodology</div>
                     <h2 class="text-h2">Backtest Assumptions &amp; Parameters</h2>
                     <p class="text-body">Transparent documentation of simulation conditions, data sources, and risk parameters.</p>
@@ -1567,41 +1675,45 @@
 
         function renderJournal() {
             if (!portfolioData.recent_trades || !portfolioData.recent_trades.length) {
-                document.getElementById('journalBody').innerHTML = '<tr><td colspan="9" style="text-align:center;color:var(--text-muted);">No trades recorded</td></tr>';
+                const feed = document.getElementById('txFeed');
+                if (feed) feed.innerHTML = '<div style="text-align:center;padding:var(--sp-8);color:var(--text-muted);">No trades recorded</div>';
                 return;
             }
             allTrades = portfolioData.recent_trades.slice().reverse();
             journalPage = 0;
-            renderJournalPage();
             const loadMoreBtn = document.getElementById('loadMoreBtn');
             if (loadMoreBtn) {
                 loadMoreBtn.style.display = allTrades.length > PAGE_SIZE ? 'inline-flex' : 'none';
                 loadMoreBtn.onclick = () => { journalPage++; renderJournalPage(); if ((journalPage + 1) * PAGE_SIZE >= allTrades.length) loadMoreBtn.style.display = 'none'; };
             }
+            renderJournalPage();
             updateJournalCount();
         }
 
         function renderJournalPage() {
-            const tbody = document.getElementById('journalBody');
-            if (!tbody) return;
+            const feed = document.getElementById('txFeed');
+            if (!feed) return;
             const start = journalPage * PAGE_SIZE;
             const end = Math.min(start + PAGE_SIZE, allTrades.length);
             const page = allTrades.slice(start, end);
             let html = '';
             page.forEach((t, i) => {
-                html += '<tr>' +
-                    '<td class="text-mono">' + (start + i + 1) + '</td>' +
-                    '<td style="font-weight:600;">' + t.symbol + '</td>' +
-                    '<td class="text-mono">' + t.strategy.replace(/_/g, ' ') + '</td>' +
-                    '<td><span class="type-badge ' + t.type.toLowerCase() + '">' + t.type + '</span></td>' +
-                    '<td class="text-mono">' + (t.lot_size || '0').toFixed(2) + '</td>' +
-                    '<td class="text-mono">' + (t.entry_time || '') + '</td>' +
-                    '<td class="text-mono">' + (t.close_time || '') + '</td>' +
-                    '<td class="profit-cell ' + (t.profit >= 0 ? 'positive' : 'negative') + '">$' + t.profit.toFixed(2) + '</td>' +
-                    '<td class="text-mono" style="color:var(--text-muted);">' + (t.reason || '') + '</td>' +
-                    '</tr>';
+                const isBuy = t.type === 'BUY' || t.type === 'buy';
+                const reason = (t.reason || 'manual').toLowerCase().trim();
+                html +=
+                    '<div class="tx-feed-item animate-slide-right" style="animation-delay:' + (i * 0.02) + 's;">' +
+                        '<span class="tx-feed-time">' + (t.close_time || t.entry_time || '').substring(5, 16) || '--' + '</span>' +
+                        '<span class="tx-feed-icon ' + (isBuy ? 'buy' : 'sell') + '">' + (isBuy ? 'B' : 'S') + '</span>' +
+                        '<div class="tx-feed-info">' +
+                            '<div class="tx-feed-pair">' + t.symbol + '</div>' +
+                            '<div class="tx-feed-strategy">' + t.strategy.replace(/_/g, ' ') + '</div>' +
+                        '</div>' +
+                        '<span class="tx-feed-amount ' + (t.profit >= 0 ? 'positive' : 'negative') + '">' + (t.profit >= 0 ? '+' : '') + '$' + t.profit.toFixed(2) + '</span>' +
+                        '<span class="tx-feed-status ' + reason + '">' + (t.reason || 'Manual') + '</span>' +
+                    '</div>';
             });
-            tbody.innerHTML += html;
+            if (journalPage === 0) feed.innerHTML = html;
+            else feed.innerHTML += html;
             updateJournalCount();
         }
 
@@ -1648,11 +1760,273 @@
             document.querySelectorAll('.section:not(.hero)').forEach(el => observer.observe(el));
         }
 
+        /* ═══════════════════════════════════════════════════════
+           PHASE 2 — NARRATIVE FLOW & PREMIUM INTERACTIONS
+           ═══════════════════════════════════════════════════════ */
+
+        /* ─── Scroll Progress Bar ─── */
+        function initScrollProgress() {
+            const bar = document.getElementById('scrollProgress');
+            if (!bar) return;
+            window.addEventListener('scroll', () => {
+                const h = document.documentElement.scrollHeight - window.innerHeight;
+                bar.style.width = h > 0 ? (window.scrollY / h * 100) + '%' : '0%';
+            });
+        }
+
+        /* ─── Story Tracker Active Step ─── */
+        function initStoryTracker() {
+            const steps = document.querySelectorAll('.story-tracker-step');
+            if (!steps.length) return;
+
+            const sections = Array.from(steps).map(step => {
+                const id = step.dataset.section;
+                return { step, el: document.getElementById(id) };
+            }).filter(s => s.el);
+
+            const observer = new IntersectionObserver((entries) => {
+                let activeId = null;
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) activeId = entry.target.id;
+                });
+                if (activeId) {
+                    steps.forEach(s => s.classList.remove('active'));
+                    const active = document.querySelector('.story-tracker-step[data-section="' + activeId + '"]');
+                    if (active) active.classList.add('active');
+                }
+            }, { threshold: 0.3, rootMargin: '0px 0px -40% 0px' });
+
+            sections.forEach(s => observer.observe(s.el));
+        }
+
+        /* ─── 3D Card Tilt Effect ─── */
+        function initTiltCards() {
+            if ('ontouchstart' in window) return;
+            document.querySelectorAll('.panel, .kpi-tile, .risk-card, .oos-card, .strategy-card, .method-card, .arch-node').forEach(card => {
+                card.classList.add('tilt-card');
+                card.addEventListener('mousemove', (e) => {
+                    const rect = card.getBoundingClientRect();
+                    const x = e.clientX - rect.left;
+                    const y = e.clientY - rect.top;
+                    const cx = rect.width / 2;
+                    const cy = rect.height / 2;
+                    const rotateX = ((y - cy) / cy) * -5;
+                    const rotateY = ((x - cx) / cx) * 5;
+                    card.style.transform = 'perspective(800px) rotateX(' + rotateX + 'deg) rotateY(' + rotateY + 'deg) translateY(-3px)';
+                });
+                card.addEventListener('mouseleave', () => {
+                    card.style.transform = '';
+                });
+            });
+        }
+
+        /* ─── Mouse-following Glow ─── */
+        function initMouseGlow() {
+            const style = document.createElement('style');
+            style.textContent = `
+                .mouse-glow::after {
+                    left: var(--mx, 50%);
+                    top: var(--my, 50%);
+                }
+            `;
+            document.head.appendChild(style);
+            document.querySelectorAll('.panel, .kpi-tile, .risk-card, .oos-card, .strategy-card').forEach(el => {
+                el.classList.add('mouse-glow');
+                el.addEventListener('mousemove', (e) => {
+                    const rect = el.getBoundingClientRect();
+                    el.style.setProperty('--mx', (e.clientX - rect.left) + 'px');
+                    el.style.setProperty('--my', (e.clientY - rect.top) + 'px');
+                });
+            });
+        }
+
+        /* ─── Network Graph (Force-directed with Canvas) ─── */
+        function renderNetworkGraph() {
+            const canvas = document.getElementById('networkCanvas');
+            if (!canvas || !portfolioData || !portfolioData.portfolio) return;
+            const p = portfolioData.portfolio;
+            const corrMatrix = p.correlation_matrix;
+            if (!corrMatrix || Object.keys(corrMatrix).length === 0) return;
+
+            const container = document.getElementById('networkContainer');
+            const rect = container.getBoundingClientRect();
+            canvas.width = rect.width || container.clientWidth;
+            canvas.height = rect.height || container.clientHeight;
+            const ctx = canvas.getContext('2d');
+            if (!ctx) return;
+
+            const W = canvas.width, H = canvas.height;
+            const strategies = Object.keys(corrMatrix);
+            const nodes = strategies.map((name, i) => ({
+                id: i,
+                name: name,
+                isActive: ACTIVE_STRATEGIES.has(name),
+                x: W * 0.15 + Math.random() * W * 0.7,
+                y: H * 0.15 + Math.random() * H * 0.7,
+                vx: 0, vy: 0,
+                radius: ACTIVE_STRATEGIES.has(name) ? 28 : 18
+            }));
+
+            const links = [];
+            strategies.forEach((row, i) => {
+                strategies.forEach((col, j) => {
+                    if (j > i) {
+                        const val = corrMatrix[row][col];
+                        if (Math.abs(val) > 0.1) {
+                            links.push({ source: i, target: j, value: val });
+                        }
+                    }
+                });
+            });
+
+            const REPULSION = 8000;
+            const ATTRACTION = 0.005;
+            const DAMPING = 0.85;
+            const MIN_DIST = 60;
+            const MAX_DIST = 250;
+
+            function simulateStep() {
+                nodes.forEach(n => { n.vx = 0; n.vy = 0; });
+
+                for (let i = 0; i < nodes.length; i++) {
+                    for (let j = i + 1; j < nodes.length; j++) {
+                        const a = nodes[i], b = nodes[j];
+                        let dx = b.x - a.x;
+                        let dy = b.y - a.y;
+                        let dist = Math.sqrt(dx * dx + dy * dy) || 1;
+                        const force = REPULSION / (dist * dist);
+                        const fx = (dx / dist) * force;
+                        const fy = (dy / dist) * force;
+                        a.vx -= fx; a.vy -= fy;
+                        b.vx += fx; b.vy += fy;
+                    }
+                }
+
+                links.forEach(l => {
+                    const a = nodes[l.source], b = nodes[l.target];
+                    let dx = b.x - a.x;
+                    let dy = b.y - a.y;
+                    let dist = Math.sqrt(dx * dx + dy * dy) || 1;
+                    const ideal = MIN_DIST + (1 - Math.abs(l.value)) * (MAX_DIST - MIN_DIST);
+                    const force = (dist - ideal) * ATTRACTION;
+                    const fx = (dx / dist) * force;
+                    const fy = (dy / dist) * force;
+                    a.vx += fx; a.vy += fy;
+                    b.vx -= fx; b.vy -= fy;
+                });
+
+                nodes.forEach(n => {
+                    n.vx *= DAMPING;
+                    n.vy *= DAMPING;
+                    n.x += n.vx;
+                    n.y += n.vy;
+                    n.x = Math.max(n.radius, Math.min(W - n.radius, n.x));
+                    n.y = Math.max(n.radius, Math.min(H - n.radius, n.y));
+                });
+            }
+
+            function draw() {
+                ctx.clearRect(0, 0, W, H);
+
+                links.forEach(l => {
+                    const a = nodes[l.source], b = nodes[l.target];
+                    const absVal = Math.abs(l.value);
+                    let color;
+                    if (l.value >= 0.7) color = 'rgba(220,38,38,' + (0.2 + absVal * 0.3) + ')';
+                    else if (l.value <= -0.3) color = 'rgba(22,163,74,' + (0.15 + absVal * 0.25) + ')';
+                    else color = 'rgba(255,255,255,' + (0.04 + absVal * 0.08) + ')';
+                    ctx.beginPath();
+                    ctx.moveTo(a.x, a.y);
+                    ctx.lineTo(b.x, b.y);
+                    ctx.strokeStyle = color;
+                    ctx.lineWidth = 1 + absVal * 2;
+                    ctx.stroke();
+                });
+
+                nodes.forEach(n => {
+                    const gradient = ctx.createRadialGradient(n.x - 4, n.y - 4, 0, n.x, n.y, n.radius);
+                    if (n.isActive) {
+                        gradient.addColorStop(0, 'rgba(14,165,160,0.9)');
+                        gradient.addColorStop(0.6, 'rgba(14,165,160,0.5)');
+                        gradient.addColorStop(1, 'rgba(14,165,160,0.1)');
+                    } else {
+                        gradient.addColorStop(0, 'rgba(90,90,110,0.7)');
+                        gradient.addColorStop(1, 'rgba(90,90,110,0.05)');
+                    }
+                    ctx.beginPath();
+                    ctx.arc(n.x, n.y, n.radius, 0, Math.PI * 2);
+                    ctx.fillStyle = gradient;
+                    ctx.fill();
+
+                    if (n.isActive) {
+                        ctx.beginPath();
+                        ctx.arc(n.x, n.y, n.radius + 2, 0, Math.PI * 2);
+                        ctx.strokeStyle = 'rgba(14,165,160,0.3)';
+                        ctx.lineWidth = 1;
+                        ctx.stroke();
+                    }
+
+                    const label = n.name.replace(/_/g, ' ').replace(/Strategy/g, '').trim();
+                    const words = label.split(' ');
+                    let displayLabel;
+                    if (words.length <= 2) displayLabel = label;
+                    else displayLabel = words.slice(0, 2).join(' ') + '..';
+
+                    ctx.fillStyle = n.isActive ? '#e4e4ec' : '#5a5a6e';
+                    ctx.font = n.isActive ? 'bold 8px Inter, sans-serif' : '7px Inter, sans-serif';
+                    ctx.textAlign = 'center';
+                    ctx.textBaseline = 'middle';
+                    ctx.fillText(displayLabel, n.x, n.y);
+                });
+
+                requestAnimationFrame(draw);
+            }
+
+            for (let i = 0; i < 80; i++) simulateStep();
+            draw();
+
+            let isDragging = false, dragNode = null;
+            canvas.addEventListener('mousedown', (e) => {
+                const rect = canvas.getBoundingClientRect();
+                const mx = e.clientX - rect.left, my = e.clientY - rect.top;
+                nodes.forEach(n => {
+                    const dx = mx - n.x, dy = my - n.y;
+                    if (dx * dx + dy * dy < n.radius * n.radius) {
+                        isDragging = true;
+                        dragNode = n;
+                    }
+                });
+            });
+            canvas.addEventListener('mousemove', (e) => {
+                if (isDragging && dragNode) {
+                    const rect = canvas.getBoundingClientRect();
+                    dragNode.x = e.clientX - rect.left;
+                    dragNode.y = e.clientY - rect.top;
+                }
+            });
+            canvas.addEventListener('mouseup', () => { isDragging = false; dragNode = null; });
+            canvas.addEventListener('mouseleave', () => { isDragging = false; dragNode = null; });
+        }
+
+        /* ─── Transaction Timeline (Arkham-style) ─── */
         window.onload = function() {
             loadData();
             initTabs();
             initScrollAnimations();
             initCountUpObserver();
+            initScrollProgress();
+            initStoryTracker();
+            initTiltCards();
+            initMouseGlow();
+        };
+
+        /* ─── Override renderAll to include Phase 2 features ─── */
+        const _origRenderAll = renderAll;
+        renderAll = function() {
+            if (_origRenderAll) _origRenderAll();
+            setTimeout(() => {
+                renderNetworkGraph();
+            }, 100);
         };
     </script>
 </body>
