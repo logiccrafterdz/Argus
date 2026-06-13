@@ -1,4 +1,7 @@
 # ARGUS PANOPTES V2.0
+
+[![Sponsor](https://readme.cash/i/9dp475398v.svg)](https://readme.cash/c/9dp475398v)
+
 ## Institutional-Grade Algorithmic Trading Portfolio
 
 Argus is an advanced, multi-strategy algorithmic trading framework built on MetaTrader 5 (MQL5). Version 2.0 transforms the repository from a collection of isolated Expert Advisors into a centralized, hedge-fund-style portfolio management system. 
