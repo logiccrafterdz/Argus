@@ -2,15 +2,16 @@ import sys
 import os
 sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 from indicators import ATR
+from signal_types import StrategyType
 
 class BaseStrategy:
-    def __init__(self, name, category, regime_mask, session_mask):
+    def __init__(self, name, category, regime_mask, session_mask, strategy_type=StrategyType.TREND_MOMENTUM):
         self.name = name
         self.category = category
         self.regime_mask = regime_mask
         self.session_mask = session_mask
+        self.strategy_type = strategy_type
         self.atr_period = 14
-        self.disable_breakeven = False
 
     def _add_atr_col(self, df):
         df['atr'] = ATR(df, self.atr_period)
@@ -19,16 +20,9 @@ class BaseStrategy:
         return df['atr'].iloc[idx] * mult
 
     def prepare_data(self, df):
-        """Pre-calculate indicators for the entire dataframe"""
         pass
 
     def generate_signals(self, df):
-        """
-        Returns a list of signals or updates the dataframe with 'signal' column.
-        Signal format:
-        1 for BUY, -1 for SELL, 0 for neutral
-        Needs to also return sl and tp prices.
-        """
         pass
 
     def check_regime(self, current_regime):

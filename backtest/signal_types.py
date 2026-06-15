@@ -7,14 +7,14 @@ class StrategyType(Enum):
     STOP_HUNT = "stop_hunt"
 
 STRATEGY_TYPE_PARAMS = {
-    StrategyType.TREND_MOMENTUM: {
+    'trend_momentum': {
         'sl_atr': 2.0,
     },
-    StrategyType.MEAN_REVERSION: {
+    'mean_reversion': {
         'sl_atr': 1.0,
         'tp_atr': 2.0,
     },
-    StrategyType.STOP_HUNT: {
+    'stop_hunt': {
         'sl_atr': 0.5,
         'tp_atr': 2.0,
     },

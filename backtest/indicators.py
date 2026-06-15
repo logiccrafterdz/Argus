@@ -1,5 +1,6 @@
 import pandas as pd
 import numpy as np
+from enum import IntEnum
 
 try:
     from hmmlearn import hmm
@@ -7,6 +8,35 @@ try:
 except ImportError:
     HMM_AVAILABLE = False
     hmm = None
+
+
+class MarketContext(IntEnum):
+    ACCUMULATION = 10
+    DISTRIBUTION = 5
+    STOP_HUNT = 17
+    PURE_TREND = 1
+    PURE_RANGE = 2
+    AMBIGUOUS = 99
+
+
+def detect_market_context(regime_bitmask):
+    if regime_bitmask == 0:
+        return MarketContext.PURE_RANGE
+    if regime_bitmask == 31:
+        return MarketContext.AMBIGUOUS
+    r = int(regime_bitmask)
+    if r == (2 | 8):
+        return MarketContext.ACCUMULATION
+    if r == (1 | 4):
+        return MarketContext.DISTRIBUTION
+    if r == (1 | 16):
+        return MarketContext.STOP_HUNT
+    if r == 1:
+        return MarketContext.PURE_TREND
+    if r == 2 or r == 8:
+        return MarketContext.PURE_RANGE
+    return MarketContext.AMBIGUOUS
+
 
 if HMM_AVAILABLE:
 
