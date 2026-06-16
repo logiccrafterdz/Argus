@@ -58,7 +58,7 @@ def load_data():
         else:
             df = pd.read_csv(os.path.join(DATA_DIR, filename), parse_dates=['time'])
 
-        df = df[(df['time'] >= '2024-01-01') & (df['time'] <= '2025-06-01')]
+        df = df[(df['time'] >= '2018-01-01') & (df['time'] <= '2025-06-01')]
         if len(df) < 500:
             continue
         df.set_index('time', inplace=True)
@@ -147,8 +147,6 @@ def _compute_strategy_signals(args):
                 'entry_price':   r['close'],
                 'atr_value':     r.get('atr', 0),
                 'conviction':    r.get('conviction', 0.5),
-                'sl_price':      sl_price,
-                'tp_price':      r.get('tp', None),
             }))
 
     # --- Cache save ---
@@ -341,12 +339,16 @@ def run_backtest():
     raw_by_strat = {}
     bars_with_signals = 0
     bars_total = 0
+    last_known_prices = {}
+    last_known_highs  = {}
+    last_known_lows   = {}
+    daily_start_equity = None
     for current_time in master_timeline.index:
         count += 1
         if count % 10000 == 0:
             logger.info(f"Progress: {count}/{total}")
 
-        # Phase 0: Get current prices — O(1) dict lookup, pre-built before loop
+        # Phase 0: Get current prices — O(1) dict lookup with forward-fill
         prices_row = timeline_prices.get(current_time, {})
         current_prices = {}
         current_highs  = {}
@@ -355,10 +357,33 @@ def run_backtest():
             current_prices[sym] = c
             current_highs[sym]  = h
             current_lows[sym]   = l
+            last_known_prices[sym] = c
+            last_known_highs[sym]  = h
+            last_known_lows[sym]   = l
+        # Forward-fill: any symbol that was seen before gets its last known price
+        for sym in last_known_prices:
+            if sym not in current_prices:
+                current_prices[sym] = last_known_prices[sym]
+                current_highs[sym]  = last_known_highs[sym]
+                current_lows[sym]   = last_known_lows[sym]
 
         current_date = current_time.normalize()
+        # Track daily start equity for portfolio breakeven
+        if daily_start_equity is None or current_date != getattr(engine, '_last_be_date', None):
+            daily_start_equity = engine.equity
+            engine._last_be_date = current_date
+
         engine.update(current_time, current_prices, current_highs, current_lows)
         allocator.reset_daily(current_date, engine.balance, engine.peak_balance)
+
+        # Portfolio-Level Breakeven: at +2% daily, move all SLs to entry
+        if daily_start_equity > 0 and engine.equity >= daily_start_equity * 1.02:
+            for pos in engine.open_positions:
+                spread = engine.spread_map.get(pos['symbol'], engine.default_spread)
+                if pos['type'] == 'BUY' and pos['sl'] < pos['entry_price']:
+                    pos['sl'] = pos['entry_price'] + spread
+                elif pos['type'] == 'SELL' and pos['sl'] > pos['entry_price']:
+                    pos['sl'] = pos['entry_price'] - spread
 
         if engine.risk_manager.is_halted:
             continue
@@ -386,10 +411,30 @@ def run_backtest():
 
         # Phase 3: Execute with dynamic risk allocation
         for sig in approved_signals:
+            if sig['symbol'] not in current_prices:
+                continue
             allocation_pct = sig.get('allocated_risk_pct', 0.02) * throttle
             risk_percent = allocation_pct * 100.0
 
-            risk_distance = abs(current_prices[sig['symbol']] - sig['sl_price']) if sig.get('sl_price') else 0
+            # Compute SL from strategy_type for lot sizing — strategies no longer provide sl/tp
+            strat_type_val = sig['strategy_type'].value if hasattr(sig['strategy_type'], 'value') else sig['strategy_type']
+            entry_price = sig['entry_price']
+            atr_val = sig['atr_value']
+            if strat_type_val == 'trend_momentum':
+                sl_atr = 2.0
+            elif strat_type_val == 'mean_reversion':
+                sl_atr = 1.0
+            elif strat_type_val == 'stop_hunt':
+                sl_atr = 0.5
+            else:
+                sl_atr = 2.0
+
+            if sig['order_type'] == 'BUY':
+                sl_price = entry_price - sl_atr * atr_val
+            else:
+                sl_price = entry_price + sl_atr * atr_val
+
+            risk_distance = abs(current_prices[sig['symbol']] - sl_price)
             if risk_distance <= 0:
                 continue
 
@@ -408,12 +453,9 @@ def run_backtest():
                 strategy_type=sig['strategy_type'],
                 order_type=sig['order_type'],
                 lot_size=lot_size,
-                entry_price=sig['entry_price'],
-                atr_value=sig['atr_value'],
+                entry_price=entry_price,
+                atr_value=atr_val,
                 comment=f"{sig['strategy']}_{sig['symbol']}_{current_time.date()}",
-                strategy_tp=sig['tp_price'],
-                override_sl=sig['sl_price'],
-                override_tp=sig['tp_price'],
             )
 
         if engine.is_bankrupt:

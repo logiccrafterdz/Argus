@@ -9,6 +9,7 @@ class StrategyType(Enum):
 STRATEGY_TYPE_PARAMS = {
     'trend_momentum': {
         'sl_atr': 2.0,
+        'tp_atr': 14.0,
     },
     'mean_reversion': {
         'sl_atr': 1.0,

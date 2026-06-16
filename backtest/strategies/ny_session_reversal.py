@@ -9,7 +9,7 @@ class NYSessionReversal(BaseStrategy):
         super().__init__(
             name="NY_Session_Reversal",
             category="Session",
-            regime_mask=2 | 16, # RANGE | REVERSAL
+            regime_mask=16, # REVERSAL (was 2|16 — RANGE+REVERSAL were mutually exclusive)
             session_mask=4 # NY
         )
         self.disable_breakeven = True

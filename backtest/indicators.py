@@ -25,11 +25,14 @@ def detect_market_context(regime_bitmask):
     if regime_bitmask == 31:
         return MarketContext.AMBIGUOUS
     r = int(regime_bitmask)
+    # ACCUMULATION: Range + Compression (tight range = accumulation)
     if r == (2 | 8):
         return MarketContext.ACCUMULATION
+    # DISTRIBUTION: Trend + Expansion (strong trend with rising vol = distribution)
     if r == (1 | 4):
         return MarketContext.DISTRIBUTION
-    if r == (1 | 16):
+    # STOP_HUNT: Reversal + anything (market flipping = stop hunts)
+    if r & 16:
         return MarketContext.STOP_HUNT
     if r == 1:
         return MarketContext.PURE_TREND
@@ -200,6 +203,12 @@ def MarketRegime(df):
     REGIME_EXPANSION = 4
     REGIME_COMPRESSION = 8
     REGIME_REVERSAL = 16
+    
+    REVERSAL is now detected as:
+    - ADX was > 40 and is declining (current ADX < prev ADX - 3)
+    - OR RSI > 80 (overbought) or RSI < 20 (oversold)
+    This fixes the bug where ADX >= 45 was incorrectly labeled as reversal
+    (ADX >= 45 means STRONG TREND, not reversal).
     """
     adx, _, _ = ADX(df, 14)
     atr = ATR(df, 14)
@@ -208,21 +217,33 @@ def MarketRegime(df):
     atr_ratio = atr / atr_sma.replace(0, np.nan)
     atr_ratio = atr_ratio.fillna(1.0)
     
+    rsi = RSI(df['close'], 14)
+    
     is_trend = adx > 25.0
-    is_exhaustion = adx >= 45.0
     is_expand = atr_ratio > 1.3
     is_compression = atr_ratio < 0.7
     
+    # ADX decline detection: ADX was > 40 and is now decreasing
+    adx_prev = adx.shift(1).fillna(0)
+    adx_declining = (adx_prev > 40.0) & (adx < adx_prev - 3.0)
+    
+    # RSI extreme detection
+    is_overbought = rsi > 80
+    is_oversold = rsi < 20
+    
+    # Reversal: ADX declining from high OR RSI extremes
+    is_reversal = adx_declining | is_overbought | is_oversold
+    
     regime = np.zeros(len(df), dtype=int)
     
-    # 1: Trend, 2: Range, 16: Reversal
-    regime = np.where(is_exhaustion, regime | 16, regime)
-    regime = np.where(~is_exhaustion & is_trend, regime | 1, regime)
-    regime = np.where(~is_exhaustion & ~is_trend, regime | 2, regime)
+    # 1: Trend, 2: Range, 16: Reversal — now mutually exclusive
+    regime = np.where(is_reversal,                          regime | 16, regime)
+    regime = np.where(~is_reversal & is_trend,              regime | 1,  regime)
+    regime = np.where(~is_reversal & ~is_trend,             regime | 2,  regime)
     
     # 4: Expansion, 8: Compression
-    regime = np.where(is_expand, regime | 4, regime)
-    regime = np.where(~is_expand & is_compression, regime | 8, regime)
+    regime = np.where(is_expand,                            regime | 4, regime)
+    regime = np.where(~is_expand & is_compression,          regime | 8, regime)
     
     return pd.Series(regime, index=df.index)
 def SuperTrend(df, period=10, multiplier=3):

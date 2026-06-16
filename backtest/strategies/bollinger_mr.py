@@ -10,7 +10,7 @@ class BollingerMeanReversion(BaseStrategy):
         super().__init__(
             name="Bollinger Mean Reversion",
             category="Mean Reversion",
-            regime_mask=2 | 8, # REGIME_RANGE | REGIME_COMPRESSION
+            regime_mask=2 | 8, # REGIME_RANGE | REGIME_COMPRESSION (narrow — pure accumulation)
             session_mask=7 # SESSION_ALL
         )
         self.bb_period = 20

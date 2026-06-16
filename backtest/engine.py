@@ -232,10 +232,9 @@ class BacktestEngine:
         if not self.risk_manager.check_exposure(symbol, order_type, self.open_positions):
             return False
 
-        if override_sl is not None and override_tp is not None:
-            sl, tp = override_sl, override_tp
-        else:
-            sl, tp = self.compute_sl_tp(strategy_type.value if hasattr(strategy_type, 'value') else strategy_type, order_type, entry_price, atr_value, strategy_tp)
+        # Always compute SL/TP from strategy_type — strategies only provide direction + atr + conviction
+        strat_type = strategy_type.value if hasattr(strategy_type, 'value') else strategy_type
+        sl, tp = self.compute_sl_tp(strat_type, order_type, entry_price, atr_value, strategy_tp)
 
         if tp is not None:
             if order_type == 'BUY' and tp <= entry_price:
@@ -420,7 +419,7 @@ class BacktestEngine:
                 unrealized = (pos['entry_price'] - low) * pos['remaining_lots'] * self.contract_size(symbol)
             pos['highest_profit'] = max(pos['highest_profit'], unrealized)
 
-            # Type-based BE/PC
+            # Type-based BE/PC/Trailing
             if pos_type == 'mean_reversion':
                 if not pos['breakeven_triggered'] and risk_distance > 0:
                     spread = self.spread_map.get(symbol, self.default_spread)
@@ -457,6 +456,27 @@ class BacktestEngine:
                         half = pos['remaining_lots'] * 0.5
                         self.close_position_partial(pos, pos['entry_price'] - risk_distance * 2.0, current_time, "Partial TP 2.0R", half)
                         pos['partial_closed'] = True
+            elif pos_type == 'trend_momentum':
+                # Breakeven at 1.5R for trending strategies (protect winners)
+                if not pos['breakeven_triggered'] and risk_distance > 0:
+                    spread = self.spread_map.get(symbol, self.default_spread)
+                    if pos['type'] == 'BUY' and high >= pos['entry_price'] + risk_distance * 1.5:
+                        pos['sl'] = pos['entry_price'] + spread
+                        pos['breakeven_triggered'] = True
+                    elif pos['type'] == 'SELL' and low <= pos['entry_price'] - risk_distance * 1.5:
+                        pos['sl'] = pos['entry_price'] - spread
+                        pos['breakeven_triggered'] = True
+                # ATR Trailing: after BE, trail SL to protect profits
+                if pos['breakeven_triggered'] and pos.get('atr_value', 0) > 0:
+                    atr_val = pos['atr_value']
+                    if pos['type'] == 'BUY':
+                        new_sl = pos['highest_price'] - 3.0 * atr_val
+                        if new_sl > pos['sl']:
+                            pos['sl'] = new_sl
+                    else:
+                        new_sl = pos['lowest_price'] + 3.0 * atr_val
+                        if new_sl < pos['sl']:
+                            pos['sl'] = new_sl
 
             # SL/TP check for all types
             if pos['type'] == 'BUY':

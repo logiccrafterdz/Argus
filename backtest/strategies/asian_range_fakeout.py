@@ -9,7 +9,7 @@ class AsianRangeFakeout(BaseStrategy):
         super().__init__(
             name="Asian_Range_Fakeout",
             category="Session",
-            regime_mask=2 | 8 | 16, # RANGE | COMPRESSION | REVERSAL
+            regime_mask=2 | 8, # RANGE | COMPRESSION (was 2|8|16 — REVERSAL+RANGE mutually exclusive)
             session_mask=2 # LONDON
         )
         self.disable_breakeven = True
