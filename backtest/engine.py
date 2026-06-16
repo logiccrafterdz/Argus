@@ -15,7 +15,10 @@ class BacktestEngine:
 
         self.open_positions = []
         self.closed_trades = []
-        self.equity_curve = []
+        # equity_curve stored as parallel lists — faster than list of dicts (33K entries)
+        self._eq_dates   = []
+        self._eq_equity  = []
+        self._eq_balance = []
 
         self.risk_manager = RiskManager(initial_balance)
 
@@ -93,6 +96,14 @@ class BacktestEngine:
         self.kelly_base_risk = self.config.get('kelly', {}).get('base_risk_pct', 0.2)
 
         self.peak_balance = initial_balance
+
+    @property
+    def equity_curve(self):
+        """Build equity_curve list of dicts on demand (for output/analytics only)."""
+        return [
+            {'date': d, 'equity': e, 'balance': b}
+            for d, e, b in zip(self._eq_dates, self._eq_equity, self._eq_balance)
+        ]
 
     def get_usd_multiplier(self, symbol):
         if symbol in self.usd_multiplier_map:
@@ -388,7 +399,7 @@ class BacktestEngine:
                 pos['swap_cost'] += swap
                 self.balance += swap
 
-        for pos in list(self.open_positions):
+        for pos in self.open_positions[:]:
             symbol = pos['symbol']
             if symbol not in current_prices:
                 continue
@@ -473,8 +484,7 @@ class BacktestEngine:
                 elif hit_tp:
                     self.close_position(pos, pos['tp'], current_time, "TP")
 
-        self.equity_curve.append({
-            'date': current_time,
-            'equity': self.equity,
-            'balance': self.balance
-        })
+        # Append equity as primitive values — avoids per-bar dict allocation
+        self._eq_dates.append(current_time)
+        self._eq_equity.append(self.equity)
+        self._eq_balance.append(self.balance)

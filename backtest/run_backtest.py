@@ -1,4 +1,8 @@
 import os
+import time
+import hashlib
+import inspect
+import pickle
 import pandas as pd
 import numpy as np
 import json
@@ -10,6 +14,7 @@ from log_setup import get_logger, setup_logger
 from allocator import InstitutionalAllocator
 
 DATA_DIR = os.path.join(os.path.dirname(__file__), "data")
+PARQUET_DIR = os.path.join(DATA_DIR, "parquet")
 
 from strategies.avwap_confluence import AVWAPConfluence
 from strategies.trend_pullback import TrendPullback
@@ -35,21 +40,146 @@ from strategies.supertrend_ema import SuperTrendEMA
 
 def load_data():
     symbols_data = {}
+    use_parquet = os.path.isdir(PARQUET_DIR) and os.listdir(PARQUET_DIR)
     for filename in os.listdir(DATA_DIR):
-        if filename.endswith(".csv"):
-            parts = filename.split('.')[0].split('_')
-            symbol = parts[0]
-            tf = '_'.join(parts[1:])
-            filepath = os.path.join(DATA_DIR, filename)
-            df = pd.read_csv(filepath, parse_dates=['time'])
-            df = df[(df['time'] >= '2024-01-01') & (df['time'] <= '2025-06-01')]
-            if len(df) < 500:
-                continue
-            df.set_index('time', inplace=True)
-            if symbol not in symbols_data:
-                symbols_data[symbol] = {}
-            symbols_data[symbol][tf] = df
+        if not filename.endswith(".csv"):
+            continue
+        parts = filename.split('.')[0].split('_')
+        symbol = parts[0]
+        tf = '_'.join(parts[1:])
+
+        # Try Parquet first
+        if use_parquet:
+            parquet_path = os.path.join(PARQUET_DIR, filename.replace(".csv", ".parquet"))
+            if os.path.exists(parquet_path):
+                df = pd.read_parquet(parquet_path)
+            else:
+                df = pd.read_csv(os.path.join(DATA_DIR, filename), parse_dates=['time'])
+        else:
+            df = pd.read_csv(os.path.join(DATA_DIR, filename), parse_dates=['time'])
+
+        df = df[(df['time'] >= '2024-01-01') & (df['time'] <= '2025-06-01')]
+        if len(df) < 500:
+            continue
+        df.set_index('time', inplace=True)
+        if symbol not in symbols_data:
+            symbols_data[symbol] = {}
+        symbols_data[symbol][tf] = df
     return symbols_data
+
+
+def _session_from_timestamp(ts):
+    h = ts.hour
+    s = 0
+    if 0 <= h < 8: s |= 1
+    if 8 <= h < 16: s |= 2
+    if 13 <= h < 22: s |= 4
+    return s
+
+
+def _compute_strategy_signals(args):
+    """
+    Compute signals for one strategy across all symbols.
+    Runs in a thread — each thread owns its own strategy instance, no shared state.
+    """
+    strat, data_items, regimes_dict, cache_file = args
+
+    # --- Cache check: load if exists ---
+    if cache_file and os.path.exists(cache_file):
+        with open(cache_file, 'rb') as _f:
+            return pickle.load(_f)
+
+    # Determine timeframe for this strategy
+    M15_STRATS = {'ICT_Killzone_Macro', 'ORB_Session', 'ORB_Hybrid',
+                  'Asian_Range_Fakeout', 'NY_Session_Reversal', 'PDH_PDL_BreakReversal'}
+    H4_STRATS  = {'PriceAction_SR', 'Donchian_Breakout', 'Smart_Swing_Bias'}
+    if strat.name in M15_STRATS:
+        tf = 'M15'
+    elif strat.name in H4_STRATS:
+        tf = 'H4'
+    else:
+        tf = 'H1'
+
+    local_results = []
+
+    for symbol, tfs in data_items:
+        if tf not in tfs:
+            continue
+        df = tfs[tf].copy()
+        df.reset_index(inplace=True)
+        df = strat.prepare_data(df)
+
+        sig_col = df['signal'].values
+        sig_idx = np.where(sig_col != 0)[0]
+        if len(sig_idx) == 0:
+            continue
+
+        regimes_sym = regimes_dict.get(symbol, {})
+        records     = df.to_dict('records')
+
+        for i in sig_idx:
+            r  = records[int(i)]
+            ts = r['time']
+
+            d_regime = regimes_sym.get(ts.normalize(), 1)
+            if not strat.check_regime(d_regime):
+                continue
+
+            h = ts.hour
+            if   0 <= h <  8: cs = 1
+            elif 8 <= h < 16: cs = 2
+            elif 13 <= h < 22: cs = 4
+            else:              cs = 0
+            if not strat.check_session(cs):
+                continue
+
+            sl_price = r.get('sl', None)
+            if sl_price is None or sl_price == 0:
+                continue
+            if abs(r['close'] - sl_price) <= 0:
+                continue
+
+            local_results.append((ts, {
+                'symbol':        symbol,
+                'strategy':      strat.name,
+                'strategy_type': strat.strategy_type,
+                'order_type':    'BUY' if r['signal'] == 1 else 'SELL',
+                'entry_price':   r['close'],
+                'atr_value':     r.get('atr', 0),
+                'conviction':    r.get('conviction', 0.5),
+                'sl_price':      sl_price,
+                'tp_price':      r.get('tp', None),
+            }))
+
+    # --- Cache save ---
+    if cache_file:
+        try:
+            with open(cache_file, 'wb') as _f:
+                pickle.dump(local_results, _f, protocol=pickle.HIGHEST_PROTOCOL)
+        except Exception:
+            pass
+
+    return local_results
+
+
+def _compute_strategy_cache_key(strat, data):
+    """
+    Unique hash of strategy source code + data fingerprint.
+    Triggers automatic cache invalidation when code or data changes.
+    """
+    h = hashlib.md5()
+    try:
+        src = inspect.getsource(type(strat))
+        h.update(src.encode('utf-8', errors='ignore'))
+    except Exception:
+        h.update(strat.name.encode())
+    for sym in sorted(data.keys()):
+        h.update(sym.encode())
+        for tf in sorted(data[sym].keys()):
+            df = data[sym][tf]
+            if not df.empty:
+                h.update(f"{tf}:{len(df)}:{df.index[0]}:{df.index[-1]}".encode())
+    return h.hexdigest()[:12]
 
 
 def run_backtest():
@@ -61,8 +191,9 @@ def run_backtest():
         config = create_default_config()
 
     logger.info("Loading historical data...")
+    t0 = time.perf_counter()
     data = load_data()
-    logger.info(f"Data loaded: {len(data)} symbols")
+    logger.info(f"Data loaded: {len(data)} symbols in {time.perf_counter()-t0:.2f}s")
 
     engine = BacktestEngine(
         initial_balance=config.get('backtest', {}).get('initial_balance', 100000.0),
@@ -97,28 +228,7 @@ def run_backtest():
             master_timeline = master_timeline.combine_first(idx)
     master_timeline = master_timeline.sort_index()
 
-    logger.info("Pre-calculating strategy signals...")
-    precalc_data = {}
-    for symbol, tfs in data.items():
-        precalc_data[symbol] = {}
-        for strat in strategies:
-            tf = 'H1'
-            if strat.name in ['ICT_Killzone_Macro', 'ORB_Session', 'ORB_Hybrid',
-                              'Asian_Range_Fakeout', 'NY_Session_Reversal', 'PDH_PDL_BreakReversal']:
-                tf = 'M15'
-            elif strat.name in ['PriceAction_SR', 'Donchian_Breakout', 'Smart_Swing_Bias']:
-                tf = 'H4'
-
-            if tf not in tfs:
-                continue
-            df = tfs[tf].copy()
-            df.reset_index(inplace=True)
-            df = strat.prepare_data(df)
-            df.set_index('time', inplace=True)
-            if tf not in precalc_data[symbol]:
-                precalc_data[symbol][tf] = {}
-            precalc_data[symbol][tf][strat.name] = df
-
+    # Build regime dict EARLY (needed for signal schedule)
     logger.info("Building regime dict per symbol...")
     regimes_dict = {}
     for sym in data.keys():
@@ -135,6 +245,76 @@ def run_backtest():
         else:
             regimes_dict[sym] = {}
 
+    from concurrent.futures import ThreadPoolExecutor, as_completed
+
+    # Signal cache: one .pkl file per strategy, keyed by code+data hash
+    CACHE_DIR = os.path.join(os.path.dirname(__file__), '.signal_cache')
+    os.makedirs(CACHE_DIR, exist_ok=True)
+
+    n_workers  = min(len(strategies), 8)
+    data_items = list(data.items())
+
+    # Build work args: one entry per strategy with its cache file path
+    work_args = []
+    for strat in strategies:
+        key        = _compute_strategy_cache_key(strat, data)
+        cache_file = os.path.join(CACHE_DIR, f'{strat.name}_{key}.pkl')
+        work_args.append((strat, data_items, regimes_dict, cache_file))
+
+    cached_count  = sum(1 for a in work_args if os.path.exists(a[3]))
+    compute_count = len(work_args) - cached_count
+
+    logger.info(f"Pre-calculating signals — {len(strategies)} strats x {len(data)} symbols "
+                f"| cache hits: {cached_count}/{len(strategies)}, to compute: {compute_count}")
+    t_precalc_start = time.perf_counter()
+    signal_schedule = {}
+
+    with ThreadPoolExecutor(max_workers=max(1, min(n_workers, len(work_args)))) as executor:
+        futures = {executor.submit(_compute_strategy_signals, a): a[0].name for a in work_args}
+        for future in as_completed(futures):
+            strat_name = futures[future]
+            try:
+                for ts, sig in future.result():
+                    if ts not in signal_schedule:
+                        signal_schedule[ts] = []
+                    signal_schedule[ts].append(sig)
+            except Exception as exc:
+                logger.error(f"Strategy {strat_name} failed in pre-calc: {exc}")
+
+    t_precalc_dur = time.perf_counter() - t_precalc_start
+    all_sigs = sum(len(v) for v in signal_schedule.values())
+    logger.info(f"Signal schedule built: {len(signal_schedule)} bars with signals, "
+                f"total: {all_sigs} [{t_precalc_dur:.2f}s]")
+
+    # Debug: check timestamp match
+    sample_ts = next(iter(signal_schedule.keys()))
+    logger.info(f"  Sample sig ts: {sample_ts} type={type(sample_ts).__name__}")
+    logger.info(f"  Timeline range: {master_timeline.index[0]} to {master_timeline.index[-1]}")
+    timeline_set = set(master_timeline.index)
+    match_total = sum(1 for ts in signal_schedule if ts in timeline_set)
+    logger.info(f"  All signal ts in master_timeline: {match_total}/{len(signal_schedule)}")
+
+    # [REMOVED] regimes_dict duplicate build
+
+    # Build timeline_prices: { timestamp -> { symbol -> (close, high, low) } }
+    # Pre-built once before the main loop for O(1) per-bar price lookup
+    logger.info("Building timeline_prices lookup...")
+    t_tp = time.perf_counter()
+    timeline_prices = {}
+    for symbol, tfs in data.items():
+        tf_name = 'M15' if 'M15' in tfs else ('H1' if 'H1' in tfs else None)
+        if tf_name is None:
+            continue
+        df_tf = tfs[tf_name]
+        arr_close = df_tf['close'].values
+        arr_high  = df_tf['high'].values
+        arr_low   = df_tf['low'].values
+        for idx_i, ts in enumerate(df_tf.index):
+            if ts not in timeline_prices:
+                timeline_prices[ts] = {}
+            timeline_prices[ts][symbol] = (arr_close[idx_i], arr_high[idx_i], arr_low[idx_i])
+    logger.info(f"Timeline prices built: {len(timeline_prices)} unique timestamps [{time.perf_counter()-t_tp:.2f}s]")
+
     logger.info("Building correlation matrix...")
     h1_closes = {}
     for sym in data.keys():
@@ -143,129 +323,70 @@ def run_backtest():
     corr_df = pd.DataFrame(h1_closes)
     corr_matrix = corr_df.corr()
 
-    logger.info("Converting to fast dict lookups...")
-    dict_data = {}
-    for symbol, tfs in data.items():
-        dict_data[symbol] = {}
-        for tf_name, df in tfs.items():
-            dict_data[symbol][tf_name] = df.to_dict('index')
-
-    dict_precalc = {}
-    for symbol, tfs in precalc_data.items():
-        dict_precalc[symbol] = {}
-        for tf, strat_data in tfs.items():
-            dict_precalc[symbol][tf] = {}
-            for strat_name, df in strat_data.items():
-                dict_precalc[symbol][tf][strat_name] = df.to_dict('index')
-
     allocator = InstitutionalAllocator(config)
     allocator.set_corr_matrix(corr_matrix)
 
+    # Pre-cache daily context for speed
+    daily_context_cache = {}
+    for date_key in sorted(set(ts.normalize() for ts in master_timeline.index)):
+        eur_regime = regimes_dict.get('EURUSD', {}).get(date_key, 1)
+        daily_context_cache[date_key] = eur_regime
+
+    t_loop = time.perf_counter()
     logger.info(f"Executing backtest with {len(strategies)} strategies, DCA allocator...")
     count = 0
     total = len(master_timeline)
+    total_raw = 0
+    total_approved = 0
+    raw_by_strat = {}
+    bars_with_signals = 0
+    bars_total = 0
     for current_time in master_timeline.index:
         count += 1
         if count % 10000 == 0:
             logger.info(f"Progress: {count}/{total}")
 
+        # Phase 0: Get current prices — O(1) dict lookup, pre-built before loop
+        prices_row = timeline_prices.get(current_time, {})
         current_prices = {}
-        current_highs = {}
-        current_lows = {}
-
-        for symbol, tfs in dict_data.items():
-            if 'M15' in tfs and current_time in tfs['M15']:
-                row = tfs['M15'][current_time]
-                current_prices[symbol] = row['close']
-                current_highs[symbol] = row['high']
-                current_lows[symbol] = row['low']
-            elif 'H1' in tfs and current_time in tfs['H1']:
-                row = tfs['H1'][current_time]
-                current_prices[symbol] = row['close']
-                current_highs[symbol] = row['high']
-                current_lows[symbol] = row['low']
+        current_highs  = {}
+        current_lows   = {}
+        for sym, (c, h, l) in prices_row.items():
+            current_prices[sym] = c
+            current_highs[sym]  = h
+            current_lows[sym]   = l
 
         current_date = current_time.normalize()
-        c_session = 0
-        h = current_time.hour
-        if 0 <= h < 8: c_session |= 1
-        if 8 <= h < 16: c_session |= 2
-        if 13 <= h < 22: c_session |= 4
-
         engine.update(current_time, current_prices, current_highs, current_lows)
+        allocator.reset_daily(current_date, engine.balance, engine.peak_balance)
 
         if engine.risk_manager.is_halted:
             continue
 
-        # Phase 1: Collect raw signals from all strategies
-        raw_signals = []
-        c_regime = 1
-        for symbol, tfs in dict_precalc.items():
-            if symbol not in current_prices:
-                continue
+        # Phase 1: O(1) signal lookup
+        raw_signals = signal_schedule.get(current_time, [])
+        bars_total += 1
+        if raw_signals:
+            bars_with_signals += 1
 
-            sym_regime_dict = regimes_dict.get(symbol, {})
-            c_regime = sym_regime_dict.get(current_date, 1)
-
-            for tf, strat_data in tfs.items():
-                if tf == 'M15':
-                    if 'M15' not in dict_data[symbol] or current_time not in dict_data[symbol]['M15']:
-                        continue
-                elif tf == 'H1':
-                    if current_time.minute != 0:
-                        continue
-                    if 'H1' not in dict_data[symbol] or current_time not in dict_data[symbol]['H1']:
-                        continue
-                elif tf == 'H4':
-                    if current_time.minute != 0 or current_time.hour % 4 != 0:
-                        continue
-                    if 'H4' not in dict_data[symbol] or current_time not in dict_data[symbol]['H4']:
-                        continue
-
-                for strat in strategies:
-                    if strat.name not in strat_data:
-                        continue
-                    if not strat.check_regime(c_regime) or not strat.check_session(c_session):
-                        continue
-                    if current_time not in strat_data[strat.name]:
-                        continue
-
-                    row = strat_data[strat.name][current_time]
-                    entry_signal = row.get('signal', 0)
-                    if entry_signal == 0:
-                        continue
-
-                    atr_value = row.get('atr', 0)
-                    conviction = row.get('conviction', 0.5)
-                    sl_price = row.get('sl', None)
-                    tp_price = row.get('tp', None)
-
-                    risk_distance = abs(current_prices[symbol] - sl_price) if sl_price else 0
-                    if risk_distance <= 0:
-                        continue
-
-                    raw_signals.append({
-                        'symbol': symbol,
-                        'strategy': strat.name,
-                        'strategy_type': strat.strategy_type,
-                        'order_type': 'BUY' if entry_signal == 1 else 'SELL',
-                        'entry_price': current_prices[symbol],
-                        'atr_value': atr_value,
-                        'conviction': conviction,
-                        'sl_price': sl_price,
-                        'tp_price': tp_price,
-                    })
-
-        # Phase 2: InstitutionalAllocator filter (regime-aware DCA)
+        # Phase 2: InstitutionalAllocator filter
         try:
-            approved_signals = allocator.filter(raw_signals, open_positions=engine.open_positions, current_regime=c_regime)
+            throttle = allocator.throttle_multiplier()
+            if throttle <= 0 or not raw_signals:
+                approved_signals = []
+            else:
+                c_regime = daily_context_cache.get(current_date, 1)
+                approved_signals = allocator.filter(raw_signals, open_positions=engine.open_positions, current_regime=c_regime)
         except Exception as e:
             logger.error(f"Allocator error at {current_time}: {e}")
             approved_signals = []
 
+        total_raw += len(raw_signals)
+        total_approved += len(approved_signals)
+
         # Phase 3: Execute with dynamic risk allocation
         for sig in approved_signals:
-            allocation_pct = sig.get('allocated_risk_pct', 0.02)
+            allocation_pct = sig.get('allocated_risk_pct', 0.02) * throttle
             risk_percent = allocation_pct * 100.0
 
             risk_distance = abs(current_prices[sig['symbol']] - sig['sl_price']) if sig.get('sl_price') else 0
@@ -300,8 +421,24 @@ def run_backtest():
             break
 
     engine.emergency_close_all(current_prices)
+    t_loop_end = time.perf_counter()
 
-    logger.info("Backtest finished. Calculating metrics...")
+    # Build raw_by_strat from signal_schedule
+    raw_by_strat = {}
+    for sigs in signal_schedule.values():
+        for sig in sigs:
+            raw_by_strat[sig['strategy']] = raw_by_strat.get(sig['strategy'], 0) + 1
+    logger.info(f"Backtest finished. Raw signals: {total_raw}, Approved: {total_approved}, Ratio: {total_approved/max(total_raw,1):.2%}")
+    logger.info(f"  Allocator skips: no_weights={allocator.skip_no_weights}, budget_full={allocator.skip_budget_full}, no_strategy={allocator.skip_no_strategy}")
+    logger.info(f"  Allocator calls={allocator.allocate_calls}, signals_in={allocator.total_signals_in}, approved={allocator.total_approved}")
+    logger.info(f"  Signal schedule bars={len(signal_schedule)}, avg_signals_per_bar={all_sigs/max(len(signal_schedule),1):.1f}")
+    logger.info(f"  Main loop: {bars_with_signals}/{bars_total} bars had signals")
+    for s, n in sorted(raw_by_strat.items(), key=lambda x: -x[1]):
+        logger.info(f"  {s:30s}: {n:5d} raw signals")
+    logger.info(f"  [TIME] Main loop  : {t_loop_end - t_loop:.2f}s")
+    logger.info(f"  [TIME] Pre-calc   : {t_precalc_dur:.2f}s ({n_workers} threads)")
+    logger.info(f"  [TIME] Total      : {t_loop_end - t0:.2f}s")
+    logger.info("Calculating metrics...")
 
     from analytics import calculate_metrics
     port_metrics = calculate_metrics(engine.closed_trades, engine.equity_curve, 100000.0)
@@ -334,7 +471,9 @@ def run_backtest():
                 })
 
     try:
-        for point in engine.equity_curve:
+        # بناء equity_curve مرة واحدة فقط (property → لا نستدعيه 3 مرات)
+        eq_curve = engine.equity_curve
+        for point in eq_curve:
             if hasattr(point['date'], 'strftime'):
                 point['date'] = point['date'].strftime('%Y-%m-%d %H:%M:%S')
         for t in engine.closed_trades:
@@ -352,7 +491,7 @@ def run_backtest():
         results = {
             'portfolio': port_metrics,
             'strategies': strat_metrics,
-            'equity_curve': engine.equity_curve,
+            'equity_curve': eq_curve,
             'recent_trades': engine.closed_trades[-100:]
         }
 
@@ -368,7 +507,7 @@ def run_backtest():
     logger.info(f"Portfolio metrics: PF={port_metrics.get('profit_factor', 0):.2f}, "
                 f"Trades={port_metrics.get('total_trades', 0)}, "
                 f"Net=${port_metrics.get('net_profit', 0):,.2f}, "
-                f"DD={port_metrics.get('max_drawdown_pct', 0):.2f}%")
+                f"DD={port_metrics.get('max_drawdown', 0):.2f}%")
 
     return results
 
