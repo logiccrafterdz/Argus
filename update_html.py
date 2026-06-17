@@ -70,8 +70,8 @@ html = re.sub(
     html
 )
 html = re.sub(
-    r'<span class="hero-metric-badge">\+[$\d,\s]+Profit</span>',
-    f'<span class="hero-metric-badge">+${int(comb_prof):,} Profit</span>',
+    r'<span class="hero-metric-badge[^>]*">.*?Profit</span>',
+    f'<span class="hero-metric-badge glow-green">+${int(comb_prof):,} Profit</span>',
     html
 )
 
