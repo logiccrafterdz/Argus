@@ -27,56 +27,74 @@ oos_results = {
 with open(os.path.join(data_dir, 'oos_results.json'), 'w') as f:
     json.dump(oos_results, f)
 
-# Extract metrics
-comb_ret = results['portfolio']['total_return']
-comb_prof = results['portfolio']['net_profit']
-max_dd = results['portfolio']['max_drawdown']
-rec_fact = results['portfolio'].get('recovery_factor', abs(comb_ret/max_dd) if max_dd != 0 else 0)
+p = results['portfolio']
+comb_ret = p['total_return']
+comb_prof = p['net_profit']
+max_dd = p['max_drawdown']
+dd_duration = p['max_dd_duration']
+rec_fact = p.get('recovery_factor', abs(comb_ret/max_dd) if max_dd != 0 else 0)
 
 val_ret = val['portfolio']['total_return']
 test_ret = test['portfolio']['total_return']
 
-# Formatting
-comb_ret_str = f"+{comb_ret:.2f}%" if comb_ret >= 0 else f"{comb_ret:.2f}%"
-comb_prof_str = f"${comb_prof/1000:.1f}K" if comb_prof >= 0 else f"-${abs(comb_prof)/1000:.1f}K"
-val_ret_str = f"+{val_ret:.2f}%" if val_ret >= 0 else f"{val_ret:.2f}%"
-test_ret_str = f"+{test_ret:.2f}%" if test_ret >= 0 else f"{test_ret:.2f}%"
+comb_ret_str = "+%.2f%%" % comb_ret if comb_ret >= 0 else "%.2f%%" % comb_ret
+comb_prof_str = "+$%.1fK" % (comb_prof/1000) if comb_prof >= 0 else "-$%.1fK" % (abs(comb_prof)/1000)
+val_ret_str = "+%.2f%%" % val_ret if val_ret >= 0 else "%.2f%%" % val_ret
+test_ret_str = "+%.2f%%" % test_ret if test_ret >= 0 else "%.2f%%" % test_ret
 
 with open(index_file, 'r', encoding='utf-8') as f:
     html = f.read()
 
-# 1. Update banner
+# 1. Banner
 html = re.sub(
-    r'Combined 8\.3yr return [+-]?\d+\.\d+% \([+-]?\$\d+\.\d+K\)\. All 3 splits cover full market cycle including COVID\. Val [+-]?\d+\.\d+% \| Test [+-]?\d+\.\d+%\.',
-    f'Combined 8.3yr return {comb_ret_str} ({comb_prof_str}). All 3 splits cover full market cycle including COVID. Val {val_ret_str} | Test {test_ret_str}.',
+    r'Combined 8\.3yr return [^<]+',
+    'Combined 8.3yr return %s (%s)' % (comb_ret_str, comb_prof_str),
+    html
+)
+html = re.sub(
+    r'Val [^|]+ \| Test [^.]+\.',
+    'Val %s | Test %s.' % (val_ret_str, test_ret_str),
     html
 )
 
-# 2. Update Hero Metrics
-# Total Return
+# 2. Hero metrics — update data-target using context to be unique
+# Total Return: find data-target= before Total Return label
 html = re.sub(
-    r'<span class="hero-metric-value positive">[+-]?\d+\.\d+%</span>\s*<span class="hero-metric-label">Total Return</span>\s*<span class="hero-metric-badge">\+\$\d+(?:,\d+)? Profit</span>',
-    f'<span class="hero-metric-value positive">{comb_ret_str}</span>\n                            <span class="hero-metric-label">Total Return</span>\n                            <span class="hero-metric-badge">+${int(comb_prof):,} Profit</span>',
+    r'(data-target=")[\d.]+(" data-prefix="\+" data-suffix="%"[^>]*></span></span>\s*<span class="hero-metric-label">Total Return</span>)',
+    lambda m: m.group(1) + ("%.2f" % abs(comb_ret)) + m.group(2),
     html
 )
-# Max Drawdown
+# Max Drawdown: find data-target= before Max Drawdown label
 html = re.sub(
-    r'<span class="hero-metric-value negative">[+-]?\d+\.\d+%</span>\s*<span class="hero-metric-label">Max Drawdown</span>\s*<span class="hero-metric-badge">\d+ bars duration</span>',
-    f'<span class="hero-metric-value negative">{max_dd:.2f}%</span>\n                            <span class="hero-metric-label">Max Drawdown</span>\n                            <span class="hero-metric-badge">{results["portfolio"]["max_dd_duration"]} bars duration</span>',
+    r'(data-target=")[\d.]+(" data-prefix="-" data-suffix="%"[^>]*></span></span>\s*<span class="hero-metric-label">Max Drawdown</span>)',
+    lambda m: m.group(1) + ("%.2f" % abs(max_dd)) + m.group(2),
     html
 )
-# Recovery Factor
+# Recovery Factor: find data-target= before Recovery Factor label
 html = re.sub(
-    r'<span class="hero-metric-value neutral">\d+\.\d+</span>\s*<span class="hero-metric-label">Recovery Factor</span>',
-    f'<span class="hero-metric-value neutral">{rec_fact:.2f}</span>\n                            <span class="hero-metric-label">Recovery Factor</span>',
+    r'(data-target=")[\d.]+(" data-suffix=""[^>]*></span></span>\s*<span class="hero-metric-label">Recovery Factor</span>)',
+    lambda m: m.group(1) + ("%.2f" % rec_fact) + m.group(2),
     html
 )
 
-# 3. Restore Hero title if test is positive
+# 3. Net profit badge
+html = re.sub(
+    r'(\+\$)[\d,]+( Profit)',
+    r'\1%s\2' % ('%d' % int(comb_prof)),
+    html
+)
+# 4. DD duration
+html = re.sub(
+    r'(\d+) bars duration',
+    '%d bars duration' % dd_duration,
+    html
+)
+
+# 5. Hero title
 if test_ret > 0 and val_ret > 0:
     html = re.sub(
-        r'<h1 class="text-display">Algorithmic Portfolio<br>Intelligence Engine</h1>',
-        f'<h1 class="text-display">Out-of-Sample Positive in<br>Both Val &amp; Test</h1>',
+        r'<h1 class="text-display">.*?</h1>',
+        '<h1 class="text-display">Out-of-Sample Positive in<br>Both Val &amp; Test</h1>',
         html
     )
 
