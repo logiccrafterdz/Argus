@@ -182,13 +182,13 @@ class InstitutionalAllocator:
         else:           return 0.1
 
     def _dd_to_throttle(self, dd):
-        if dd < 0.02:
+        if dd < 0.015:
             return 1.0
-        elif dd < 0.04:
+        elif dd < 0.03:
             return 0.5
-        elif dd < 0.06:
+        elif dd < 0.05:
             return 0.25
-        elif dd < 0.10:
+        elif dd < 0.08:
             return 0.1
         else:
             return 0.0
@@ -197,21 +197,30 @@ class InstitutionalAllocator:
         if len(self.equity_history) < 2:
             return 1.0
         current = self.equity_history[-1]
-        # Rolling peak (126-day window) — short memory enables fast recovery
-        window = self.equity_history[-self.rolling_window:] if len(self.equity_history) > self.rolling_window else self.equity_history
-        peak = max(window)
-        if peak <= 0:
-            return 1.0
-        dd = (peak - current) / peak
-        throttle = self._dd_to_throttle(dd)
-        if throttle == 0.0:
+
+        # Layer 1: 30-day emergency — catches slow monthly bleed quickly
+        short_win = self.equity_history[-30:] if len(self.equity_history) > 30 else self.equity_history
+        peak_30d = max(short_win)
+        dd_30d = (peak_30d - current) / peak_30d if peak_30d > 0 else 0.0
+
+        # Layer 2: 126-day rolling window — catches major drawdowns
+        long_win = self.equity_history[-self.rolling_window:] if len(self.equity_history) > self.rolling_window else self.equity_history
+        peak_126d = max(long_win)
+        dd_126d = (peak_126d - current) / peak_126d if peak_126d > 0 else 0.0
+
+        # Effective DD: max of both windows — catches fast crashes AND slow bleeds
+        dd_effective = max(dd_30d, dd_126d)
+        throttle = self._dd_to_throttle(dd_effective)
+
+        # Recovery mechanism: when dd_effective >= 10%, track trough
+        # On +2% recovery from trough, restore to 0.25
+        if dd_effective >= 0.10:
             if self.lowest_since_throttle is None or current < self.lowest_since_throttle:
                 self.lowest_since_throttle = current
             if self.lowest_since_throttle is not None and self.lowest_since_throttle > 0:
                 recovery = (current - self.lowest_since_throttle) / self.lowest_since_throttle
-                if recovery >= 0.02:
+                if recovery >= 0.03:
                     throttle = 0.25
-                    self.lowest_since_throttle = None
         else:
             self.lowest_since_throttle = None
         return throttle
@@ -237,6 +246,23 @@ class InstitutionalAllocator:
         active_weights = {s: w for s, w in raw_weights.items() if s in signal_strategy_names and w > 0}
         if not active_weights:
             return {}
+
+        # Regime-Aware Sizing: scale by raw day-level bitmask
+        regime = self.current_regime
+        if regime is not None:
+            is_range = bool(regime & (REGIME_RANGE | REGIME_COMPRESSION))
+            is_trend = bool(regime & (REGIME_TREND | REGIME_EXPANSION))
+            if 'TrendPullback' in active_weights:
+                if is_range:
+                    active_weights['TrendPullback'] *= 0.3
+                elif is_trend:
+                    active_weights['TrendPullback'] *= 1.5
+            if 'Asian_Range_Fakeout' in active_weights:
+                if is_range:
+                    active_weights['Asian_Range_Fakeout'] *= 1.5
+                elif is_trend:
+                    active_weights['Asian_Range_Fakeout'] *= 0.3
+
         total = sum(active_weights.values())
         normalized = {}
         for s, w in active_weights.items():
@@ -346,6 +372,7 @@ class InstitutionalAllocator:
             open_positions = []
         context = detect_market_context(current_regime) if current_regime is not None else self.current_context
         self.current_context = context
+        self.current_regime = current_regime
         signals_by_strategy = {}
         for sig in raw_signals:
             key = f"{sig['strategy']}_{sig['symbol']}_{sig['order_type']}"
