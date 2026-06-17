@@ -766,6 +766,12 @@
             '#3b82f6', '#ec4899', '#f97316', '#14b8a6'
         ];
 
+        function downsampleData(data, maxPoints) {
+            if (!data || data.length <= maxPoints) return data;
+            const step = Math.ceil(data.length / maxPoints);
+            return data.filter(function(_, i) { return i % step === 0; });
+        }
+
         let portfolioData = null;
         let singleStrategyData = {};
         let oosData = null;
@@ -1079,7 +1085,7 @@
 
         function renderPortfolioKPI() {
             const p = portfolioData.portfolio;
-            const eq = portfolioData.equity_curve || [];
+            const eq = downsampleData(portfolioData.equity_curve || [], 500);
             const eqValues = eq.map(d => d.equity);
             const ddValues = (() => {
                 if (!eqValues.length) return [];
@@ -1179,8 +1185,9 @@
             if (!canvas || typeof Chart === 'undefined') return;
             const ctx = canvas.getContext('2d');
             if (!ctx) return;
-            const dates = portfolioData.equity_curve.map(d => d.date);
-            const equity = portfolioData.equity_curve.map(d => d.equity);
+            const sampled = downsampleData(portfolioData.equity_curve, 500);
+            const dates = sampled.map(d => d.date);
+            const equity = sampled.map(d => d.equity);
             new Chart(ctx, {
                 type: 'line',
                 data: {
@@ -1237,8 +1244,9 @@
             if (!canvas || typeof Chart === 'undefined') return;
             const ctx = canvas.getContext('2d');
             if (!ctx) return;
-            const dates = portfolioData.equity_curve.map(d => d.date);
-            const equity = portfolioData.equity_curve.map(d => d.equity);
+            const sampled = downsampleData(portfolioData.equity_curve, 500);
+            const dates = sampled.map(d => d.date);
+            const equity = sampled.map(d => d.equity);
             let peak = equity[0];
             const dd = equity.map(e => { if (e > peak) peak = e; return ((e - peak) / peak) * 100; });
             new Chart(ctx, {
@@ -1295,8 +1303,9 @@
             if (!canvas || typeof Chart === 'undefined') return;
             const ctx = canvas.getContext('2d');
             if (!ctx) return;
-            const dates = portfolioData.equity_curve.map(d => d.date);
-            const equity = portfolioData.equity_curve.map(d => d.equity);
+            const sampled = downsampleData(portfolioData.equity_curve, 500);
+            const dates = sampled.map(d => d.date);
+            const equity = sampled.map(d => d.equity);
             new Chart(ctx, {
                 type: 'line',
                 data: {
