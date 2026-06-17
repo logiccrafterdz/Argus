@@ -411,40 +411,60 @@ def run_backtest():
 
         # Phase 3: Execute with dynamic risk allocation
         for sig in approved_signals:
+            rejected_reason = None
+
+            # 1. Check price availability
             if sig['symbol'] not in current_prices:
-                continue
-            allocation_pct = sig.get('allocated_risk_pct', 0.02) * throttle
-            risk_percent = allocation_pct * 100.0
+                rejected_reason = "MISSING_PRICE"
 
-            # Compute SL from strategy_type for lot sizing — strategies no longer provide sl/tp
-            strat_type_val = sig['strategy_type'].value if hasattr(sig['strategy_type'], 'value') else sig['strategy_type']
-            entry_price = sig['entry_price']
-            atr_val = sig['atr_value']
-            if strat_type_val == 'trend_momentum':
-                sl_atr = 2.0
-            elif strat_type_val == 'mean_reversion':
-                sl_atr = 1.0
-            elif strat_type_val == 'stop_hunt':
-                sl_atr = 0.5
-            else:
-                sl_atr = 2.0
+            if rejected_reason is None:
+                allocation_pct = sig.get('allocated_risk_pct', 0.02) * throttle
+                risk_percent = allocation_pct * 100.0
 
-            if sig['order_type'] == 'BUY':
-                sl_price = entry_price - sl_atr * atr_val
-            else:
-                sl_price = entry_price + sl_atr * atr_val
+                # Compute SL from strategy_type for lot sizing
+                strat_type_val = sig['strategy_type'].value if hasattr(sig['strategy_type'], 'value') else sig['strategy_type']
+                entry_price = sig['entry_price']
+                atr_val = sig['atr_value']
+                if strat_type_val == 'trend_momentum':
+                    sl_atr = 2.0
+                elif strat_type_val == 'mean_reversion':
+                    sl_atr = 1.0
+                elif strat_type_val == 'stop_hunt':
+                    sl_atr = 0.5
+                else:
+                    sl_atr = 2.0
 
-            risk_distance = abs(current_prices[sig['symbol']] - sl_price)
-            if risk_distance <= 0:
-                continue
+                if sig['order_type'] == 'BUY':
+                    sl_price = entry_price - sl_atr * atr_val
+                else:
+                    sl_price = entry_price + sl_atr * atr_val
 
-            lot_size = engine.calculate_lot_size(
-                sig['symbol'],
-                risk_percent,
-                risk_distance,
-                engine.equity
-            )
-            if lot_size <= 0:
+                risk_distance = abs(current_prices[sig['symbol']] - sl_price)
+
+                # 2. Check risk distance
+                if risk_distance <= 0:
+                    rejected_reason = f"RISK_DIST_ZERO (ATR={atr_val})"
+                else:
+                    lot_size = engine.calculate_lot_size(
+                        sig['symbol'],
+                        risk_percent,
+                        risk_distance,
+                        engine.equity
+                    )
+                    # 3. Check lot size
+                    if lot_size <= 0:
+                        risk_amount = engine.equity * (risk_percent / 100.0)
+                        rejected_reason = f"LOT_ZERO (alloc={allocation_pct:.4f}, risk_amt={risk_amount:.2f})"
+
+            # DIAGNOSTIC: Print reject details for strategies of interest
+            if rejected_reason and sig['strategy'] in ['Asian_Range_Fakeout', 'Bollinger Mean Reversion', 'NY_Session_Reversal']:
+                print(
+                    f"[REJECT] Time={current_time} | Strat={sig['strategy']} | "
+                    f"Reason={rejected_reason} | Price={current_prices.get(sig['symbol'], 'N/A')} | "
+                    f"Entry={sig.get('entry_price')} | Weight={sig.get('allocated_risk_pct', 0):.4f}"
+                )
+
+            if rejected_reason is not None:
                 continue
 
             engine.execute_trade(

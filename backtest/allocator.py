@@ -1,4 +1,5 @@
 import numpy as np
+from datetime import datetime, timedelta
 from indicators import MarketContext, detect_market_context
 
 REGIME_TREND = 1
@@ -111,6 +112,14 @@ class InstitutionalAllocator:
         self.total_approved = 0
         # Track per-ticket correlation discount for refund on close
         self._ticket_discount = {}
+        # Throttle state (126-day rolling window)
+        self.equity_history = []            # daily equity snapshots for rolling peak calc
+        self.rolling_window = 126           # trading days (~6 months)
+        self.lowest_since_throttle = None   # trough equity during throttle=0 for recovery detection
+        # Darwinian Rolling Weights state
+        self.darwin_window = 63            # trading days for trailing PF computation
+        self.strategy_trades = {}           # {strategy_name: [(close_time, pnl), ...]}
+        self._fed_trade_count = 0           # how many closed_trades entries have been fed
 
     def set_corr_matrix(self, corr_matrix):
         self.corr_matrix = corr_matrix
@@ -125,35 +134,110 @@ class InstitutionalAllocator:
             self.used_budget = 0.0
             self._ticket_discount.clear()
             self.last_date = current_date
+            self.equity_history.append(current_balance)
+            if len(self.equity_history) > self.rolling_window * 2:
+                self.equity_history = self.equity_history[-(self.rolling_window * 2):]
         self.current_balance = current_balance
         self.peak_balance = peak_balance
 
-    def throttle_multiplier(self):
-        if self.peak_balance is None or self.current_balance is None:
+    def feed_trades(self, closed_trades):
+        """
+        Feed newly closed trades from the engine to the allocator for
+        63-day trailing Profit Factor computation (Darwinian Weights).
+        Returns updated fed_trade_count.
+        """
+        for i in range(self._fed_trade_count, len(closed_trades)):
+            t = closed_trades[i]
+            sname = t.get('strategy', '')
+            if not sname:
+                continue
+            if sname not in self.strategy_trades:
+                self.strategy_trades[sname] = []
+            self.strategy_trades[sname].append((t['close_time'], t['profit']))
+        self._fed_trade_count = len(closed_trades)
+        return self._fed_trade_count
+
+    def _darwin_multiplier(self, strategy_name):
+        """
+        Compute rolling 63-trading-day Profit Factor multiplier.
+        Multiplier caps at 1.5 (boost) and floors at 0.1 (survival).
+        Strategies with <3 trades in the window get 1.0 (neutral).
+        """
+        trades = self.strategy_trades.get(strategy_name, [])
+        if len(trades) < 5:
             return 1.0
-        dd_pct = ((self.peak_balance - self.current_balance) / self.peak_balance) * 100
-        if dd_pct < 3.0:
+        latest_time = trades[-1][0]
+        cutoff = latest_time - timedelta(days=self.darwin_window)
+        window_trades = [pnl for t, pnl in trades if t >= cutoff]
+        if len(window_trades) < 3:
             return 1.0
-        elif dd_pct < 6.0:
+        wins = [p for p in window_trades if p > 0]
+        losses = [abs(p) for p in window_trades if p <= 0]
+        if not losses or sum(losses) == 0:
+            return 1.5
+        pf = sum(wins) / sum(losses)
+        if pf > 1.5:    return 1.5
+        elif pf >= 1.0: return 1.0
+        elif pf >= 0.8: return 0.5
+        else:           return 0.1
+
+    def _dd_to_throttle(self, dd):
+        if dd < 0.02:
+            return 1.0
+        elif dd < 0.04:
             return 0.5
-        elif dd_pct < 10.0:
+        elif dd < 0.06:
             return 0.25
+        elif dd < 0.10:
+            return 0.1
         else:
             return 0.0
 
+    def throttle_multiplier(self):
+        if len(self.equity_history) < 2:
+            return 1.0
+        current = self.equity_history[-1]
+        # Rolling peak (126-day window) — short memory enables fast recovery
+        window = self.equity_history[-self.rolling_window:] if len(self.equity_history) > self.rolling_window else self.equity_history
+        peak = max(window)
+        if peak <= 0:
+            return 1.0
+        dd = (peak - current) / peak
+        throttle = self._dd_to_throttle(dd)
+        if throttle == 0.0:
+            if self.lowest_since_throttle is None or current < self.lowest_since_throttle:
+                self.lowest_since_throttle = current
+            if self.lowest_since_throttle is not None and self.lowest_since_throttle > 0:
+                recovery = (current - self.lowest_since_throttle) / self.lowest_since_throttle
+                if recovery >= 0.02:
+                    throttle = 0.25
+                    self.lowest_since_throttle = None
+        else:
+            self.lowest_since_throttle = None
+        return throttle
+
+    ZERO_STRATS = {
+        'Smart_Swing_Bias', 'PriceAction_SR', 'SuperTrend_EMA',
+        'Volatility_Squeeze', 'Liquidity_Sweep_Breakout',
+        'NY_Session_Reversal', 'Bollinger Mean Reversion',
+        'AVWAP_Confluence',
+    }
+
     def get_weights_for_context(self, context):
         if context == MarketContext.AMBIGUOUS:
-            return dict(self.AMBIGUOUS_WEIGHTS)
-        return dict(self.WEIGHT_TABLES.get(context, {}))
+            weights = dict(self.AMBIGUOUS_WEIGHTS)
+        else:
+            weights = dict(self.WEIGHT_TABLES.get(context, {}))
+        for s in self.ZERO_STRATS:
+            weights[s] = 0.0
+        return weights
 
     def allocate_weights(self, current_context, signal_strategy_names):
         raw_weights = self.get_weights_for_context(current_context)
-        active_weights = {s: w for s, w in raw_weights.items() if s in signal_strategy_names}
+        active_weights = {s: w for s, w in raw_weights.items() if s in signal_strategy_names and w > 0}
         if not active_weights:
             return {}
         total = sum(active_weights.values())
-        if total <= 0:
-            return {}
         normalized = {}
         for s, w in active_weights.items():
             normalized[s] = (w / total) * self.MAX_PORTFOLIO_RISK
@@ -183,13 +267,13 @@ class InstitutionalAllocator:
                 if sname not in weight_map:
                     self.skip_no_strategy += 1
 
-        trades_today = 0
+        # Phase 1: Collect all candidates with their requested risk
+        candidates = []
         used_symbol_directions = set()
-        approved = []
         for sig_key, sig in signals_by_strategy.items():
             if sig is None or sig.get('direction', 0) == 0:
                 continue
-            if trades_today >= self.MAX_TRADES_PER_DAY:
+            if len(candidates) >= self.MAX_TRADES_PER_DAY:
                 break
             strategy_name = sig.get('strategy', '')
             symbol = sig.get('symbol', '')
@@ -215,21 +299,43 @@ class InstitutionalAllocator:
                         elif c_val > 0.6 and pos['type'] == direction:
                             discount = min(discount, 0.6)
 
-            base_weight *= discount
-            risk_used = base_weight
+            requested = base_weight * discount
 
-            # Hard cap: max_daily_risk (6%) — prevents blowing up in high-volatility days
-            cum_risk = sum(s.get('allocated_risk_pct', 0) for s in approved)
-            if cum_risk + risk_used > self.max_daily_risk:
-                risk_used = max(0, self.max_daily_risk - cum_risk)
-            if risk_used <= 0:
+            candidates.append({
+                'sig_key': sig_key,
+                'sig': sig,
+                'requested_risk': requested,
+            })
+
+        if not candidates:
+            return []
+
+        # Phase 2: Proportional scaling — each candidate gets a fair slice
+        total_requested = sum(c['requested_risk'] for c in candidates)
+        if total_requested > self.max_daily_risk:
+            scaling = self.max_daily_risk / total_requested
+        else:
+            scaling = 1.0
+
+        # Phase 3: Apply scaled risk to each signal
+        approved = []
+        for c in candidates:
+            allocated = c['requested_risk'] * scaling
+            if allocated <= 0:
                 continue
 
-            self.used_budget += risk_used
-            sig['allocated_risk_pct'] = min(risk_used, 0.03)
-            approved.append(sig)
-            trades_today += 1
+            cap = min(allocated, 0.03)
+            cum = sum(s.get('allocated_risk_pct', 0) for s in approved)
+            if cum + cap > self.max_daily_risk:
+                cap = max(0, self.max_daily_risk - cum)
+            if cap <= 0:
+                continue
+
+            self.used_budget += cap
+            c['sig']['allocated_risk_pct'] = cap
+            approved.append(c['sig'])
             self.total_approved += 1
+
         return approved
 
     def filter(self, raw_signals, open_positions=None, current_regime=None):
@@ -250,8 +356,8 @@ class InstitutionalAllocator:
                 'entry_price': sig['entry_price'],
                 'atr_value': sig['atr_value'],
                 'conviction': sig['conviction'],
-                'sl_price': sig['sl_price'],
-                'tp_price': sig['tp_price'],
+                'sl_price': sig.get('sl_price'),
+                'tp_price': sig.get('tp_price'),
                 'strategy': sig['strategy'],
                 'strategy_type': sig['strategy_type'],
                 'allocated_risk_pct': 0.2,
