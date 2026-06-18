@@ -1,12 +1,32 @@
 # ARGUS PANOPTES V2.0
 
 [![Sponsor](https://readme.cash/i/9dp475398v.svg)](https://readme.cash/c/9dp475398v)
+[![Live Dashboard](https://img.shields.io/badge/Live%20Dashboard-View%20Results-0ea5a0?style=flat-square)](https://logiccrafterdz.github.io/Argus/)
 
 ## Institutional-Grade Algorithmic Trading Portfolio
 
-Argus is an advanced, multi-strategy algorithmic trading framework built on MetaTrader 5 (MQL5). Version 2.0 transforms the repository from a collection of isolated Expert Advisors into a centralized, hedge-fund-style portfolio management system. 
+Argus is an advanced, multi-strategy algorithmic trading framework built on MetaTrader 5 (MQL5). Version 2.0 transforms the repository from a collection of isolated Expert Advisors into a centralized, hedge-fund-style portfolio management system.
 
 The architecture is built around a central orchestrator that actively monitors exposure, filters macroeconomic events, manages risk through a High Water Mark circuit breaker, and enforces strict operational parameters across 20 distinct quantitative strategies.
+
+---
+
+## LIVE BACKTEST RESULTS (Phase 5b2)
+
+> **8.3 years · 10 instruments · 3-way out-of-sample split · Fixed parameters — no re-optimisation after the split**
+
+| Metric | Full Portfolio | Train (2018–2022) | Validation (2023) | Test (2024–May 2026) |
+|---|---|---|---|---|
+| **Net Profit** | **+$125,337** | +$72,487 | +$4,316 | +$48,534 |
+| **Total Return** | **+125.34%** | +72.49% | +4.32% | +48.53% |
+| **Profit Factor** | **1.18** | 1.19 | 1.03 | 1.31 |
+| **Max Drawdown** | **-35.99%** | -35.99% | -14.75% | -16.02% |
+| **Win Rate** | **51.18%** | 53.67% | 50.53% | 47.18% |
+| **Total Trades** | **3,742** | 1,960 | 665 | 1,117 |
+
+✅ **Positive in all 3 out-of-sample splits** — including an unseen live period (2024–May 2026).
+
+👉 **[View the interactive dashboard →](https://logiccrafterdz.github.io/Argus/)**
 
 ---
 
@@ -52,6 +72,12 @@ A robust library of static methods shared across all strategies. It handles comp
 
 ## INSTITUTIONAL RISK MANAGEMENT
 
+### Dual-Layer Drawdown Throttle
+The allocator tracks drawdown across two windows simultaneously — a 30-day window to catch fast crashes (COVID, 2022 bear) and a 126-day window for slow extended drawdowns. Position sizing is scaled down progressively: `1.0× → 0.5× → 0.25× → 0.0×` as drawdown deepens, then recovers gradually once the portfolio rebounds.
+
+### Regime-Aware Position Sizing
+Strategies are scaled based on the live market regime (Trend / Range / Expansion / Compression). TrendPullback gets a 1.5× boost in Trend+Expansion environments and a 0.3× reduction in Range+Compression, while Asian_Range_Fakeout scales inversely. This ensures each strategy operates at peak efficiency in its natural environment.
+
 ### High Water Mark Circuit Breaker
 The system tracks the daily peak equity (High Water Mark). If the portfolio experiences a rapid drawdown from its daily peak that exceeds the user-defined threshold, the Orchestrator triggers an emergency global halt and liquidates all open positions. Additional weekly and monthly drawdown limits prevent extended series of losses.
 
@@ -84,24 +110,16 @@ Each of the 20 strategies is bound by a Manifest defining its operational bounds
 - The current Market Regime (Expansion, Compression, Trend, Range) does not match the strategy's requirement.
 - The current Market Session (Asian, London, New York) does not align with the strategy's optimal execution window.
 
-Current active strategies include:
-- Trend Pullback
-- S/R Break & Retest
-- ORB Session & ORB Hybrid
-- Bollinger Mean Reversion
-- Price Action S/R
-- Liquidity Sweep (Breakout & FVG)
-- VWAP Regime & AVWAP Confluence
-- Asian Range Fakeout
-- NY Session Reversal
-- Volatility Squeeze
-- Smart-Swing Bias
-- SuperTrend EMA
-- Hidden Divergence
-- ADX Trend Strength
-- Donchian Breakout
-- ICT Killzone Macro
-- PDH/PDL Breakout & Reversal
+**Active in Portfolio (selected from 11 backtested):**
+- **Trend Pullback** — Trend-following in TREND+EXPANSION regimes
+- **Hidden Divergence** — RSI divergence for counter-trend entries
+- **Asian Range Fakeout** — Session-based range breakout/fakeout
+
+**Available (not currently in active portfolio):**
+- S/R Break & Retest · ORB Session & ORB Hybrid · Bollinger Mean Reversion
+- Price Action S/R · Liquidity Sweep (Breakout & FVG) · VWAP Regime & AVWAP Confluence
+- NY Session Reversal · Volatility Squeeze · Smart-Swing Bias · SuperTrend EMA
+- ADX Trend Strength · Donchian Breakout · ICT Killzone Macro · PDH/PDL Breakout & Reversal
 
 ---
 
